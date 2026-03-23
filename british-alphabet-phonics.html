@@ -1,0 +1,158 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); }
+  .header { text-align: center; padding: 1.5rem 0 1rem; }
+  .header h1 { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+  .header p { font-size: 14px; color: var(--color-text-secondary); margin-top: 4px; }
+  .controls { display: flex; justify-content: center; gap: 10px; margin-bottom: 1.25rem; flex-wrap: wrap; padding: 0 1rem; }
+  .ctrl-btn { padding: 6px 16px; font-size: 13px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-primary); color: var(--color-text-primary); cursor: pointer; transition: background 0.15s; }
+  .ctrl-btn:hover { background: var(--color-background-secondary); }
+  .ctrl-btn.active { background: #EEEDFE; border-color: #534AB7; color: #3C3489; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 10px; padding: 0 1rem 1.5rem; }
+  .letter-card { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 12px 8px 10px; text-align: center; cursor: pointer; transition: border-color 0.15s, background 0.15s; position: relative; user-select: none; background: var(--color-background-primary); }
+  .letter-card:hover { border-color: #AFA9EC; background: #EEEDFE; }
+  .letter-card.playing { border-color: #534AB7; background: #EEEDFE; }
+  .letter-card .big { font-size: 28px; font-weight: 500; line-height: 1; color: var(--color-text-primary); display: block; }
+  .letter-card .small { font-size: 11px; color: var(--color-text-secondary); margin-top: 3px; display: block; }
+  .letter-card .phoneme { font-size: 11px; color: #534AB7; margin-top: 2px; display: block; font-style: italic; }
+  .letter-card .play-dot { width: 6px; height: 6px; border-radius: 50%; background: #534AB7; position: absolute; top: 7px; right: 8px; opacity: 0; transition: opacity 0.2s; }
+  .letter-card.playing .play-dot { opacity: 1; }
+  .info-bar { text-align: center; padding: 0 1rem 1rem; font-size: 13px; color: var(--color-text-secondary); min-height: 20px; }
+  .word-example { font-size: 13px; color: var(--color-text-secondary); margin-top: 4px; display: block; }
+  .play-all-btn { display: block; margin: 0 auto 1.5rem; padding: 8px 28px; font-size: 14px; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); background: var(--color-background-primary); color: var(--color-text-primary); cursor: pointer; }
+  .play-all-btn:hover { background: var(--color-background-secondary); }
+  .vowel-tag { display: inline-block; font-size: 10px; padding: 1px 5px; border-radius: 4px; background: #E1F5EE; color: #0F6E56; margin-top: 2px; }
+  .consonant-tag { display: inline-block; font-size: 10px; padding: 1px 5px; border-radius: 4px; background: #FAECE7; color: #993C1D; margin-top: 2px; }
+</style>
+
+<div class="header">
+  <h1>English Alphabet — British Pronunciation</h1>
+  <p>Tap any letter to hear its sound in Received Pronunciation (RP)</p>
+</div>
+
+<div class="controls">
+  <button class="ctrl-btn active" onclick="filterLetters('all')">All 26</button>
+  <button class="ctrl-btn" onclick="filterLetters('vowel')">Vowels</button>
+  <button class="ctrl-btn" onclick="filterLetters('consonant')">Consonants</button>
+</div>
+
+<button class="play-all-btn" onclick="playAll()">▶ Play all in order</button>
+
+<div class="grid" id="grid"></div>
+<div class="info-bar" id="info"></div>
+
+<script>
+const letters = [
+  { l:'A', ph:'/eɪ/', word:'apple', type:'vowel' },
+  { l:'B', ph:'/biː/', word:'ball', type:'consonant' },
+  { l:'C', ph:'/siː/', word:'cat', type:'consonant' },
+  { l:'D', ph:'/diː/', word:'dog', type:'consonant' },
+  { l:'E', ph:'/iː/', word:'egg', type:'vowel' },
+  { l:'F', ph:'/ɛf/', word:'fish', type:'consonant' },
+  { l:'G', ph:'/dʒiː/', word:'green', type:'consonant' },
+  { l:'H', ph:'/eɪtʃ/', word:'hat', type:'consonant' },
+  { l:'I', ph:'/aɪ/', word:'ink', type:'vowel' },
+  { l:'J', ph:'/dʒeɪ/', word:'jar', type:'consonant' },
+  { l:'K', ph:'/keɪ/', word:'king', type:'consonant' },
+  { l:'L', ph:'/ɛl/', word:'lion', type:'consonant' },
+  { l:'M', ph:'/ɛm/', word:'map', type:'consonant' },
+  { l:'N', ph:'/ɛn/', word:'net', type:'consonant' },
+  { l:'O', ph:'/əʊ/', word:'orange', type:'vowel' },
+  { l:'P', ph:'/piː/', word:'pen', type:'consonant' },
+  { l:'Q', ph:'/kjuː/', word:'queen', type:'consonant' },
+  { l:'R', ph:'/ɑː/', word:'ring', type:'consonant' },
+  { l:'S', ph:'/ɛs/', word:'sun', type:'consonant' },
+  { l:'T', ph:'/tiː/', word:'tree', type:'consonant' },
+  { l:'U', ph:'/juː/', word:'umbrella', type:'vowel' },
+  { l:'V', ph:'/viː/', word:'van', type:'consonant' },
+  { l:'W', ph:'/ˈdʌbəljuː/', word:'water', type:'consonant' },
+  { l:'X', ph:'/ɛks/', word:'fox', type:'consonant' },
+  { l:'Y', ph:'/waɪ/', word:'yes', type:'consonant' },
+  { l:'Z', ph:'/zɛd/', word:'zebra', type:'consonant' }
+];
+
+let currentFilter = 'all';
+let playAllTimeout = null;
+let activeCard = null;
+
+function renderGrid(filter) {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  letters.forEach((d, i) => {
+    if (filter !== 'all' && d.type !== filter) return;
+    const card = document.createElement('div');
+    card.className = 'letter-card';
+    card.id = 'card-' + d.l;
+    card.innerHTML = `
+      <span class="play-dot"></span>
+      <span class="big">${d.l}</span>
+      <span class="small">${d.l.toLowerCase()}</span>
+      <span class="phoneme">${d.ph}</span>
+      <span class="${d.type}-tag">${d.type}</span>
+    `;
+    card.onclick = () => speakLetter(d, card);
+    grid.appendChild(card);
+  });
+}
+
+function filterLetters(f) {
+  currentFilter = f;
+  document.querySelectorAll('.ctrl-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  renderGrid(f);
+  document.getElementById('info').innerHTML = '';
+}
+
+function speakLetter(d, cardEl) {
+  if (activeCard) activeCard.classList.remove('playing');
+  cardEl.classList.add('playing');
+  activeCard = cardEl;
+
+  const utterance = new SpeechSynthesisUtterance();
+  utterance.text = d.l;
+  utterance.lang = 'en-GB';
+  utterance.rate = 0.85;
+  utterance.pitch = 1;
+
+  const voices = speechSynthesis.getVoices();
+  const gbVoice = voices.find(v => v.lang === 'en-GB') || voices.find(v => v.lang.startsWith('en'));
+  if (gbVoice) utterance.voice = gbVoice;
+
+  utterance.onend = () => {
+    cardEl.classList.remove('playing');
+    if (activeCard === cardEl) activeCard = null;
+    const info = document.getElementById('info');
+    info.innerHTML = `<strong>${d.l}</strong> — ${d.ph} &nbsp;·&nbsp; example: <em>${d.word}</em>`;
+  };
+
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utterance);
+}
+
+function playAll() {
+  if (playAllTimeout) { clearTimeout(playAllTimeout); playAllTimeout = null; }
+  speechSynthesis.cancel();
+  const filtered = letters.filter(d => currentFilter === 'all' || d.type === currentFilter);
+  let i = 0;
+  function next() {
+    if (i >= filtered.length) {
+      document.getElementById('info').textContent = 'All done!';
+      return;
+    }
+    const d = filtered[i++];
+    const cardEl = document.getElementById('card-' + d.l);
+    if (cardEl) speakLetter(d, cardEl);
+    else next();
+    document.getElementById('info').innerHTML = `Playing: <strong>${d.l}</strong> — ${d.ph}`;
+    playAllTimeout = setTimeout(next, 1200);
+  }
+  next();
+}
+
+if (speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = () => {};
+}
+
+renderGrid('all');
+</script>
