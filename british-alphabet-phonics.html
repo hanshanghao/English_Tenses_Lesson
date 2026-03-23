@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Alphabet — British Pronunciation</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1628;
+    --navy2: #112040;
+    --teal: #00c9b1;
+    --teal2: #00ffe7;
+    --gold: #f5c842;
+    --gold2: #ffe899;
+    --rose: #ff6b9d;
+    --white: #ffffff;
+    --soft: #c8d8f0;
+    --vowel-bg: #0d2e4a;
+    --vowel-border: #00c9b1;
+    --cons-bg: #1a1030;
+    --cons-border: #f5c842;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--navy);
+    color: var(--white);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Animated star background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(0,201,177,0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(245,200,66,0.07) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(10,22,40,1) 0%, rgba(5,10,25,1) 100%);
+    z-index: 0;
+  }
+
+  .page-wrap { position: relative; z-index: 1; padding: 2rem 2rem 3rem; max-width: 1600px; margin: 0 auto; }
+
+  /* ── HEADER ── */
+  .header {
+    text-align: center;
+    padding: 2.5rem 0 2rem;
+    position: relative;
+  }
+  .header-flag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 100px;
+    padding: 6px 18px 6px 10px;
+    font-size: 13px;
+    color: var(--soft);
+    letter-spacing: 0.04em;
+    margin-bottom: 1.2rem;
+  }
+  .flag-icon {
+    width: 24px; height: 16px;
+    border-radius: 3px;
+    overflow: hidden;
+    display: inline-block;
+    flex-shrink: 0;
+    background:
+      linear-gradient(to bottom, #012169 33.3%, #fff 33.3%, #fff 66.6%, #c8102e 66.6%);
+    position: relative;
+  }
+  .flag-icon::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to right, #012169 33.3%, #fff 33.3%, #fff 66.6%, #012169 66.6%);
+    mix-blend-mode: multiply;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--white);
+    letter-spacing: -0.01em;
+  }
+  .header h1 span { color: var(--teal); }
+  .header p {
+    font-size: clamp(1rem, 2vw, 1.3rem);
+    color: var(--soft);
+    margin-top: 0.7rem;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+  .accent-line {
+    width: 60px; height: 3px;
+    background: linear-gradient(90deg, var(--teal), var(--gold));
+    border-radius: 2px;
+    margin: 1.2rem auto 0;
+  }
+
+  /* ── CONTROLS ── */
+  .controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin: 2rem 0 1.5rem;
+    flex-wrap: wrap;
+  }
+  .ctrl-btn {
+    padding: 12px 28px;
+    font-size: 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    border: 1.5px solid rgba(255,255,255,0.18);
+    border-radius: 100px;
+    background: rgba(255,255,255,0.05);
+    color: var(--soft);
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+  }
+  .ctrl-btn:hover {
+    background: rgba(0,201,177,0.12);
+    border-color: var(--teal);
+    color: var(--teal2);
+    transform: translateY(-1px);
+  }
+  .ctrl-btn.active {
+    background: var(--teal);
+    border-color: var(--teal);
+    color: var(--navy);
+    font-weight: 700;
+    box-shadow: 0 0 24px rgba(0,201,177,0.35);
+  }
+  .ctrl-btn.vowel-btn.active {
+    background: var(--teal);
+    border-color: var(--teal);
+    box-shadow: 0 0 24px rgba(0,201,177,0.4);
+  }
+  .ctrl-btn.cons-btn.active {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--navy);
+    box-shadow: 0 0 24px rgba(245,200,66,0.4);
+  }
+  .play-all-btn {
+    padding: 14px 36px;
+    font-size: 1.05rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    border: 2px solid var(--gold);
+    border-radius: 100px;
+    background: transparent;
+    color: var(--gold);
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .play-all-btn:hover {
+    background: var(--gold);
+    color: var(--navy);
+    box-shadow: 0 0 32px rgba(245,200,66,0.45);
+    transform: translateY(-2px);
+  }
+  .play-icon { font-size: 14px; }
+
+  /* ── GRID ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 16px;
+    padding: 0.5rem 0 2rem;
+  }
+
+  .letter-card {
+    border-radius: 20px;
+    padding: 24px 14px 20px;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+    transition: transform 0.18s, box-shadow 0.18s;
+    overflow: hidden;
+    animation: cardIn 0.4s both;
+  }
+  .letter-card.vowel-card {
+    background: var(--vowel-bg);
+    border: 1.5px solid rgba(0,201,177,0.3);
+  }
+  .letter-card.consonant-card {
+    background: var(--cons-bg);
+    border: 1.5px solid rgba(245,200,66,0.2);
+  }
+  .letter-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: 20px 20px 0 0;
+  }
+  .letter-card.vowel-card::before { background: linear-gradient(90deg, var(--teal), var(--teal2)); }
+  .letter-card.consonant-card::before { background: linear-gradient(90deg, var(--gold), var(--gold2)); }
+
+  .letter-card:hover {
+    transform: translateY(-6px) scale(1.03);
+  }
+  .letter-card.vowel-card:hover {
+    box-shadow: 0 16px 48px rgba(0,201,177,0.25);
+    border-color: var(--teal);
+  }
+  .letter-card.consonant-card:hover {
+    box-shadow: 0 16px 48px rgba(245,200,66,0.2);
+    border-color: var(--gold);
+  }
+  .letter-card.playing {
+    transform: scale(1.08) translateY(-8px);
+  }
+  .letter-card.vowel-card.playing {
+    border-color: var(--teal2);
+    box-shadow: 0 0 0 3px rgba(0,201,177,0.3), 0 20px 60px rgba(0,201,177,0.35);
+  }
+  .letter-card.consonant-card.playing {
+    border-color: var(--gold2);
+    box-shadow: 0 0 0 3px rgba(245,200,66,0.3), 0 20px 60px rgba(245,200,66,0.3);
+  }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.95); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Pulse ring when playing */
+  .letter-card.playing::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 24px;
+    animation: pulseRing 1s ease-out infinite;
+  }
+  .letter-card.vowel-card.playing::after { border: 2px solid var(--teal); }
+  .letter-card.consonant-card.playing::after { border: 2px solid var(--gold); }
+  @keyframes pulseRing {
+    0%   { opacity: 0.8; transform: scale(1); }
+    100% { opacity: 0; transform: scale(1.1); }
+  }
+
+  .big-upper {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: clamp(3rem, 5vw, 4.5rem);
+    line-height: 1;
+    display: block;
+    letter-spacing: -0.02em;
+  }
+  .vowel-card .big-upper { color: var(--teal2); }
+  .consonant-card .big-upper { color: var(--gold2); }
+
+  .big-lower {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    display: block;
+    margin-top: 2px;
+    opacity: 0.6;
+    line-height: 1;
+  }
+  .vowel-card .big-lower { color: var(--teal); }
+  .consonant-card .big-lower { color: var(--gold); }
+
+  .phoneme {
+    display: block;
+    font-size: clamp(0.85rem, 1.4vw, 1.05rem);
+    font-style: italic;
+    margin-top: 8px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    opacity: 0.9;
+  }
+  .vowel-card .phoneme { color: var(--teal2); }
+  .consonant-card .phoneme { color: var(--gold2); }
+
+  .word-label {
+    display: block;
+    font-size: clamp(0.75rem, 1.2vw, 0.9rem);
+    margin-top: 8px;
+    font-weight: 500;
+    text-transform: capitalize;
+    letter-spacing: 0.04em;
+    opacity: 0.75;
+    color: var(--white);
+  }
+
+  .type-badge {
+    display: inline-block;
+    font-size: 0.65rem;
+    padding: 3px 9px;
+    border-radius: 100px;
+    margin-top: 10px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .vowel-card .type-badge { background: rgba(0,201,177,0.18); color: var(--teal2); }
+  .consonant-card .type-badge { background: rgba(245,200,66,0.15); color: var(--gold2); }
+
+  /* Sound wave indicator */
+  .sound-wave {
+    position: absolute;
+    top: 10px; right: 10px;
+    display: flex; align-items: center; gap: 2px;
+    height: 16px;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .letter-card.playing .sound-wave { opacity: 1; }
+  .sound-wave span {
+    display: block;
+    width: 3px;
+    border-radius: 2px;
+    animation: wave 0.6s ease-in-out infinite alternate;
+  }
+  .vowel-card .sound-wave span { background: var(--teal); }
+  .consonant-card .sound-wave span { background: var(--gold); }
+  .sound-wave span:nth-child(1) { height: 6px; animation-delay: 0s; }
+  .sound-wave span:nth-child(2) { height: 12px; animation-delay: 0.1s; }
+  .sound-wave span:nth-child(3) { height: 8px; animation-delay: 0.2s; }
+  .sound-wave span:nth-child(4) { height: 14px; animation-delay: 0.05s; }
+  .sound-wave span:nth-child(5) { height: 5px; animation-delay: 0.15s; }
+  @keyframes wave {
+    from { transform: scaleY(0.4); }
+    to   { transform: scaleY(1); }
+  }
+
+  /* ── INFO BAR ── */
+  .info-bar {
+    text-align: center;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.5rem 0 1.5rem;
+  }
+  .info-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 100px;
+    padding: 12px 28px;
+    font-size: clamp(1rem, 2vw, 1.4rem);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: all 0.3s;
+  }
+  .info-pill.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .info-letter { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.8em; color: var(--teal2); }
+  .info-sep { color: rgba(255,255,255,0.2); }
+  .info-ph { font-style: italic; color: var(--gold2); }
+  .info-word { color: var(--soft); }
+  .info-word em { color: var(--white); font-style: normal; font-weight: 500; }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 1.2rem 0 0.5rem;
+    flex-wrap: wrap;
+    padding: 0 1rem;
+  }
+  .legend-card {
+    flex: 1;
+    max-width: 420px;
+    min-width: 260px;
+    border-radius: 16px;
+    padding: 16px 20px;
+  }
+  .vowel-legend {
+    background: rgba(0,201,177,0.07);
+    border: 1px solid rgba(0,201,177,0.22);
+  }
+  .cons-legend {
+    background: rgba(245,200,66,0.06);
+    border: 1px solid rgba(245,200,66,0.2);
+  }
+  .legend-tag {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 8px;
+  }
+  .legend-dot {
+    width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0;
+  }
+  .legend-dot.v { background: var(--teal); box-shadow: 0 0 8px rgba(0,201,177,0.5); }
+  .legend-dot.c { background: var(--gold); box-shadow: 0 0 8px rgba(245,200,66,0.4); }
+  .legend-label {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .vowel-legend .legend-label { color: var(--teal2); }
+  .cons-legend  .legend-label { color: var(--gold2); }
+  .legend-label em { font-style: normal; opacity: 0.6; font-weight: 400; font-size: 0.9em; }
+  .legend-desc {
+    font-size: clamp(0.82rem, 1.3vw, 0.93rem);
+    color: var(--soft);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+  .legend-desc strong { font-weight: 600; }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 2rem 0 1rem;
+    font-size: 0.8rem;
+    color: rgba(200,216,240,0.35);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── NOTES SECTION ── */
+  .notes-section {
+    max-width: 900px;
+    margin: 2rem auto 2.5rem;
+    border-radius: 24px;
+    border: 1px solid rgba(0,201,177,0.2);
+    background: linear-gradient(135deg, rgba(13,46,74,0.6) 0%, rgba(26,16,48,0.5) 100%);
+    overflow: hidden;
+  }
+  .notes-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 28px;
+    background: rgba(0,201,177,0.1);
+    border-bottom: 1px solid rgba(0,201,177,0.18);
+  }
+  .notes-icon { font-size: 1.3rem; color: var(--teal); line-height: 1; }
+  .notes-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--teal2);
+    letter-spacing: 0.02em;
+  }
+  .notes-body { padding: 24px 28px 28px; display: flex; flex-direction: column; gap: 0; }
+  .notes-intro {
+    font-size: clamp(0.9rem, 1.4vw, 1rem);
+    color: var(--soft);
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .notes-block {
+    padding: 13px 18px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+    border-left: 3px solid rgba(0,201,177,0.4);
+    margin-bottom: 10px;
+    font-size: clamp(0.88rem, 1.3vw, 0.98rem);
+    color: var(--soft);
+    line-height: 1.7;
+  }
+  .notes-block:nth-child(3) { border-left-color: rgba(245,200,66,0.4); }
+  .notes-block:nth-child(4) { border-left-color: rgba(245,200,66,0.4); }
+  .notes-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+    margin: 16px 0;
+  }
+  .notes-subheading {
+    font-size: clamp(0.9rem, 1.4vw, 1rem);
+    color: var(--soft);
+    margin-bottom: 14px;
+    line-height: 1.6;
+  }
+  .notes-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .notes-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 13px 18px;
+    border-radius: 12px;
+    background: rgba(255,255,255,0.03);
+    font-size: clamp(0.88rem, 1.3vw, 0.97rem);
+    color: var(--soft);
+    line-height: 1.65;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .notes-letter-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 900;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .notes-letter-badge.vowel-b { background: rgba(0,201,177,0.15); color: var(--teal2); border: 1px solid rgba(0,201,177,0.3); }
+  .notes-letter-badge.cons-b  { background: rgba(245,200,66,0.12); color: var(--gold2); border: 1px solid rgba(245,200,66,0.3); }
+  .hl-teal  { color: var(--teal2); font-weight: 700; }
+  .hl-gold  { color: var(--gold2); font-weight: 700; }
+  .hl-soft  { color: var(--white); font-style: italic; }
+  .hl-muted { color: rgba(200,216,240,0.45); font-size: 0.9em; }
+
+  /* Staggered card animation */
+  .letter-card:nth-child(1)  { animation-delay: 0.02s; }
+  .letter-card:nth-child(2)  { animation-delay: 0.04s; }
+  .letter-card:nth-child(3)  { animation-delay: 0.06s; }
+  .letter-card:nth-child(4)  { animation-delay: 0.08s; }
+  .letter-card:nth-child(5)  { animation-delay: 0.10s; }
+  .letter-card:nth-child(6)  { animation-delay: 0.12s; }
+  .letter-card:nth-child(7)  { animation-delay: 0.14s; }
+  .letter-card:nth-child(8)  { animation-delay: 0.16s; }
+  .letter-card:nth-child(9)  { animation-delay: 0.18s; }
+  .letter-card:nth-child(10) { animation-delay: 0.20s; }
+  .letter-card:nth-child(11) { animation-delay: 0.22s; }
+  .letter-card:nth-child(12) { animation-delay: 0.24s; }
+  .letter-card:nth-child(13) { animation-delay: 0.26s; }
+  .letter-card:nth-child(14) { animation-delay: 0.28s; }
+  .letter-card:nth-child(15) { animation-delay: 0.30s; }
+  .letter-card:nth-child(16) { animation-delay: 0.32s; }
+  .letter-card:nth-child(17) { animation-delay: 0.34s; }
+  .letter-card:nth-child(18) { animation-delay: 0.36s; }
+  .letter-card:nth-child(19) { animation-delay: 0.38s; }
+  .letter-card:nth-child(20) { animation-delay: 0.40s; }
+  .letter-card:nth-child(21) { animation-delay: 0.42s; }
+  .letter-card:nth-child(22) { animation-delay: 0.44s; }
+  .letter-card:nth-child(23) { animation-delay: 0.46s; }
+  .letter-card:nth-child(24) { animation-delay: 0.48s; }
+  .letter-card:nth-child(25) { animation-delay: 0.50s; }
+  .letter-card:nth-child(26) { animation-delay: 0.52s; }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="header">
+    <div class="header-flag">
+      <span class="flag-icon"></span>
+      Received Pronunciation · British English
+    </div>
+    <h1>English <span>Alphabet</span></h1>
+    <p>Click any letter to hear its British pronunciation</p>
+    <div class="accent-line"></div>
+  </div>
+
+  <div class="legend">
+    <div class="legend-card vowel-legend">
+      <div class="legend-tag">
+        <span class="legend-dot v"></span>
+        <span class="legend-label">Vowel <em>(5)</em></span>
+      </div>
+      <p class="legend-desc">
+        A <strong>vowel</strong> is an <span class="hl-teal">open sound</span> — air flows freely through the mouth with no blocking.
+        The 5 vowels are <strong class="hl-teal">A, E, I, O, U</strong>. Every English word contains at least one vowel.
+      </p>
+    </div>
+    <div class="legend-card cons-legend">
+      <div class="legend-tag">
+        <span class="legend-dot c"></span>
+        <span class="legend-label">Consonant <em>(21)</em></span>
+      </div>
+      <p class="legend-desc">
+        A <strong>consonant</strong> is a <span class="hl-gold">shaped sound</span> — the lips, tongue, or teeth block or redirect the air.
+        All <strong class="hl-gold">21 remaining letters</strong> are consonants: B, C, D, F, G … X, Y, Z.
+      </p>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="ctrl-btn active" id="btn-all" onclick="filterLetters('all','btn-all')">All 26</button>
+    <button class="ctrl-btn vowel-btn" id="btn-vowel" onclick="filterLetters('vowel','btn-vowel')">Vowels</button>
+    <button class="ctrl-btn cons-btn" id="btn-consonant" onclick="filterLetters('consonant','btn-consonant')">Consonants</button>
+    <button class="play-all-btn" onclick="playAll()">
+      <span class="play-icon">&#9654;</span> Play All in Order
+    </button>
+  </div>
+
+  <div class="grid" id="grid"></div>
+
+  <div class="info-bar">
+    <div class="info-pill" id="info-pill">
+      <span class="info-letter" id="info-letter"></span>
+      <span class="info-sep">|</span>
+      <span class="info-ph" id="info-ph"></span>
+      <span class="info-sep">·</span>
+      <span class="info-word" id="info-word"></span>
+    </div>
+  </div>
+
+  <!-- ── NOTES SECTION ── -->
+  <div class="notes-section">
+    <div class="notes-header">
+      <span class="notes-icon">&#9432;</span>
+      <span class="notes-title">How to Use This Tool</span>
+    </div>
+
+    <div class="notes-body">
+      <p class="notes-intro">Here's your interactive <strong class="hl-teal">British Alphabet Phonics</strong> tool! Here's how to use it:</p>
+
+      <div class="notes-block">
+        <p><span class="hl-gold">&#9654; Tap any letter card</span> to hear it spoken aloud in <strong class="hl-teal">British RP (Received Pronunciation)</strong> using your device's speech synthesis engine. Each card shows the <em class="hl-soft">uppercase and lowercase letter</em>, its <em class="hl-soft">IPA phonetic symbol</em>, and whether it's a <strong class="hl-teal">vowel</strong> or <strong class="hl-gold">consonant</strong>.</p>
+      </div>
+
+      <div class="notes-block">
+        <p><span class="hl-teal">&#9670; Filter buttons</span> let you focus on just <strong class="hl-teal">Vowels (A, E, I, O, U)</strong> or all <strong class="hl-gold">21 Consonants</strong>.</p>
+      </div>
+
+      <div class="notes-block">
+        <p><span class="hl-gold">&#9654; Play All</span> runs through the alphabet in sequence — great for <strong class="hl-soft">singing / reciting practice</strong>.</p>
+      </div>
+
+      <div class="notes-divider"></div>
+
+      <p class="notes-subheading">&#127468;&#127463; A few <strong class="hl-teal">British-specific pronunciations</strong> to note:</p>
+
+      <ul class="notes-list">
+        <li>
+          <span class="notes-letter-badge vowel-b">H</span>
+          <span>is <strong class="hl-teal">"aitch"</strong> <span class="hl-muted">(not "haitch")</span> — the H in the letter name is <em class="hl-soft">silent</em> in British RP</span>
+        </li>
+        <li>
+          <span class="notes-letter-badge cons-b">Z</span>
+          <span>is <strong class="hl-gold">"zed"</strong> <span class="hl-muted">(not "zee")</span> — always <em class="hl-soft">"zed"</em> in British English</span>
+        </li>
+        <li>
+          <span class="notes-letter-badge cons-b">R</span>
+          <span>is <strong class="hl-gold">non-rhotic</strong> — <strong class="hl-teal">/ɑː/</strong> — softer and <em class="hl-soft">not rolled</em>; R after a vowel is not pronounced</span>
+        </li>
+        <li>
+          <span class="notes-letter-badge cons-b">W</span>
+          <span>is the full <strong class="hl-gold">"double-you"</strong> — <strong class="hl-teal">/ˈdʌbəljuː/</strong> — all four syllables spoken clearly</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer">British English · Received Pronunciation (RP) · IPA Phonetics</div>
+</div>
+
+<script>
+const letters = [
+  { l:'A', ph:'/eɪ/',         word:'Apple',    type:'vowel' },
+  { l:'B', ph:'/biː/',        word:'Ball',     type:'consonant' },
+  { l:'C', ph:'/siː/',        word:'Cat',      type:'consonant' },
+  { l:'D', ph:'/diː/',        word:'Dog',      type:'consonant' },
+  { l:'E', ph:'/iː/',         word:'Elephant', type:'vowel' },
+  { l:'F', ph:'/ɛf/',         word:'Fish',     type:'consonant' },
+  { l:'G', ph:'/dʒiː/',       word:'Green',    type:'consonant' },
+  { l:'H', ph:'/eɪtʃ/',       word:'Hat',      type:'consonant' },
+  { l:'I', ph:'/aɪ/',         word:'Ink',      type:'vowel' },
+  { l:'J', ph:'/dʒeɪ/',       word:'Jar',      type:'consonant' },
+  { l:'K', ph:'/keɪ/',        word:'King',     type:'consonant' },
+  { l:'L', ph:'/ɛl/',         word:'Lion',     type:'consonant' },
+  { l:'M', ph:'/ɛm/',         word:'Map',      type:'consonant' },
+  { l:'N', ph:'/ɛn/',         word:'Net',      type:'consonant' },
+  { l:'O', ph:'/əʊ/',         word:'Orange',   type:'vowel' },
+  { l:'P', ph:'/piː/',        word:'Pen',      type:'consonant' },
+  { l:'Q', ph:'/kjuː/',       word:'Queen',    type:'consonant' },
+  { l:'R', ph:'/ɑː/',         word:'Ring',     type:'consonant' },
+  { l:'S', ph:'/ɛs/',         word:'Sun',      type:'consonant' },
+  { l:'T', ph:'/tiː/',        word:'Tree',     type:'consonant' },
+  { l:'U', ph:'/juː/',        word:'Umbrella', type:'vowel' },
+  { l:'V', ph:'/viː/',        word:'Van',      type:'consonant' },
+  { l:'W', ph:"/ˈdʌbəljuː/", word:'Water',    type:'consonant' },
+  { l:'X', ph:'/ɛks/',        word:'Fox',      type:'consonant' },
+  { l:'Y', ph:'/waɪ/',        word:'Yes',      type:'consonant' },
+  { l:'Z', ph:'/zɛd/',        word:'Zebra',    type:'consonant' }
+];
+
+let currentFilter = 'all';
+let playAllTimeout = null;
+let activeCard = null;
+
+function renderGrid(filter) {
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  letters.forEach(d => {
+    if (filter !== 'all' && d.type !== filter) return;
+    const card = document.createElement('div');
+    card.className = `letter-card ${d.type}-card`;
+    card.id = 'card-' + d.l;
+    card.innerHTML = `
+      <div class="sound-wave">
+        <span></span><span></span><span></span><span></span><span></span>
+      </div>
+      <span class="big-upper">${d.l}</span>
+      <span class="big-lower">${d.l.toLowerCase()}</span>
+      <span class="phoneme">${d.ph}</span>
+      <span class="word-label">${d.word}</span>
+      <span class="type-badge">${d.type}</span>
+    `;
+    card.onclick = () => speakLetter(d, card);
+    grid.appendChild(card);
+  });
+}
+
+function filterLetters(f, btnId) {
+  currentFilter = f;
+  document.querySelectorAll('.ctrl-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(btnId).classList.add('active');
+  renderGrid(f);
+  hidePill();
+}
+
+function speakLetter(d, cardEl) {
+  if (activeCard) activeCard.classList.remove('playing');
+  cardEl.classList.add('playing');
+  activeCard = cardEl;
+
+  const utterance = new SpeechSynthesisUtterance();
+  utterance.text = d.l;
+  utterance.lang = 'en-GB';
+  utterance.rate = 0.82;
+  utterance.pitch = 1.0;
+
+  const voices = speechSynthesis.getVoices();
+  const gbVoice = voices.find(v => v.lang === 'en-GB') ||
+                  voices.find(v => v.lang.startsWith('en'));
+  if (gbVoice) utterance.voice = gbVoice;
+
+  utterance.onend = () => {
+    cardEl.classList.remove('playing');
+    if (activeCard === cardEl) activeCard = null;
+    showPill(d);
+  };
+
+  speechSynthesis.cancel();
+  speechSynthesis.speak(utterance);
+  showPill(d);
+}
+
+function showPill(d) {
+  const pill = document.getElementById('info-pill');
+  document.getElementById('info-letter').textContent = d.l;
+  document.getElementById('info-ph').textContent = d.ph;
+  document.getElementById('info-word').innerHTML = `example: <em>${d.word}</em>`;
+  pill.classList.add('show');
+}
+
+function hidePill() {
+  document.getElementById('info-pill').classList.remove('show');
+}
+
+function playAll() {
+  if (playAllTimeout) { clearTimeout(playAllTimeout); playAllTimeout = null; }
+  speechSynthesis.cancel();
+  const filtered = letters.filter(d => currentFilter === 'all' || d.type === currentFilter);
+  let i = 0;
+  function next() {
+    if (i >= filtered.length) {
+      showDone();
+      return;
+    }
+    const d = filtered[i++];
+    const cardEl = document.getElementById('card-' + d.l);
+    if (cardEl) speakLetter(d, cardEl);
+    playAllTimeout = setTimeout(next, 1400);
+  }
+  next();
+}
+
+function showDone() {
+  const pill = document.getElementById('info-pill');
+  document.getElementById('info-letter').textContent = '✓';
+  document.getElementById('info-ph').textContent = 'All done!';
+  document.getElementById('info-word').textContent = 'A–Z complete';
+  pill.classList.add('show');
+}
+
+if (speechSynthesis.onvoiceschanged !== undefined) {
+  speechSynthesis.onvoiceschanged = () => {};
+}
+
+renderGrid('all');
+</script>
+</body>
+</html>
