@@ -722,30 +722,43 @@ function filterLetters(f, btnId) {
   hidePill();
 }
 
+// Phonetic spellings that make the TTS engine say each letter name correctly
+// in British English — no "capital", no double repetition, just the letter sound.
+const phoneticSpeak = {
+  A: 'ay',       B: 'bee',      C: 'see',      D: 'dee',
+  E: 'ee',       F: 'ef',       G: 'jee',      H: 'aitch',
+  I: 'eye',      J: 'jay',      K: 'kay',      L: 'el',
+  M: 'em',       N: 'en',       O: 'oh',       P: 'pee',
+  Q: 'cue',      R: 'ar',       S: 'ess',      T: 'tee',
+  U: 'you',      V: 'vee',      W: 'double-you', X: 'ex',
+  Y: 'why',      Z: 'zed'
+};
+
 function speakLetter(d, cardEl) {
   if (activeCard) activeCard.classList.remove('playing');
   cardEl.classList.add('playing');
   activeCard = cardEl;
 
-  const utterance = new SpeechSynthesisUtterance();
-  utterance.text = d.l;
-  utterance.lang = 'en-GB';
-  utterance.rate = 0.82;
-  utterance.pitch = 1.0;
+  speechSynthesis.cancel();
 
   const voices = speechSynthesis.getVoices();
   const gbVoice = voices.find(v => v.lang === 'en-GB') ||
                   voices.find(v => v.lang.startsWith('en'));
-  if (gbVoice) utterance.voice = gbVoice;
 
-  utterance.onend = () => {
+  const utt = new SpeechSynthesisUtterance(phoneticSpeak[d.l] || d.l);
+  utt.lang    = 'en-GB';
+  utt.rate    = 0.75;   // medium pace — clear and unhurried
+  utt.pitch   = 1.0;
+  utt.volume  = 1.0;
+  if (gbVoice) utt.voice = gbVoice;
+
+  utt.onend = () => {
     cardEl.classList.remove('playing');
     if (activeCard === cardEl) activeCard = null;
     showPill(d);
   };
 
-  speechSynthesis.cancel();
-  speechSynthesis.speak(utterance);
+  speechSynthesis.speak(utt);
   showPill(d);
 }
 
@@ -774,7 +787,7 @@ function playAll() {
     const d = filtered[i++];
     const cardEl = document.getElementById('card-' + d.l);
     if (cardEl) speakLetter(d, cardEl);
-    playAllTimeout = setTimeout(next, 1400);
+    playAllTimeout = setTimeout(next, 1900);
   }
   next();
 }
