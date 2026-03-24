@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Active Voice & Passive Voice</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800;900&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --active: #ff6b35;
+  --active-light: #fff0eb;
+  --active-dark: #c0390a;
+  --passive: #00b4d8;
+  --passive-light: #e0f7fc;
+  --passive-dark: #0077a8;
+  --present: #06d6a0;
+  --past: #845ef7;
+  --future: #ffd166;
+  --accent1: #ff6b6b;
+  --accent2: #4ecdc4;
+  --accent3: #ffe66d;
+  --bg-from: #0f0c29;
+  --bg-mid: #302b63;
+  --bg-to: #24243e;
+  --card-bg: rgba(255,255,255,0.06);
+  --card-border: rgba(255,255,255,0.14);
+  --text: #f0f0ff;
+  --muted: #a9a9cc;
+  --radius: 22px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Quicksand',sans-serif;
+  background: linear-gradient(135deg, var(--bg-from) 0%, var(--bg-mid) 50%, var(--bg-to) 100%);
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── FLOATING BG ORBS ── */
+.orbs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.35;animation:drift linear infinite;}
+.orb1{width:500px;height:500px;background:radial-gradient(#ff6b35,transparent);top:-100px;left:-100px;animation-duration:18s;}
+.orb2{width:400px;height:400px;background:radial-gradient(#00b4d8,transparent);bottom:-80px;right:-80px;animation-duration:22s;animation-delay:-8s;}
+.orb3{width:300px;height:300px;background:radial-gradient(#845ef7,transparent);top:40%;left:60%;animation-duration:15s;animation-delay:-4s;}
+.orb4{width:250px;height:250px;background:radial-gradient(#06d6a0,transparent);bottom:30%;left:10%;animation-duration:20s;animation-delay:-10s;}
+@keyframes drift{
+  0%{transform:translate(0,0) scale(1);}
+  33%{transform:translate(40px,-30px) scale(1.1);}
+  66%{transform:translate(-30px,40px) scale(.95);}
+  100%{transform:translate(0,0) scale(1);}
+}
+
+/* ── FLOATING STARS ── */
+.stars{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.star{position:absolute;border-radius:50%;animation:twinkle ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(1);}50%{opacity:.9;transform:scale(1.4);}}
+
+/* ── LAYOUT ── */
+.wrap{max-width:960px;margin:0 auto;padding:0 20px 80px;position:relative;z-index:1;}
+
+/* ── AUDIO TOGGLE ── */
+#audio-toggle{
+  position:fixed;
+  top:20px;right:20px;
+  z-index:200;
+  background:linear-gradient(135deg,#ff6b35,#ff3a7d);
+  border:none;
+  border-radius:50px;
+  padding:10px 22px;
+  color:#fff;
+  font-family:'Baloo 2',cursive;
+  font-size:1rem;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 4px 24px rgba(255,107,53,.55);
+  transition:all .2s;
+  display:flex;align-items:center;gap:8px;
+  letter-spacing:.5px;
+}
+#audio-toggle:hover{transform:scale(1.07);box-shadow:0 6px 30px rgba(255,107,53,.75);}
+#audio-toggle.off{background:linear-gradient(135deg,#555,#333);box-shadow:0 4px 20px rgba(0,0,0,.4);}
+
+/* ── HERO ── */
+.hero{
+  text-align:center;
+  padding:80px 20px 48px;
+  animation:slideDown .8s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes slideDown{from{opacity:0;transform:translateY(-40px);}to{opacity:1;transform:translateY(0);}}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.1);
+  backdrop-filter:blur(10px);
+  border:1.5px solid rgba(255,255,255,.2);
+  border-radius:100px;
+  padding:8px 24px;
+  font-size:.85rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:#ffe66d;margin-bottom:24px;
+}
+.hero h1{
+  font-family:'Baloo 2',cursive;
+  font-size:clamp(2.6rem,7vw,4.8rem);
+  font-weight:900;
+  line-height:1.05;
+  margin-bottom:18px;
+}
+.hero h1 .word-active{
+  background:linear-gradient(135deg,#ff6b35,#ff3a7d);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 20px rgba(255,107,53,.4));
+}
+.hero h1 .word-passive{
+  background:linear-gradient(135deg,#00b4d8,#0077ff);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 20px rgba(0,180,216,.4));
+}
+.hero h1 .amp{color:#ffe66d;}
+.hero-sub{font-size:1.1rem;color:var(--muted);font-weight:600;margin-bottom:24px;}
+.hero-chips{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;}
+.chip{
+  background:rgba(255,255,255,.1);
+  backdrop-filter:blur(8px);
+  border:1.5px solid rgba(255,255,255,.18);
+  border-radius:100px;
+  padding:6px 18px;
+  font-size:.82rem;font-weight:700;color:#fff;
+}
+
+/* ── SECTION ── */
+.section{margin-bottom:44px;animation:fadeUp .6s ease both;}
+.section:nth-child(2){animation-delay:.08s}
+.section:nth-child(3){animation-delay:.14s}
+.section:nth-child(4){animation-delay:.20s}
+.section:nth-child(5){animation-delay:.26s}
+.section:nth-child(6){animation-delay:.32s}
+.section:nth-child(7){animation-delay:.38s}
+.section:nth-child(8){animation-delay:.44s}
+.section:nth-child(9){animation-delay:.50s}
+.section:nth-child(10){animation-delay:.56s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);}}
+.sec-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;}
+.sec-icon{
+  width:52px;height:52px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;flex-shrink:0;
+  box-shadow:0 4px 18px rgba(0,0,0,.3);
+}
+.sec-icon.orange{background:linear-gradient(135deg,#ff6b35,#ff3a7d);}
+.sec-icon.blue{background:linear-gradient(135deg,#00b4d8,#0077ff);}
+.sec-icon.green{background:linear-gradient(135deg,#06d6a0,#0ecc6e);}
+.sec-icon.purple{background:linear-gradient(135deg,#845ef7,#cc45e8);}
+.sec-icon.yellow{background:linear-gradient(135deg,#ffd166,#ff9f1c);}
+.sec-icon.pink{background:linear-gradient(135deg,#ff6b6b,#ee3a7f);}
+.sec-icon.teal{background:linear-gradient(135deg,#4ecdc4,#0fbfb5);}
+.sec-title{font-family:'Baloo 2',cursive;font-size:1.6rem;font-weight:800;color:#fff;}
+.sec-sub{font-size:.9rem;color:var(--muted);font-weight:600;}
+
+/* ── GLASS CARD ── */
+.glass{
+  background:var(--card-bg);
+  backdrop-filter:blur(16px);
+  border:1.5px solid var(--card-border);
+  border-radius:var(--radius);
+  padding:28px 32px;
+  box-shadow:0 8px 40px rgba(0,0,0,.3);
+}
+.glass p,.glass li{font-size:1.02rem;line-height:1.75;}
+
+/* ── VOICE EXPLAINER SPLIT ── */
+.voice-split{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media(max-width:580px){.voice-split{grid-template-columns:1fr;}}
+.voice-block{border-radius:20px;padding:26px 24px;border:3px solid transparent;}
+.voice-block.active-blk{background:rgba(255,107,53,.12);border-color:rgba(255,107,53,.5);}
+.voice-block.passive-blk{background:rgba(0,180,216,.12);border-color:rgba(0,180,216,.5);}
+.vb-label{font-family:'Baloo 2',cursive;font-size:1.4rem;font-weight:900;margin-bottom:6px;}
+.active-blk .vb-label{color:#ff8c5e;}
+.passive-blk .vb-label{color:#38d4f5;}
+.vb-tag{font-size:.78rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;opacity:.7;}
+.vb-desc{font-size:.98rem;font-weight:600;line-height:1.65;color:var(--muted);margin-bottom:16px;}
+.vb-formula{
+  border-radius:12px;padding:12px 16px;
+  font-family:'Baloo 2',cursive;font-size:1rem;font-weight:700;
+  letter-spacing:.3px;
+}
+.active-blk .vb-formula{background:rgba(255,107,53,.2);color:#ffb38a;}
+.passive-blk .vb-formula{background:rgba(0,180,216,.2);color:#72e4f8;}
+.vb-example{margin-top:14px;font-style:italic;font-size:.95rem;color:#fff;opacity:.9;}
+
+/* ── EXAMPLE ROWS ── */
+.ex-row{
+  display:flex;align-items:center;gap:14px;
+  background:rgba(255,255,255,.05);
+  border-radius:14px;padding:14px 18px;
+  margin-bottom:12px;
+  border:1.5px solid rgba(255,255,255,.1);
+  transition:background .2s;
+}
+.ex-row:hover{background:rgba(255,255,255,.1);}
+.ex-badge{
+  border-radius:100px;padding:4px 14px;
+  font-size:.75rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;
+  flex-shrink:0;
+}
+.ex-badge.a{background:rgba(255,107,53,.3);color:#ff8c5e;border:1.5px solid rgba(255,107,53,.5);}
+.ex-badge.p{background:rgba(0,180,216,.3);color:#38d4f5;border:1.5px solid rgba(0,180,216,.5);}
+.ex-text{flex:1;font-weight:700;font-size:1rem;}
+.ex-arrow{font-size:1.4rem;color:rgba(255,255,255,.3);}
+
+/* ── CONVERSION CARD ── */
+.conv-card{
+  border-radius:18px;padding:20px 22px;margin-bottom:14px;
+  border:2px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.04);
+}
+.conv-card:last-child{margin-bottom:0;}
+.conv-label{font-size:.78rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;opacity:.6;}
+.conv-pair{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.conv-sent{
+  flex:1;min-width:160px;border-radius:12px;padding:10px 16px;
+  font-weight:700;font-size:.97rem;
+}
+.conv-sent.a{background:rgba(255,107,53,.18);border:1.5px solid rgba(255,107,53,.4);color:#ffb38a;}
+.conv-sent.p{background:rgba(0,180,216,.18);border:1.5px solid rgba(0,180,216,.4);color:#72e4f8;}
+.conv-arrow{font-size:1.8rem;color:#ffe66d;flex-shrink:0;}
+
+/* ── TENSE + VOICE TABLE ── */
+.tv-table-wrap{overflow-x:auto;border-radius:18px;box-shadow:0 6px 30px rgba(0,0,0,.35);}
+table{width:100%;border-collapse:collapse;}
+thead tr{background:linear-gradient(135deg,#ff6b35,#845ef7,#00b4d8);}
+thead th{padding:15px 18px;font-family:'Baloo 2',cursive;font-size:1rem;font-weight:800;text-align:left;color:#fff;white-space:nowrap;}
+tbody tr{border-bottom:1px solid rgba(255,255,255,.07);transition:background .15s;}
+tbody tr:hover{background:rgba(255,255,255,.07);}
+td{padding:13px 18px;font-size:.95rem;font-weight:600;vertical-align:middle;}
+.td-tense{font-family:'Baloo 2',cursive;font-size:1rem;font-weight:800;}
+.td-tense.pres{color:#06d6a0;}
+.td-tense.past{color:#845ef7;}
+.td-tense.fut{color:#ffd166;}
+.td-active{color:#ff8c5e;}
+.td-passive{color:#38d4f5;}
+.row-even{background:rgba(255,255,255,.03);}
+
+/* ── PRACTICE PHRASES ── */
+.practice-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:580px){.practice-grid{grid-template-columns:1fr;}}
+.prac-card{
+  border-radius:16px;padding:18px 20px;
+  border:2px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.05);
+  transition:transform .2s,box-shadow .2s;
+}
+.prac-card:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(0,0,0,.3);}
+.prac-num{
+  width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Baloo 2',cursive;font-size:.95rem;font-weight:800;
+  margin-bottom:10px;
+  background:linear-gradient(135deg,#ff6b35,#845ef7);color:#fff;
+}
+.prac-sent{font-weight:700;font-size:.97rem;margin-bottom:8px;color:#fff;}
+.prac-convert{font-size:.88rem;font-weight:600;color:var(--muted);}
+.prac-convert span{color:#ffe66d;}
+
+/* ── AUDIO BUTTON ── */
+.abtn{
+  background:none;border:none;cursor:pointer;
+  width:36px;height:36px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:1.1rem;flex-shrink:0;
+  transition:all .2s;
+  background:rgba(255,255,255,.08);
+  border:1.5px solid rgba(255,255,255,.15);
+}
+.abtn:hover{background:rgba(255,255,255,.2);transform:scale(1.15);}
+.abtn.playing{animation:audioGlow .5s ease infinite alternate;}
+@keyframes audioGlow{from{box-shadow:0 0 0 0 rgba(255,107,53,0);}to{box-shadow:0 0 12px 4px rgba(255,107,53,.6);}}
+
+/* ── SIGNAL WORDS ── */
+.sw-grid{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px;}
+.sw{
+  border-radius:100px;padding:5px 16px;
+  font-size:.85rem;font-weight:700;
+  border:1.5px solid;
+}
+.sw.pres{background:rgba(6,214,160,.15);border-color:rgba(6,214,160,.4);color:#06d6a0;}
+.sw.past{background:rgba(132,94,247,.15);border-color:rgba(132,94,247,.4);color:#c4a8ff;}
+.sw.fut{background:rgba(255,209,102,.15);border-color:rgba(255,209,102,.4);color:#ffd166;}
+
+/* ── QUIZ ── */
+.quiz-wrap{display:flex;flex-direction:column;gap:20px;}
+.quiz-card{
+  border-radius:18px;padding:22px 24px;
+  background:rgba(255,255,255,.05);
+  border:1.5px solid rgba(255,255,255,.12);
+  box-shadow:0 4px 20px rgba(0,0,0,.25);
+  transition:border-color .2s;
+}
+.quiz-q{font-family:'Baloo 2',cursive;font-size:1.08rem;font-weight:800;margin-bottom:14px;color:#fff;}
+.quiz-q .qtag{
+  display:inline-block;border-radius:8px;padding:2px 10px;
+  font-size:.72rem;letter-spacing:1px;text-transform:uppercase;
+  margin-right:8px;font-weight:800;vertical-align:middle;
+}
+.qtag.active-tag{background:rgba(255,107,53,.3);color:#ff8c5e;}
+.qtag.passive-tag{background:rgba(0,180,216,.3);color:#38d4f5;}
+.qtag.tense-tag{background:rgba(132,94,247,.3);color:#c4a8ff;}
+.quiz-opts{display:flex;gap:10px;flex-wrap:wrap;}
+.qopt{
+  border-radius:100px;padding:8px 20px;
+  font-weight:700;font-size:.95rem;
+  border:2px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.07);
+  cursor:pointer;color:#ccc;
+  transition:all .18s;
+  display:flex;align-items:center;gap:6px;
+}
+.qopt:hover{background:rgba(255,255,255,.16);color:#fff;border-color:rgba(255,255,255,.3);}
+.qopt.correct{background:rgba(6,214,160,.2);border-color:#06d6a0;color:#06d6a0;}
+.qopt.wrong{opacity:.4;}
+.qopt.selected-wrong{background:rgba(255,107,107,.15);border-color:#ff6b6b;color:#ff6b6b;opacity:1;}
+.quiz-feedback{margin-top:12px;font-weight:700;font-size:.95rem;padding:10px 16px;border-radius:12px;display:none;}
+.quiz-feedback.show{display:block;}
+.quiz-feedback.correct-fb{background:rgba(6,214,160,.15);color:#06d6a0;border:1.5px solid rgba(6,214,160,.4);}
+.quiz-feedback.wrong-fb{background:rgba(255,107,107,.12);color:#ff8c8c;border:1.5px solid rgba(255,107,107,.3);}
+.quiz-score-bar{
+  text-align:center;padding:28px;
+  background:linear-gradient(135deg,rgba(255,107,53,.15),rgba(132,94,247,.15));
+  border-radius:18px;border:2px solid rgba(255,255,255,.15);
+  font-family:'Baloo 2',cursive;
+  display:none;
+}
+.quiz-score-bar.show{display:block;}
+.score-num{font-size:3.5rem;font-weight:900;background:linear-gradient(135deg,#ffd166,#ff6b35);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.score-label{font-size:1.1rem;color:var(--muted);font-weight:700;}
+#submit-quiz{
+  display:block;margin:24px auto 0;
+  background:linear-gradient(135deg,#ff6b35,#845ef7);
+  border:none;border-radius:100px;padding:14px 48px;
+  font-family:'Baloo 2',cursive;font-size:1.15rem;font-weight:800;
+  color:#fff;cursor:pointer;letter-spacing:.5px;
+  box-shadow:0 6px 28px rgba(255,107,53,.4);
+  transition:all .2s;
+}
+#submit-quiz:hover{transform:translateY(-2px);box-shadow:0 10px 36px rgba(255,107,53,.55);}
+#reset-quiz{
+  display:none;margin:10px auto 0;
+  background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);
+  border-radius:100px;padding:10px 36px;
+  font-family:'Baloo 2',cursive;font-size:1rem;font-weight:700;
+  color:#fff;cursor:pointer;transition:all .2s;
+}
+#reset-quiz.show{display:block;}
+#reset-quiz:hover{background:rgba(255,255,255,.2);}
+
+/* ── INFO BOX ── */
+.info-box{
+  border-radius:16px;padding:16px 20px;margin-top:16px;
+  background:rgba(255,209,102,.1);border:1.5px solid rgba(255,209,102,.3);
+  font-size:.93rem;font-weight:700;color:#ffe066;line-height:1.6;
+}
+
+/* ── RULE BOX ── */
+.rule-highlight{
+  border-radius:18px;padding:22px 28px;margin-top:18px;
+  background:linear-gradient(135deg,rgba(255,107,53,.14),rgba(132,94,247,.14));
+  border:2px dashed rgba(255,255,255,.2);
+}
+.rule-highlight h4{font-family:'Baloo 2',cursive;font-size:1.2rem;font-weight:800;margin-bottom:12px;color:#ffe66d;}
+.rule-highlight ul{list-style:none;padding:0;}
+.rule-highlight li{display:flex;align-items:flex-start;gap:10px;padding:6px 0;font-size:.97rem;font-weight:600;border-bottom:1px dashed rgba(255,255,255,.1);}
+.rule-highlight li:last-child{border-bottom:none;}
+
+/* ── CLOSING ── */
+.closing-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:500px){.closing-grid{grid-template-columns:1fr;}}
+.close-card{
+  border-radius:18px;padding:22px 20px;text-align:center;
+  border:2.5px solid transparent;
+}
+.close-card.a{background:rgba(255,107,53,.12);border-color:rgba(255,107,53,.5);}
+.close-card.p{background:rgba(0,180,216,.12);border-color:rgba(0,180,216,.5);}
+.close-emoji{font-size:2.4rem;margin-bottom:8px;}
+.close-title{font-family:'Baloo 2',cursive;font-size:1.3rem;font-weight:800;margin-bottom:6px;}
+.close-card.a .close-title{color:#ff8c5e;}
+.close-card.p .close-title{color:#38d4f5;}
+.close-desc{font-size:.9rem;font-weight:600;color:var(--muted);line-height:1.55;}
+
+/* ── TOAST ── */
+#toast{
+  position:fixed;bottom:28px;left:50%;
+  transform:translateX(-50%) translateY(90px);
+  background:rgba(10,10,30,.92);
+  backdrop-filter:blur(12px);
+  border:1.5px solid rgba(255,255,255,.15);
+  color:#fff;padding:12px 28px;
+  border-radius:100px;font-weight:700;font-size:.95rem;
+  z-index:300;transition:transform .35s cubic-bezier(.34,1.56,.64,1);
+  pointer-events:none;white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis;
+}
+#toast.show{transform:translateX(-50%) translateY(0);}
+
+/* ── FOOTER ── */
+.footer{
+  text-align:center;padding:32px 0 0;
+  font-size:.9rem;color:var(--muted);font-weight:600;
+}
+.footer-title{
+  font-family:'Baloo 2',cursive;font-size:1.4rem;font-weight:900;
+  background:linear-gradient(135deg,#ff6b35,#ffd166,#06d6a0,#00b4d8);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+@media(max-width:600px){
+  .glass{padding:20px 16px;}
+  .sec-title{font-size:1.25rem;}
+  .hero h1{font-size:2.2rem;}
+  #audio-toggle{top:12px;right:12px;padding:8px 14px;font-size:.85rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- BG -->
+<div class="orbs">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="orb orb4"></div>
+</div>
+<div class="stars" id="stars"></div>
+
+<!-- AUDIO TOGGLE -->
+<button id="audio-toggle" onclick="toggleAudio()">
+  <span id="audio-icon">🔊</span>
+  <span id="audio-label">Audio ON</span>
+</button>
+
+<div id="toast">🔊</div>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">🇬🇧 British Accent &nbsp;·&nbsp; Grade 3–4 &nbsp;·&nbsp; English Grammar</div>
+    <h1>
+      <span class="word-active">Active Voice</span>
+      <span class="amp"> &amp; </span>
+      <span class="word-passive">Passive Voice</span>
+    </h1>
+    <p class="hero-sub">Who does the action? Learn the difference — and have fun doing it! 🎉</p>
+    <div class="hero-chips">
+      <span class="chip">⏱ 45–60 min</span>
+      <span class="chip">🎯 Grades 3–4</span>
+      <span class="chip">📖 Includes Tenses</span>
+      <span class="chip">🔊 Click any button to hear</span>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 1: WHAT IS VOICE? ══ -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-icon orange">🎯</div>
+      <div>
+        <div class="sec-title">1. What Is "Voice" in Grammar?</div>
+        <div class="sec-sub">Understanding the big idea</div>
+      </div>
+    </div>
+    <div class="glass">
+      <p style="font-weight:700;margin-bottom:16px;font-size:1.08rem;">In English, <strong style="color:#ffe66d;">"voice"</strong> tells us <em>who is doing the action</em> in a sentence. There are two voices:</p>
+      <div class="voice-split">
+        <div class="voice-block active-blk">
+          <div class="vb-label">🟠 Active Voice</div>
+          <div class="vb-tag">The Doer comes FIRST</div>
+          <div class="vb-desc">The <strong>subject</strong> of the sentence <strong>does</strong> the action. It is direct, clear, and strong.</div>
+          <div class="vb-formula">Subject → does → Object</div>
+          <div class="vb-example">
+            <button class="abtn" onclick="speakChain([{label:'Active Voice Example', body:'The cat chased the mouse.'}])">🔊</button>
+            "The <u>cat</u> chased the mouse."
+          </div>
+        </div>
+        <div class="voice-block passive-blk">
+          <div class="vb-label">🔵 Passive Voice</div>
+          <div class="vb-tag">The Receiver comes FIRST</div>
+          <div class="vb-desc">The <strong>object</strong> of the action becomes the subject. The doer is often hidden or comes at the end with "by".</div>
+          <div class="vb-formula">Object → is/was/will be → done (by Subject)</div>
+          <div class="vb-example">
+            <button class="abtn" onclick="speakChain([{label:'Passive Voice Example', body:'The mouse was chased by the cat.'}])">🔊</button>
+            "The <u>mouse</u> was chased by the cat."
+          </div>
+        </div>
+      </div>
+      <div class="info-box">
+        💡 <strong>Simple Rule:</strong> In Active Voice → the <em>subject does</em> something. In Passive Voice → something <em>is done to</em> the subject!
+        <button class="abtn" style="margin-left:8px" onclick="speakSection('Simple Rule', ['In Active Voice, the subject does something.', 'In Passive Voice, something is done to the subject.'])">🔊</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 2: ACTIVE VOICE EXPLAINED ══ -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-icon orange">🟠</div>
+      <div>
+        <div class="sec-title">2. Active Voice — Explained</div>
+        <div class="sec-sub">Clear, direct, and powerful!</div>
+      </div>
+    </div>
+    <div class="glass">
+      <div class="vb-formula" style="background:rgba(255,107,53,.15);color:#ffb38a;margin-bottom:20px;font-size:1.05rem;">
+        📌 Formula: &nbsp;<strong>Subject + Verb + Object</strong>
+      </div>
+      <div class="ex-row">
+        <span class="ex-badge a">Active</span>
+        <span class="ex-text">🐶 <strong>The dog</strong> eats the bone.</span>
+        <button class="abtn" onclick="speak('The dog eats the bone.')">🔊</button>
+      </div>
+      <div class="ex-row">
+        <span class="ex-badge a">Active</span>
+        <span class="ex-text">👩 <strong>Sara</strong> wrote a letter.</span>
+        <button class="abtn" onclick="speak('Sara wrote a letter.')">🔊</button>
+      </div>
+      <div class="ex-row">
+        <span class="ex-badge a">Active</span>
+        <span class="ex-text">🧒 <strong>The boy</strong> kicked the ball.</span>
+        <button class="abtn" onclick="speak('The boy kicked the ball.')">🔊</button>
+      </div>
+      <div class="ex-row">
+        <span class="ex-badge a">Active</span>
+        <span class="ex-text">👩‍🍳 <strong>Mum</strong> baked a chocolate cake.</span>
+        <button class="abtn" onclick="speak('Mum baked a chocolate cake.')">🔊</button>
+      </div>
+      <div class="ex-row">
+        <span class="ex-badge a">Active</span>
+        <span class="ex-text">🏫 <strong>The teacher</strong> will explain the lesson.</span>
+        <button class="abtn" onclick="speak('The teacher will explain the lesson.')">🔊</button>
+      </div>
+      <div class="rule-highlight">
+        <h4>✅ When to use Active Voice:</h4>
+        <ul>
+          <li>🟠 When you want to say clearly <em>who did</em> the action</li>
+          <li>🟠 When writing stories, emails, or conversations</li>
+          <li>🟠 When you want short, punchy sentences</li>
+        </ul>
+      </div>
+      <button class="abtn" style="margin-top:16px;width:auto;border-radius:100px;padding:8px 20px;font-size:.9rem;font-weight:700;" onclick="speakSection('Active Voice — Examples', ['The dog eats the bone.','Sara wrote a letter.','The boy kicked the ball.','Mum baked a chocolate cake.','The teacher will explain the lesson.'])">🔊 Read all examples</button>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 3: PASSIVE VOICE EXPLAINED ══ -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-icon blue">🔵</div>
+      <div>
+        <div class="sec-title">3. Passive Voice — Explained</div>
+        <div class="sec-sub">When the action is more important than who did it</div>
+      </div>
+    </div>
+    <div class="glass">
+      <div class="vb-formula" style="background:rgba(0,180,216,.15);color:#72e4f8;margin-bottom:20px;font-size:1.05rem;">
+        📌 Formula: &nbsp;<strong>Object + is/was/will be + Past Participle (+ by Subject)</strong>
+      </div>
+      <div class="ex-row">
+        <span class="ex-badge p">Passive</span>
+        <span class="ex-text">🦴 <strong>The bone</strong> is eaten by the dog.</span>
+        <button class="abtn" onclick="speak('The bone is eaten by the dog.')">🔊</button>
+      </div>
+      <div class="ex-row">
+        <span class="ex-badge p">Passive</span>
+        <span class="ex-text">📄 <strong>A letter</strong> was written by Sara.</span>
+        <button class="abtn" onclick="speak('A letter was written by Sara.')">🔊</button>
+      </div>
+      <div class="ex-row">
+        <span class="ex-badge p">Passive</span>
+        <span class="ex-text">⚽ <strong>The ball</strong> was kicked by the boy.</span>
+        <button class="abtn" onclick="speak('The ball was kicked by the boy.')">🔊</button>
+      </div>
+      <div class="ex-row">
+        <span class="ex-badge p">Passive</span>
+        <span class="ex-text">🎂 <strong>A chocolate cake</strong> was baked by Mum.</span>
+        <button class="abtn" onclick="speak('A chocolate cake was baked by Mum.')">🔊</button>
+      </div>
+      <div class="ex-row">
+        <span class="ex-badge p">Passive</span>
+        <span class="ex-text">📚 <strong>The lesson</strong> will be explained by the teacher.</span>
+        <button class="abtn" onclick="speak('The lesson will be explained by the teacher.')">🔊</button>
+      </div>
+      <div class="rule-highlight">
+        <h4>✅ When to use Passive Voice:</h4>
+        <ul>
+          <li>🔵 When the <em>doer is unknown</em> — "The window was broken."</li>
+          <li>🔵 When the <em>action is more important</em> than who did it</li>
+          <li>🔵 In reports, science writing, and news</li>
+        </ul>
+      </div>
+      <button class="abtn" style="margin-top:16px;width:auto;border-radius:100px;padding:8px 20px;font-size:.9rem;font-weight:700;" onclick="speakSection('Passive Voice — Examples', ['The bone is eaten by the dog.','A letter was written by Sara.','The ball was kicked by the boy.','A chocolate cake was baked by Mum.','The lesson will be explained by the teacher.'])">🔊 Read all examples</button>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 4: ACTIVE ↔ PASSIVE CONVERSIONS ══ -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-icon green">🔄</div>
+      <div>
+        <div class="sec-title">4. Active ↔ Passive Conversions</div>
+        <div class="sec-sub">See how sentences flip!</div>
+      </div>
+    </div>
+    <div class="glass">
+      <div class="conv-card">
+        <div class="conv-label">Present Tense</div>
+        <div class="conv-pair">
+          <div class="conv-sent a">🟠 The chef cooks the food.</div>
+          <div class="conv-arrow">⇄</div>
+          <div class="conv-sent p">🔵 The food is cooked by the chef.</div>
+          <button class="abtn" onclick="speakChain([{label:'Present Tense — Active', body:'The chef cooks the food.'},{label:'Present Tense — Passive', body:'The food is cooked by the chef.'}])">🔊</button>
+        </div>
+      </div>
+      <div class="conv-card">
+        <div class="conv-label">Past Tense</div>
+        <div class="conv-pair">
+          <div class="conv-sent a">🟠 She read the book.</div>
+          <div class="conv-arrow">⇄</div>
+          <div class="conv-sent p">🔵 The book was read by her.</div>
+          <button class="abtn" onclick="speakChain([{label:'Past Tense — Active', body:'She read the book.'},{label:'Past Tense — Passive', body:'The book was read by her.'}])">🔊</button>
+        </div>
+      </div>
+      <div class="conv-card">
+        <div class="conv-label">Future Tense</div>
+        <div class="conv-pair">
+          <div class="conv-sent a">🟠 They will build a house.</div>
+          <div class="conv-arrow">⇄</div>
+          <div class="conv-sent p">🔵 A house will be built by them.</div>
+          <button class="abtn" onclick="speakChain([{label:'Future Tense — Active', body:'They will build a house.'},{label:'Future Tense — Passive', body:'A house will be built by them.'}])">🔊</button>
+        </div>
+      </div>
+      <div class="conv-card">
+        <div class="conv-label">Present — Animals 🐾</div>
+        <div class="conv-pair">
+          <div class="conv-sent a">🟠 The lion hunts the deer.</div>
+          <div class="conv-arrow">⇄</div>
+          <div class="conv-sent p">🔵 The deer is hunted by the lion.</div>
+          <button class="abtn" onclick="speakChain([{label:'Active', body:'The lion hunts the deer.'},{label:'Passive', body:'The deer is hunted by the lion.'}])">🔊</button>
+        </div>
+      </div>
+      <div class="conv-card">
+        <div class="conv-label">Past — At School 🏫</div>
+        <div class="conv-pair">
+          <div class="conv-sent a">🟠 The teacher marked the papers.</div>
+          <div class="conv-arrow">⇄</div>
+          <div class="conv-sent p">🔵 The papers were marked by the teacher.</div>
+          <button class="abtn" onclick="speakChain([{label:'Active', body:'The teacher marked the papers.'},{label:'Passive', body:'The papers were marked by the teacher.'}])">🔊</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 5: TENSES + VOICE TABLE ══ -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-icon purple">📊</div>
+      <div>
+        <div class="sec-title">5. Tenses + Voice — Big Table</div>
+        <div class="sec-sub">Present, Past & Future in both voices</div>
+      </div>
+    </div>
+    <div class="glass" style="padding:0;overflow:hidden;border:none;">
+      <div class="tv-table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Tense</th>
+              <th>🟠 Active Voice</th>
+              <th>🔵 Passive Voice</th>
+              <th>🔊</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="td-tense pres">🟢 Present</span></td>
+              <td class="td-active">She writes a poem.</td>
+              <td class="td-passive">A poem is written by her.</td>
+              <td><button class="abtn" onclick="speakChain([{label:'Present Tense — Active', body:'She writes a poem.'},{label:'Present Tense — Passive', body:'A poem is written by her.'}])">🔊</button></td>
+            </tr>
+            <tr class="row-even">
+              <td><span class="td-tense past">🔵 Past</span></td>
+              <td class="td-active">He ate the apple.</td>
+              <td class="td-passive">The apple was eaten by him.</td>
+              <td><button class="abtn" onclick="speakChain([{label:'Past Tense — Active', body:'He ate the apple.'},{label:'Past Tense — Passive', body:'The apple was eaten by him.'}])">🔊</button></td>
+            </tr>
+            <tr>
+              <td><span class="td-tense fut">🟡 Future</span></td>
+              <td class="td-active">We will plant trees.</td>
+              <td class="td-passive">Trees will be planted by us.</td>
+              <td><button class="abtn" onclick="speakChain([{label:'Future Tense — Active', body:'We will plant trees.'},{label:'Future Tense — Passive', body:'Trees will be planted by us.'}])">🔊</button></td>
+            </tr>
+            <tr class="row-even">
+              <td><span class="td-tense pres">🟢 Present</span></td>
+              <td class="td-active">Tom fixes the bike.</td>
+              <td class="td-passive">The bike is fixed by Tom.</td>
+              <td><button class="abtn" onclick="speakChain([{label:'Active', body:'Tom fixes the bike.'},{label:'Passive', body:'The bike is fixed by Tom.'}])">🔊</button></td>
+            </tr>
+            <tr>
+              <td><span class="td-tense past">🔵 Past</span></td>
+              <td class="td-active">The wind broke the window.</td>
+              <td class="td-passive">The window was broken by the wind.</td>
+              <td><button class="abtn" onclick="speakChain([{label:'Active', body:'The wind broke the window.'},{label:'Passive', body:'The window was broken by the wind.'}])">🔊</button></td>
+            </tr>
+            <tr class="row-even">
+              <td><span class="td-tense fut">🟡 Future</span></td>
+              <td class="td-active">Dad will cook dinner.</td>
+              <td class="td-passive">Dinner will be cooked by Dad.</td>
+              <td><button class="abtn" onclick="speakChain([{label:'Active', body:'Dad will cook dinner.'},{label:'Passive', body:'Dinner will be cooked by Dad.'}])">🔊</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 6: SIGNAL WORDS ══ -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-icon yellow">⚡</div>
+      <div>
+        <div class="sec-title">6. Tense Signal Words</div>
+        <div class="sec-sub">Words that tell you WHEN the action happens</div>
+      </div>
+    </div>
+    <div class="glass">
+      <div style="margin-bottom:20px;">
+        <div style="font-family:'Baloo 2',cursive;font-weight:800;font-size:1.1rem;color:#06d6a0;margin-bottom:10px;">🟢 Present Tense</div>
+        <div class="sw-grid">
+          <span class="sw pres">now</span><span class="sw pres">every day</span><span class="sw pres">always</span>
+          <span class="sw pres">usually</span><span class="sw pres">often</span><span class="sw pres">at the moment</span>
+        </div>
+      </div>
+      <div style="margin-bottom:20px;">
+        <div style="font-family:'Baloo 2',cursive;font-weight:800;font-size:1.1rem;color:#c4a8ff;margin-bottom:10px;">🔵 Past Tense</div>
+        <div class="sw-grid">
+          <span class="sw past">yesterday</span><span class="sw past">last night</span><span class="sw past">ago</span>
+          <span class="sw past">last week</span><span class="sw past">in 2020</span><span class="sw past">before</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-family:'Baloo 2',cursive;font-weight:800;font-size:1.1rem;color:#ffd166;margin-bottom:10px;">🟡 Future Tense</div>
+        <div class="sw-grid">
+          <span class="sw fut">tomorrow</span><span class="sw fut">next week</span><span class="sw fut">soon</span>
+          <span class="sw fut">later</span><span class="sw fut">in the future</span><span class="sw fut">will</span>
+        </div>
+      </div>
+      <button class="abtn" style="margin-top:16px;width:auto;border-radius:100px;padding:8px 20px;font-size:.9rem;font-weight:700;" onclick="speakSection('Tense Signal Words', ['Present tense signal words: now, every day, always, usually, often, at the moment.','Past tense signal words: yesterday, last night, ago, last week, before.','Future tense signal words: tomorrow, next week, soon, later, will.'])">🔊 Hear all signal words</button>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 7: PRACTICE PHRASES ══ -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-icon teal">✏️</div>
+      <div>
+        <div class="sec-title">7. Practice Phrases</div>
+        <div class="sec-sub">Active → Passive conversions to try!</div>
+      </div>
+    </div>
+    <div class="glass">
+      <div class="practice-grid">
+        <div class="prac-card">
+          <div class="prac-num">1</div>
+          <div class="prac-sent">🟠 The farmer grows rice.</div>
+          <div class="prac-convert">→ Passive: <span>Rice is grown by the farmer.</span></div>
+          <div style="display:flex;gap:8px;margin-top:10px;">
+            <button class="abtn" onclick="speak('The farmer grows rice.')">🔊 Active</button>
+            <button class="abtn" onclick="speak('Rice is grown by the farmer.')">🔊 Passive</button>
+          </div>
+        </div>
+        <div class="prac-card">
+          <div class="prac-num">2</div>
+          <div class="prac-sent">🟠 My sister painted a picture.</div>
+          <div class="prac-convert">→ Passive: <span>A picture was painted by my sister.</span></div>
+          <div style="display:flex;gap:8px;margin-top:10px;">
+            <button class="abtn" onclick="speak('My sister painted a picture.')">🔊 Active</button>
+            <button class="abtn" onclick="speak('A picture was painted by my sister.')">🔊 Passive</button>
+          </div>
+        </div>
+        <div class="prac-card">
+          <div class="prac-num">3</div>
+          <div class="prac-sent">🟠 The children will sing a song.</div>
+          <div class="prac-convert">→ Passive: <span>A song will be sung by the children.</span></div>
+          <div style="display:flex;gap:8px;margin-top:10px;">
+            <button class="abtn" onclick="speak('The children will sing a song.')">🔊 Active</button>
+            <button class="abtn" onclick="speak('A song will be sung by the children.')">🔊 Passive</button>
+          </div>
+        </div>
+        <div class="prac-card">
+          <div class="prac-num">4</div>
+          <div class="prac-sent">🟠 Birds eat worms every day.</div>
+          <div class="prac-convert">→ Passive: <span>Worms are eaten by birds every day.</span></div>
+          <div style="display:flex;gap:8px;margin-top:10px;">
+            <button class="abtn" onclick="speak('Birds eat worms every day.')">🔊 Active</button>
+            <button class="abtn" onclick="speak('Worms are eaten by birds every day.')">🔊 Passive</button>
+          </div>
+        </div>
+        <div class="prac-card">
+          <div class="prac-num">5</div>
+          <div class="prac-sent">🟠 The cleaner swept the floor.</div>
+          <div class="prac-convert">→ Passive: <span>The floor was swept by the cleaner.</span></div>
+          <div style="display:flex;gap:8px;margin-top:10px;">
+            <button class="abtn" onclick="speak('The cleaner swept the floor.')">🔊 Active</button>
+            <button class="abtn" onclick="speak('The floor was swept by the cleaner.')">🔊 Passive</button>
+          </div>
+        </div>
+        <div class="prac-card">
+          <div class="prac-num">6</div>
+          <div class="prac-sent">🟠 Emma will water the plants.</div>
+          <div class="prac-convert">→ Passive: <span>The plants will be watered by Emma.</span></div>
+          <div style="display:flex;gap:8px;margin-top:10px;">
+            <button class="abtn" onclick="speak('Emma will water the plants.')">🔊 Active</button>
+            <button class="abtn" onclick="speak('The plants will be watered by Emma.')">🔊 Passive</button>
+          </div>
+        </div>
+      </div>
+      <button class="abtn" style="margin-top:20px;width:auto;border-radius:100px;padding:10px 24px;font-size:.95rem;font-weight:700;" onclick="speakSection('Practice Phrases', ['Number one. The farmer grows rice. Now in passive: Rice is grown by the farmer.','Number two. My sister painted a picture. Now in passive: A picture was painted by my sister.','Number three. The children will sing a song. Now in passive: A song will be sung by the children.','Number four. Birds eat worms every day. Now in passive: Worms are eaten by birds every day.','Number five. The cleaner swept the floor. Now in passive: The floor was swept by the cleaner.','Number six. Emma will water the plants. Now in passive: The plants will be watered by Emma.'])">🔊 Read all practice phrases</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 8: SPEAKING PRACTICE ══ -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-icon pink">🎤</div>
+      <div>
+        <div class="sec-title">8. Speaking Practice</div>
+        <div class="sec-sub">Listen & repeat out loud!</div>
+      </div>
+    </div>
+    <div class="glass">
+      <p style="font-weight:700;margin-bottom:16px;color:var(--muted);">Press 🔊, listen carefully, then say the sentence yourself!</p>
+      <div class="ex-row">
+        <span style="font-size:1.2rem">🟠</span>
+        <span class="ex-text">Today I <strong>write</strong> a story. (Present Active)</span>
+        <button class="abtn" onclick="speakChain([{label:'Present Active', body:'Today I write a story.'}])">🔊</button>
+      </div>
+      <div class="ex-row">
+        <span style="font-size:1.2rem">🔵</span>
+        <span class="ex-text">Today a story <strong>is written</strong> by me. (Present Passive)</span>
+        <button class="abtn" onclick="speakChain([{label:'Present Passive', body:'Today a story is written by me.'}])">🔊</button>
+      </div>
+      <div class="ex-row">
+        <span style="font-size:1.2rem">🟠</span>
+        <span class="ex-text">Yesterday I <strong>cleaned</strong> the room. (Past Active)</span>
+        <button class="abtn" onclick="speakChain([{label:'Past Active', body:'Yesterday I cleaned the room.'}])">🔊</button>
+      </div>
+      <div class="ex-row">
+        <span style="font-size:1.2rem">🔵</span>
+        <span class="ex-text">Yesterday the room <strong>was cleaned</strong> by me. (Past Passive)</span>
+        <button class="abtn" onclick="speakChain([{label:'Past Passive', body:'Yesterday the room was cleaned by me.'}])">🔊</button>
+      </div>
+      <div class="ex-row">
+        <span style="font-size:1.2rem">🟠</span>
+        <span class="ex-text">Tomorrow I <strong>will draw</strong> a picture. (Future Active)</span>
+        <button class="abtn" onclick="speakChain([{label:'Future Active', body:'Tomorrow I will draw a picture.'}])">🔊</button>
+      </div>
+      <div class="ex-row">
+        <span style="font-size:1.2rem">🔵</span>
+        <span class="ex-text">Tomorrow a picture <strong>will be drawn</strong> by me. (Future Passive)</span>
+        <button class="abtn" onclick="speakChain([{label:'Future Passive', body:'Tomorrow a picture will be drawn by me.'}])">🔊</button>
+      </div>
+      <button class="abtn" style="margin-top:18px;width:auto;border-radius:100px;padding:10px 24px;font-size:.95rem;font-weight:700;" onclick="speakSection('Speaking Practice — Listen and Repeat', [{label:'Present Active', body:'Today I write a story.'},{label:'Present Passive', body:'Today a story is written by me.'},{label:'Past Active', body:'Yesterday I cleaned the room.'},{label:'Past Passive', body:'Yesterday the room was cleaned by me.'},{label:'Future Active', body:'Tomorrow I will draw a picture.'},{label:'Future Passive', body:'Tomorrow a picture will be drawn by me.'}])">🔊 Read all sentences</button>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 9: QUIZ ══ -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-icon purple">🧠</div>
+      <div>
+        <div class="sec-title">9. Quiz Time! 🏆</div>
+        <div class="sec-sub">Test your knowledge — choose the best answer</div>
+      </div>
+    </div>
+    <div class="glass">
+      <div class="quiz-wrap" id="quiz-wrap">
+
+        <div class="quiz-card" data-answer="0">
+          <div class="quiz-q"><span class="qtag active-tag">Active/Passive</span> Which sentence is in Active Voice?</div>
+          <div class="quiz-opts">
+            <div class="qopt" onclick="selectOpt(this,0)"><span>A</span> The cake was eaten by Tom.</div>
+            <div class="qopt" onclick="selectOpt(this,1)"><span>B</span> The window was broken.</div>
+            <div class="qopt" onclick="selectOpt(this,2)"><span>C</span> Tom ate the cake. ✔</div>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-card" data-answer="1">
+          <div class="quiz-q"><span class="qtag passive-tag">Active/Passive</span> Which sentence is in Passive Voice?</div>
+          <div class="quiz-opts">
+            <div class="qopt" onclick="selectOpt(this,0)"><span>A</span> The dog chased the cat.</div>
+            <div class="qopt" onclick="selectOpt(this,1)"><span>B</span> The cat was chased by the dog. ✔</div>
+            <div class="qopt" onclick="selectOpt(this,2)"><span>C</span> The cat runs fast.</div>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-card" data-answer="2">
+          <div class="quiz-q"><span class="qtag tense-tag">Tense</span> "She <strong>played</strong> football yesterday." — Which tense?</div>
+          <div class="quiz-opts">
+            <div class="qopt" onclick="selectOpt(this,0)"><span>A</span> Present</div>
+            <div class="qopt" onclick="selectOpt(this,1)"><span>B</span> Future</div>
+            <div class="qopt" onclick="selectOpt(this,2)"><span>C</span> Past ✔</div>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-card" data-answer="0">
+          <div class="quiz-q"><span class="qtag passive-tag">Convert</span> Convert to Passive: "The teacher reads the book."</div>
+          <div class="quiz-opts">
+            <div class="qopt" onclick="selectOpt(this,0)"><span>A</span> The book is read by the teacher. ✔</div>
+            <div class="qopt" onclick="selectOpt(this,1)"><span>B</span> The book was read by the teacher.</div>
+            <div class="qopt" onclick="selectOpt(this,2)"><span>C</span> The teacher will read the book.</div>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-card" data-answer="1">
+          <div class="quiz-q"><span class="qtag tense-tag">Tense</span> "We <strong>will visit</strong> the zoo tomorrow." — Which tense?</div>
+          <div class="quiz-opts">
+            <div class="qopt" onclick="selectOpt(this,0)"><span>A</span> Past</div>
+            <div class="qopt" onclick="selectOpt(this,1)"><span>B</span> Future ✔</div>
+            <div class="qopt" onclick="selectOpt(this,2)"><span>C</span> Present</div>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-card" data-answer="2">
+          <div class="quiz-q"><span class="qtag active-tag">Convert</span> Convert to Active: "A letter was written by Anna."</div>
+          <div class="quiz-opts">
+            <div class="qopt" onclick="selectOpt(this,0)"><span>A</span> A letter is written by Anna.</div>
+            <div class="qopt" onclick="selectOpt(this,1)"><span>B</span> Anna will write a letter.</div>
+            <div class="qopt" onclick="selectOpt(this,2)"><span>C</span> Anna wrote a letter. ✔</div>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-card" data-answer="0">
+          <div class="quiz-q"><span class="qtag tense-tag">Tense</span> "The birds <strong>sing</strong> every morning." — Which tense?</div>
+          <div class="quiz-opts">
+            <div class="qopt" onclick="selectOpt(this,0)"><span>A</span> Present ✔</div>
+            <div class="qopt" onclick="selectOpt(this,1)"><span>B</span> Past</div>
+            <div class="qopt" onclick="selectOpt(this,2)"><span>C</span> Future</div>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+
+        <div class="quiz-card" data-answer="1">
+          <div class="quiz-q"><span class="qtag passive-tag">Active/Passive</span> "The homework <strong>was done</strong> by the students." — Which voice?</div>
+          <div class="quiz-opts">
+            <div class="qopt" onclick="selectOpt(this,0)"><span>A</span> Active Voice</div>
+            <div class="qopt" onclick="selectOpt(this,1)"><span>B</span> Passive Voice ✔</div>
+            <div class="qopt" onclick="selectOpt(this,2)"><span>C</span> Not a sentence</div>
+          </div>
+          <div class="quiz-feedback"></div>
+        </div>
+
+      </div>
+      <div class="quiz-score-bar" id="score-bar">
+        <div class="score-num" id="score-num">0 / 8</div>
+        <div class="score-label" id="score-label">Keep practising!</div>
+      </div>
+      <button id="submit-quiz" onclick="submitQuiz()">✅ Check My Answers</button>
+      <button id="reset-quiz" onclick="resetQuiz()">🔄 Try Again</button>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 10: CLOSING ══ -->
+  <div class="section">
+    <div class="sec-header">
+      <div class="sec-icon orange">🌟</div>
+      <div>
+        <div class="sec-title">10. Closing — Remember This!</div>
+        <div class="sec-sub">The golden summary</div>
+      </div>
+    </div>
+    <div class="glass">
+      <div class="closing-grid" style="margin-bottom:22px;">
+        <div class="close-card a">
+          <div class="close-emoji">🟠</div>
+          <div class="close-title">Active Voice</div>
+          <div class="close-desc"><strong>Subject → does → the action</strong><br>The cat <em>chased</em> the mouse.<br>Direct · Clear · Strong</div>
+          <button class="abtn" onclick="speakChain([{label:'Active Voice', body:'The subject does the action. The cat chased the mouse.'}])" style="margin-top:12px">🔊</button>
+        </div>
+        <div class="close-card p">
+          <div class="close-emoji">🔵</div>
+          <div class="close-title">Passive Voice</div>
+          <div class="close-desc"><strong>Object → receives → the action</strong><br>The mouse <em>was chased</em> by the cat.<br>Used when doer is unknown</div>
+          <button class="abtn" onclick="speakChain([{label:'Passive Voice', body:'The object receives the action. The mouse was chased by the cat.'}])" style="margin-top:12px">🔊</button>
+        </div>
+      </div>
+      <div class="rule-highlight">
+        <h4>🌈 Simple Rules for Kids:</h4>
+        <ul>
+          <li>🟠 Active = <em>Subject DOES something</em></li>
+          <li>🔵 Passive = <em>Something IS DONE to the subject</em></li>
+          <li>🟢 Present = Now &nbsp;|&nbsp; verb form: is/are + past participle</li>
+          <li>🔵 Past = Before &nbsp;|&nbsp; verb form: was/were + past participle</li>
+          <li>🟡 Future = Later &nbsp;|&nbsp; verb form: will be + past participle</li>
+        </ul>
+      </div>
+      <div style="text-align:center;margin-top:24px;">
+        <div style="font-family:'Baloo 2',cursive;font-size:1.5rem;font-weight:900;background:linear-gradient(135deg,#ff6b35,#ffd166,#06d6a0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+          🎉 Brilliant work! You know Active &amp; Passive Voice!
+        </div>
+        <button class="abtn" style="margin-top:12px;width:auto;border-radius:100px;padding:8px 24px;font-size:.95rem;font-weight:700;" onclick="speakSection('Remember This — Simple Rules', ['Active Voice: the subject does something. For example: The cat chased the mouse.','Passive Voice: something is done to the subject. For example: The mouse was chased by the cat.','Present tense passive uses: is or are, plus the past participle.','Past tense passive uses: was or were, plus the past participle.','Future tense passive uses: will be, plus the past participle.'])">🔊 Hear it!</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <div class="footer-title">🌟 Grammar Champions — Grade 3 &amp; 4 🌟</div>
+    <p style="margin-top:8px;">Click any 🔊 to hear British English pronunciation &nbsp;·&nbsp; Use the Audio button top-right to toggle sound</p>
+  </div>
+
+</div><!-- /wrap -->
+
+<script>
+/* ── STARS ── */
+(function(){
+  const c=document.getElementById('stars');
+  for(let i=0;i<80;i++){
+    const s=document.createElement('div');
+    s.className='star';
+    const sz=Math.random()*3+1;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;background:#fff;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*5}s;`;
+    c.appendChild(s);
+  }
+})();
+
+/* ════════════════════════════════════════════
+   AUDIO ENGINE  —  Medium pace, structured narration
+   • Rate 0.75 = comfortable classroom listening speed
+   • Natural pause after every header / label segment
+   • Pause between sentences in a chain
+   • Toast updates word-by-word for reading along
+   ════════════════════════════════════════════ */
+
+let audioEnabled = true;
+let _speaking = false;
+let _stopFlag = false;
+
+/* Pre-load voices */
+window.speechSynthesis.getVoices();
+if (window.speechSynthesis.onvoiceschanged !== undefined) {
+  window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+}
+
+/* ── Toggle ON/OFF ── */
+function toggleAudio() {
+  audioEnabled = !audioEnabled;
+  _stopFlag = true;
+  window.speechSynthesis.cancel();
+  const btn  = document.getElementById('audio-toggle');
+  const icon = document.getElementById('audio-icon');
+  const lbl  = document.getElementById('audio-label');
+  if (audioEnabled) {
+    btn.classList.remove('off');
+    icon.textContent = '🔊';
+    lbl.textContent  = 'Audio ON';
+  } else {
+    btn.classList.add('off');
+    icon.textContent = '🔇';
+    lbl.textContent  = 'Audio OFF';
+    hideToast();
+  }
+}
+
+/* ── Voice picker — prefer British ── */
+function getBritishVoice() {
+  const vv = window.speechSynthesis.getVoices();
+  const prefs = [
+    v => v.lang === 'en-GB' && /daniel|oliver|serena|kate|james|amy/i.test(v.name),
+    v => v.lang === 'en-GB',
+    v => /en-GB|en_GB/.test(v.lang),
+    v => v.lang.startsWith('en'),
+  ];
+  for (const p of prefs) { const f = vv.find(p); if (f) return f; }
+  return null;
+}
+
+/* ── Toast helpers ── */
+function showToast(txt) {
+  const t = document.getElementById('toast');
+  t.textContent = '🔊 ' + txt;
+  t.classList.add('show');
+  clearTimeout(t._tid);
+  /* auto-hide after 5 s safety net */
+  t._tid = setTimeout(() => t.classList.remove('show'), 5000);
+}
+function hideToast() {
+  const t = document.getElementById('toast');
+  clearTimeout(t._tid);
+  t.classList.remove('show');
+}
+
+/* ── Core utterance builder ── */
+function makeUtterance(text, rate, pitch) {
+  const u = new SpeechSynthesisUtterance(text);
+  const v = getBritishVoice();
+  if (v) u.voice = v;
+  u.lang  = 'en-GB';
+  u.rate  = rate  || 0.75;   /* medium classroom pace */
+  u.pitch = pitch || 1.05;
+  return u;
+}
+
+/* ── Pause helper (ms) ── */
+function pause(ms) {
+  return new Promise(r => setTimeout(r, ms));
+}
+
+/* ── Speak a single utterance, returns Promise ── */
+function utterPromise(text, rate, pitch) {
+  return new Promise(res => {
+    if (_stopFlag) { res(); return; }
+    const u = makeUtterance(text, rate, pitch);
+    u.onend   = res;
+    u.onerror = res;
+    window.speechSynthesis.speak(u);
+  });
+}
+
+/* ════════════════════════════════════════════
+   speak(text)
+   — For single sentences / short phrases.
+   Splits on ":" so label is read, paused, then rest follows.
+   ════════════════════════════════════════════ */
+async function speak(text) {
+  if (!audioEnabled) return;
+  _stopFlag = false;
+  window.speechSynthesis.cancel();
+  await pause(80);
+
+  showToast(text);
+
+  /* If text contains a colon, treat left side as a "header label" */
+  if (text.includes(':')) {
+    const colonIdx = text.indexOf(':');
+    const header   = text.slice(0, colonIdx).trim();
+    const body     = text.slice(colonIdx + 1).trim();
+
+    if (header) {
+      await utterPromise(header, 0.72, 1.1);   /* header — slightly slower, higher pitch */
+      await pause(600);                          /* pause after header */
+    }
+    if (body && !_stopFlag) {
+      showToast(body);
+      await utterPromise(body, 0.75, 1.05);
+    }
+  } else {
+    await utterPromise(text, 0.75, 1.05);
+  }
+
+  hideToast();
+}
+
+/* ════════════════════════════════════════════
+   speakChain(segments)
+   — Accepts array of strings OR objects:
+       { label, body }  →  reads label, pauses, reads body
+       "plain string"   →  reads as body only
+   Pauses 700 ms between each segment.
+   ════════════════════════════════════════════ */
+async function speakChain(segments) {
+  if (!audioEnabled) return;
+  _stopFlag = false;
+  window.speechSynthesis.cancel();
+  await pause(80);
+
+  for (let i = 0; i < segments.length; i++) {
+    if (_stopFlag) break;
+
+    const seg = segments[i];
+
+    if (typeof seg === 'object' && seg.label) {
+      /* Structured segment with header label */
+      showToast(seg.label);
+      await utterPromise(seg.label, 0.70, 1.12);   /* header tone */
+      await pause(650);                              /* ← pause after label */
+      if (!_stopFlag && seg.body) {
+        showToast(seg.body);
+        await utterPromise(seg.body, 0.75, 1.05);
+      }
+    } else {
+      /* Plain string — check for inline colon */
+      const text = String(seg);
+      if (text.includes(':')) {
+        const ci     = text.indexOf(':');
+        const header = text.slice(0, ci).trim();
+        const body   = text.slice(ci + 1).trim();
+        if (header) {
+          showToast(header);
+          await utterPromise(header, 0.70, 1.12);
+          await pause(600);
+        }
+        if (!_stopFlag && body) {
+          showToast(body);
+          await utterPromise(body, 0.75, 1.05);
+        }
+      } else {
+        showToast(text);
+        await utterPromise(text, 0.75, 1.05);
+      }
+    }
+
+    /* Pause between segments — longer after sentences, shorter between words */
+    if (i < segments.length - 1 && !_stopFlag) {
+      const isSentence = String(seg).trim().match(/[.!?]$/);
+      await pause(isSentence ? 750 : 480);
+    }
+  }
+
+  hideToast();
+}
+
+/* ════════════════════════════════════════════
+   speakSection(sectionTitle, sentences[])
+   — For "read whole section" buttons.
+   Reads the section title slowly, pauses 900 ms,
+   then reads each sentence at medium pace with 700 ms gaps.
+   ════════════════════════════════════════════ */
+async function speakSection(sectionTitle, sentences) {
+  if (!audioEnabled) return;
+  _stopFlag = false;
+  window.speechSynthesis.cancel();
+  await pause(80);
+
+  /* Announce the section title */
+  showToast('📌 ' + sectionTitle);
+  await utterPromise(sectionTitle, 0.68, 1.15);   /* slower, authoritative */
+  await pause(900);                                 /* clear pause before content */
+
+  for (let i = 0; i < sentences.length; i++) {
+    if (_stopFlag) break;
+    showToast(sentences[i]);
+    await utterPromise(sentences[i], 0.75, 1.05);
+    if (i < sentences.length - 1) await pause(700);
+  }
+
+  hideToast();
+}
+
+/* ── QUIZ ── */
+function selectOpt(el,idx){
+  const card=el.closest('.quiz-card');
+  if(card.dataset.answered)return;
+  card.querySelectorAll('.qopt').forEach(o=>o.classList.remove('selected-wrong','correct'));
+  el.classList.add('selected-wrong');
+  card.dataset.selected=idx;
+}
+
+function submitQuiz(){
+  const cards=document.querySelectorAll('.quiz-card');
+  let score=0;let answered=0;
+  cards.forEach(card=>{
+    const correct=parseInt(card.dataset.answer);
+    const selected=card.dataset.selected!==undefined?parseInt(card.dataset.selected):null;
+    const opts=card.querySelectorAll('.qopt');
+    const fb=card.querySelector('.quiz-feedback');
+    card.dataset.answered='1';
+    opts.forEach((o,i)=>{
+      o.onclick=null;
+      if(i===correct){o.classList.add('correct');o.classList.remove('selected-wrong');}
+      else if(i===selected&&selected!==correct){o.classList.add('selected-wrong');}
+      else{o.classList.add('wrong');}
+    });
+    if(selected===correct){score++;fb.textContent='✅ Correct! Well done!';fb.className='quiz-feedback show correct-fb';}
+    else if(selected===null){fb.textContent='⚠️ You did not select an answer.';fb.className='quiz-feedback show wrong-fb';}
+    else{fb.textContent='❌ Not quite! See the correct answer highlighted in green.';fb.className='quiz-feedback show wrong-fb';}
+    answered++;
+  });
+  const bar=document.getElementById('score-bar');
+  const num=document.getElementById('score-num');
+  const lbl=document.getElementById('score-label');
+  num.textContent=score+' / '+cards.length;
+  const pct=score/cards.length;
+  if(pct===1)lbl.textContent='🏆 Perfect score! You are a grammar champion!';
+  else if(pct>=0.75)lbl.textContent='🌟 Brilliant! Almost perfect!';
+  else if(pct>=0.5)lbl.textContent='👍 Good effort! Review the ones you missed.';
+  else lbl.textContent='📚 Keep practising — you will get there!';
+  bar.classList.add('show');
+  document.getElementById('submit-quiz').style.display='none';
+  document.getElementById('reset-quiz').classList.add('show');
+  speakSection('Quiz Results', ['You scored ' + score + ' out of ' + cards.length + '.', lbl.textContent.replace(/[🏆🌟👍📚]/g,'')]);
+}
+
+function resetQuiz(){
+  const cards=document.querySelectorAll('.quiz-card');
+  cards.forEach(card=>{
+    delete card.dataset.answered;
+    delete card.dataset.selected;
+    card.querySelectorAll('.qopt').forEach((o,i)=>{
+      o.classList.remove('correct','wrong','selected-wrong');
+      const card2=o.closest('.quiz-card');
+      o.onclick=function(){selectOpt(this,i);};
+    });
+    card.querySelector('.quiz-feedback').className='quiz-feedback';
+  });
+  document.getElementById('score-bar').classList.remove('show');
+  document.getElementById('submit-quiz').style.display='block';
+  document.getElementById('reset-quiz').classList.remove('show');
+  // re-wire onclick
+  document.querySelectorAll('.qopt').forEach((o,gi)=>{
+    const card=o.closest('.quiz-card');
+    const siblings=[...card.querySelectorAll('.qopt')];
+    const localIdx=siblings.indexOf(o);
+    o.onclick=function(){selectOpt(this,localIdx);};
+  });
+}
+</script>
+</body>
+</html>
