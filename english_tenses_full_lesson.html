@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Tenses — Full Lesson Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Righteous&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════
+   DESIGN SYSTEM
+═══════════════════════════════════ */
+:root {
+  /* Tense colour palette */
+  --present:     #ff6f61;   /* coral-red */
+  --present-mid: #ff9a8b;
+  --present-bg:  #fff1ef;
+  --present-bdr: #ffb8b0;
+
+  --past:        #6c63ff;   /* indigo */
+  --past-mid:    #a29bfe;
+  --past-bg:     #f0eeff;
+  --past-bdr:    #c4b5fd;
+
+  --future:      #00b894;   /* emerald */
+  --future-mid:  #55efc4;
+  --future-bg:   #e8fdf7;
+  --future-bdr:  #81eac9;
+
+  /* UI */
+  --gold:   #f9c74f;
+  --sky:    #74b9ff;
+  --pink:   #fd79a8;
+  --white:  #ffffff;
+  --text:   #2d3436;
+  --muted:  #636e72;
+  --card-shadow: 0 6px 28px rgba(0,0,0,.09);
+  --radius: 20px;
+}
+
+/* ═══════════════════════════════════
+   BASE
+═══════════════════════════════════ */
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Poppins',sans-serif;
+  color:var(--text);
+  min-height:100vh;
+  overflow-x:hidden;
+  /* warm sunrise gradient */
+  background: linear-gradient(160deg,
+    #ffecd2 0%,
+    #fcb69f 18%,
+    #ffeaa7 38%,
+    #dfe6e9 65%,
+    #b2bec3 100%
+  );
+  background-attachment:fixed;
+}
+
+/* ═══════════════════════════════════
+   ANIMATED BACKGROUND BLOBS
+═══════════════════════════════════ */
+.bg-blobs{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;}
+.blob{position:absolute;border-radius:50%;filter:blur(70px);opacity:.28;animation:blobFloat ease-in-out infinite alternate;}
+.b1{width:480px;height:480px;background:#ff6f61;top:-120px;left:-80px;animation-duration:9s;}
+.b2{width:380px;height:380px;background:#6c63ff;bottom:-100px;right:-60px;animation-duration:11s;animation-delay:-4s;}
+.b3{width:300px;height:300px;background:#00b894;top:35%;left:55%;animation-duration:8s;animation-delay:-2s;}
+.b4{width:260px;height:260px;background:#f9c74f;bottom:20%;left:5%;animation-duration:13s;animation-delay:-6s;}
+.b5{width:200px;height:200px;background:#fd79a8;top:15%;right:10%;animation-duration:10s;animation-delay:-3s;}
+@keyframes blobFloat{
+  from{transform:translate(0,0) scale(1);}
+  to{transform:translate(30px,40px) scale(1.08);}
+}
+
+/* floating dots decorations */
+.dots-bg{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(circle,rgba(255,255,255,.55) 1.5px,transparent 1.5px);
+  background-size:36px 36px;
+  opacity:.6;
+}
+
+/* ═══════════════════════════════════
+   LAYOUT
+═══════════════════════════════════ */
+.wrap{max-width:980px;margin:0 auto;padding:0 22px 80px;position:relative;z-index:1;}
+
+/* ═══════════════════════════════════
+   AUDIO TOGGLE BTN
+═══════════════════════════════════ */
+#audio-toggle{
+  position:fixed;top:18px;right:18px;z-index:500;
+  display:flex;align-items:center;gap:9px;
+  padding:10px 22px;border:none;border-radius:100px;cursor:pointer;
+  font-family:'Poppins',sans-serif;font-size:.9rem;font-weight:700;
+  background:linear-gradient(135deg,#ff6f61,#ff3a7d);
+  color:#fff;
+  box-shadow:0 4px 22px rgba(255,111,97,.5);
+  transition:all .22s;
+  letter-spacing:.3px;
+}
+#audio-toggle:hover{transform:scale(1.07);box-shadow:0 6px 28px rgba(255,111,97,.7);}
+#audio-toggle.off{background:linear-gradient(135deg,#636e72,#2d3436);box-shadow:0 4px 16px rgba(0,0,0,.3);}
+
+/* ═══════════════════════════════════
+   TOAST
+═══════════════════════════════════ */
+#toast{
+  position:fixed;bottom:26px;left:50%;
+  transform:translateX(-50%) translateY(88px);
+  background:rgba(30,20,60,.92);
+  backdrop-filter:blur(14px);
+  color:#fff;padding:11px 28px;
+  border-radius:100px;font-weight:600;font-size:.9rem;
+  z-index:600;pointer-events:none;
+  transition:transform .34s cubic-bezier(.34,1.56,.64,1);
+  white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis;
+  border:1.5px solid rgba(255,255,255,.18);
+}
+#toast.show{transform:translateX(-50%) translateY(0);}
+
+/* ═══════════════════════════════════
+   HERO
+═══════════════════════════════════ */
+.hero{
+  text-align:center;
+  padding:80px 20px 44px;
+  animation:fadeDown .8s cubic-bezier(.34,1.4,.64,1) both;
+}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-36px);}to{opacity:1;transform:translateY(0);}}
+.hero-flag{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.72);backdrop-filter:blur(10px);
+  border:2px solid rgba(255,255,255,.9);
+  border-radius:100px;padding:7px 22px;
+  font-size:.8rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:#ff6f61;margin-bottom:22px;
+  box-shadow:0 2px 12px rgba(255,111,97,.18);
+}
+.hero h1{
+  font-family:'Righteous',cursive;
+  font-size:clamp(2.8rem,7vw,5rem);
+  line-height:1.05;margin-bottom:14px;
+  background:linear-gradient(135deg,#ff6f61 0%,#6c63ff 50%,#00b894 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 2px 8px rgba(108,99,255,.18));
+}
+.hero-sub{font-size:1.08rem;color:#636e72;font-weight:600;margin-bottom:20px;}
+.hero-chips{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;}
+.chip{
+  background:rgba(255,255,255,.82);backdrop-filter:blur(8px);
+  border:2px solid rgba(255,255,255,.95);
+  border-radius:100px;padding:6px 18px;
+  font-size:.8rem;font-weight:700;color:var(--text);
+  box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+/* ═══════════════════════════════════
+   SECTION WRAPPER
+═══════════════════════════════════ */
+.section{margin-bottom:40px;animation:fadeUp .6s ease both;}
+.section:nth-child(2){animation-delay:.07s}
+.section:nth-child(3){animation-delay:.12s}
+.section:nth-child(4){animation-delay:.17s}
+.section:nth-child(5){animation-delay:.22s}
+.section:nth-child(6){animation-delay:.27s}
+.section:nth-child(7){animation-delay:.32s}
+.section:nth-child(8){animation-delay:.37s}
+.section:nth-child(9){animation-delay:.42s}
+.section:nth-child(10){animation-delay:.47s}
+.section:nth-child(11){animation-delay:.52s}
+.section:nth-child(12){animation-delay:.57s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px);}to{opacity:1;transform:translateY(0);}}
+
+.sec-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;}
+.sec-icon{
+  width:54px;height:54px;border-radius:18px;display:flex;align-items:center;justify-content:center;
+  font-size:1.7rem;flex-shrink:0;box-shadow:0 4px 16px rgba(0,0,0,.14);
+}
+.ico-coral{background:linear-gradient(135deg,#ff6f61,#ff3a7d);}
+.ico-indigo{background:linear-gradient(135deg,#6c63ff,#a855f7);}
+.ico-emerald{background:linear-gradient(135deg,#00b894,#00cec9);}
+.ico-gold{background:linear-gradient(135deg,#f9c74f,#f3722c);}
+.ico-sky{background:linear-gradient(135deg,#74b9ff,#0984e3);}
+.ico-pink{background:linear-gradient(135deg,#fd79a8,#e84393);}
+.ico-mint{background:linear-gradient(135deg,#55efc4,#00b894);}
+.sec-title{font-family:'Righteous',cursive;font-size:1.6rem;color:var(--text);}
+.sec-sub{font-size:.85rem;color:var(--muted);font-weight:600;}
+
+/* ═══════════════════════════════════
+   CARD
+═══════════════════════════════════ */
+.card{
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(14px);
+  border-radius:var(--radius);
+  box-shadow:var(--card-shadow);
+  padding:28px 32px;
+  border:2px solid rgba(255,255,255,.95);
+}
+
+/* ═══════════════════════════════════
+   TENSE SECTION BAND (full coloured header)
+═══════════════════════════════════ */
+.tense-band{
+  border-radius:22px;overflow:hidden;
+  box-shadow:var(--card-shadow);
+  margin-bottom:18px;
+}
+.tense-band-header{
+  padding:18px 28px;display:flex;align-items:center;gap:14px;
+  color:#fff;font-family:'Righteous',cursive;font-size:1.4rem;
+}
+.tense-band-header .band-emoji{font-size:1.8rem;}
+.tense-band-header .band-title{}
+.tense-band-header .band-sub{font-family:'Poppins',sans-serif;font-size:.85rem;font-weight:600;opacity:.88;margin-top:2px;}
+.tense-band-body{
+  background:rgba(255,255,255,.92);
+  backdrop-filter:blur(10px);
+  padding:0;
+}
+
+/* present band */
+.present-band .tense-band-header{background:linear-gradient(135deg,#ff6f61,#ff3a7d);}
+.present-band .tense-band-body{border:2px solid var(--present-bdr);border-top:none;border-radius:0 0 22px 22px;}
+
+/* past band */
+.past-band .tense-band-header{background:linear-gradient(135deg,#6c63ff,#a855f7);}
+.past-band .tense-band-body{border:2px solid var(--past-bdr);border-top:none;border-radius:0 0 22px 22px;}
+
+/* future band */
+.future-band .tense-band-header{background:linear-gradient(135deg,#00b894,#0984e3);}
+.future-band .tense-band-body{border:2px solid var(--future-bdr);border-top:none;border-radius:0 0 22px 22px;}
+
+/* ═══════════════════════════════════
+   TENSE SUB-CARD (inside each band)
+═══════════════════════════════════ */
+.tense-sub{
+  border-bottom:1.5px dashed rgba(0,0,0,.09);
+  padding:22px 28px;
+}
+.tense-sub:last-child{border-bottom:none;}
+.ts-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:14px;}
+.ts-name{font-family:'Righteous',cursive;font-size:1.18rem;}
+.ts-tip{font-size:.86rem;font-weight:600;color:var(--muted);margin-top:3px;font-style:italic;}
+.ts-form{
+  display:inline-block;border-radius:10px;padding:5px 14px;
+  font-size:.83rem;font-weight:700;letter-spacing:.5px;margin-bottom:12px;
+}
+.present-form{background:var(--present-bg);color:var(--present);border:1.5px solid var(--present-bdr);}
+.past-form{background:var(--past-bg);color:var(--past);border:1.5px solid var(--past-bdr);}
+.future-form{background:var(--future-bg);color:var(--future);border:1.5px solid var(--future-bdr);}
+
+.ts-words{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+.word-chip{
+  border-radius:100px;padding:4px 14px;font-size:.82rem;font-weight:700;
+  cursor:pointer;border:2px solid transparent;transition:all .18s;
+  display:flex;align-items:center;gap:5px;
+}
+.word-chip:hover{transform:scale(1.07);}
+.wc-present{background:var(--present-bg);color:var(--present);border-color:var(--present-bdr);}
+.wc-past{background:var(--past-bg);color:var(--past);border-color:var(--past-bdr);}
+.wc-future{background:var(--future-bg);color:var(--future);border-color:var(--future-bdr);}
+
+/* sentence rows */
+.sent-list{list-style:none;padding:0;}
+.sent-item{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 14px;border-radius:12px;margin-bottom:8px;
+  background:rgba(255,255,255,.7);
+  border:1.5px solid rgba(0,0,0,.07);
+  transition:background .18s,transform .18s;
+  font-weight:600;font-size:.97rem;
+}
+.sent-item:hover{background:#fff;transform:translateX(4px);}
+.sent-item:last-child{margin-bottom:0;}
+.sent-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.pres-dot{background:var(--present);}
+.past-dot{background:var(--past);}
+.fut-dot{background:var(--future);}
+.sent-txt{flex:1;}
+.abtn{
+  background:none;border:none;cursor:pointer;
+  width:34px;height:34px;border-radius:50%;
+  display:inline-flex;align-items:center;justify-content:center;
+  font-size:1rem;flex-shrink:0;
+  background:rgba(255,255,255,.9);
+  border:1.5px solid rgba(0,0,0,.1);
+  box-shadow:0 2px 8px rgba(0,0,0,.07);
+  transition:all .18s;
+}
+.abtn:hover{transform:scale(1.18);box-shadow:0 4px 14px rgba(0,0,0,.14);}
+.abtn.playing{animation:btnPulse .5s ease infinite alternate;}
+@keyframes btnPulse{from{box-shadow:0 0 0 0 rgba(255,111,97,0);}to{box-shadow:0 0 0 6px rgba(255,111,97,.35);}}
+
+/* read-all button */
+.read-all-btn{
+  display:flex;align-items:center;gap:8px;
+  margin-top:16px;padding:9px 22px;border:none;border-radius:100px;cursor:pointer;
+  font-family:'Poppins',sans-serif;font-size:.88rem;font-weight:700;
+  transition:all .2s;
+}
+.ra-present{background:var(--present);color:#fff;box-shadow:0 4px 16px rgba(255,111,97,.35);}
+.ra-present:hover{box-shadow:0 6px 22px rgba(255,111,97,.55);transform:translateY(-1px);}
+.ra-past{background:var(--past);color:#fff;box-shadow:0 4px 16px rgba(108,99,255,.35);}
+.ra-past:hover{box-shadow:0 6px 22px rgba(108,99,255,.55);transform:translateY(-1px);}
+.ra-future{background:var(--future);color:#fff;box-shadow:0 4px 16px rgba(0,184,148,.35);}
+.ra-future:hover{box-shadow:0 6px 22px rgba(0,184,148,.55);transform:translateY(-1px);}
+.ra-default{background:var(--text);color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.2);}
+.ra-default:hover{transform:translateY(-1px);}
+
+/* signal word pills */
+.signal-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+.sig{border-radius:100px;padding:4px 14px;font-size:.8rem;font-weight:700;border:2px solid;}
+.sig-p{background:var(--present-bg);color:var(--present);border-color:var(--present-bdr);}
+.sig-pa{background:var(--past-bg);color:var(--past);border-color:var(--past-bdr);}
+.sig-f{background:var(--future-bg);color:var(--future);border-color:var(--future-bdr);}
+
+/* ═══════════════════════════════════
+   OBJECTIVES LIST
+═══════════════════════════════════ */
+.obj-list{list-style:none;padding:0;}
+.obj-list li{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:11px 0;border-bottom:1.5px dashed rgba(0,0,0,.08);
+  font-weight:600;font-size:1rem;
+}
+.obj-list li:last-child{border-bottom:none;}
+.obj-icon{font-size:1.3rem;flex-shrink:0;}
+
+/* ═══════════════════════════════════
+   WARMUP SENTENCES
+═══════════════════════════════════ */
+.warmup-grid{display:flex;flex-direction:column;gap:12px;margin:18px 0;}
+.warmup-card{
+  display:flex;align-items:center;gap:14px;
+  background:#fff;border-radius:14px;padding:14px 20px;
+  box-shadow:0 3px 12px rgba(0,0,0,.07);
+  border:2px solid rgba(0,0,0,.06);
+  font-weight:700;font-size:1.05rem;
+  transition:transform .18s;
+}
+.warmup-card:hover{transform:translateX(4px);}
+.wc-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;}
+
+/* ═══════════════════════════════════
+   COMPARISON TABLE
+═══════════════════════════════════ */
+.table-wrap{overflow-x:auto;border-radius:18px;box-shadow:0 6px 26px rgba(0,0,0,.1);}
+table{width:100%;border-collapse:collapse;background:#fff;}
+thead tr{background:linear-gradient(135deg,#ff6f61,#6c63ff,#00b894);}
+thead th{padding:15px 18px;font-family:'Righteous',cursive;font-size:1rem;text-align:left;color:#fff;white-space:nowrap;}
+tbody tr{border-bottom:1px solid rgba(0,0,0,.06);transition:background .15s;}
+tbody tr:nth-child(even){background:#f9f9ff;}
+tbody tr:hover{background:#fff0ee;}
+td{padding:12px 18px;font-size:.95rem;font-weight:600;vertical-align:middle;}
+.td-tense{font-family:'Righteous',cursive;font-size:1rem;}
+.td-p{color:var(--present);}
+.td-pa{color:var(--past);}
+.td-f{color:var(--future);}
+.time-pill{display:inline-block;border-radius:100px;padding:3px 14px;font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;}
+.tp-p{background:var(--present-bg);color:var(--present);}
+.tp-pa{background:var(--past-bg);color:var(--past);}
+.tp-f{background:var(--future-bg);color:var(--future);}
+
+/* ═══════════════════════════════════
+   PRACTICE ACTIVITIES
+═══════════════════════════════════ */
+.activity-box{
+  background:linear-gradient(135deg,rgba(255,111,97,.08),rgba(108,99,255,.08));
+  border-radius:var(--radius);padding:26px 28px;
+  border:2px dashed rgba(108,99,255,.25);
+}
+.act-step{
+  background:#fff;border-radius:14px;padding:16px 20px;margin-bottom:14px;
+  border:2px solid rgba(0,0,0,.06);font-size:.97rem;font-weight:600;line-height:1.65;
+}
+.act-step:last-child{margin-bottom:0;}
+.act-step strong{color:#6c63ff;}
+.chain{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px;}
+.cpill{border-radius:100px;padding:6px 16px;font-weight:800;font-size:.92rem;}
+.cpill-p{background:var(--present-bg);color:var(--present);}
+.cpill-pa{background:var(--past-bg);color:var(--past);}
+.cpill-f{background:var(--future-bg);color:var(--future);}
+.chain-arrow{font-size:1.4rem;color:rgba(0,0,0,.2);}
+
+/* fill-in */
+.fill-list{list-style:none;padding:0;}
+.fill-item{
+  display:flex;align-items:center;gap:12px;
+  background:#fff;border-radius:14px;padding:14px 20px;margin-bottom:10px;
+  border:2px solid rgba(0,0,0,.06);font-size:1rem;font-weight:600;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.fill-num{
+  width:30px;height:30px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Righteous',cursive;font-size:1rem;font-weight:700;color:#fff;flex-shrink:0;
+}
+.fn-p{background:var(--present);}
+.fn-pa{background:var(--past);}
+.fn-f{background:var(--future);}
+.blank{
+  display:inline-block;border-bottom:2.5px solid;min-width:80px;margin:0 4px;
+  font-style:italic;font-weight:700;
+}
+.bl-p{border-color:var(--present);color:var(--present);}
+.bl-pa{border-color:var(--past);color:var(--past);}
+.bl-f{border-color:var(--future);color:var(--future);}
+
+/* ═══════════════════════════════════
+   SPEAKING PRACTICE
+═══════════════════════════════════ */
+.speak-prompts{display:flex;flex-direction:column;gap:12px;}
+.speak-card{
+  display:flex;align-items:center;gap:14px;
+  background:#fff;border-radius:14px;padding:15px 20px;
+  border:2px solid rgba(0,0,0,.07);
+  font-weight:700;font-size:1rem;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);
+  transition:transform .18s;
+}
+.speak-card:hover{transform:translateX(4px);}
+
+/* ═══════════════════════════════════
+   SIMPLE RULE CARDS
+═══════════════════════════════════ */
+.rule-trio{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+@media(max-width:560px){.rule-trio{grid-template-columns:1fr;}}
+.rule-card{border-radius:18px;padding:22px 18px;text-align:center;border:3px solid transparent;}
+.rc-p{background:var(--present-bg);border-color:var(--present);}
+.rc-pa{background:var(--past-bg);border-color:var(--past);}
+.rc-f{background:var(--future-bg);border-color:var(--future);}
+.rule-emoji{font-size:2.4rem;margin-bottom:8px;}
+.rule-name{font-family:'Righteous',cursive;font-size:1.3rem;margin-bottom:4px;}
+.rc-p .rule-name{color:var(--present);}
+.rc-pa .rule-name{color:var(--past);}
+.rc-f .rule-name{color:var(--future);}
+.rule-time{font-weight:800;font-size:.95rem;color:var(--muted);}
+
+/* ═══════════════════════════════════
+   TEACHER NOTE
+═══════════════════════════════════ */
+.teacher-note{
+  border-radius:18px;padding:24px 28px;
+  background:linear-gradient(135deg,#fff9e6,#fffde7);
+  border:2px solid #f9c74f;
+  box-shadow:0 4px 18px rgba(249,199,79,.2);
+}
+.tn-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.tn-badge{background:#f9c74f;color:#7d5a00;border-radius:100px;padding:4px 16px;font-size:.78rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;}
+.tn-title{font-family:'Righteous',cursive;font-size:1.2rem;color:#7d5a00;}
+.focus-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;}
+@media(max-width:500px){.focus-grid{grid-template-columns:1fr;}}
+.focus-card{
+  border-radius:12px;padding:12px 16px;border:2px solid;
+  font-weight:700;font-size:.92rem;display:flex;align-items:center;gap:10px;
+}
+.fc-p{background:var(--present-bg);border-color:var(--present-bdr);color:var(--present);}
+.fc-pa{background:var(--past-bg);border-color:var(--past-bdr);color:var(--past);}
+
+/* ═══════════════════════════════════
+   CLOSING
+═══════════════════════════════════ */
+.closing-banner{
+  border-radius:22px;padding:34px 28px;text-align:center;
+  background:linear-gradient(135deg,#ff6f61,#6c63ff,#00b894);
+  color:#fff;box-shadow:0 8px 36px rgba(108,99,255,.3);
+}
+.closing-banner h2{font-family:'Righteous',cursive;font-size:2rem;margin-bottom:10px;}
+.closing-banner p{font-size:1rem;opacity:.92;font-weight:600;}
+
+/* ═══════════════════════════════════
+   FOOTER
+═══════════════════════════════════ */
+.footer{text-align:center;padding:28px 0 0;color:var(--muted);font-size:.88rem;font-weight:600;}
+.footer-title{font-family:'Righteous',cursive;font-size:1.3rem;
+  background:linear-gradient(135deg,#ff6f61,#6c63ff,#00b894);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+@media(max-width:600px){
+  .card{padding:20px 16px;}
+  .tense-sub{padding:18px 16px;}
+  .tense-band-header{padding:14px 18px;font-size:1.1rem;}
+  .sec-title{font-size:1.25rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-blobs">
+  <div class="blob b1"></div><div class="blob b2"></div>
+  <div class="blob b3"></div><div class="blob b4"></div><div class="blob b5"></div>
+</div>
+<div class="dots-bg"></div>
+
+<!-- AUDIO TOGGLE -->
+<button id="audio-toggle" onclick="toggleAudio()">
+  <span id="audio-icon">🔊</span><span id="audio-label">Audio ON</span>
+</button>
+
+<div id="toast">🔊</div>
+
+<div class="wrap">
+
+<!-- ══════════ HERO ══════════ -->
+<div class="hero">
+  <div class="hero-flag">🇬🇧 British Accent &nbsp;·&nbsp; Grade 3–4 &nbsp;·&nbsp; English Tenses</div>
+  <h1>English Tenses<br>Full Lesson Plan</h1>
+  <p class="hero-sub">Present · Past · Future — learn them all with sounds! 🎉</p>
+  <div class="hero-chips">
+    <span class="chip">⏱ 60–75 min</span>
+    <span class="chip">🎯 Grades 3–4</span>
+    <span class="chip">🟢 Present &nbsp;🔵 Past &nbsp;🟡 Future</span>
+    <span class="chip">🔊 Click any button to hear</span>
+  </div>
+</div>
+
+<!-- ══════════ 1. OBJECTIVES ══════════ -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-icon ico-coral">🎯</div>
+    <div><div class="sec-title">1. Learning Objectives</div><div class="sec-sub">What students will learn</div></div>
+  </div>
+  <div class="card">
+    <ul class="obj-list">
+      <li><span class="obj-icon">⏰</span>Understand <strong>time</strong> — present, past, and future</li>
+      <li><span class="obj-icon">🔍</span>Recognise different <strong>tense forms</strong></li>
+      <li><span class="obj-icon">✍️</span>Use simple <strong>phrases and sentences</strong> in each tense</li>
+    </ul>
+    <button class="read-all-btn ra-default" onclick="speakSection('Learning Objectives', ['Students will understand time — present, past, and future.','Students will recognise different tense forms.','Students will use simple phrases and sentences in each tense.'])">🔊 Read objectives</button>
+  </div>
+</div>
+
+<!-- ══════════ 2. WARM-UP ══════════ -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-icon ico-gold">🧠</div>
+    <div><div class="sec-title">2. Warm-Up <span style="font-size:.9rem;font-weight:600;color:var(--muted);">(5 min)</span></div><div class="sec-sub">Get students thinking about time</div></div>
+  </div>
+  <div class="card">
+    <p style="font-weight:700;margin-bottom:16px;font-size:1.02rem;">Teacher writes these on the board — ask: <em>When does each happen?</em></p>
+    <div class="warmup-grid">
+      <div class="warmup-card">
+        <div class="wc-dot" style="background:var(--present)"></div>
+        <span style="flex:1">I eat.</span>
+        <button class="abtn" onclick="speak('I eat.')">🔊</button>
+      </div>
+      <div class="warmup-card">
+        <div class="wc-dot" style="background:var(--past)"></div>
+        <span style="flex:1">I ate.</span>
+        <button class="abtn" onclick="speak('I ate.')">🔊</button>
+      </div>
+      <div class="warmup-card">
+        <div class="wc-dot" style="background:var(--future)"></div>
+        <span style="flex:1">I will eat.</span>
+        <button class="abtn" onclick="speak('I will eat.')">🔊</button>
+      </div>
+    </div>
+    <div style="background:linear-gradient(135deg,#fff9e6,#ffeaa7);border-radius:14px;padding:14px 20px;margin-top:4px;font-weight:800;font-size:1.08rem;color:#7d5a00;display:flex;align-items:center;gap:12px;">
+      👉 <span>Tense = Time</span>
+      <button class="abtn" onclick="speakChain([{label:'Key Rule',body:'Tense equals Time. Now is present. Before is past. Later is future.'}])">🔊</button>
+    </div>
+    <button class="read-all-btn ra-default" style="margin-top:16px" onclick="speakSection('Warm Up — Listen and Think', ['I eat.','I ate.','I will eat.','Remember: Tense equals Time.'])">🔊 Read warm-up</button>
+  </div>
+</div>
+
+<!-- ══════════ SECTION 1: PRESENT TENSE ══════════ -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-icon ico-coral">🟢</div>
+    <div><div class="sec-title" style="color:var(--present)">Section 1: Present Tense</div><div class="sec-sub">Actions happening now or regularly</div></div>
+  </div>
+
+  <!-- 1.1 Present Simple -->
+  <div class="tense-band present-band" style="margin-bottom:16px">
+    <div class="tense-band-header">
+      <span class="band-emoji">🟢</span>
+      <div><div class="band-title">1.1 Present Simple</div><div class="band-sub">Habits and daily actions</div></div>
+      <button class="abtn" style="margin-left:auto" onclick="speakSection('Present Simple', ['Present Simple is used for habits and daily actions.','Example words: eat, play, go, read.','Signal words: every day, always, often.','Sentences: I play football. She eats rice. We go to school every day.'])">🔊</button>
+    </div>
+    <div class="tense-band-body">
+      <div class="tense-sub">
+        <div class="ts-form present-form">👉 Habit / daily action</div>
+        <div style="font-weight:700;font-size:.88rem;margin-bottom:8px;color:var(--muted);">Example words:</div>
+        <div class="ts-words">
+          <span class="word-chip wc-present" onclick="speak('eat')">🔊 eat</span>
+          <span class="word-chip wc-present" onclick="speak('play')">🔊 play</span>
+          <span class="word-chip wc-present" onclick="speak('go')">🔊 go</span>
+          <span class="word-chip wc-present" onclick="speak('read')">🔊 read</span>
+        </div>
+        <div style="font-weight:700;font-size:.88rem;margin-bottom:8px;color:var(--muted);">Signal words:</div>
+        <div class="signal-row">
+          <span class="sig sig-p">every day</span><span class="sig sig-p">always</span><span class="sig sig-p">often</span>
+        </div>
+        <div style="font-weight:700;font-size:.88rem;margin-bottom:10px;color:var(--muted);">Sentences:</div>
+        <ul class="sent-list">
+          <li class="sent-item"><div class="sent-dot pres-dot"></div><span class="sent-txt">I play football.</span><button class="abtn" onclick="speak('I play football.')">🔊</button></li>
+          <li class="sent-item"><div class="sent-dot pres-dot"></div><span class="sent-txt">She eats rice.</span><button class="abtn" onclick="speak('She eats rice.')">🔊</button></li>
+          <li class="sent-item"><div class="sent-dot pres-dot"></div><span class="sent-txt">We go to school every day.</span><button class="abtn" onclick="speak('We go to school every day.')">🔊</button></li>
+        </ul>
+        <button class="read-all-btn ra-present" onclick="speakSection('Present Simple — Sentences', ['I play football.','She eats rice.','We go to school every day.'])">🔊 Read all sentences</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1.2 Present Continuous -->
+  <div class="tense-band present-band" style="margin-bottom:16px">
+    <div class="tense-band-header">
+      <span class="band-emoji">🟢</span>
+      <div><div class="band-title">1.2 Present Continuous</div><div class="band-sub">Happening right now</div></div>
+      <button class="abtn" style="margin-left:auto" onclick="speakSection('Present Continuous', ['Present Continuous is used for actions happening right now.','Form: am, is, or are — plus the verb with ing.','Example words: playing, eating, reading.','Sentences: I am eating. She is playing. They are reading.'])">🔊</button>
+    </div>
+    <div class="tense-band-body">
+      <div class="tense-sub">
+        <div class="ts-form present-form">Form: am / is / are + verb-ing</div>
+        <div class="ts-words">
+          <span class="word-chip wc-present" onclick="speak('playing')">🔊 playing</span>
+          <span class="word-chip wc-present" onclick="speak('eating')">🔊 eating</span>
+          <span class="word-chip wc-present" onclick="speak('reading')">🔊 reading</span>
+        </div>
+        <ul class="sent-list">
+          <li class="sent-item"><div class="sent-dot pres-dot"></div><span class="sent-txt">I am eating.</span><button class="abtn" onclick="speak('I am eating.')">🔊</button></li>
+          <li class="sent-item"><div class="sent-dot pres-dot"></div><span class="sent-txt">She is playing.</span><button class="abtn" onclick="speak('She is playing.')">🔊</button></li>
+          <li class="sent-item"><div class="sent-dot pres-dot"></div><span class="sent-txt">They are reading.</span><button class="abtn" onclick="speak('They are reading.')">🔊</button></li>
+        </ul>
+        <button class="read-all-btn ra-present" onclick="speakSection('Present Continuous — Sentences', ['I am eating.','She is playing.','They are reading.'])">🔊 Read all sentences</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1.3 Present Perfect -->
+  <div class="tense-band present-band" style="margin-bottom:16px">
+    <div class="tense-band-header">
+      <span class="band-emoji">🟢</span>
+      <div><div class="band-title">1.3 Present Perfect</div><div class="band-sub">Happened before, still important now</div></div>
+      <button class="abtn" style="margin-left:auto" onclick="speakSection('Present Perfect', ['Present Perfect is used for things that happened before but are still important now.','Form: have or has — plus the past participle.','Example words: eaten, gone, seen.','Sentences: I have eaten lunch. She has finished her homework.'])">🔊</button>
+    </div>
+    <div class="tense-band-body">
+      <div class="tense-sub">
+        <div class="ts-form present-form">Form: have / has + past participle</div>
+        <div class="ts-words">
+          <span class="word-chip wc-present" onclick="speak('eaten')">🔊 eaten</span>
+          <span class="word-chip wc-present" onclick="speak('gone')">🔊 gone</span>
+          <span class="word-chip wc-present" onclick="speak('seen')">🔊 seen</span>
+        </div>
+        <ul class="sent-list">
+          <li class="sent-item"><div class="sent-dot pres-dot"></div><span class="sent-txt">I have eaten lunch.</span><button class="abtn" onclick="speak('I have eaten lunch.')">🔊</button></li>
+          <li class="sent-item"><div class="sent-dot pres-dot"></div><span class="sent-txt">She has finished her homework.</span><button class="abtn" onclick="speak('She has finished her homework.')">🔊</button></li>
+        </ul>
+        <button class="read-all-btn ra-present" onclick="speakSection('Present Perfect — Sentences', ['I have eaten lunch.','She has finished her homework.'])">🔊 Read all sentences</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 1.4 Present Perfect Continuous -->
+  <div class="tense-band present-band">
+    <div class="tense-band-header">
+      <span class="band-emoji">🟢</span>
+      <div><div class="band-title">1.4 Present Perfect Continuous</div><div class="band-sub">Started before, still continuing</div></div>
+      <button class="abtn" style="margin-left:auto" onclick="speakSection('Present Perfect Continuous', ['Present Perfect Continuous is used for actions that started before and are still continuing.','Form: have or has been — plus the verb with ing.','Sentences: I have been studying. She has been playing for an hour.'])">🔊</button>
+    </div>
+    <div class="tense-band-body">
+      <div class="tense-sub">
+        <div class="ts-form present-form">Form: have / has been + verb-ing</div>
+        <ul class="sent-list">
+          <li class="sent-item"><div class="sent-dot pres-dot"></div><span class="sent-txt">I have been studying.</span><button class="abtn" onclick="speak('I have been studying.')">🔊</button></li>
+          <li class="sent-item"><div class="sent-dot pres-dot"></div><span class="sent-txt">She has been playing for an hour.</span><button class="abtn" onclick="speak('She has been playing for an hour.')">🔊</button></li>
+        </ul>
+        <button class="read-all-btn ra-present" onclick="speakSection('Present Perfect Continuous — Sentences', ['I have been studying.','She has been playing for an hour.'])">🔊 Read all sentences</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ SECTION 2: PAST TENSE ══════════ -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-icon ico-indigo">🔵</div>
+    <div><div class="sec-title" style="color:var(--past)">Section 2: Past Tense</div><div class="sec-sub">Actions that already happened</div></div>
+  </div>
+
+  <!-- 2.1 Past Simple -->
+  <div class="tense-band past-band" style="margin-bottom:16px">
+    <div class="tense-band-header">
+      <span class="band-emoji">🔵</span>
+      <div><div class="band-title">2.1 Past Simple</div><div class="band-sub">Finished action in the past</div></div>
+      <button class="abtn" style="margin-left:auto" onclick="speakSection('Past Simple', ['Past Simple is used for actions that are finished.','Example words: ate, played, went.','Signal words: yesterday, last night.','Sentences: I played soccer yesterday. She went home.'])">🔊</button>
+    </div>
+    <div class="tense-band-body">
+      <div class="tense-sub">
+        <div class="ts-form past-form">👉 Finished action</div>
+        <div class="ts-words">
+          <span class="word-chip wc-past" onclick="speak('ate')">🔊 ate</span>
+          <span class="word-chip wc-past" onclick="speak('played')">🔊 played</span>
+          <span class="word-chip wc-past" onclick="speak('went')">🔊 went</span>
+        </div>
+        <div class="signal-row">
+          <span class="sig sig-pa">yesterday</span><span class="sig sig-pa">last night</span>
+        </div>
+        <ul class="sent-list">
+          <li class="sent-item"><div class="sent-dot past-dot"></div><span class="sent-txt">I played soccer yesterday.</span><button class="abtn" onclick="speak('I played soccer yesterday.')">🔊</button></li>
+          <li class="sent-item"><div class="sent-dot past-dot"></div><span class="sent-txt">She went home.</span><button class="abtn" onclick="speak('She went home.')">🔊</button></li>
+        </ul>
+        <button class="read-all-btn ra-past" onclick="speakSection('Past Simple — Sentences', ['I played soccer yesterday.','She went home.'])">🔊 Read all sentences</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2.2 Past Continuous -->
+  <div class="tense-band past-band" style="margin-bottom:16px">
+    <div class="tense-band-header">
+      <span class="band-emoji">🔵</span>
+      <div><div class="band-title">2.2 Past Continuous</div><div class="band-sub">Action in progress in the past</div></div>
+      <button class="abtn" style="margin-left:auto" onclick="speakSection('Past Continuous', ['Past Continuous is used for actions that were in progress in the past.','Form: was or were — plus the verb with ing.','Sentences: I was eating. They were playing.'])">🔊</button>
+    </div>
+    <div class="tense-band-body">
+      <div class="tense-sub">
+        <div class="ts-form past-form">Form: was / were + verb-ing</div>
+        <ul class="sent-list">
+          <li class="sent-item"><div class="sent-dot past-dot"></div><span class="sent-txt">I was eating.</span><button class="abtn" onclick="speak('I was eating.')">🔊</button></li>
+          <li class="sent-item"><div class="sent-dot past-dot"></div><span class="sent-txt">They were playing.</span><button class="abtn" onclick="speak('They were playing.')">🔊</button></li>
+        </ul>
+        <button class="read-all-btn ra-past" onclick="speakSection('Past Continuous — Sentences', ['I was eating.','They were playing.'])">🔊 Read all sentences</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2.3 Past Perfect -->
+  <div class="tense-band past-band" style="margin-bottom:16px">
+    <div class="tense-band-header">
+      <span class="band-emoji">🔵</span>
+      <div><div class="band-title">2.3 Past Perfect</div><div class="band-sub">Happened before another past action</div></div>
+      <button class="abtn" style="margin-left:auto" onclick="speakSection('Past Perfect', ['Past Perfect is used for actions that happened before another past action.','Form: had — plus the past participle.','Sentences: I had eaten before school. She had finished her work.'])">🔊</button>
+    </div>
+    <div class="tense-band-body">
+      <div class="tense-sub">
+        <div class="ts-form past-form">Form: had + past participle</div>
+        <ul class="sent-list">
+          <li class="sent-item"><div class="sent-dot past-dot"></div><span class="sent-txt">I had eaten before school.</span><button class="abtn" onclick="speak('I had eaten before school.')">🔊</button></li>
+          <li class="sent-item"><div class="sent-dot past-dot"></div><span class="sent-txt">She had finished her work.</span><button class="abtn" onclick="speak('She had finished her work.')">🔊</button></li>
+        </ul>
+        <button class="read-all-btn ra-past" onclick="speakSection('Past Perfect — Sentences', ['I had eaten before school.','She had finished her work.'])">🔊 Read all sentences</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2.4 Past Perfect Continuous -->
+  <div class="tense-band past-band">
+    <div class="tense-band-header">
+      <span class="band-emoji">🔵</span>
+      <div><div class="band-title">2.4 Past Perfect Continuous</div><div class="band-sub">Action continued before another past time</div></div>
+      <button class="abtn" style="margin-left:auto" onclick="speakSection('Past Perfect Continuous', ['Past Perfect Continuous is used for actions that continued before another point in the past.','Form: had been — plus the verb with ing.','Sentences: I had been studying for two hours. She had been playing before dinner.'])">🔊</button>
+    </div>
+    <div class="tense-band-body">
+      <div class="tense-sub">
+        <div class="ts-form past-form">Form: had been + verb-ing</div>
+        <ul class="sent-list">
+          <li class="sent-item"><div class="sent-dot past-dot"></div><span class="sent-txt">I had been studying for two hours.</span><button class="abtn" onclick="speak('I had been studying for two hours.')">🔊</button></li>
+          <li class="sent-item"><div class="sent-dot past-dot"></div><span class="sent-txt">She had been playing before dinner.</span><button class="abtn" onclick="speak('She had been playing before dinner.')">🔊</button></li>
+        </ul>
+        <button class="read-all-btn ra-past" onclick="speakSection('Past Perfect Continuous — Sentences', ['I had been studying for two hours.','She had been playing before dinner.'])">🔊 Read all sentences</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ SECTION 3: FUTURE TENSE ══════════ -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-icon ico-emerald">🟡</div>
+    <div><div class="sec-title" style="color:var(--future)">Section 3: Future Tense</div><div class="sec-sub">Actions that will happen later</div></div>
+  </div>
+
+  <!-- 3.1 Future Simple -->
+  <div class="tense-band future-band" style="margin-bottom:16px">
+    <div class="tense-band-header">
+      <span class="band-emoji">🟡</span>
+      <div><div class="band-title">3.1 Future Simple</div><div class="band-sub">Action that will happen</div></div>
+      <button class="abtn" style="margin-left:auto" onclick="speakSection('Future Simple', ['Future Simple is used for actions that will happen in the future.','Form: will — plus the verb.','Example words: will eat, will go.','Sentences: I will eat dinner. She will go to school.'])">🔊</button>
+    </div>
+    <div class="tense-band-body">
+      <div class="tense-sub">
+        <div class="ts-form future-form">Form: will + verb</div>
+        <div class="ts-words">
+          <span class="word-chip wc-future" onclick="speak('will eat')">🔊 will eat</span>
+          <span class="word-chip wc-future" onclick="speak('will go')">🔊 will go</span>
+        </div>
+        <div class="signal-row">
+          <span class="sig sig-f">tomorrow</span><span class="sig sig-f">next week</span><span class="sig sig-f">soon</span><span class="sig sig-f">later</span>
+        </div>
+        <ul class="sent-list">
+          <li class="sent-item"><div class="sent-dot fut-dot"></div><span class="sent-txt">I will eat dinner.</span><button class="abtn" onclick="speak('I will eat dinner.')">🔊</button></li>
+          <li class="sent-item"><div class="sent-dot fut-dot"></div><span class="sent-txt">She will go to school.</span><button class="abtn" onclick="speak('She will go to school.')">🔊</button></li>
+        </ul>
+        <button class="read-all-btn ra-future" onclick="speakSection('Future Simple — Sentences', ['I will eat dinner.','She will go to school.'])">🔊 Read all sentences</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3.2 Future Continuous -->
+  <div class="tense-band future-band" style="margin-bottom:16px">
+    <div class="tense-band-header">
+      <span class="band-emoji">🟡</span>
+      <div><div class="band-title">3.2 Future Continuous</div><div class="band-sub">Will be happening in the future</div></div>
+      <button class="abtn" style="margin-left:auto" onclick="speakSection('Future Continuous', ['Future Continuous is used for actions that will be happening in the future.','Form: will be — plus the verb with ing.','Sentences: I will be studying. They will be playing.'])">🔊</button>
+    </div>
+    <div class="tense-band-body">
+      <div class="tense-sub">
+        <div class="ts-form future-form">Form: will be + verb-ing</div>
+        <ul class="sent-list">
+          <li class="sent-item"><div class="sent-dot fut-dot"></div><span class="sent-txt">I will be studying.</span><button class="abtn" onclick="speak('I will be studying.')">🔊</button></li>
+          <li class="sent-item"><div class="sent-dot fut-dot"></div><span class="sent-txt">They will be playing.</span><button class="abtn" onclick="speak('They will be playing.')">🔊</button></li>
+        </ul>
+        <button class="read-all-btn ra-future" onclick="speakSection('Future Continuous — Sentences', ['I will be studying.','They will be playing.'])">🔊 Read all sentences</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3.3 Future Perfect -->
+  <div class="tense-band future-band" style="margin-bottom:16px">
+    <div class="tense-band-header">
+      <span class="band-emoji">🟡</span>
+      <div><div class="band-title">3.3 Future Perfect</div><div class="band-sub">Will be finished before a future time</div></div>
+      <button class="abtn" style="margin-left:auto" onclick="speakSection('Future Perfect', ['Future Perfect is used for actions that will be finished before a future time.','Form: will have — plus the past participle.','Sentences: I will have finished homework. She will have eaten by eight P M.'])">🔊</button>
+    </div>
+    <div class="tense-band-body">
+      <div class="tense-sub">
+        <div class="ts-form future-form">Form: will have + past participle</div>
+        <ul class="sent-list">
+          <li class="sent-item"><div class="sent-dot fut-dot"></div><span class="sent-txt">I will have finished homework.</span><button class="abtn" onclick="speak('I will have finished homework.')">🔊</button></li>
+          <li class="sent-item"><div class="sent-dot fut-dot"></div><span class="sent-txt">She will have eaten by 8 PM.</span><button class="abtn" onclick="speak('She will have eaten by eight P M.')">🔊</button></li>
+        </ul>
+        <button class="read-all-btn ra-future" onclick="speakSection('Future Perfect — Sentences', ['I will have finished homework.','She will have eaten by eight P M.'])">🔊 Read all sentences</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3.4 Future Perfect Continuous -->
+  <div class="tense-band future-band">
+    <div class="tense-band-header">
+      <span class="band-emoji">🟡</span>
+      <div><div class="band-title">3.4 Future Perfect Continuous</div><div class="band-sub">Will continue until a future time</div></div>
+      <button class="abtn" style="margin-left:auto" onclick="speakSection('Future Perfect Continuous', ['Future Perfect Continuous is used for actions that will continue until a future time.','Form: will have been — plus the verb with ing.','Sentences: I will have been studying for two hours. She will have been playing all day.'])">🔊</button>
+    </div>
+    <div class="tense-band-body">
+      <div class="tense-sub">
+        <div class="ts-form future-form">Form: will have been + verb-ing</div>
+        <ul class="sent-list">
+          <li class="sent-item"><div class="sent-dot fut-dot"></div><span class="sent-txt">I will have been studying for two hours.</span><button class="abtn" onclick="speak('I will have been studying for two hours.')">🔊</button></li>
+          <li class="sent-item"><div class="sent-dot fut-dot"></div><span class="sent-txt">She will have been playing all day.</span><button class="abtn" onclick="speak('She will have been playing all day.')">🔊</button></li>
+        </ul>
+        <button class="read-all-btn ra-future" onclick="speakSection('Future Perfect Continuous — Sentences', ['I will have been studying for two hours.','She will have been playing all day.'])">🔊 Read all sentences</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ QUICK COMPARISON TABLE ══════════ -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-icon ico-sky">📊</div>
+    <div><div class="sec-title">Quick Comparison Table</div><div class="sec-sub">All three main tenses at a glance</div></div>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden;border:none;">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Tense</th><th>Example</th><th>Time</th><th>🔊</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><span class="td-tense td-p">🟢 Present</span></td><td>I play.</td><td><span class="time-pill tp-p">Now</span></td><td><button class="abtn" onclick="speak('Present tense. I play.')">🔊</button></td></tr>
+          <tr><td><span class="td-tense td-pa">🔵 Past</span></td><td>I played.</td><td><span class="time-pill tp-pa">Before</span></td><td><button class="abtn" onclick="speak('Past tense. I played.')">🔊</button></td></tr>
+          <tr><td><span class="td-tense td-f">🟡 Future</span></td><td>I will play.</td><td><span class="time-pill tp-f">Later</span></td><td><button class="abtn" onclick="speak('Future tense. I will play.')">🔊</button></td></tr>
+          <tr><td><span class="td-tense td-p">🟢 Pres. Cont.</span></td><td>I am playing.</td><td><span class="time-pill tp-p">Right now</span></td><td><button class="abtn" onclick="speak('Present continuous. I am playing.')">🔊</button></td></tr>
+          <tr><td><span class="td-tense td-pa">🔵 Past Cont.</span></td><td>I was playing.</td><td><span class="time-pill tp-pa">Was happening</span></td><td><button class="abtn" onclick="speak('Past continuous. I was playing.')">🔊</button></td></tr>
+          <tr><td><span class="td-tense td-f">🟡 Fut. Cont.</span></td><td>I will be playing.</td><td><span class="time-pill tp-f">Will happen</span></td><td><button class="abtn" onclick="speak('Future continuous. I will be playing.')">🔊</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ 4. PRACTICE ACTIVITIES ══════════ -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-icon ico-pink">🎲</div>
+    <div><div class="sec-title">4. Practice Activities</div><div class="sec-sub">Fun ways to use tenses</div></div>
+  </div>
+  <div class="activity-box">
+    <!-- Activity 1 -->
+    <div class="act-step">
+      <strong>Activity 1: Change the Tense 🔄</strong><br>
+      Teacher says a sentence — students change it!
+      <div class="chain" style="margin-top:10px">
+        <span class="cpill cpill-p">I play.</span>
+        <span class="chain-arrow">→</span>
+        <span class="cpill cpill-pa">I played.</span>
+        <span class="chain-arrow">→</span>
+        <span class="cpill cpill-f">I will play.</span>
+        <button class="abtn" onclick="speakChain([{label:'Present',body:'I play.'},{label:'Past',body:'I played.'},{label:'Future',body:'I will play.'}])">🔊</button>
+      </div>
+      <div class="chain" style="margin-top:8px">
+        <span class="cpill cpill-p">I eat.</span>
+        <span class="chain-arrow">→</span>
+        <span class="cpill cpill-pa">I ate.</span>
+        <span class="chain-arrow">→</span>
+        <span class="cpill cpill-f">I will eat.</span>
+        <button class="abtn" onclick="speakChain([{label:'Present',body:'I eat.'},{label:'Past',body:'I ate.'},{label:'Future',body:'I will eat.'}])">🔊</button>
+      </div>
+    </div>
+    <!-- Activity 2 -->
+    <div class="act-step">
+      <strong>Activity 2: Fill in the Blank ✏️</strong>
+      <ul class="fill-list" style="margin-top:12px">
+        <li class="fill-item">
+          <span class="fill-num fn-p">1</span>
+          I <span class="blank bl-p">am eating</span> now.
+          <button class="abtn" onclick="speak('I am eating now.')">🔊</button>
+        </li>
+        <li class="fill-item">
+          <span class="fill-num fn-pa">2</span>
+          I <span class="blank bl-pa">ate</span> yesterday.
+          <button class="abtn" onclick="speak('I ate yesterday.')">🔊</button>
+        </li>
+        <li class="fill-item">
+          <span class="fill-num fn-f">3</span>
+          I <span class="blank bl-f">will eat</span> tomorrow.
+          <button class="abtn" onclick="speak('I will eat tomorrow.')">🔊</button>
+        </li>
+      </ul>
+      <button class="read-all-btn ra-default" style="margin-top:10px" onclick="speakSection('Fill in the Blank', ['Number one. I am eating now.','Number two. I ate yesterday.','Number three. I will eat tomorrow.'])">🔊 Read all answers</button>
+    </div>
+    <!-- Activity 3 -->
+    <div class="act-step">
+      <strong>Activity 3: Time Sorting 🗂️</strong><br>
+      Give students these sentences — sort them into Present, Past, or Future!
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:14px;text-align:center;">
+        <div style="background:var(--present-bg);border:2px solid var(--present-bdr);border-radius:12px;padding:12px 8px;font-weight:700;font-size:.88rem;color:var(--present);">🟢 Present<br><span style="font-weight:600;color:var(--text);font-size:.82rem;margin-top:4px;display:block">She reads books.</span></div>
+        <div style="background:var(--past-bg);border:2px solid var(--past-bdr);border-radius:12px;padding:12px 8px;font-weight:700;font-size:.88rem;color:var(--past);">🔵 Past<br><span style="font-weight:600;color:var(--text);font-size:.82rem;margin-top:4px;display:block">They went to the park.</span></div>
+        <div style="background:var(--future-bg);border:2px solid var(--future-bdr);border-radius:12px;padding:12px 8px;font-weight:700;font-size:.88rem;color:var(--future);">🟡 Future<br><span style="font-weight:600;color:var(--text);font-size:.82rem;margin-top:4px;display:block">We will visit grandma.</span></div>
+      </div>
+      <button class="abtn" style="margin-top:14px;width:auto;border-radius:100px;padding:8px 20px;font-size:.88rem;font-weight:700;" onclick="speakSection('Time Sorting Examples', ['Present tense: She reads books.','Past tense: They went to the park.','Future tense: We will visit grandma.'])">🔊 Hear examples</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════ 5. SPEAKING PRACTICE ══════════ -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-icon ico-pink">🎤</div>
+    <div><div class="sec-title">5. Speaking Practice</div><div class="sec-sub">Listen, then say it yourself!</div></div>
+  </div>
+  <div class="card">
+    <p style="font-weight:700;margin-bottom:16px;color:var(--muted);">Press 🔊 to hear each one — then repeat it out loud!</p>
+    <div class="speak-prompts">
+      <div class="speak-card">
+        <div class="wc-dot" style="background:var(--present);width:12px;height:12px;border-radius:50%;flex-shrink:0;"></div>
+        <span style="flex:1">Today I am <strong>going to school</strong>.</span>
+        <button class="abtn" onclick="speakChain([{label:'Today — Present',body:'Today I am going to school.'}])">🔊</button>
+      </div>
+      <div class="speak-card">
+        <div class="wc-dot" style="background:var(--past);width:12px;height:12px;border-radius:50%;flex-shrink:0;"></div>
+        <span style="flex:1">Yesterday I <strong>went</strong> to school.</span>
+        <button class="abtn" onclick="speakChain([{label:'Yesterday — Past',body:'Yesterday I went to school.'}])">🔊</button>
+      </div>
+      <div class="speak-card">
+        <div class="wc-dot" style="background:var(--future);width:12px;height:12px;border-radius:50%;flex-shrink:0;"></div>
+        <span style="flex:1">Tomorrow I <strong>will go</strong> to school.</span>
+        <button class="abtn" onclick="speakChain([{label:'Tomorrow — Future',body:'Tomorrow I will go to school.'}])">🔊</button>
+      </div>
+      <div class="speak-card">
+        <div class="wc-dot" style="background:var(--present);width:12px;height:12px;border-radius:50%;flex-shrink:0;"></div>
+        <span style="flex:1">Today I am <strong>eating rice</strong>.</span>
+        <button class="abtn" onclick="speakChain([{label:'Today — Present',body:'Today I am eating rice.'}])">🔊</button>
+      </div>
+      <div class="speak-card">
+        <div class="wc-dot" style="background:var(--past);width:12px;height:12px;border-radius:50%;flex-shrink:0;"></div>
+        <span style="flex:1">Yesterday I <strong>ate</strong> rice.</span>
+        <button class="abtn" onclick="speakChain([{label:'Yesterday — Past',body:'Yesterday I ate rice.'}])">🔊</button>
+      </div>
+      <div class="speak-card">
+        <div class="wc-dot" style="background:var(--future);width:12px;height:12px;border-radius:50%;flex-shrink:0;"></div>
+        <span style="flex:1">Tomorrow I <strong>will eat</strong> rice.</span>
+        <button class="abtn" onclick="speakChain([{label:'Tomorrow — Future',body:'Tomorrow I will eat rice.'}])">🔊</button>
+      </div>
+    </div>
+    <button class="read-all-btn ra-default" style="margin-top:18px" onclick="speakSection('Speaking Practice — Listen and Repeat', [{label:'Today — Present',body:'Today I am going to school.'},{label:'Yesterday — Past',body:'Yesterday I went to school.'},{label:'Tomorrow — Future',body:'Tomorrow I will go to school.'},{label:'Today — Present',body:'Today I am eating rice.'},{label:'Yesterday — Past',body:'Yesterday I ate rice.'},{label:'Tomorrow — Future',body:'Tomorrow I will eat rice.'}])">🔊 Read all speaking practice</button>
+  </div>
+</div>
+
+<!-- ══════════ 6. SIMPLE RULE ══════════ -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-icon ico-gold">🧩</div>
+    <div><div class="sec-title">6. Simple Rule for Kids</div><div class="sec-sub">The golden formula to remember</div></div>
+  </div>
+  <div class="card">
+    <div style="text-align:center;font-family:'Righteous',cursive;font-size:1.5rem;margin-bottom:22px;
+      background:linear-gradient(135deg,#ff6f61,#6c63ff,#00b894);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+      👉 Tense = Time
+    </div>
+    <div class="rule-trio">
+      <div class="rule-card rc-p">
+        <div class="rule-emoji">🟢</div>
+        <div class="rule-name">Present</div>
+        <div class="rule-time">= Now</div>
+        <button class="abtn" onclick="speakChain([{label:'Present Tense',body:'Now. I eat. I am eating.'}])" style="margin-top:10px">🔊</button>
+      </div>
+      <div class="rule-card rc-pa">
+        <div class="rule-emoji">🔵</div>
+        <div class="rule-name">Past</div>
+        <div class="rule-time">= Before</div>
+        <button class="abtn" onclick="speakChain([{label:'Past Tense',body:'Before. I ate. I was eating.'}])" style="margin-top:10px">🔊</button>
+      </div>
+      <div class="rule-card rc-f">
+        <div class="rule-emoji">🟡</div>
+        <div class="rule-name">Future</div>
+        <div class="rule-time">= Later</div>
+        <button class="abtn" onclick="speakChain([{label:'Future Tense',body:'Later. I will eat. I will be eating.'}])" style="margin-top:10px">🔊</button>
+      </div>
+    </div>
+    <button class="read-all-btn ra-default" style="margin-top:22px;display:flex;margin-left:auto;margin-right:auto;" onclick="speakSection('Simple Rule for Kids', ['Tense equals Time.','Present means now. For example: I eat. I am eating.','Past means before. For example: I ate. I was eating.','Future means later. For example: I will eat. I will be eating.'])">🔊 Hear the full rule</button>
+  </div>
+</div>
+
+<!-- ══════════ TEACHER NOTE ══════════ -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-icon ico-gold">⚠️</div>
+    <div><div class="sec-title">Teacher Note — Important!</div><div class="sec-sub">What to focus on for Grade 3–4</div></div>
+  </div>
+  <div class="teacher-note">
+    <div class="tn-header">
+      <span class="tn-badge">⚠️ Teacher</span>
+      <span class="tn-title">Focus on these tenses for Grade 3–4:</span>
+    </div>
+    <div class="focus-grid">
+      <div class="focus-card fc-p">✅ Present Simple</div>
+      <div class="focus-card fc-p">✅ Present Continuous</div>
+      <div class="focus-card fc-pa">✅ Past Simple</div>
+      <div class="focus-card fc-pa">✅ Future Simple</div>
+    </div>
+    <div style="margin-top:16px;font-size:.92rem;font-weight:700;color:#7d5a00;line-height:1.65;">
+      👉 Other tenses (Perfect &amp; Perfect Continuous) should be <em>introduced lightly</em> — no deep grammar required at this level.
+    </div>
+    <button class="read-all-btn ra-default" style="margin-top:14px;background:#f9c74f;color:#7d5a00;box-shadow:0 4px 14px rgba(249,199,79,.4);" onclick="speakSection('Teacher Note', ['For Grade 3 and 4, focus mainly on: Present Simple, Present Continuous, Past Simple, and Future Simple.','Other tenses, such as perfect and perfect continuous, should be introduced lightly, with no deep grammar required at this level.'])">🔊 Read teacher note</button>
+  </div>
+</div>
+
+<!-- ══════════ 7. CLOSING ══════════ -->
+<div class="section">
+  <div class="sec-header">
+    <div class="sec-icon ico-mint">🎉</div>
+    <div><div class="sec-title">7. Closing</div><div class="sec-sub">Wrap up the lesson with encouragement</div></div>
+  </div>
+  <div class="closing-banner">
+    <h2>🎉 Great job! You can talk about the past, present, and future!</h2>
+    <p>You are now a Tense Time Traveller — keep practising every day!</p>
+    <button class="abtn" style="margin-top:18px;background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.5);" onclick="speakSection('Closing', ['Great job! You can talk about the past, present, and future!','Remember: Present means now. Past means before. Future means later.','You are now a Tense Time Traveller. Keep practising every day!'])">🔊 Hear closing</button>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-title">🌟 English Tenses — Grade 3 &amp; 4 🌟</div>
+  <p style="margin-top:8px;">Click any 🔊 to hear British English pronunciation at a comfortable listening pace</p>
+  <p style="margin-top:4px;">Use the Audio button (top right) to toggle all sound on or off</p>
+</div>
+
+</div><!-- /wrap -->
+
+<!-- ═══════════════════════════════════════════════════════
+     AUDIO ENGINE — Medium pace, structured narration
+     Rate 0.75 = comfortable classroom listening
+     Headers spoken slower (0.68), then 900 ms pause
+     Sentences at 0.75 with 700 ms gaps between them
+═══════════════════════════════════════════════════════ -->
+<script>
+let audioEnabled = true;
+let _stopFlag = false;
+
+/* pre-load voices */
+window.speechSynthesis.getVoices();
+if (window.speechSynthesis.onvoiceschanged !== undefined)
+  window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+
+/* ── Toggle ── */
+function toggleAudio() {
+  audioEnabled = !audioEnabled;
+  _stopFlag = true;
+  window.speechSynthesis.cancel();
+  const btn  = document.getElementById('audio-toggle');
+  const icon = document.getElementById('audio-icon');
+  const lbl  = document.getElementById('audio-label');
+  if (audioEnabled) {
+    btn.classList.remove('off');
+    icon.textContent = '🔊'; lbl.textContent = 'Audio ON';
+  } else {
+    btn.classList.add('off');
+    icon.textContent = '🔇'; lbl.textContent = 'Audio OFF';
+    hideToast();
+  }
+}
+
+/* ── Voice picker — prefer British ── */
+function getBritishVoice() {
+  const vv = window.speechSynthesis.getVoices();
+  const prefs = [
+    v => v.lang === 'en-GB' && /daniel|oliver|serena|kate|james|amy/i.test(v.name),
+    v => v.lang === 'en-GB',
+    v => /en-GB|en_GB/.test(v.lang),
+    v => v.lang.startsWith('en'),
+  ];
+  for (const p of prefs) { const f = vv.find(p); if (f) return f; }
+  return null;
+}
+
+/* ── Toast ── */
+function showToast(txt) {
+  const t = document.getElementById('toast');
+  t.textContent = '🔊 ' + txt;
+  t.classList.add('show');
+  clearTimeout(t._tid);
+  t._tid = setTimeout(() => t.classList.remove('show'), 5000);
+}
+function hideToast() {
+  const t = document.getElementById('toast');
+  clearTimeout(t._tid);
+  t.classList.remove('show');
+}
+
+/* ── Core utterance factory ── */
+function makeUtt(text, rate, pitch) {
+  const u = new SpeechSynthesisUtterance(text);
+  const v = getBritishVoice();
+  if (v) u.voice = v;
+  u.lang  = 'en-GB';
+  u.rate  = rate  || 0.75;   /* medium classroom pace */
+  u.pitch = pitch || 1.05;
+  return u;
+}
+
+/* ── Promise-wrapped speak ── */
+function utterPromise(text, rate, pitch) {
+  return new Promise(res => {
+    if (_stopFlag) { res(); return; }
+    const u = makeUtt(text, rate, pitch);
+    u.onend = res; u.onerror = res;
+    window.speechSynthesis.speak(u);
+  });
+}
+
+/* ── Pause helper ── */
+const pause = ms => new Promise(r => setTimeout(r, ms));
+
+/* ════════════════════════════════════
+   speak(text)
+   Single sentence. If text contains ":"
+   reads label → 600 ms pause → reads body.
+════════════════════════════════════ */
+async function speak(text) {
+  if (!audioEnabled) return;
+  _stopFlag = false;
+  window.speechSynthesis.cancel();
+  await pause(80);
+  showToast(text);
+  if (text.includes(':')) {
+    const ci   = text.indexOf(':');
+    const hdr  = text.slice(0, ci).trim();
+    const body = text.slice(ci + 1).trim();
+    if (hdr)  { await utterPromise(hdr,  0.70, 1.12); await pause(600); }
+    if (body && !_stopFlag) { showToast(body); await utterPromise(body, 0.75, 1.05); }
+  } else {
+    await utterPromise(text, 0.75, 1.05);
+  }
+  hideToast();
+}
+
+/* ════════════════════════════════════
+   speakChain(segments)
+   Array of strings or {label, body} objects.
+   Label → 650 ms pause → body.
+   700–750 ms gap between segments.
+════════════════════════════════════ */
+async function speakChain(segments) {
+  if (!audioEnabled) return;
+  _stopFlag = false;
+  window.speechSynthesis.cancel();
+  await pause(80);
+
+  for (let i = 0; i < segments.length; i++) {
+    if (_stopFlag) break;
+    const seg = segments[i];
+
+    if (typeof seg === 'object' && seg.label) {
+      showToast(seg.label);
+      await utterPromise(seg.label, 0.70, 1.12);   /* header tone */
+      await pause(650);
+      if (!_stopFlag && seg.body) {
+        showToast(seg.body);
+        await utterPromise(seg.body, 0.75, 1.05);
+      }
+    } else {
+      const text = String(seg);
+      if (text.includes(':')) {
+        const ci   = text.indexOf(':');
+        const hdr  = text.slice(0, ci).trim();
+        const body = text.slice(ci + 1).trim();
+        if (hdr)  { showToast(hdr);  await utterPromise(hdr,  0.70, 1.12); await pause(620); }
+        if (!_stopFlag && body) { showToast(body); await utterPromise(body, 0.75, 1.05); }
+      } else {
+        showToast(text);
+        await utterPromise(text, 0.75, 1.05);
+      }
+    }
+
+    if (i < segments.length - 1 && !_stopFlag) {
+      const isSentence = String(seg.body || seg).trim().match(/[.!?]$/);
+      await pause(isSentence ? 750 : 480);
+    }
+  }
+  hideToast();
+}
+
+/* ════════════════════════════════════
+   speakSection(title, sentences[])
+   Announces section title (slow, clear),
+   900 ms pause, then each sentence at medium
+   pace with 700 ms gaps.
+   sentences[] can hold strings or {label,body}.
+════════════════════════════════════ */
+async function speakSection(sectionTitle, sentences) {
+  if (!audioEnabled) return;
+  _stopFlag = false;
+  window.speechSynthesis.cancel();
+  await pause(80);
+
+  /* Announce section */
+  showToast('📌 ' + sectionTitle);
+  await utterPromise(sectionTitle, 0.68, 1.15);   /* slower, authoritative */
+  await pause(900);                                 /* clear breath before content */
+
+  for (let i = 0; i < sentences.length; i++) {
+    if (_stopFlag) break;
+    const seg = sentences[i];
+
+    if (typeof seg === 'object' && seg.label) {
+      showToast(seg.label);
+      await utterPromise(seg.label, 0.70, 1.12);
+      await pause(650);
+      if (!_stopFlag && seg.body) {
+        showToast(seg.body);
+        await utterPromise(seg.body, 0.75, 1.05);
+      }
+    } else {
+      const text = String(seg);
+      showToast(text);
+      await utterPromise(text, 0.75, 1.05);
+    }
+
+    if (i < sentences.length - 1 && !_stopFlag) await pause(700);
+  }
+  hideToast();
+}
+</script>
+</body>
+</html>
