@@ -1,0 +1,1210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Exploring Families & Careers — Grade 3-4 English</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky: #4FC3F7;
+    --sun: #FFD54F;
+    --grass: #66BB6A;
+    --coral: #FF7043;
+    --lavender: #9575CD;
+    --mint: #4DB6AC;
+    --navy: #1A2B4A;
+    --cream: #FFFBF2;
+    --card-bg: #FFFFFF;
+    --shadow: 0 8px 32px rgba(26,43,74,0.10);
+    --radius: 20px;
+    --badge-r: 50px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Quicksand', sans-serif;
+    background: linear-gradient(160deg, #e0f7fa 0%, #fff9e6 40%, #f3e5f5 100%);
+    min-height: 100vh;
+    color: var(--navy);
+  }
+  header {
+    background: linear-gradient(135deg, var(--navy) 0%, #2d4a7a 60%, #1a3a5c 100%);
+    color: #fff;
+    padding: 36px 24px 28px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  header::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 20% 50%, rgba(79,195,247,.18) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 30%, rgba(255,213,79,.13) 0%, transparent 50%);
+  }
+  .grade-badge {
+    display: inline-block;
+    background: var(--sun);
+    color: var(--navy);
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.85rem;
+    padding: 4px 18px;
+    border-radius: var(--badge-r);
+    letter-spacing: .06em;
+    margin-bottom: 12px;
+  }
+  header h1 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    line-height: 1.1;
+    position: relative;
+    text-shadow: 0 4px 16px rgba(0,0,0,.25);
+  }
+  header p.subtitle { font-size: 1.05rem; opacity: .85; margin-top: 8px; font-weight: 600; position: relative; }
+  .header-emojis { font-size: 2rem; margin-top: 12px; position: relative; letter-spacing: 6px; }
+  .tab-nav {
+    display: flex; justify-content: center; flex-wrap: wrap;
+    gap: 8px; padding: 20px 16px 0;
+    background: var(--navy);
+    border-bottom: 4px solid #FFD54F;
+  }
+  .tab-btn {
+    background: rgba(255,255,255,0.1);
+    color: #fff; border: none;
+    padding: 10px 20px; border-radius: 14px 14px 0 0;
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.88rem;
+    cursor: pointer; transition: background .2s, transform .15s;
+  }
+  .tab-btn:hover { background: rgba(255,255,255,.22); transform: translateY(-2px); }
+  .tab-btn.active { background: var(--sun); color: var(--navy); }
+  main { max-width: 980px; margin: 0 auto; padding: 28px 16px 60px; }
+  .tab-panel { display: none; animation: fadeIn .35s ease; }
+  .tab-panel.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  .audio-bar {
+    background: linear-gradient(135deg, var(--navy), #2d4a7a);
+    border-radius: var(--radius); padding: 16px 22px;
+    display: flex; align-items: center; gap: 14px; margin-bottom: 28px;
+    box-shadow: var(--shadow); flex-wrap: wrap;
+  }
+  .audio-bar .ab-label { color: #FFD54F; font-family: 'Fredoka One', cursive; font-size: 1rem; white-space: nowrap; }
+  .play-all-btn {
+    background: var(--grass); color: #fff; border: none;
+    padding: 10px 22px; border-radius: var(--badge-r);
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.9rem;
+    cursor: pointer; transition: transform .15s, background .2s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .play-all-btn:hover { transform: scale(1.05); background: #43A047; }
+  .stop-btn {
+    background: var(--coral); color: #fff; border: none;
+    padding: 10px 18px; border-radius: var(--badge-r);
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.9rem;
+    cursor: pointer; transition: transform .15s;
+  }
+  .stop-btn:hover { transform: scale(1.05); }
+  .speed-control { display: flex; align-items: center; gap: 8px; color: #fff; font-size: 0.82rem; font-weight: 600; }
+  .speed-control select {
+    background: rgba(255,255,255,.15); color: #fff;
+    border: 1px solid rgba(255,255,255,.3);
+    padding: 4px 10px; border-radius: 8px;
+    font-family: 'Nunito', sans-serif; font-size: 0.82rem; cursor: pointer;
+  }
+  .now-playing { color: var(--sky); font-size: 0.82rem; font-style: italic; flex: 1; min-width: 140px; }
+  #progress-bar-wrap { width: 100%; margin-top: 8px; background: rgba(255,255,255,.12); border-radius: 4px; height: 6px; }
+  #progress-bar-fill { height: 6px; border-radius: 4px; background: linear-gradient(90deg, var(--sky), var(--grass)); width: 0%; transition: width .4s; }
+  .section-card {
+    background: var(--card-bg); border-radius: var(--radius); padding: 26px 28px;
+    margin-bottom: 22px; box-shadow: var(--shadow); border-left: 6px solid var(--sky);
+    position: relative; overflow: hidden;
+  }
+  .section-card::before {
+    content: ''; position: absolute; top: -30px; right: -30px;
+    width: 120px; height: 120px; border-radius: 50%; background: rgba(79,195,247,.07);
+  }
+  .section-card.family { border-left-color: var(--coral); }
+  .section-card.jobs { border-left-color: var(--grass); }
+  .section-card.grammar { border-left-color: var(--lavender); }
+  .section-card.practice { border-left-color: var(--mint); }
+  .section-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; cursor: pointer; }
+  .section-icon { width: 44px; height: 44px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+  .sec-title { font-family: 'Fredoka One', cursive; font-size: 1.3rem; color: var(--navy); }
+  .sec-subtitle { font-size: 0.82rem; color: #6b7a99; font-weight: 600; margin-top: 2px; }
+  .speak-btn {
+    background: none; border: 2px solid currentColor; border-radius: var(--badge-r);
+    padding: 4px 12px; font-size: 0.78rem; font-family: 'Nunito', sans-serif; font-weight: 700;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 5px;
+    transition: background .18s, color .18s, transform .12s; margin-left: 8px; vertical-align: middle;
+  }
+  .speak-btn:hover { transform: scale(1.07); }
+  .speak-btn.sky { color: var(--sky); }
+  .speak-btn.sky:hover { background: var(--sky); color: #fff; }
+  .speak-btn.coral { color: var(--coral); }
+  .speak-btn.coral:hover { background: var(--coral); color: #fff; }
+  .speak-btn.grass { color: var(--grass); }
+  .speak-btn.grass:hover { background: var(--grass); color: #fff; }
+  .speak-btn.lavender { color: var(--lavender); }
+  .speak-btn.lavender:hover { background: var(--lavender); color: #fff; }
+  .word-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-top: 16px; }
+  .word-card {
+    background: linear-gradient(135deg, #f8fbff, #eaf6ff); border: 2px solid #c8e8ff;
+    border-radius: 14px; padding: 14px 12px; text-align: center; cursor: pointer;
+    transition: transform .18s, box-shadow .18s, background .18s;
+  }
+  .word-card:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(79,195,247,.22); background: linear-gradient(135deg,#e0f4ff,#d6f0ff); }
+  .word-card.family-wc { background: linear-gradient(135deg, #fff8f6, #ffe9e3); border-color: #ffc8b3; }
+  .word-card.family-wc:hover { background: linear-gradient(135deg,#ffe5dc,#ffd5c7); }
+  .word-card.job-wc { background: linear-gradient(135deg, #f5fff6, #e3f8e5); border-color: #b3e6b6; }
+  .word-card.job-wc:hover { background: linear-gradient(135deg,#d9f5dc,#c8f0cb); }
+  .word-emoji { font-size: 2rem; margin-bottom: 6px; }
+  .word-english { font-family: 'Fredoka One', cursive; font-size: 1.05rem; color: var(--navy); }
+  .word-chinese { font-size: 0.72rem; color: #8896b0; margin-top: 2px; }
+  .word-def { font-size: 0.7rem; color: #6b7a99; margin-top: 4px; line-height: 1.4; }
+  .pattern-box {
+    background: linear-gradient(135deg, #f0ebff, #ede7ff); border: 2px solid #c9bbff;
+    border-radius: 14px; padding: 16px 18px; margin-bottom: 12px; cursor: pointer;
+  }
+  .pattern-label { font-family: 'Fredoka One', cursive; font-size: 0.8rem; color: var(--lavender); letter-spacing: .08em; margin-bottom: 6px; }
+  .pattern-sentence { font-size: 1.05rem; font-weight: 700; color: var(--navy); line-height: 1.5; }
+  .pattern-sentence .blank {
+    display: inline-block; min-width: 90px; border-bottom: 3px solid var(--lavender);
+    text-align: center; color: var(--lavender); font-style: italic;
+  }
+  .example-text { font-size: 0.88rem; color: #555f7a; margin-top: 6px; font-style: italic; padding-left: 8px; border-left: 3px solid #c9bbff; }
+  .tip-box {
+    background: linear-gradient(135deg, #fffde7, #fff9c4); border: 2px solid #FFD54F;
+    border-radius: 14px; padding: 12px 16px; margin-top: 14px;
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 0.85rem; font-weight: 600; color: #7a5c00;
+  }
+  .tip-box .tip-icon { font-size: 1.3rem; flex-shrink: 0; }
+  .quiz-wrapper { background: var(--card-bg); border-radius: var(--radius); padding: 28px; box-shadow: var(--shadow); }
+  .quiz-header { display: flex; align-items: center; gap: 14px; margin-bottom: 24px; }
+  .quiz-header h2 { font-family: 'Fredoka One', cursive; font-size: 1.6rem; color: var(--navy); }
+  .quiz-progress { font-size: 0.85rem; color: #8896b0; font-weight: 600; margin-left: auto; }
+  .quiz-score-badge { background: var(--sun); color: var(--navy); font-family: 'Fredoka One', cursive; padding: 4px 16px; border-radius: var(--badge-r); font-size: 1rem; }
+  .quiz-q-card { background: linear-gradient(135deg, #f4f8ff, #eaf0ff); border-radius: 16px; padding: 22px 24px; margin-bottom: 18px; display: none; animation: fadeIn .3s ease; }
+  .quiz-q-card.active { display: block; }
+  .q-num { font-size: 0.78rem; font-weight: 800; color: var(--sky); letter-spacing: .1em; margin-bottom: 8px; }
+  .q-text { font-size: 1.1rem; font-weight: 700; color: var(--navy); margin-bottom: 16px; line-height: 1.5; }
+  .q-hint { font-size: 0.78rem; color: #8896b0; margin-bottom: 14px; font-style: italic; }
+  .options-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 500px) { .options-grid { grid-template-columns: 1fr; } }
+  .opt-btn {
+    background: #fff; border: 2.5px solid #d0d9ef; border-radius: 12px;
+    padding: 12px 16px; text-align: left;
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.92rem;
+    cursor: pointer; transition: border-color .18s, background .18s, transform .12s;
+    color: var(--navy); display: flex; align-items: center; gap: 8px;
+  }
+  .opt-btn:hover:not(:disabled) { border-color: var(--sky); background: #f0f9ff; transform: translateY(-2px); }
+  .opt-btn.correct { background: #e6faf0; border-color: var(--grass); color: #1b5e20; }
+  .opt-btn.wrong { background: #fff0ed; border-color: var(--coral); color: #b71c1c; }
+  .opt-btn:disabled { cursor: default; transform: none; }
+  .opt-prefix {
+    width: 26px; height: 26px; border-radius: 50%; background: #eef2ff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 800; flex-shrink: 0; transition: background .18s;
+  }
+  .opt-btn.correct .opt-prefix { background: var(--grass); color: #fff; }
+  .opt-btn.wrong .opt-prefix { background: var(--coral); color: #fff; }
+  .q-feedback { margin-top: 14px; padding: 12px 16px; border-radius: 12px; font-weight: 700; font-size: 0.92rem; display: none; animation: fadeIn .25s ease; }
+  .q-feedback.correct { background: #e6faf0; color: #2e7d32; border: 2px solid var(--grass); }
+  .q-feedback.wrong { background: #fff0ed; color: #c62828; border: 2px solid var(--coral); }
+  .quiz-nav { display: flex; align-items: center; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
+  .quiz-nav-btn { padding: 10px 24px; border-radius: var(--badge-r); border: none; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.9rem; cursor: pointer; transition: transform .15s, background .2s; }
+  .quiz-nav-btn:hover { transform: scale(1.05); }
+  .btn-next { background: var(--sky); color: #fff; }
+  .btn-prev { background: #e8ecf8; color: var(--navy); }
+  .btn-restart { background: var(--coral); color: #fff; }
+  .btn-submit { background: var(--grass); color: #fff; }
+  .quiz-results { display: none; text-align: center; padding: 30px 20px; animation: fadeIn .4s ease; }
+  .result-emoji { font-size: 4rem; margin-bottom: 12px; }
+  .result-title { font-family: 'Fredoka One', cursive; font-size: 2rem; color: var(--navy); margin-bottom: 8px; }
+  .result-score { font-size: 1.3rem; font-weight: 700; color: var(--lavender); margin-bottom: 20px; }
+  .result-bar { background: #eef2ff; border-radius: 8px; height: 12px; overflow: hidden; margin: 0 auto 20px; max-width: 360px; }
+  .result-bar-fill { height: 12px; border-radius: 8px; background: linear-gradient(90deg, var(--sky), var(--grass)); transition: width 1s ease; }
+  .result-detail { background: #f4f8ff; border-radius: 14px; padding: 16px; text-align: left; margin-bottom: 18px; max-width: 480px; margin-left: auto; margin-right: auto; }
+  .result-detail p { font-size: 0.88rem; margin-bottom: 6px; font-weight: 600; color: #555f7a; }
+  .flashcard-wrap { max-width: 520px; margin: 0 auto; }
+  .flashcard {
+    background: linear-gradient(135deg, var(--navy), #2d4a7a);
+    border-radius: 24px; min-height: 200px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    cursor: pointer; box-shadow: 0 12px 40px rgba(26,43,74,.22);
+    padding: 30px; text-align: center; position: relative; overflow: hidden;
+    transition: transform .2s; margin-bottom: 18px;
+  }
+  .flashcard:hover { transform: scale(1.02); }
+  .flashcard::after { content: 'TAP TO FLIP'; position: absolute; bottom: 12px; right: 16px; font-size: 0.65rem; color: rgba(255,255,255,.3); font-weight: 800; letter-spacing: .1em; }
+  .fc-emoji { font-size: 3.5rem; margin-bottom: 8px; }
+  .fc-word { font-family: 'Fredoka One', cursive; font-size: 2rem; color: #fff; }
+  .fc-sub { font-size: 0.9rem; color: rgba(255,255,255,.6); margin-top: 6px; }
+  .fc-answer { display: none; }
+  .fc-answer .fc-def { font-size: 1rem; color: var(--sun); font-weight: 700; line-height: 1.5; margin-top: 8px; }
+  .fc-answer .fc-example { font-size: 0.85rem; color: rgba(255,255,255,.75); font-style: italic; margin-top: 8px; }
+  .fc-controls { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+  .fc-btn { padding: 10px 22px; border-radius: var(--badge-r); border: none; font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.88rem; cursor: pointer; transition: transform .15s; }
+  .fc-btn:hover { transform: scale(1.05); }
+  .fc-counter { text-align: center; font-size: 0.82rem; color: #8896b0; font-weight: 700; margin-bottom: 14px; }
+  .fc-category-select { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 16px; }
+  .cat-btn { padding: 6px 16px; border-radius: var(--badge-r); border: 2px solid; font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 0.8rem; cursor: pointer; transition: background .18s, color .18s; background: transparent; }
+  .cat-btn.family { border-color: var(--coral); color: var(--coral); }
+  .cat-btn.family.active, .cat-btn.family:hover { background: var(--coral); color: #fff; }
+  .cat-btn.jobs { border-color: var(--grass); color: var(--grass); }
+  .cat-btn.jobs.active, .cat-btn.jobs:hover { background: var(--grass); color: #fff; }
+  .cat-btn.all { border-color: var(--sky); color: var(--sky); }
+  .cat-btn.all.active, .cat-btn.all:hover { background: var(--sky); color: #fff; }
+  .fill-card { background: var(--card-bg); border-radius: 16px; padding: 22px; margin-bottom: 14px; border: 2px solid #e2e9f8; transition: border-color .2s; }
+  .fill-card.correct-fill { border-color: var(--grass); background: #f2fbf4; }
+  .fill-card.wrong-fill { border-color: var(--coral); background: #fff5f3; }
+  .fill-sentence { font-size: 1.05rem; font-weight: 700; color: var(--navy); line-height: 2; }
+  .fill-input {
+    display: inline-block; border: none; border-bottom: 3px solid var(--lavender);
+    background: transparent; min-width: 100px; padding: 0 8px;
+    font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 1rem;
+    color: var(--lavender); outline: none; text-align: center; transition: border-color .2s;
+  }
+  .fill-input:focus { border-bottom-color: var(--sky); }
+  .fill-input.correct-input { border-bottom-color: var(--grass); color: var(--grass); }
+  .fill-input.wrong-input { border-bottom-color: var(--coral); color: var(--coral); }
+  .fill-hint { font-size: 0.78rem; color: #aab2c8; margin-top: 6px; font-style: italic; }
+  .fill-result { font-size: 0.82rem; font-weight: 700; margin-top: 8px; display: none; }
+  .fill-check-btn {
+    background: var(--lavender); color: #fff; border: none;
+    padding: 10px 28px; border-radius: var(--badge-r);
+    font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 0.9rem;
+    cursor: pointer; margin-top: 16px; transition: transform .15s, background .2s;
+  }
+  .fill-check-btn:hover { transform: scale(1.05); background: #7c4dca; }
+  .vocab-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .vocab-table th { background: var(--navy); color: #fff; padding: 10px 14px; text-align: left; font-family: 'Fredoka One', cursive; font-size: 0.88rem; letter-spacing: .04em; }
+  .vocab-table th:first-child { border-radius: 10px 0 0 0; }
+  .vocab-table th:last-child { border-radius: 0 10px 0 0; }
+  .vocab-table td { padding: 9px 14px; border-bottom: 1px solid #eef2ff; vertical-align: middle; }
+  .vocab-table tr:hover td { background: #f5f8ff; }
+  .vocab-table tr:last-child td { border-bottom: none; }
+  .vtag { display: inline-block; padding: 2px 10px; border-radius: var(--badge-r); font-size: 0.72rem; font-weight: 800; letter-spacing: .05em; }
+  .vtag.family { background: #ffeae3; color: var(--coral); }
+  .vtag.jobs { background: #e3f8e5; color: #2e7d32; }
+  .vtag.action { background: #ede7ff; color: var(--lavender); }
+  .sticker-board { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: 10px; margin-top: 16px; }
+  .sticker {
+    background: #f0f4ff; border: 2px dashed #c8d4f0; border-radius: 14px;
+    height: 80px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+    font-size: 0.7rem; color: #aab2c8; font-weight: 700; cursor: pointer;
+    transition: background .2s, border-color .2s, transform .15s; text-align: center; padding: 6px;
+  }
+  .sticker.earned { background: linear-gradient(135deg, #fff9e6, #fff4cc); border-color: var(--sun); color: var(--navy); animation: pop .3s ease; }
+  .sticker .s-emoji { font-size: 1.8rem; margin-bottom: 2px; }
+  @keyframes pop { 0% { transform: scale(.7); } 60% { transform: scale(1.15); } 100% { transform: scale(1); } }
+  .ftree-box {
+    background: linear-gradient(135deg, #fff8f6, #ffe9e3); border: 2.5px solid var(--coral);
+    border-radius: 14px; padding: 8px 16px; text-align: center;
+    font-family: 'Fredoka One', cursive; font-size: 0.9rem; color: var(--navy);
+    min-width: 90px; cursor: pointer; transition: transform .18s, box-shadow .18s;
+  }
+  .ftree-box:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(255,112,67,.18); }
+  .ftree-box .ftree-zh { font-family: 'Quicksand', sans-serif; font-size: 0.68rem; color: #9a6b5c; margin-top: 1px; }
+  .ftree-line-v { width: 2.5px; height: 22px; background: #ffb3a0; margin: 0 auto; }
+  .section-title-bar { font-family: 'Fredoka One', cursive; font-size: 1.5rem; color: var(--navy); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  footer { text-align: center; padding: 28px; color: #8896b0; font-size: 0.82rem; font-weight: 600; border-top: 2px solid #eef2ff; margin-top: 20px; }
+  @media (max-width: 600px) { .section-card { padding: 18px 16px; } .word-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); } header h1 { font-size: 1.8rem; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="grade-badge">📚 GRADE 3–4 ENGLISH</div>
+  <h1>Exploring Families &amp; Careers</h1>
+  <p class="subtitle">A fun journey into our world of people, jobs, and the things we can do!</p>
+  <div class="header-emojis">👨‍👩‍👧‍👦 🏫 👩‍⚕️ 👨‍🚒 ✈️ 🌱</div>
+</header>
+
+<nav class="tab-nav">
+  <button class="tab-btn active" onclick="switchTab('home')">🏠 Home</button>
+  <button class="tab-btn" onclick="switchTab('family')">👨‍👩‍👧 Family</button>
+  <button class="tab-btn" onclick="switchTab('careers')">💼 Careers</button>
+  <button class="tab-btn" onclick="switchTab('grammar')">📝 Grammar</button>
+  <button class="tab-btn" onclick="switchTab('flashcards')">🃏 Flashcards</button>
+  <button class="tab-btn" onclick="switchTab('quiz')">🧠 Quiz</button>
+  <button class="tab-btn" onclick="switchTab('fillblanks')">✏️ Fill Blanks</button>
+  <button class="tab-btn" onclick="switchTab('vocab')">📖 Vocabulary</button>
+  <button class="tab-btn" onclick="switchTab('progress')">⭐ My Stars</button>
+</nav>
+
+<main>
+
+<!-- HOME -->
+<div class="tab-panel active" id="panel-home">
+  <div class="audio-bar">
+    <span class="ab-label">🔊 Audio Reader</span>
+    <button class="play-all-btn" id="playAllBtn" onclick="startFullAudio()">▶ Play All</button>
+    <button class="stop-btn" onclick="stopAudio()">⏹ Stop</button>
+    <div class="speed-control">Speed:
+      <select id="rateSelect" onchange="updateRate()">
+        <option value="0.7">Slow</option>
+        <option value="0.85" selected>Medium</option>
+        <option value="1.0">Normal</option>
+      </select>
+    </div>
+    <div class="now-playing" id="nowPlaying">Ready to read…</div>
+    <div id="progress-bar-wrap"><div id="progress-bar-fill"></div></div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header">
+      <div class="section-icon" style="background:#e0f4ff;">📘</div>
+      <div><div class="sec-title">Welcome to Our Lesson!</div><div class="sec-subtitle">Click any section to hear it read aloud</div></div>
+      <button class="speak-btn sky" onclick="speakText('Welcome to Exploring Families and Careers. A fun journey into our world of people, jobs, and the things we can do!')">🔊 Hear</button>
+    </div>
+    <p style="line-height:1.8; font-size:0.95rem; color:#3a4a6a;">
+      In this lesson, we will learn about <strong>family members</strong> — like aunts, uncles, and cousins — and explore exciting <strong>careers</strong> in our community. We will also practise using sentences like <em>"My father is a doctor"</em> and <em>"I can cook dinner."</em>
+    </p>
+    <div class="tip-box"><span class="tip-icon">💡</span><span>Click the <strong>🔊 Hear</strong> button on any card to listen with a British English pronunciation!</span></div>
+  </div>
+
+  <div class="section-title-bar"><span>🗺️</span> Quick Navigation</div>
+  <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap:14px; margin-bottom:28px;">
+    <div class="word-card" onclick="switchTab('family')"><div class="word-emoji">👨‍👩‍👧</div><div class="word-english">Family Tree</div><div class="word-def">Learn all family members</div></div>
+    <div class="word-card job-wc" onclick="switchTab('careers')"><div class="word-emoji">👩‍⚕️</div><div class="word-english">Careers</div><div class="word-def">Discover community heroes</div></div>
+    <div class="word-card family-wc" onclick="switchTab('grammar')"><div class="word-emoji">📝</div><div class="word-english">Grammar</div><div class="word-def">Sentence patterns</div></div>
+    <div class="word-card" onclick="switchTab('quiz')"><div class="word-emoji">🧠</div><div class="word-english">Quiz</div><div class="word-def">Test what you've learned!</div></div>
+    <div class="word-card job-wc" onclick="switchTab('flashcards')"><div class="word-emoji">🃏</div><div class="word-english">Flashcards</div><div class="word-def">Tap to flip and learn!</div></div>
+    <div class="word-card family-wc" onclick="switchTab('fillblanks')"><div class="word-emoji">✏️</div><div class="word-english">Fill in Blanks</div><div class="word-def">Complete the sentences</div></div>
+  </div>
+
+  <div class="section-card practice">
+    <div class="section-header">
+      <div class="section-icon" style="background:#e0fff8;">🎯</div>
+      <div><div class="sec-title">Lesson Outcomes</div><div class="sec-subtitle">By the end, you will be able to…</div></div>
+      <button class="speak-btn" style="color:var(--mint);" onclick="speakText('By the end of this lesson, you will be able to: Name extended family members. Describe what people do for work. Use I can and I am sentences. Talk about your own family with confidence.')">🔊 Hear</button>
+    </div>
+    <ul style="line-height:2; padding-left:20px; font-size:0.92rem; color:#3a4a6a;">
+      <li>✅ Name extended family members (aunt, uncle, cousin, grandchild)</li>
+      <li>✅ Describe what people do for work</li>
+      <li>✅ Use <strong>"I can…"</strong> and <strong>"I am + -ing"</strong> sentences</li>
+      <li>✅ Talk about your own family with confidence</li>
+    </ul>
+  </div>
+</div>
+
+<!-- FAMILY -->
+<div class="tab-panel" id="panel-family">
+  <div class="audio-bar">
+    <span class="ab-label">🔊 Audio</span>
+    <button class="play-all-btn" onclick="speakFamilyAll()">▶ Read All</button>
+    <button class="stop-btn" onclick="stopAudio()">⏹ Stop</button>
+    <div class="now-playing">Click a word card to hear it</div>
+  </div>
+
+  <div class="section-card family">
+    <div class="section-header">
+      <div class="section-icon" style="background:#ffeae3;">🌳</div>
+      <div><div class="sec-title">Our Family Tree 家譜</div><div class="sec-subtitle">Click any family member to hear their name!</div></div>
+      <button class="speak-btn coral" onclick="speakText('Our Family Tree. A family tree shows all the people in your family.')">🔊 Hear</button>
+    </div>
+    <!-- Visual Family Tree -->
+    <div style="overflow-x:auto; padding:10px 0;">
+      <div style="display:flex; flex-direction:column; align-items:center; min-width:500px;">
+        <div style="display:flex; gap:20px; align-items:center;">
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <div class="ftree-box" onclick="speakWordCard('Grandpa','Your father\'s or mother\'s father.','My grandpa is very kind.')">Grandpa<div class="ftree-zh">爺爺/外公</div></div>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <div class="ftree-box" onclick="speakWordCard('Grandma','Your father\'s or mother\'s mother.','My grandma makes delicious food.')">Grandma<div class="ftree-zh">奶奶/外婆</div></div>
+          </div>
+          <div style="width:30px;"></div>
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <div class="ftree-box" onclick="speakWordCard('Grandma','Your mother\'s mother.','My grandma is a homemaker.')">Grandma<div class="ftree-zh">外婆</div></div>
+          </div>
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <div class="ftree-box" onclick="speakWordCard('Grandpa','Your mother\'s father.','My grandpa is a retired farmer.')">Grandpa<div class="ftree-zh">外公</div></div>
+          </div>
+        </div>
+        <div class="ftree-line-v" style="height:24px;"></div>
+        <div style="display:flex; gap:18px; align-items:center;">
+          <div class="ftree-box" onclick="speakWordCard('Father','Your dad.','My father is an engineer.')">Father<div class="ftree-zh">爸爸</div></div>
+          <div class="ftree-box" onclick="speakWordCard('Aunt','Your father\'s sister.','My aunt is a teacher.')">Aunt<div class="ftree-zh">姑姑</div></div>
+          <div class="ftree-box" onclick="speakWordCard('Mother','Your mum.','My mother is a nurse.')">Mother<div class="ftree-zh">媽媽</div></div>
+          <div class="ftree-box" onclick="speakWordCard('Uncle','Your mother\'s brother.','My uncle is a firefighter.')">Uncle<div class="ftree-zh">舅舅</div></div>
+        </div>
+        <div class="ftree-line-v" style="height:24px;"></div>
+        <div style="display:flex; gap:18px; align-items:center;">
+          <div class="ftree-box" onclick="speakWordCard('Cousin Brother','The child of your aunt or uncle.','My cousin brother is an honest boy.')">Cousin<br>Brother<div class="ftree-zh">表哥</div></div>
+          <div class="ftree-box" style="background:linear-gradient(135deg,#fff9e0,#fff0c4);border-color:#FFD54F;" onclick="speakText('That is me! I am the grandchild!')">YOU 👤<div class="ftree-zh">孫子/女</div></div>
+          <div class="ftree-box" onclick="speakWordCard('Cousin Sister','The child of your aunt or uncle.','My cousin sister is active in sports.')">Cousin<br>Sister<div class="ftree-zh">表姐</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title-bar" style="margin-top:8px;"><span>👥</span> Extended Family Members</div>
+  <div class="word-grid">
+    <div class="word-card family-wc" onclick="speakWordCard('Aunt','Your father\'s or mother\'s sister.','My aunt is a teacher.')"><div class="word-emoji">👩</div><div class="word-english">Aunt 姑姑</div><div class="word-def">Your father's or mother's sister</div></div>
+    <div class="word-card family-wc" onclick="speakWordCard('Uncle','Your father\'s or mother\'s brother.','My uncle is a firefighter.')"><div class="word-emoji">👨</div><div class="word-english">Uncle 舅舅</div><div class="word-def">Your father's or mother's brother</div></div>
+    <div class="word-card family-wc" onclick="speakWordCard('Cousin Brother','The child of your aunt or uncle.','My cousin brother is an honest boy.')"><div class="word-emoji">🧑</div><div class="word-english">Cousin Brother 表哥</div><div class="word-def">Child of your aunt or uncle</div></div>
+    <div class="word-card family-wc" onclick="speakWordCard('Cousin Sister','The child of your aunt or uncle.','My cousin sister is active in sports.')"><div class="word-emoji">👧</div><div class="word-english">Cousin Sister 表姐</div><div class="word-def">Child of your aunt or uncle</div></div>
+    <div class="word-card family-wc" onclick="speakWordCard('Grandchild','A child of a son or daughter.','I am a happy grandchild.')"><div class="word-emoji">👶</div><div class="word-english">Grandchild 孫子</div><div class="word-def">A child of a son or daughter</div></div>
+    <div class="word-card family-wc" onclick="speakWordCard('Parents','Your mother and father together.','My parents love me very much.')"><div class="word-emoji">👨‍👩‍👦</div><div class="word-english">Parents 父母</div><div class="word-def">Your mother and father</div></div>
+    <div class="word-card family-wc" onclick="speakWordCard('Caregiver','A person who takes care of others.','My grandmother is a caregiver.')"><div class="word-emoji">🤲</div><div class="word-english">Caregiver 照顧者</div><div class="word-def">One who takes care of others</div></div>
+    <div class="word-card family-wc" onclick="speakWordCard('Breadwinner','The main earner of the family.','My father is the breadwinner.')"><div class="word-emoji">💰</div><div class="word-english">Breadwinner 一家之主</div><div class="word-def">The main earner of the family</div></div>
+  </div>
+  <div class="tip-box" style="margin-top:20px;"><span class="tip-icon">✍️</span><span><strong>Useful Tip:</strong> Use <em>"parents"</em> instead of <em>"mom and dad"</em> in formal writing!</span></div>
+</div>
+
+<!-- CAREERS -->
+<div class="tab-panel" id="panel-careers">
+  <div class="audio-bar">
+    <span class="ab-label">🔊 Audio</span>
+    <button class="play-all-btn" onclick="speakCareerSection()">▶ Read All Jobs</button>
+    <button class="stop-btn" onclick="stopAudio()">⏹ Stop</button>
+    <div class="now-playing">Click a job card to hear it!</div>
+  </div>
+
+  <div class="section-card jobs">
+    <div class="section-header">
+      <div class="section-icon" style="background:#e3f8e5;">🏙️</div>
+      <div><div class="sec-title">Community Heroes</div><div class="sec-subtitle">Every job is important in our community!</div></div>
+      <button class="speak-btn grass" onclick="speakText('Community Heroes. Every job is important in our community.')">🔊 Hear</button>
+    </div>
+    <div class="word-grid">
+      <div class="word-card job-wc" onclick="speakJobCard('Police Officer','警察','Protects our community and helps lost children.')"><div class="word-emoji">👮</div><div class="word-english">Police Officer</div><div class="word-chinese">警察</div><div class="word-def">Protects the community</div></div>
+      <div class="word-card job-wc" onclick="speakJobCard('Firefighter','消防員','Helps people stay safe and puts out dangerous fires.')"><div class="word-emoji">🚒</div><div class="word-english">Firefighter</div><div class="word-chinese">消防員</div><div class="word-def">Puts out fires, saves lives</div></div>
+      <div class="word-card job-wc" onclick="speakJobCard('Farmer','農夫','Grows food and takes care of animals on the farm.')"><div class="word-emoji">🧑‍🌾</div><div class="word-english">Farmer</div><div class="word-chinese">農夫</div><div class="word-def">Grows food for everyone</div></div>
+      <div class="word-card job-wc" onclick="speakJobCard('Engineer','工程師','Designs and builds amazing bridges and machines.')"><div class="word-emoji">👷</div><div class="word-english">Engineer</div><div class="word-chinese">工程師</div><div class="word-def">Builds bridges and machines</div></div>
+      <div class="word-card job-wc" onclick="speakJobCard('Plumber','水電工','Fixes water pipes and sinks to keep water flowing.')"><div class="word-emoji">🔧</div><div class="word-english">Plumber</div><div class="word-chinese">水電工</div><div class="word-def">Fixes pipes and water systems</div></div>
+      <div class="word-card job-wc" onclick="speakJobCard('Artist','藝術家','Creates beautiful pictures using colours and shapes.')"><div class="word-emoji">🎨</div><div class="word-english">Artist</div><div class="word-chinese">藝術家</div><div class="word-def">Creates beautiful art</div></div>
+      <div class="word-card job-wc" onclick="speakJobCard('Dentist','牙醫師','A dentist checks and fixes our teeth.')"><div class="word-emoji">🦷</div><div class="word-english">Dentist</div><div class="word-chinese">牙醫師</div><div class="word-def">Checks and fixes our teeth</div></div>
+      <div class="word-card job-wc" onclick="speakJobCard('Chef','廚師','A chef cooks delicious food in a restaurant.')"><div class="word-emoji">👨‍🍳</div><div class="word-english">Chef</div><div class="word-chinese">廚師</div><div class="word-def">Cooks in a restaurant</div></div>
+      <div class="word-card job-wc" onclick="speakJobCard('Baker','麵包師傅','A baker makes bread, cakes, pizzas and cookies.')"><div class="word-emoji">🥐</div><div class="word-english">Baker</div><div class="word-chinese">麵包師傅</div><div class="word-def">Makes bread and cakes</div></div>
+      <div class="word-card job-wc" onclick="speakJobCard('Construction Worker','建築工人','A construction worker builds houses, buildings and roads.')"><div class="word-emoji">🏗️</div><div class="word-english">Construction Worker</div><div class="word-chinese">建築工人</div><div class="word-def">Builds houses and roads</div></div>
+      <div class="word-card job-wc" onclick="speakJobCard('Pilot','飛行員','Flies aeroplanes and helps people travel to other countries.')"><div class="word-emoji">✈️</div><div class="word-english">Pilot</div><div class="word-chinese">飛行員</div><div class="word-def">Flies aeroplanes</div></div>
+      <div class="word-card job-wc" onclick="speakJobCard('Veterinarian','獸醫','Takes care of sick or hurt animals like dogs and cats.')"><div class="word-emoji">🐾</div><div class="word-english">Vet</div><div class="word-chinese">獸醫</div><div class="word-def">Cares for animals</div></div>
+      <div class="word-card job-wc" onclick="speakJobCard('Scientist','科學家','Studies nature and the world by doing experiments.')"><div class="word-emoji">🔬</div><div class="word-english">Scientist</div><div class="word-chinese">科學家</div><div class="word-def">Does experiments</div></div>
+      <div class="word-card job-wc" onclick="speakJobCard('Musician','音樂家','Plays music using instruments like guitars or pianos.')"><div class="word-emoji">🎵</div><div class="word-english">Musician</div><div class="word-chinese">音樂家</div><div class="word-def">Plays musical instruments</div></div>
+      <div class="word-card job-wc" onclick="speakJobCard('Librarian','圖書館員','Helps people find books and keeps the library organised.')"><div class="word-emoji">📚</div><div class="word-english">Librarian</div><div class="word-chinese">圖書館員</div><div class="word-def">Helps you find books</div></div>
+      <div class="word-card job-wc" onclick="speakJobCard('Delivery Driver','送貨員','Brings packages and food to people\'s homes safely.')"><div class="word-emoji">🚚</div><div class="word-english">Delivery Driver</div><div class="word-chinese">送貨員</div><div class="word-def">Delivers packages and food</div></div>
+    </div>
+  </div>
+
+  <div class="section-card jobs" style="margin-top:20px;">
+    <div class="section-header">
+      <div class="section-icon" style="background:#e3f8e5;">💬</div>
+      <div><div class="sec-title">Guess My Job! 🎭</div><div class="sec-subtitle">Can you figure out the job from the clue?</div></div>
+    </div>
+    <div style="background:#f5fff6; border:2px solid #b3e6b6; border-radius:14px; padding:18px; text-align:center;">
+      <div style="font-size:2.5rem; margin-bottom:8px;" id="guessJobEmoji">🤔</div>
+      <div style="font-family:'Fredoka One',cursive; font-size:1.05rem; color:var(--navy); margin-bottom:16px;" id="guessJobClue">Press "New Clue" to start!</div>
+      <div id="guessJobAnswer" style="display:none; background:#e3f8e5; border-radius:10px; padding:10px; font-weight:800; color:#2e7d32; margin-bottom:12px;"></div>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+        <button class="quiz-nav-btn btn-next" onclick="newGuessClue()">🎲 New Clue</button>
+        <button class="quiz-nav-btn btn-submit" onclick="revealGuessAnswer()">💡 Reveal Answer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- GRAMMAR -->
+<div class="tab-panel" id="panel-grammar">
+  <div class="audio-bar">
+    <span class="ab-label">🔊 Audio</span>
+    <button class="play-all-btn" onclick="speakGrammarAll()">▶ Read All Patterns</button>
+    <button class="stop-btn" onclick="stopAudio()">⏹ Stop</button>
+    <div class="now-playing">Click any pattern to hear it</div>
+  </div>
+
+  <div class="section-card grammar">
+    <div class="section-header">
+      <div class="section-icon" style="background:#ede7ff;">📐</div>
+      <div><div class="sec-title">Sentence Patterns</div><div class="sec-subtitle">Three key patterns to master!</div></div>
+    </div>
+    <div class="pattern-box" onclick="speakText('Pattern one. Identifying people. Who is he? Who is she? He is my father. He is a doctor.')">
+      <div class="pattern-label">PATTERN 1 — IDENTIFYING PEOPLE</div>
+      <div class="pattern-sentence">Who's he? / Who's she?<br>He's my <span class="blank">father</span>. He's a <span class="blank">doctor</span>.</div>
+      <div class="example-text">👉 "Who's she? She's my aunt. She's a teacher."</div>
+    </div>
+    <div class="pattern-box" onclick="speakText('Pattern two. What does your mother do? She is a nurse.')">
+      <div class="pattern-label">PATTERN 2 — ASKING ABOUT OCCUPATIONS</div>
+      <div class="pattern-sentence">What does your <span class="blank">mother</span> do?<br>She's a <span class="blank">nurse</span>.</div>
+      <div class="example-text">👉 "What does your father do? He's a police officer."</div>
+    </div>
+    <div class="pattern-box" onclick="speakText('Pattern three. Introduction. This is my father. He is a teacher. This is my mother. She is a nurse.')">
+      <div class="pattern-label">PATTERN 3 — INTRODUCTION</div>
+      <div class="pattern-sentence">This is my <span class="blank">father</span>. He is a <span class="blank">teacher</span>.</div>
+      <div class="example-text">👉 "This is my sister. She is a student."</div>
+    </div>
+  </div>
+
+  <div class="section-card grammar">
+    <div class="section-header">
+      <div class="section-icon" style="background:#ede7ff;">💪</div>
+      <div><div class="sec-title">I can + Action</div><div class="sec-subtitle">Tell us what you are able to do!</div></div>
+      <button class="speak-btn lavender" onclick="speakText('I can run. I can jump. I can sing. I can dance. I can read. I can write. I can draw. I can swim. I can cook. I can help.')">🔊 Hear All</button>
+    </div>
+    <div class="word-grid">
+      <div class="word-card" onclick="speakText('I can run fast in the park!')"><div class="word-emoji">🏃</div><div class="word-english">run</div><div class="word-def">"I can run fast!"</div></div>
+      <div class="word-card" onclick="speakText('I can jump very high!')"><div class="word-emoji">🦘</div><div class="word-english">jump</div><div class="word-def">"I can jump high!"</div></div>
+      <div class="word-card" onclick="speakText('I can sing a happy song!')"><div class="word-emoji">🎤</div><div class="word-english">sing</div><div class="word-def">"I can sing!"</div></div>
+      <div class="word-card" onclick="speakText('I can dance with my friends!')"><div class="word-emoji">💃</div><div class="word-english">dance</div><div class="word-def">"I can dance!"</div></div>
+      <div class="word-card" onclick="speakText('I can read a story about a firefighter!')"><div class="word-emoji">📖</div><div class="word-english">read</div><div class="word-def">"I can read!"</div></div>
+      <div class="word-card" onclick="speakText('I can write my name in English!')"><div class="word-emoji">✍️</div><div class="word-english">write</div><div class="word-def">"I can write!"</div></div>
+      <div class="word-card" onclick="speakText('I can draw a beautiful picture!')"><div class="word-emoji">🖍️</div><div class="word-english">draw</div><div class="word-def">"I can draw!"</div></div>
+      <div class="word-card" onclick="speakText('I can swim in the pool!')"><div class="word-emoji">🏊</div><div class="word-english">swim</div><div class="word-def">"I can swim!"</div></div>
+      <div class="word-card" onclick="speakText('I can cook dinner with my mum!')"><div class="word-emoji">🍳</div><div class="word-english">cook</div><div class="word-def">"I can cook!"</div></div>
+      <div class="word-card" onclick="speakText('I can help my teacher today!')"><div class="word-emoji">🤝</div><div class="word-english">help</div><div class="word-def">"I can help!"</div></div>
+    </div>
+  </div>
+
+  <div class="section-card grammar">
+    <div class="section-header">
+      <div class="section-icon" style="background:#ede7ff;">🔄</div>
+      <div><div class="sec-title">I am + Verb-ing</div><div class="sec-subtitle">Describing what we are doing RIGHT NOW!</div></div>
+    </div>
+    <div class="tip-box" style="margin-bottom:16px;"><span class="tip-icon">🧠</span><span><strong>Grammar Secret:</strong> Use <em>"I'm + V-ing"</em> to talk about what you are doing <em>right now!</em></span></div>
+    <div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap:12px;">
+      <div class="pattern-box" onclick="speakText('I am reading a story about a firefighter.')"><div class="pattern-label">📖 READING</div><div class="pattern-sentence">"I'm reading a story about a firefighter."</div></div>
+      <div class="pattern-box" onclick="speakText('I am building a big tower with blocks.')"><div class="pattern-label">🏗️ BUILDING</div><div class="pattern-sentence">"I'm building a big tower with blocks."</div></div>
+      <div class="pattern-box" onclick="speakText('I am singing a happy song for my family.')"><div class="pattern-label">🎵 SINGING</div><div class="pattern-sentence">"I'm singing a happy song for my family."</div></div>
+      <div class="pattern-box" onclick="speakText('I am helping my teacher in the classroom.')"><div class="pattern-label">🤝 HELPING</div><div class="pattern-sentence">"I'm helping my teacher in the classroom."</div></div>
+      <div class="pattern-box" onclick="speakText('I am teaching students English.')"><div class="pattern-label">👩‍🏫 TEACHING</div><div class="pattern-sentence">"I'm teaching students English."</div></div>
+      <div class="pattern-box" onclick="speakText('I am driving a big red bus.')"><div class="pattern-label">🚌 DRIVING</div><div class="pattern-sentence">"I'm driving a big red bus."</div></div>
+    </div>
+  </div>
+
+  <div class="section-card grammar">
+    <div class="section-header">
+      <div class="section-icon" style="background:#ede7ff;">📎</div>
+      <div><div class="sec-title">Using A / AN with Jobs</div></div>
+      <button class="speak-btn lavender" onclick="speakText('A or An? Use A before consonant sounds. Use AN before vowel sounds. For example: a teacher, a doctor. But: an engineer, an artist.')">🔊 Hear Rule</button>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+      <div style="background:linear-gradient(135deg,#e3f8e5,#d3f5d6); border-radius:14px; padding:16px;">
+        <div style="font-family:'Fredoka One',cursive; color:#2e7d32; margin-bottom:10px; font-size:1rem;">✅ Use "A" (consonant sound)</div>
+        <div style="font-size:0.88rem; line-height:2; font-weight:600;">a <strong>teacher</strong> | a <strong>doctor</strong> | a <strong>farmer</strong> | a <strong>nurse</strong> | a <strong>baker</strong> | a <strong>cook</strong> | a <strong>pilot</strong></div>
+      </div>
+      <div style="background:linear-gradient(135deg,#ede7ff,#e0d8ff); border-radius:14px; padding:16px;">
+        <div style="font-family:'Fredoka One',cursive; color:var(--lavender); margin-bottom:10px; font-size:1rem;">✅ Use "AN" (vowel sound)</div>
+        <div style="font-size:0.88rem; line-height:2; font-weight:600;">an <strong>engineer</strong> | an <strong>artist</strong> | an <strong>actor</strong> | an <strong>active</strong> girl</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FLASHCARDS -->
+<div class="tab-panel" id="panel-flashcards">
+  <div class="section-title-bar"><span>🃏</span> Flashcard Study</div>
+  <div class="fc-category-select">
+    <button class="cat-btn all active" onclick="setFcCategory('all',this)">All Words</button>
+    <button class="cat-btn family" onclick="setFcCategory('family',this)">👨‍👩‍👧 Family</button>
+    <button class="cat-btn jobs" onclick="setFcCategory('jobs',this)">💼 Jobs</button>
+  </div>
+  <div class="flashcard-wrap">
+    <div class="fc-counter" id="fcCounter">Card 1 of 20</div>
+    <div class="flashcard" id="flashcard" onclick="flipCard()">
+      <div id="fc-front">
+        <div class="fc-emoji" id="fcEmoji">👩</div>
+        <div class="fc-word" id="fcWord">Aunt</div>
+        <div class="fc-sub" id="fcSub">姑姑</div>
+      </div>
+      <div class="fc-answer" id="fc-back">
+        <div class="fc-word" id="fcWordBack" style="color:#FFD54F;"></div>
+        <div class="fc-def" id="fcDef"></div>
+        <div class="fc-example" id="fcExample"></div>
+      </div>
+    </div>
+    <div class="fc-controls">
+      <button class="fc-btn" style="background:#e8ecf8; color:var(--navy);" onclick="prevCard()">◀ Previous</button>
+      <button class="fc-btn" style="background:var(--sky); color:#fff;" onclick="speakCurrentCard()">🔊 Hear</button>
+      <button class="fc-btn" style="background:var(--grass); color:#fff;" onclick="nextCard()">Next ▶</button>
+      <button class="fc-btn" style="background:var(--sun); color:var(--navy);" onclick="shuffleCards()">🔀 Shuffle</button>
+    </div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div class="tab-panel" id="panel-quiz">
+  <div class="quiz-wrapper">
+    <div class="quiz-header">
+      <div>🧠</div>
+      <h2>Knowledge Quiz</h2>
+      <div class="quiz-score-badge" id="quizScoreBadge">⭐ 0 / 0</div>
+      <div class="quiz-progress" id="quizProgress">Question 1 of 15</div>
+    </div>
+    <div id="quizContainer"></div>
+    <div class="quiz-results" id="quizResults">
+      <div class="result-emoji" id="resultEmoji">🏆</div>
+      <div class="result-title" id="resultTitle">Amazing!</div>
+      <div class="result-score" id="resultScore">You scored 12 / 15</div>
+      <div class="result-bar"><div class="result-bar-fill" id="resultBarFill"></div></div>
+      <div class="result-detail" id="resultDetail"></div>
+      <button class="quiz-nav-btn btn-restart" onclick="restartQuiz()">🔄 Try Again</button>
+    </div>
+    <div class="quiz-nav" id="quizNav">
+      <button class="quiz-nav-btn btn-prev" id="btnPrev" onclick="prevQuestion()" disabled>◀ Back</button>
+      <button class="quiz-nav-btn btn-next" id="btnNext" onclick="nextQuestion()" disabled>Next ▶</button>
+      <button class="quiz-nav-btn btn-submit" id="btnSubmit" onclick="submitQuiz()" style="display:none;">📊 See Results</button>
+    </div>
+  </div>
+</div>
+
+<!-- FILL BLANKS -->
+<div class="tab-panel" id="panel-fillblanks">
+  <div class="section-title-bar"><span>✏️</span> Fill in the Blanks</div>
+  <div class="audio-bar" style="margin-bottom:20px;">
+    <span class="ab-label">💡 Tip</span>
+    <span style="color:rgba(255,255,255,.8); font-size:0.85rem; font-weight:600;">Complete each sentence with the correct word. Then press Check!</span>
+  </div>
+  <div id="fillBlanksContainer"></div>
+  <button class="fill-check-btn" onclick="checkFillBlanks()">✅ Check All Answers</button>
+  <button class="fill-check-btn" style="background:#e8ecf8; color:var(--navy); margin-left:10px;" onclick="resetFillBlanks()">🔄 Reset</button>
+  <div id="fillBlanksScore" style="margin-top:16px; font-family:'Fredoka One',cursive; font-size:1.1rem; color:var(--grass); display:none;"></div>
+</div>
+
+<!-- VOCABULARY -->
+<div class="tab-panel" id="panel-vocab">
+  <div class="section-title-bar"><span>📖</span> Full Vocabulary Reference</div>
+  <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
+    <button class="cat-btn all active" onclick="filterVocab('all',this)" style="padding:7px 18px;">All</button>
+    <button class="cat-btn family" onclick="filterVocab('family',this)" style="padding:7px 18px;">Family</button>
+    <button class="cat-btn jobs" onclick="filterVocab('jobs',this)" style="padding:7px 18px;">Jobs</button>
+    <button class="cat-btn all" onclick="filterVocab('action',this)" style="border-color:var(--lavender);color:var(--lavender); padding:7px 18px;">Actions</button>
+  </div>
+  <div style="overflow-x:auto; border-radius:14px; box-shadow:var(--shadow);">
+    <table class="vocab-table"><thead><tr><th>Word</th><th>Chinese</th><th>Category</th><th>Definition</th><th>Example</th><th>Audio</th></tr></thead><tbody id="vocabTbody"></tbody></table>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="tab-panel" id="panel-progress">
+  <div class="section-title-bar"><span>⭐</span> My Star Board</div>
+  <div style="background:var(--card-bg); border-radius:var(--radius); padding:24px; box-shadow:var(--shadow); margin-bottom:20px;">
+    <div style="display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:16px;">
+      <div style="font-family:'Fredoka One',cursive; font-size:1.1rem; color:var(--navy);">Stars Earned:</div>
+      <div style="font-family:'Fredoka One',cursive; font-size:2rem; color:var(--sun);" id="totalStars">0 ⭐</div>
+      <div style="margin-left:auto;"><button class="quiz-nav-btn btn-restart" style="font-size:0.8rem; padding:8px 16px;" onclick="resetStars()">Reset Stars</button></div>
+    </div>
+    <div style="background:#f4f8ff; border-radius:12px; height:12px; overflow:hidden; margin-bottom:6px;">
+      <div id="starProgressBar" style="height:12px; border-radius:12px; background:linear-gradient(90deg,var(--sun),var(--coral)); width:0%; transition:width .8s;"></div>
+    </div>
+    <div style="font-size:0.78rem; color:#8896b0; font-weight:600;" id="starProgressLabel">0 / 10 stars collected</div>
+  </div>
+  <div class="section-title-bar"><span>🎖️</span> Achievements</div>
+  <div class="sticker-board" id="stickerBoard"></div>
+  <div class="tip-box" style="margin-top:20px;"><span class="tip-icon">🎯</span><span>Complete the Quiz, Fill Blanks, and use Flashcards to earn your stars!</span></div>
+</div>
+
+</main>
+
+<footer>🇬🇧 All audio uses British English pronunciation &nbsp;|&nbsp; Grade 3–4 English &nbsp;|&nbsp; Exploring Families &amp; Careers &nbsp;|&nbsp; © 2026</footer>
+
+<script>
+// ══════ SPEECH SYNTHESIS ══════
+const synth = window.speechSynthesis;
+let currentRate = 0.85;
+
+function getBritishVoice() {
+  const voices = synth.getVoices();
+  const prefs = ['Google UK English Female','Google UK English Male','Microsoft Hazel','Microsoft George','en-GB'];
+  for (const p of prefs) {
+    const v = voices.find(v => v.name.includes(p) || v.lang === p);
+    if (v) return v;
+  }
+  return voices.find(v => v.lang && v.lang.startsWith('en-GB')) || voices.find(v => v.lang && v.lang.startsWith('en')) || null;
+}
+
+function speakText(text, onEnd) {
+  synth.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate = currentRate; u.pitch = 1.05; u.volume = 1; u.lang = 'en-GB';
+  const v = getBritishVoice(); if (v) u.voice = v;
+  if (onEnd) u.onend = onEnd;
+  const np = document.getElementById('nowPlaying');
+  if (np) np.textContent = '🔊 ' + text.substring(0,50) + (text.length>50?'…':'');
+  synth.speak(u);
+}
+
+function stopAudio() {
+  synth.cancel();
+  const np = document.getElementById('nowPlaying'); if (np) np.textContent = 'Stopped.';
+  const pb = document.getElementById('progress-bar-fill'); if (pb) pb.style.width = '0%';
+}
+
+function updateRate() { currentRate = parseFloat(document.getElementById('rateSelect').value); }
+
+function speakQueue(items, idx) {
+  if (idx >= items.length) {
+    const np = document.getElementById('nowPlaying'); if (np) np.textContent = '✅ Done!';
+    const pb = document.getElementById('progress-bar-fill'); if (pb) pb.style.width = '100%';
+    return;
+  }
+  const item = items[idx];
+  const pb = document.getElementById('progress-bar-fill'); if (pb) pb.style.width = ((idx/items.length)*100)+'%';
+  if (item.pause) { setTimeout(() => speakQueue(items, idx+1), item.pause); return; }
+  const np = document.getElementById('nowPlaying'); if (np) np.textContent = '🔊 ' + item.text.substring(0,55) + (item.text.length>55?'…':'');
+  const u = new SpeechSynthesisUtterance(item.text);
+  u.rate = currentRate; u.pitch = 1.05; u.lang = 'en-GB';
+  const v = getBritishVoice(); if (v) u.voice = v;
+  u.onend = () => speakQueue(items, idx+1);
+  synth.speak(u);
+}
+
+function startFullAudio() {
+  synth.cancel();
+  awardStar('listen_all');
+  speakQueue([
+    {text:'Welcome to Exploring Families and Careers.'},{pause:600},
+    {text:'Section 1. Our Family.'},{pause:700},
+    {text:'In a family, we have grandparents, parents, brothers, sisters, aunts, uncles, and cousins.'},{pause:600},
+    {text:'An aunt is your father\'s or mother\'s sister. My aunt is a teacher.'},{pause:500},
+    {text:'An uncle is your father\'s or mother\'s brother. My uncle is a firefighter.'},{pause:500},
+    {text:'A cousin is the child of your aunt or uncle.'},{pause:500},
+    {text:'A grandchild is a child of a son or daughter.'},{pause:900},
+    {text:'Section 2. Occupations and Jobs.'},{pause:700},
+    {text:'A police officer protects our community.'},{pause:400},
+    {text:'A firefighter helps people stay safe and puts out dangerous fires.'},{pause:400},
+    {text:'A farmer grows food and takes care of animals on the farm.'},{pause:400},
+    {text:'An engineer designs and builds amazing bridges and machines.'},{pause:400},
+    {text:'A dentist checks and fixes our teeth.'},{pause:400},
+    {text:'A chef cooks delicious food in a restaurant.'},{pause:900},
+    {text:'Section 3. Sentence Patterns.'},{pause:700},
+    {text:'Pattern one. Who is he? He is my father. He is a doctor.'},{pause:600},
+    {text:'Pattern two. What does your mother do? She is a nurse.'},{pause:600},
+    {text:'Pattern three. This is my father. He is a teacher.'},{pause:900},
+    {text:'Section 4. I can sentences.'},{pause:700},
+    {text:'I can run. I can jump. I can sing. I can dance. I can read. I can write.'},{pause:800},
+    {text:'Well done! You have finished the lesson. Keep practising every day!'},
+  ], 0);
+}
+
+function speakWordCard(word, def, example) {
+  synth.cancel();
+  speakQueue([{text:word},{pause:500},{text:def},{pause:400},{text:example}], 0);
+}
+
+function speakJobCard(job, zh, def) {
+  synth.cancel();
+  speakQueue([{text:job},{pause:500},{text:def},{pause:400},{text:'A '+job.toLowerCase()+' helps our community.'}], 0);
+}
+
+function speakFamilyAll() {
+  speakQueue([
+    {text:'Family Members.'},{pause:600},
+    {text:'Aunt. Your father\'s or mother\'s sister. My aunt is a teacher.'},{pause:600},
+    {text:'Uncle. Your father\'s or mother\'s brother. My uncle is a firefighter.'},{pause:600},
+    {text:'Cousin. The child of your aunt or uncle.'},{pause:600},
+    {text:'Grandchild. A child of a son or daughter. I am a happy grandchild.'},{pause:600},
+    {text:'Parents. Your mother and father. My parents love me very much.'},{pause:600},
+  ], 0);
+}
+
+function speakCareerSection() {
+  const jobs = [
+    ['Police Officer','Protects our community and helps lost children.'],
+    ['Firefighter','Helps people stay safe and puts out dangerous fires.'],
+    ['Farmer','Grows food and takes care of animals on the farm.'],
+    ['Engineer','Designs and builds amazing bridges and machines.'],
+    ['Dentist','Checks and fixes our teeth.'],
+    ['Chef','Cooks delicious food in a restaurant.'],
+    ['Pilot','Flies aeroplanes and helps people travel.'],
+    ['Scientist','Studies nature and the world by doing experiments.'],
+  ];
+  const items = jobs.flatMap(([j,d]) => [{text:j},{pause:450},{text:d},{pause:650}]);
+  speakQueue(items, 0);
+}
+
+function speakGrammarAll() {
+  speakQueue([
+    {text:'Sentence Patterns.'},{pause:600},
+    {text:'Who is he? He is my uncle. He is a farmer.'},{pause:700},
+    {text:'What does your mother do? She is a nurse.'},{pause:700},
+    {text:'This is my brother. He is a student.'},{pause:800},
+    {text:'I can sentences.'},{pause:600},
+    {text:'I can run. I can cook. I can help. I can read. I can draw.'},{pause:800},
+    {text:'Present continuous. I am reading a book. I am teaching students. I am driving a bus.'},
+  ], 0);
+}
+
+if (synth.onvoiceschanged !== undefined) synth.onvoiceschanged = () => {};
+
+// ══════ TAB NAVIGATION ══════
+const visitedTabs = new Set();
+function switchTab(name) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b => { if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'"+name+"'")) b.classList.add('active'); });
+  stopAudio();
+  visitedTabs.add(name);
+  if (visitedTabs.size >= 6) awardStar('explorer');
+}
+
+// ══════ FLASHCARDS ══════
+const allCards = [
+  {cat:'family',emoji:'👩',word:'Aunt',zh:'姑姑',def:'Your father\'s or mother\'s sister.',example:'"My aunt is a teacher."'},
+  {cat:'family',emoji:'👨',word:'Uncle',zh:'舅舅',def:'Your father\'s or mother\'s brother.',example:'"My uncle is a firefighter."'},
+  {cat:'family',emoji:'🧑',word:'Cousin Brother',zh:'表哥',def:'The child of your aunt or uncle.',example:'"My cousin brother is an honest boy."'},
+  {cat:'family',emoji:'👧',word:'Cousin Sister',zh:'表姐',def:'The child of your aunt or uncle.',example:'"My cousin sister is active in sports."'},
+  {cat:'family',emoji:'👶',word:'Grandchild',zh:'孫子',def:'A child of a son or daughter.',example:'"I am a happy grandchild."'},
+  {cat:'family',emoji:'👨‍👩‍👦',word:'Parents',zh:'父母',def:'Your mother and father together.',example:'"My parents love me very much."'},
+  {cat:'family',emoji:'🤲',word:'Caregiver',zh:'照顧者',def:'One who takes care of others.',example:'"My grandmother is a caregiver."'},
+  {cat:'family',emoji:'💰',word:'Breadwinner',zh:'一家之主',def:'The main earner of the family.',example:'"My father is the breadwinner."'},
+  {cat:'jobs',emoji:'👮',word:'Police Officer',zh:'警察',def:'Protects the community.',example:'"He is a police officer."'},
+  {cat:'jobs',emoji:'🚒',word:'Firefighter',zh:'消防員',def:'Puts out fires and saves lives.',example:'"My uncle is a firefighter."'},
+  {cat:'jobs',emoji:'🧑‍🌾',word:'Farmer',zh:'農夫',def:'Grows food and raises animals.',example:'"The farmer grows vegetables."'},
+  {cat:'jobs',emoji:'👷',word:'Engineer',zh:'工程師',def:'Designs and builds bridges.',example:'"My dad is an engineer."'},
+  {cat:'jobs',emoji:'🦷',word:'Dentist',zh:'牙醫師',def:'Checks and fixes our teeth.',example:'"The dentist is kind."'},
+  {cat:'jobs',emoji:'👨‍🍳',word:'Chef',zh:'廚師',def:'Cooks delicious food.',example:'"The chef is cooking dinner."'},
+  {cat:'jobs',emoji:'✈️',word:'Pilot',zh:'飛行員',def:'Flies aeroplanes.',example:'"The pilot flies to London."'},
+  {cat:'jobs',emoji:'🐾',word:'Vet',zh:'獸醫',def:'Takes care of sick animals.',example:'"The vet helps my dog."'},
+  {cat:'jobs',emoji:'🎨',word:'Artist',zh:'藝術家',def:'Creates beautiful pictures.',example:'"My aunt is an artist."'},
+  {cat:'jobs',emoji:'🔬',word:'Scientist',zh:'科學家',def:'Studies nature and does experiments.',example:'"She is a scientist."'},
+  {cat:'jobs',emoji:'📚',word:'Librarian',zh:'圖書館員',def:'Helps people find books.',example:'"The librarian is helpful."'},
+  {cat:'jobs',emoji:'🔧',word:'Plumber',zh:'水電工',def:'Fixes water pipes and sinks.',example:'"The plumber fixed our sink."'},
+];
+
+let fcCards = [...allCards], fcIdx = 0, fcFlipped = false;
+
+function setFcCategory(cat, btn) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  fcCards = cat === 'all' ? [...allCards] : allCards.filter(c => c.cat === cat);
+  fcIdx = 0; fcFlipped = false; renderCard();
+}
+
+function renderCard() {
+  if (!fcCards.length) return;
+  const c = fcCards[fcIdx];
+  document.getElementById('fcEmoji').textContent = c.emoji;
+  document.getElementById('fcWord').textContent = c.word;
+  document.getElementById('fcSub').textContent = c.zh;
+  document.getElementById('fcWordBack').textContent = c.word;
+  document.getElementById('fcDef').textContent = c.def;
+  document.getElementById('fcExample').textContent = c.example;
+  document.getElementById('fcCounter').textContent = 'Card '+(fcIdx+1)+' of '+fcCards.length;
+  fcFlipped = false;
+  document.getElementById('fc-front').style.display = '';
+  document.getElementById('fc-back').style.display = 'none';
+}
+
+function flipCard() {
+  fcFlipped = !fcFlipped;
+  document.getElementById('fc-front').style.display = fcFlipped ? 'none' : '';
+  document.getElementById('fc-back').style.display = fcFlipped ? '' : 'none';
+  if (fcFlipped) speakWordCard(fcCards[fcIdx].word, fcCards[fcIdx].def, fcCards[fcIdx].example);
+  awardStar('flashcard');
+}
+
+function prevCard() { fcIdx = (fcIdx-1+fcCards.length)%fcCards.length; renderCard(); }
+function nextCard() { fcIdx = (fcIdx+1)%fcCards.length; renderCard(); }
+function speakCurrentCard() { const c=fcCards[fcIdx]; speakWordCard(c.word,c.def,c.example); }
+function shuffleCards() { fcCards.sort(()=>Math.random()-.5); fcIdx=0; renderCard(); }
+renderCard();
+
+// ══════ QUIZ ══════
+const quizData = [
+  {q:'What is your father\'s sister called?',opts:['Aunt','Uncle','Cousin','Grandchild'],ans:0,hint:'She is a female relative.',explain:'Your father\'s sister is your Aunt. "My aunt is a teacher."'},
+  {q:'Which sentence uses "AN" correctly?',opts:['She is a engineer.','He is an doctor.','She is an artist.','He is a uncle.'],ans:2,hint:'AN is used before vowel sounds (a,e,i,o,u).',explain:'"Artist" starts with the vowel "a", so we say "an artist".'},
+  {q:'What does a firefighter do?',opts:['Grows food','Puts out fires','Flies aeroplanes','Fixes teeth'],ans:1,hint:'Think about fire! 🔥',explain:'A firefighter helps people stay safe and puts out dangerous fires.'},
+  {q:'Complete: "My mother is ___ nurse."',opts:['a','an','the','is'],ans:0,hint:'"Nurse" starts with the letter N — a consonant.',explain:'"Nurse" starts with a consonant sound, so we use "a nurse".'},
+  {q:'Which word means the child of your aunt or uncle?',opts:['Sibling','Grandchild','Cousin','Nephew'],ans:2,hint:'This person is not your brother or sister.',explain:'A cousin is the child of your aunt or uncle.'},
+  {q:'Choose the correct sentence:',opts:['"I am running."','"I running."','"I am run."','"I runs."'],ans:0,hint:'Present continuous = I am + V-ing',explain:'We use "I am + verb-ing" to describe what we are doing right now.'},
+  {q:'What does a farmer do?',opts:['Fixes pipes','Grows food','Checks teeth','Flies planes'],ans:1,hint:'Think of fields and vegetables! 🌾',explain:'A farmer grows food and takes care of animals on the farm.'},
+  {q:'Correct question about someone\'s job?',opts:['Who does your father?','What does your father do?','How is your father?','When does your father work?'],ans:1,hint:'We use "What does" to ask about jobs.',explain:'"What does your father do?" is the correct pattern.'},
+  {q:'Complete: "My father ___ a doctor."',opts:['are','am','is','be'],ans:2,hint:'For He/She/It, we use...',explain:'For "My father" (he), we use "is". "My father is a doctor."'},
+  {q:'Which job helps sick animals?',opts:['Dentist','Engineer','Vet','Baker'],ans:2,hint:'This person works with cats and dogs! 🐾',explain:'A Veterinarian (Vet) takes care of sick or hurt animals.'},
+  {q:'Which is correct present continuous?',opts:['"She cooking."','"She is cooking."','"She are cooking."','"She cooks now."'],ans:1,hint:'Subject + am/is/are + verb-ing',explain:'"She is cooking" is correct. We use "is" with She/He/It.'},
+  {q:'What is the main earner of the family called?',opts:['Caregiver','Homemaker','Breadwinner','Grandchild'],ans:2,hint:'They bring home the money! 💰',explain:'The breadwinner is the main earner of the family.'},
+  {q:'Choose the correct introduction:',opts:['"This my father."','"This is my father."','"This are my father."','"He my father."'],ans:1,hint:'We use "This is" to introduce someone.',explain:'"This is my father" is the correct introduction pattern.'},
+  {q:'What does an engineer do?',opts:['Bakes bread','Delivers packages','Designs and builds bridges','Plays music'],ans:2,hint:'Think of big constructions! 🏗️',explain:'An engineer designs and builds amazing bridges and machines.'},
+  {q:'Which sentence uses "I can" correctly?',opts:['"I can to swim."','"I can swims."','"I can swim."','"I cans swim."'],ans:2,hint:'"Can" is followed by the base form of the verb.',explain:'"I can swim" is correct. After "can", always use the base verb form.'},
+];
+
+let quizAnswers = new Array(quizData.length).fill(null);
+let quizCurrent = 0, quizScore = 0;
+
+function buildQuiz() {
+  const c = document.getElementById('quizContainer'); c.innerHTML = '';
+  quizData.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'quiz-q-card'+(i===0?' active':'');
+    card.id = 'qq-'+i;
+    card.innerHTML = `<div class="q-num">QUESTION ${i+1} OF ${quizData.length}</div>
+      <div class="q-text">${q.q}</div>
+      <div class="q-hint">💡 Hint: ${q.hint}</div>
+      <div class="options-grid" id="opts-${i}">
+        ${q.opts.map((o,j)=>`<button class="opt-btn" onclick="selectAnswer(${i},${j},this)" id="opt-${i}-${j}"><span class="opt-prefix">${['A','B','C','D'][j]}</span>${o}</button>`).join('')}
+      </div>
+      <div class="q-feedback" id="feedback-${i}"></div>`;
+    c.appendChild(card);
+  });
+  updateQuizNav();
+}
+
+function selectAnswer(qIdx, optIdx, btn) {
+  if (quizAnswers[qIdx] !== null) return;
+  quizAnswers[qIdx] = optIdx;
+  const correct = optIdx === quizData[qIdx].ans;
+  document.querySelectorAll('#opts-'+qIdx+' .opt-btn').forEach(b => b.disabled = true);
+  document.getElementById('opt-'+qIdx+'-'+quizData[qIdx].ans).classList.add('correct');
+  if (!correct) btn.classList.add('wrong');
+  const fb = document.getElementById('feedback-'+qIdx);
+  fb.style.display = 'block'; fb.className = 'q-feedback '+(correct?'correct':'wrong');
+  fb.textContent = (correct?'✅ Correct! ':'❌ Not quite. ')+quizData[qIdx].explain;
+  speakText(correct?'Correct! Well done. '+quizData[qIdx].explain:'Not quite. '+quizData[qIdx].explain);
+  quizScore = quizAnswers.filter((a,i)=>a===quizData[i].ans).length;
+  const answered = quizAnswers.filter(a=>a!==null).length;
+  document.getElementById('quizScoreBadge').textContent = '⭐ '+quizScore+' / '+answered;
+  awardStar('quiz_q'+qIdx);
+  updateQuizNav();
+}
+
+function updateQuizNav() {
+  document.getElementById('btnPrev').disabled = quizCurrent===0;
+  document.getElementById('btnNext').disabled = quizAnswers[quizCurrent]===null || quizCurrent===quizData.length-1;
+  document.getElementById('btnSubmit').style.display = quizAnswers.every(a=>a!==null)?'inline-block':'none';
+  document.getElementById('quizProgress').textContent = 'Question '+(quizCurrent+1)+' of '+quizData.length;
+}
+
+function nextQuestion() {
+  if (quizCurrent < quizData.length-1) { document.getElementById('qq-'+quizCurrent).classList.remove('active'); quizCurrent++; document.getElementById('qq-'+quizCurrent).classList.add('active'); updateQuizNav(); }
+}
+function prevQuestion() {
+  if (quizCurrent > 0) { document.getElementById('qq-'+quizCurrent).classList.remove('active'); quizCurrent--; document.getElementById('qq-'+quizCurrent).classList.add('active'); updateQuizNav(); }
+}
+
+function submitQuiz() {
+  document.getElementById('quizContainer').style.display = 'none';
+  document.getElementById('quizNav').style.display = 'none';
+  document.getElementById('quizResults').style.display = 'block';
+  const pct = Math.round((quizScore/quizData.length)*100);
+  const emojis=['😔','😐','🙂','😊','🌟','🏆'];
+  document.getElementById('resultEmoji').textContent = emojis[Math.min(Math.floor(pct/20),5)];
+  document.getElementById('resultTitle').textContent = pct>=80?'Brilliant!':pct>=60?'Good Job!':'Keep Practising!';
+  document.getElementById('resultScore').textContent = 'You scored '+quizScore+' / '+quizData.length+' ('+pct+'%)';
+  setTimeout(()=>{ document.getElementById('resultBarFill').style.width=pct+'%'; },200);
+  const wrong = quizAnswers.map((a,i)=>a!==quizData[i].ans?quizData[i].q:null).filter(Boolean);
+  document.getElementById('resultDetail').innerHTML = wrong.length?'<p style="font-weight:800;margin-bottom:8px;">Review these questions:</p>'+wrong.map(q=>'<p>• '+q+'</p>').join(''):'<p>🎉 You answered every question correctly!</p>';
+  speakText('You scored '+quizScore+' out of '+quizData.length+'. '+(pct>=80?'Brilliant work!':'Keep practising!'));
+  if (pct>=80) awardStar('quiz_80');
+  awardStar('quiz_complete');
+}
+
+function restartQuiz() {
+  quizAnswers = new Array(quizData.length).fill(null); quizCurrent=0; quizScore=0;
+  document.getElementById('quizResults').style.display='none';
+  document.getElementById('quizContainer').style.display='';
+  document.getElementById('quizNav').style.display='';
+  buildQuiz();
+}
+buildQuiz();
+
+// ══════ FILL BLANKS ══════
+const fillData = [
+  {sentence:'My aunt is ___ teacher.',blank:'a',hint:'Use A or AN before a job.'},
+  {sentence:'What does your father ___?',blank:'do',hint:'We ask "What does... do?"'},
+  {sentence:'She is ___ engineer.',blank:'an',hint:'"Engineer" starts with a vowel.'},
+  {sentence:'I ___ cooking dinner right now.',blank:'am',hint:'I am + verb-ing'},
+  {sentence:'My uncle is a ___.',blank:'firefighter',hint:'He puts out fires! 🔥'},
+  {sentence:'___ is my cousin. She is active in sports.',blank:'This',hint:'Use "This is" to introduce someone.'},
+  {sentence:'I can ___ fast in the park.',blank:'run',hint:'Move quickly with your legs.'},
+  {sentence:'My mother is ___ nurse.',blank:'a',hint:'"Nurse" starts with a consonant.'},
+  {sentence:'He is ___ artist. He can draw beautiful pictures.',blank:'an',hint:'"Artist" starts with a vowel.'},
+  {sentence:'I am ___ a big tower with blocks.',blank:'building',hint:'I am + verb-ing (build → building)'},
+];
+
+function buildFillBlanks() {
+  document.getElementById('fillBlanksContainer').innerHTML = fillData.map((item,i)=>`
+    <div class="fill-card" id="fc-fill-${i}">
+      <div class="fill-sentence">${item.sentence.replace('___',`<input class="fill-input" id="fill-input-${i}" placeholder="?" autocomplete="off">`)}</div>
+      <div class="fill-hint">💡 Hint: ${item.hint}</div>
+      <div class="fill-result" id="fill-result-${i}"></div>
+    </div>`).join('');
+  fillData.forEach((_,i)=>{
+    document.getElementById('fill-input-'+i).addEventListener('keydown', e=>{ if(e.key==='Enter') checkFillBlanks(); });
+  });
+}
+
+function checkFillBlanks() {
+  let correct=0, answered=0;
+  fillData.forEach((item,i)=>{
+    const input=document.getElementById('fill-input-'+i);
+    const card=document.getElementById('fc-fill-'+i);
+    const result=document.getElementById('fill-result-'+i);
+    const val=input.value.trim().toLowerCase();
+    if (!val) return;
+    answered++;
+    if (val===item.blank.toLowerCase()) {
+      correct++; card.classList.remove('wrong-fill'); card.classList.add('correct-fill');
+      input.classList.add('correct-input'); input.classList.remove('wrong-input');
+      result.textContent='✅ Correct!'; result.style.color='var(--grass)'; result.style.display='block';
+    } else {
+      card.classList.remove('correct-fill'); card.classList.add('wrong-fill');
+      input.classList.add('wrong-input'); input.classList.remove('correct-input');
+      result.textContent='❌ Answer: '+item.blank; result.style.color='var(--coral)'; result.style.display='block';
+    }
+  });
+  const scoreEl=document.getElementById('fillBlanksScore');
+  scoreEl.style.display='block';
+  scoreEl.textContent='⭐ Score: '+correct+' / '+answered+' answered correctly';
+  if (correct>=8) awardStar('fillblanks_master');
+  speakText('You got '+correct+' correct out of '+answered+' answered.');
+}
+
+function resetFillBlanks() {
+  fillData.forEach((_,i)=>{
+    const input=document.getElementById('fill-input-'+i);
+    const card=document.getElementById('fc-fill-'+i);
+    const result=document.getElementById('fill-result-'+i);
+    input.value=''; input.className='fill-input';
+    card.className='fill-card'; result.style.display='none';
+  });
+  document.getElementById('fillBlanksScore').style.display='none';
+}
+buildFillBlanks();
+
+// ══════ VOCABULARY TABLE ══════
+const vocabAll=[
+  {word:'Aunt',zh:'姑姑',cat:'family',def:'Your father\'s or mother\'s sister.',ex:'"My aunt is a teacher."'},
+  {word:'Uncle',zh:'舅舅',cat:'family',def:'Your father\'s or mother\'s brother.',ex:'"My uncle is a firefighter."'},
+  {word:'Cousin',zh:'表哥/表姐',cat:'family',def:'The child of your aunt or uncle.',ex:'"My cousin is an honest boy."'},
+  {word:'Grandchild',zh:'孫子',cat:'family',def:'A child of a son or daughter.',ex:'"I am a happy grandchild."'},
+  {word:'Parents',zh:'父母',cat:'family',def:'Your mother and father.',ex:'"My parents love me."'},
+  {word:'Caregiver',zh:'照顧者',cat:'family',def:'One who takes care of others.',ex:'"She is a caregiver."'},
+  {word:'Breadwinner',zh:'一家之主',cat:'family',def:'The main earner of the family.',ex:'"My dad is the breadwinner."'},
+  {word:'Homemaker',zh:'家管',cat:'family',def:'Manages the home.',ex:'"My mum is a homemaker."'},
+  {word:'Police Officer',zh:'警察',cat:'jobs',def:'Protects the community.',ex:'"He is a police officer."'},
+  {word:'Firefighter',zh:'消防員',cat:'jobs',def:'Puts out fires and saves lives.',ex:'"My uncle is a firefighter."'},
+  {word:'Farmer',zh:'農夫',cat:'jobs',def:'Grows food and raises animals.',ex:'"The farmer grows rice."'},
+  {word:'Engineer',zh:'工程師',cat:'jobs',def:'Designs and builds structures.',ex:'"My dad is an engineer."'},
+  {word:'Dentist',zh:'牙醫師',cat:'jobs',def:'Checks and fixes teeth.',ex:'"The dentist is kind."'},
+  {word:'Chef',zh:'廚師',cat:'jobs',def:'Cooks delicious food.',ex:'"The chef is cooking."'},
+  {word:'Baker',zh:'麵包師傅',cat:'jobs',def:'Makes bread and cakes.',ex:'"The baker made a cake."'},
+  {word:'Pilot',zh:'飛行員',cat:'jobs',def:'Flies aeroplanes.',ex:'"The pilot flies high."'},
+  {word:'Vet',zh:'獸醫',cat:'jobs',def:'Cares for sick animals.',ex:'"The vet helps my cat."'},
+  {word:'Artist',zh:'藝術家',cat:'jobs',def:'Creates beautiful art.',ex:'"She is an artist."'},
+  {word:'Scientist',zh:'科學家',cat:'jobs',def:'Does experiments.',ex:'"She is a scientist."'},
+  {word:'Librarian',zh:'圖書館員',cat:'jobs',def:'Helps people find books.',ex:'"The librarian is helpful."'},
+  {word:'Plumber',zh:'水電工',cat:'jobs',def:'Fixes water pipes.',ex:'"The plumber fixed our pipes."'},
+  {word:'run',zh:'跑',cat:'action',def:'Move quickly with your legs.',ex:'"I can run fast."'},
+  {word:'jump',zh:'跳',cat:'action',def:'Spring up into the air.',ex:'"I can jump high."'},
+  {word:'sing',zh:'唱歌',cat:'action',def:'Make music with your voice.',ex:'"I can sing a song."'},
+  {word:'dance',zh:'跳舞',cat:'action',def:'Move your body to music.',ex:'"I can dance."'},
+  {word:'read',zh:'閱讀',cat:'action',def:'Look at and understand words.',ex:'"I can read a book."'},
+  {word:'write',zh:'寫字',cat:'action',def:'Form letters and words.',ex:'"I can write my name."'},
+  {word:'draw',zh:'畫圖',cat:'action',def:'Make pictures with a pencil.',ex:'"I can draw a cat."'},
+  {word:'cook',zh:'煮飯',cat:'action',def:'Prepare food using heat.',ex:'"I can cook dinner."'},
+  {word:'swim',zh:'游泳',cat:'action',def:'Move through water.',ex:'"I can swim."'},
+  {word:'help',zh:'幫助',cat:'action',def:'Make things easier for someone.',ex:'"I can help my teacher."'},
+];
+
+let currentVocabFilter='all';
+function filterVocab(cat,btn) {
+  currentVocabFilter=cat;
+  document.querySelectorAll('#panel-vocab .cat-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderVocabTable();
+}
+function renderVocabTable() {
+  const rows=vocabAll.filter(v=>currentVocabFilter==='all'||v.cat===currentVocabFilter);
+  document.getElementById('vocabTbody').innerHTML=rows.map(v=>`<tr>
+    <td style="font-family:'Fredoka One',cursive;font-size:1rem;">${v.word}</td>
+    <td style="color:#7a6a9c;font-size:0.9rem;">${v.zh}</td>
+    <td><span class="vtag ${v.cat}">${v.cat}</span></td>
+    <td style="font-size:0.85rem;color:#555f7a;">${v.def}</td>
+    <td style="font-size:0.82rem;font-style:italic;color:#6b7a99;">${v.ex}</td>
+    <td><button class="speak-btn sky" onclick="speakWordCard('${v.word.replace(/'/g,"\\'")}','${v.def.replace(/'/g,"\\'")}','${v.ex.replace(/'/g,"\\'")}')" style="font-size:0.72rem;">🔊</button></td>
+  </tr>`).join('');
+}
+renderVocabTable();
+
+// ══════ GUESS MY JOB ══════
+const guessClues=[
+  {emoji:'🚒',clue:'I wear a helmet and carry a hose. I rush to danger. I keep you safe from fire!',answer:'Firefighter'},
+  {emoji:'✈️',clue:'I sit in a cockpit high above the clouds. I take people to faraway places.',answer:'Pilot'},
+  {emoji:'🦷',clue:'Open wide! I check your teeth and make sure your smile is healthy.',answer:'Dentist'},
+  {emoji:'🧑‍🌾',clue:'I wake up early every morning. I grow vegetables and take care of animals.',answer:'Farmer'},
+  {emoji:'👨‍🍳',clue:'I work in a kitchen and create delicious meals for people to enjoy.',answer:'Chef'},
+  {emoji:'🐾',clue:'I help sick dogs and cats feel better. Animals are my best friends!',answer:'Veterinarian'},
+  {emoji:'🎨',clue:'I use colours and brushes to create beautiful paintings.',answer:'Artist'},
+  {emoji:'👷',clue:'I design and build big bridges, tall buildings, and amazing machines!',answer:'Engineer'},
+  {emoji:'📚',clue:'I keep books in order and help you find the story you are looking for.',answer:'Librarian'},
+  {emoji:'👮',clue:'I help people follow the rules and keep the community safe.',answer:'Police Officer'},
+];
+let currentClueIdx=-1;
+
+function newGuessClue() {
+  stopAudio();
+  let next=Math.floor(Math.random()*guessClues.length);
+  while(next===currentClueIdx) next=Math.floor(Math.random()*guessClues.length);
+  currentClueIdx=next;
+  const c=guessClues[next];
+  document.getElementById('guessJobEmoji').textContent=c.emoji;
+  document.getElementById('guessJobClue').textContent=c.clue;
+  document.getElementById('guessJobAnswer').style.display='none';
+  speakText(c.clue);
+}
+
+function revealGuessAnswer() {
+  if(currentClueIdx<0){newGuessClue();return;}
+  const ans=guessClues[currentClueIdx].answer;
+  const el=document.getElementById('guessJobAnswer');
+  el.textContent='✅ Answer: '+ans; el.style.display='block';
+  speakText('The answer is '+ans+'!');
+  awardStar('guess_job');
+}
+
+// ══════ STARS / ACHIEVEMENTS ══════
+const achievements=[
+  {id:'first_word',emoji:'🌟',label:'First Word!'},
+  {id:'quiz_complete',emoji:'🏆',label:'Quiz Done!'},
+  {id:'quiz_80',emoji:'🥇',label:'80%+ Score'},
+  {id:'fillblanks_master',emoji:'✏️',label:'Fill Master'},
+  {id:'flashcard',emoji:'🃏',label:'Flashcard Fan'},
+  {id:'guess_job',emoji:'🎭',label:'Job Guesser'},
+  {id:'listen_all',emoji:'🎧',label:'Good Listener'},
+  {id:'explorer',emoji:'🗺️',label:'Explorer'},
+  {id:'vocab',emoji:'📖',label:'Vocab Star'},
+  {id:'family_tree',emoji:'🌳',label:'Family Expert'},
+];
+
+let earnedStars=[];
+try { earnedStars=JSON.parse(localStorage.getItem('earnedStarsFC')||'[]'); } catch(e){}
+
+function awardStar(id) {
+  if(!earnedStars.includes(id)){
+    earnedStars.push(id);
+    try{localStorage.setItem('earnedStarsFC',JSON.stringify(earnedStars));}catch(e){}
+    renderStars();
+  }
+}
+
+function renderStars() {
+  const board=document.getElementById('stickerBoard'); if(!board)return;
+  board.innerHTML=achievements.map(a=>{
+    const earned=earnedStars.includes(a.id);
+    return `<div class="sticker ${earned?'earned':''}" onclick="speakText('${a.label}')"><div class="s-emoji">${earned?a.emoji:'❓'}</div><div>${a.label}</div></div>`;
+  }).join('');
+  const total=achievements.filter(a=>earnedStars.includes(a.id)).length;
+  const el=document.getElementById('totalStars'); if(el) el.textContent=total+' ⭐';
+  const bar=document.getElementById('starProgressBar'); if(bar) bar.style.width=Math.round((total/achievements.length)*100)+'%';
+  const lbl=document.getElementById('starProgressLabel'); if(lbl) lbl.textContent=total+' / '+achievements.length+' stars collected';
+}
+
+function resetStars() {
+  earnedStars=[];
+  try{localStorage.removeItem('earnedStarsFC');}catch(e){}
+  renderStars();
+}
+
+renderStars();
+
+// Award star on first word card click
+document.querySelectorAll('.word-card').forEach(c=>{
+  c.addEventListener('click',()=>{ awardStar('first_word'); });
+});
+
+// Award vocab star on vocab tab
+const origSwitch = window.switchTab;
+</script>
+</body>
+</html>
