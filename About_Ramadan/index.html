@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Islamic Festivals in Taiwan 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#1a6b3c;--green-lt:#d4edda;--green-dk:#0d4225;
+  --gold:#c9a84c;--gold-lt:#fdf3d8;--gold-dk:#8a6820;
+  --teal:#0c7b6b;--teal-lt:#d0f0eb;
+  --cream:#faf8f3;--ink:#1a1a2e;
+  --shadow:0 8px 40px rgba(26,26,46,0.13);
+  --r:18px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden}
+
+/* ── BG ── */
+.bg-hero{
+  position:fixed;inset:0;z-index:0;
+  background-image:url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=1800&q=80&auto=format&fit=crop');
+  background-size:cover;background-position:center;
+}
+.bg-hero::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(160deg,rgba(13,66,37,0.88) 0%,rgba(12,123,107,0.75) 45%,rgba(26,26,46,0.85) 100%)}
+
+/* Particles */
+.stars{position:fixed;inset:0;z-index:1;pointer-events:none}
+.star{position:absolute;border-radius:50%;background:rgba(255,255,255,0.7);animation:twinkle ease infinite}
+@keyframes twinkle{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:.1;transform:scale(.4)}}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 32px;
+  background:rgba(13,66,37,0.92);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(201,168,76,0.25);
+}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-brand .moon{font-size:1.5rem}
+.nav-brand span{font-family:'Amiri',serif;font-size:1.1rem;color:#fdf3d8;font-weight:700}
+.nav-links{display:flex;gap:6px;flex-wrap:wrap}
+.nav-link{
+  color:rgba(255,255,255,0.80);text-decoration:none;
+  font-size:0.78rem;font-weight:700;padding:7px 14px;border-radius:50px;
+  border:1px solid transparent;transition:all .2s;letter-spacing:.5px;
+}
+.nav-link:hover,.nav-link.active{background:rgba(201,168,76,0.22);border-color:rgba(201,168,76,0.4);color:#fdf3d8}
+.nav-link.cal{background:rgba(201,168,76,0.20);border-color:rgba(201,168,76,0.45);color:#fdf3d8}
+
+/* ── HERO ── */
+.hero{
+  position:relative;z-index:2;
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:120px 24px 60px;
+}
+.hero-arabic{font-family:'Amiri',serif;font-size:clamp(2rem,6vw,4rem);color:#fdf3d8;margin-bottom:12px;opacity:.85;direction:rtl}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(201,168,76,0.20);border:1.5px solid rgba(201,168,76,0.45);
+  border-radius:50px;padding:7px 20px;font-size:.75rem;font-weight:700;
+  letter-spacing:2px;text-transform:uppercase;color:#fdf3d8;margin-bottom:22px;
+}
+.hero h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.4rem,6vw,5rem);font-weight:900;
+  color:#ffffff;line-height:1.08;text-shadow:0 4px 30px rgba(0,0,0,.4);
+  margin-bottom:16px;
+}
+.hero h1 em{font-style:italic;color:#fdf3d8}
+.hero-sub{font-size:1.05rem;color:rgba(255,255,255,.80);max-width:560px;line-height:1.65;margin-bottom:40px}
+
+/* Countdown chips */
+.count-row{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-bottom:48px}
+.count-chip{
+  background:rgba(255,255,255,0.10);border:1.5px solid rgba(255,255,255,0.20);
+  border-radius:16px;padding:14px 20px;text-align:center;backdrop-filter:blur(8px);
+  min-width:100px;transition:transform .2s,background .2s;
+}
+.count-chip:hover{background:rgba(255,255,255,.18);transform:translateY(-3px)}
+.count-chip .num{font-family:'Playfair Display',serif;font-size:2rem;font-weight:900;color:#fdf3d8;line-height:1}
+.count-chip .lbl{font-size:.65rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.60);margin-top:3px}
+.count-chip .event-name{font-size:.68rem;color:rgba(255,255,255,.50);margin-top:2px}
+
+/* Scroll cue */
+.scroll-cue{display:flex;flex-direction:column;align-items:center;gap:6px;color:rgba(255,255,255,.45);font-size:.72rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;transition:opacity .2s}
+.scroll-cue:hover{opacity:.8}
+.scroll-cue .arrow{width:28px;height:28px;border-radius:50%;border:1.5px solid rgba(255,255,255,.30);display:flex;align-items:center;justify-content:center;animation:bounce 2s ease infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+
+/* ── CONTENT ── */
+.content{position:relative;z-index:2;background:var(--cream);border-radius:32px 32px 0 0;margin-top:-32px}
+
+/* ── SECTION TITLE ── */
+.sec-wrap{max-width:960px;margin:0 auto;padding:64px 24px}
+.sec-eyebrow{font-size:.7rem;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:var(--gold-dk);margin-bottom:10px}
+.sec-h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);font-weight:900;color:var(--ink);margin-bottom:12px}
+.sec-h2 em{font-style:italic;color:var(--green)}
+.sec-p{font-size:.95rem;color:rgba(26,26,46,.65);line-height:1.7;max-width:680px;margin-bottom:40px}
+
+/* ── FESTIVAL CARDS ── */
+.fest-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;margin-bottom:60px}
+.fest-card{
+  border-radius:22px;overflow:hidden;text-decoration:none;color:inherit;
+  box-shadow:var(--shadow);transition:transform .28s cubic-bezier(.34,1.56,.64,1),box-shadow .28s;
+  position:relative;display:flex;flex-direction:column;
+}
+.fest-card:hover{transform:translateY(-8px) scale(1.02);box-shadow:0 20px 60px rgba(26,26,46,0.20)}
+.fest-photo{width:100%;height:200px;object-fit:cover;display:block;transition:transform .4s}
+.fest-card:hover .fest-photo{transform:scale(1.06)}
+.fest-photo-wrap{overflow:hidden;height:200px;flex-shrink:0;position:relative}
+.fest-photo-wrap::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(transparent,rgba(0,0,0,.4))}
+.fest-body{padding:24px;background:white;flex:1}
+.fest-tag{
+  display:inline-block;border-radius:50px;padding:3px 12px;
+  font-size:.65rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;
+  margin-bottom:10px;
+}
+.fest-h3{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--ink);margin-bottom:8px;line-height:1.3}
+.fest-desc{font-size:.83rem;color:rgba(26,26,46,.60);line-height:1.55;margin-bottom:14px}
+.fest-date-row{display:flex;align-items:center;gap:8px;font-size:.8rem;font-weight:700;color:var(--green)}
+.fest-date-row .icon{font-size:1rem}
+.fest-arrow{position:absolute;top:16px;right:16px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.88);display:flex;align-items:center;justify-content:center;font-size:.9rem;box-shadow:0 2px 8px rgba(0,0,0,.15);transition:transform .2s}
+.fest-card:hover .fest-arrow{transform:translate(2px,-2px) scale(1.15)}
+
+/* ── INFO BLOCKS ── */
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:48px}
+.info-block{
+  background:white;border-radius:18px;padding:22px;box-shadow:0 4px 20px rgba(26,26,46,0.08);
+  border-left:4px solid var(--gold);transition:transform .2s,box-shadow .2s;
+}
+.info-block:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(26,26,46,0.13)}
+.info-block .ib-icon{font-size:1.8rem;margin-bottom:10px}
+.info-block .ib-title{font-weight:800;font-size:.95rem;color:var(--ink);margin-bottom:5px}
+.info-block .ib-text{font-size:.82rem;color:rgba(26,26,46,.60);line-height:1.55}
+
+/* ── DIVIDER ── */
+.divider{display:flex;align-items:center;gap:16px;margin:48px 0}
+.divider-line{flex:1;height:1px;background:rgba(201,168,76,.30)}
+.divider-icon{font-family:'Amiri',serif;font-size:1.5rem;color:var(--gold);flex-shrink:0}
+
+/* ── FOOTER ── */
+footer{
+  position:relative;z-index:2;
+  background:var(--green-dk);color:rgba(255,255,255,.65);
+  text-align:center;padding:32px 24px;font-size:.78rem;line-height:1.8;
+}
+footer a{color:var(--gold-lt);text-decoration:none}
+footer .f-arabic{font-family:'Amiri',serif;font-size:1.4rem;color:rgba(253,243,216,.75);margin-bottom:8px;direction:rtl}
+
+/* ── RESPONSIVE ── */
+@media(max-width:640px){
+  nav{padding:12px 16px}
+  .nav-links{gap:4px}
+  .nav-link{font-size:.7rem;padding:5px 10px}
+  .sec-wrap{padding:40px 18px}
+}
+/* Home Button */
+.home-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 55px;
+  height: 55px;
+  background-color: #ff5722;
+  color: white;
+  font-size: 24px;
+  text-align: center;
+  line-height: 55px;
+  border-radius: 50%;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: 0.3s;
+  z-index: 999;
+}
+
+/* Back to Top Button */
+.top-btn {
+  position: fixed;
+  bottom: 85px; /* sits above home button */
+  right: 20px;
+  width: 55px;
+  height: 55px;
+  background-color: #007BFF;
+  color: white;
+  font-size: 22px;
+  text-align: center;
+  line-height: 55px;
+  border-radius: 50%;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: 0.3s;
+  display: none; /* hidden by default */
+  z-index: 999;
+}
+
+.home-btn:hover {
+  background-color: #e64a19;
+  transform: scale(1.1);
+}
+
+.top-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+}
+</style>
+
+<!-- Back to Top -->
+<a href="#" class="top-btn" id="topBtn" title="Back to Top">⬆</a>
+
+<!-- Home Button -->
+<a href="https://hanshanghao.github.io/English_Tenses_Lesson/" class="home-btn" title="Home">🏠</a>
+
+<script>
+// Show button when scrolling down
+window.onscroll = function() {
+  let btn = document.getElementById("topBtn");
+  if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+    btn.style.display = "block";
+  } else {
+    btn.style.display = "none";
+  }
+};
+
+// Smooth scroll to top
+document.getElementById("topBtn").onclick = function(e) {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+</script>
+</style>
+</head>
+<body>
+
+<!-- Background -->
+<div class="bg-hero"></div>
+
+<!-- Stars -->
+<div class="stars" id="starsEl"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="index.html">
+    <span class="moon">☪️</span>
+    <span>Islamic Festivals · Taiwan 2026</span>
+  </a>
+  <div class="nav-links">
+    <a class="nav-link active" href="index.html">🏠 Home</a>
+    <a class="nav-link" href="ramadan.html">🌙 Ramadan</a>
+    <a class="nav-link" href="eid_fitr.html">🎉 Eid ul Fitr</a>
+    <a class="nav-link" href="eid_adha.html">🐑 Eid ul Adha</a>
+    <a class="nav-link cal" href="calendar.html">📅 Calendar</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-arabic">رَمَضَان كَرِيم</div>
+  <div class="hero-badge">☪️ Taiwan · 1447 Hijri · 2026</div>
+  <h1>Islamic Festivals<br><em>in Taiwan 2026</em></h1>
+  <p class="hero-sub">Explore Ramadan, Eid ul Fitr, and Eid ul Adha — the holy occasions that unite Muslims across Taiwan and the world in faith, fasting, prayer, and celebration.</p>
+
+  <!-- Live Countdowns -->
+  <div class="count-row" id="countdowns"></div>
+
+  <div class="scroll-cue" onclick="document.querySelector('.content').scrollIntoView({behavior:'smooth'})">
+    <div class="arrow">↓</div>
+    <span>Explore</span>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<div class="content">
+  <div class="sec-wrap">
+
+    <!-- Intro -->
+    <div class="sec-eyebrow">About the Occasions</div>
+    <h2 class="sec-h2">Three Sacred Occasions of <em>Islam</em></h2>
+    <p class="sec-p">Islam has two official festivals — Eid ul Fitr and Eid ul Adha — preceded by Ramadan, the holiest month of the Islamic calendar. Together, these occasions shape the spiritual and social life of Taiwan's Muslim community of approximately 60,000 to 200,000 Muslims.</p>
+
+    <!-- Festival Cards -->
+    <div class="fest-grid">
+
+      <!-- Ramadan -->
+      <a class="fest-card" href="ramadan.html">
+        <div class="fest-photo-wrap">
+          <img class="fest-photo" src="https://images.unsplash.com/photo-1565620731358-e8c038abc8d1?w=600&q=80&auto=format&fit=crop" alt="Ramadan lanterns" loading="lazy"/>
+        </div>
+        <span class="fest-arrow">→</span>
+        <div class="fest-body">
+          <span class="fest-tag" style="background:#d4edda;color:#155724;">🌙 Holy Month</span>
+          <div class="fest-h3">Ramadan 2026</div>
+          <p class="fest-desc">The ninth and holiest month of the Islamic calendar. 30 days of dawn-to-dusk fasting, prayer, Quran recitation, and spiritual reflection.</p>
+          <div class="fest-date-row"><span class="icon">📅</span>18 Feb – 18 Mar 2026 · 1 Ramadan 1447H</div>
+        </div>
+      </a>
+
+      <!-- Eid ul Fitr -->
+      <a class="fest-card" href="eid_fitr.html">
+        <div class="fest-photo-wrap">
+          <img class="fest-photo" src="https://images.unsplash.com/photo-1602526430780-782d6b1783fa?w=600&q=80&auto=format&fit=crop" alt="Eid ul Fitr celebration" loading="lazy"/>
+        </div>
+        <span class="fest-arrow">→</span>
+        <div class="fest-body">
+          <span class="fest-tag" style="background:#fdf3d8;color:#8a6820;">🎉 Festival of Breaking Fast</span>
+          <div class="fest-h3">Eid ul Fitr 2026</div>
+          <p class="fest-desc">The joyous celebration marking the end of Ramadan. Special Eid prayers, feasts, gifts for children, and community gatherings across Taiwan.</p>
+          <div class="fest-date-row"><span class="icon">📅</span>19–20 March 2026 · 1 Shawwal 1447H</div>
+        </div>
+      </a>
+
+      <!-- Eid ul Adha -->
+      <a class="fest-card" href="eid_adha.html">
+        <div class="fest-photo-wrap">
+          <img class="fest-photo" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&auto=format&fit=crop" alt="Eid ul Adha prayer" loading="lazy"/>
+        </div>
+        <span class="fest-arrow">→</span>
+        <div class="fest-body">
+          <span class="fest-tag" style="background:#d0f0eb;color:#0c7b6b;">🐑 Festival of Sacrifice</span>
+          <div class="fest-h3">Eid ul Adha 2026</div>
+          <p class="fest-desc">The greater of the two Eids. Commemorates Prophet Ibrahim's willingness to sacrifice his son. Observed with Qurbani, Hajj pilgrimage, and prayers.</p>
+          <div class="fest-date-row"><span class="icon">📅</span>27 May 2026 · 10 Dhul Hijjah 1447H</div>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-icon">☪</div><div class="divider-line"></div></div>
+
+    <!-- Key Info Blocks -->
+    <div class="sec-eyebrow">Quick Reference</div>
+    <h2 class="sec-h2">Key Dates & <em>Facts</em></h2>
+    <div class="info-grid">
+      <div class="info-block"><div class="ib-icon">🌙</div><div class="ib-title">Ramadan Begins</div><div class="ib-text">18 February 2026 (1 Ramadan 1447H). Subject to moon sighting. Taiwan fajr in Taipei ~06:10 AM.</div></div>
+      <div class="info-block"><div class="ib-icon">🌅</div><div class="ib-title">Eid ul Fitr</div><div class="ib-text">19–20 March 2026 (1 Shawwal 1447H). Celebrated at the end of Ramadan's 30 days of fasting.</div></div>
+      <div class="info-block"><div class="ib-icon">🐑</div><div class="ib-title">Eid ul Adha</div><div class="ib-text">27 May 2026 (10 Dhul Hijjah 1447H). The greater Eid, coinciding with the completion of Hajj in Mecca.</div></div>
+      <div class="info-block"><div class="ib-icon">📿</div><div class="ib-title">Islamic Calendar</div><div class="ib-text">The Hijri calendar is lunar-based, 354 days/year. 2026 spans 1447–1448 AH. New year 1448H: 16 June 2026.</div></div>
+      <div class="info-block"><div class="ib-icon">🕌</div><div class="ib-title">Muslims in Taiwan</div><div class="ib-text">~60,000–200,000 Muslims in Taiwan. Major mosques in Taipei, Taichung, Tainan, Kaohsiung, and Longgang.</div></div>
+      <div class="info-block"><div class="ib-icon">🌍</div><div class="ib-title">Night of Power</div><div class="ib-text">Laylat al-Qadr falls on the 27th night of Ramadan — expected 16 March 2026. The holiest night of the year.</div></div>
+    </div>
+
+    <!-- Navigate panels -->
+    <div class="divider"><div class="divider-line"></div><div class="divider-icon">☪</div><div class="divider-line"></div></div>
+    <div style="text-align:center;padding:20px 0 40px;">
+      <div class="sec-eyebrow" style="text-align:center;">Explore All Sections</div>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:16px;">
+        <a href="ramadan.html" style="display:inline-flex;align-items:center;gap:8px;background:var(--green);color:white;border-radius:50px;padding:13px 28px;text-decoration:none;font-weight:800;font-size:.9rem;box-shadow:0 4px 18px rgba(26,107,60,.35);transition:all .2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">🌙 Ramadan →</a>
+        <a href="eid_fitr.html" style="display:inline-flex;align-items:center;gap:8px;background:var(--gold-dk);color:white;border-radius:50px;padding:13px 28px;text-decoration:none;font-weight:800;font-size:.9rem;box-shadow:0 4px 18px rgba(138,104,32,.35);transition:all .2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">🎉 Eid ul Fitr →</a>
+        <a href="eid_adha.html" style="display:inline-flex;align-items:center;gap:8px;background:var(--teal);color:white;border-radius:50px;padding:13px 28px;text-decoration:none;font-weight:800;font-size:.9rem;box-shadow:0 4px 18px rgba(12,123,107,.35);transition:all .2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">🐑 Eid ul Adha →</a>
+        <a href="calendar.html" style="display:inline-flex;align-items:center;gap:8px;background:#1a1a2e;color:white;border-radius:50px;padding:13px 28px;text-decoration:none;font-weight:800;font-size:.9rem;box-shadow:0 4px 18px rgba(26,26,46,.35);transition:all .2s;" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">📅 Islamic Calendar →</a>
+      </div>
+    </div>
+
+  </div><!-- /sec-wrap -->
+</div><!-- /content -->
+
+<footer>
+  <div class="f-arabic">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+  Islamic Festivals in Taiwan 2026 · Educational Resource<br>
+  Dates based on Umm al-Qura calendar & moon sighting. Actual dates may vary ±1–2 days.<br>
+  Photos: <a href="https://unsplash.com" target="_blank">Unsplash</a> · Videos: YouTube (embedded)
+</footer>
+
+<script>
+/* ── Generate stars ── */
+const starsEl = document.getElementById('starsEl');
+for(let i=0;i<80;i++){
+  const s=document.createElement('div');
+  s.className='star';
+  const sz=Math.random()*3+1;
+  s.style.cssText=`width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;animation-duration:${2+Math.random()*4}s;animation-delay:${Math.random()*4}s`;
+  starsEl.appendChild(s);
+}
+
+/* ── Countdowns ── */
+const events=[
+  {name:'Eid ul Fitr',date:new Date('2026-03-19T00:00:00+08:00'),icon:'🎉',done:'🎊 Eid Mubarak!'},
+  {name:'Eid ul Adha',date:new Date('2026-05-27T00:00:00+08:00'),icon:'🐑',done:'🎊 Eid Mubarak!'},
+];
+function updateCountdowns(){
+  const now=new Date();
+  const wrap=document.getElementById('countdowns');
+  wrap.innerHTML=events.map(e=>{
+    const diff=e.date-now;
+    if(diff<=0) return `<div class="count-chip"><div class="num">${e.done}</div><div class="lbl">${e.name}</div></div>`;
+    const d=Math.floor(diff/864e5);
+    const h=Math.floor((diff%864e5)/36e5);
+    const m=Math.floor((diff%36e5)/6e4);
+    const s=Math.floor((diff%6e4)/1e3);
+    return `<div class="count-chip"><div class="num">${d}<small style="font-size:1rem">d</small> ${h}<small style="font-size:1rem">h</small></div><div class="lbl">${m}m ${s}s</div><div class="event-name">${e.icon} ${e.name}</div></div>`;
+  }).join('');
+}
+updateCountdowns();
+setInterval(updateCountdowns,1000);
+</script>
+</body>
+</html>

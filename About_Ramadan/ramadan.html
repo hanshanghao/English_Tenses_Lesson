@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Ramadan 2026 in Taiwan | Islamic Festivals</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Nunito:wght@300;400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--green:#1a6b3c;--green-lt:#d4edda;--green-dk:#0d4225;--gold:#c9a84c;--gold-lt:#fdf3d8;--teal:#0c7b6b;--cream:#faf8f3;--ink:#1a1a2e;--r:18px}
+body{font-family:'Nunito',sans-serif;background:var(--cream);color:var(--ink)}
+/* Nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:14px 32px;background:rgba(13,66,37,0.94);backdrop-filter:blur(12px);border-bottom:1px solid rgba(201,168,76,0.25)}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fdf3d8;font-family:'Amiri',serif;font-size:1rem;font-weight:700}
+.nav-links{display:flex;gap:6px;flex-wrap:wrap}
+.nav-link{color:rgba(255,255,255,.80);text-decoration:none;font-size:.78rem;font-weight:700;padding:7px 14px;border-radius:50px;border:1px solid transparent;transition:all .2s}
+.nav-link:hover,.nav-link.active{background:rgba(201,168,76,.22);border-color:rgba(201,168,76,.4);color:#fdf3d8}
+.nav-link.cal{background:rgba(201,168,76,.20);border-color:rgba(201,168,76,.45);color:#fdf3d8}
+/* Hero */
+.page-hero{height:60vh;min-height:380px;position:relative;display:flex;align-items:flex-end;padding:60px 40px 48px;overflow:hidden;margin-top:60px}
+.page-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 40%}
+.page-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(13,66,37,.92) 0%,rgba(13,66,37,.40) 60%,transparent 100%)}
+.page-hero-body{position:relative;z-index:1;max-width:720px}
+.ph-tag{display:inline-block;background:rgba(201,168,76,.25);border:1px solid rgba(201,168,76,.5);border-radius:50px;padding:5px 16px;font-size:.7rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#fdf3d8;margin-bottom:14px}
+.ph-h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.8rem);font-weight:900;color:white;line-height:1.08;text-shadow:0 3px 20px rgba(0,0,0,.4);margin-bottom:12px}
+.ph-h1 em{font-style:italic;color:#fdf3d8}
+.ph-sub{font-size:.95rem;color:rgba(255,255,255,.80);line-height:1.6}
+/* Tab nav */
+.tab-nav{background:var(--green-dk);display:flex;gap:0;overflow-x:auto;position:sticky;top:60px;z-index:90}
+.tab-btn{flex-shrink:0;background:transparent;border:none;color:rgba(255,255,255,.65);cursor:pointer;font-family:'Nunito',sans-serif;font-size:.82rem;font-weight:700;padding:16px 24px;border-bottom:3px solid transparent;transition:all .2s;white-space:nowrap}
+.tab-btn:hover{color:white;background:rgba(255,255,255,.06)}
+.tab-btn.active{color:#fdf3d8;border-bottom-color:#c9a84c;background:rgba(201,168,76,.10)}
+/* Panels */
+.tab-panel{display:none;max-width:960px;margin:0 auto;padding:52px 24px}
+.tab-panel.active{display:block;animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+/* Typography */
+.panel-h2{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,4vw,2.4rem);font-weight:900;color:var(--ink);margin-bottom:12px}
+.panel-h2 em{font-style:italic;color:var(--green)}
+.panel-lead{font-size:1rem;color:rgba(26,26,46,.65);line-height:1.75;margin-bottom:36px;max-width:700px}
+/* Cards */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-bottom:40px}
+.card{background:white;border-radius:18px;padding:24px;box-shadow:0 4px 22px rgba(26,26,46,.09);transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-4px);box-shadow:0 10px 36px rgba(26,26,46,.14)}
+.card-icon{font-size:2.2rem;margin-bottom:12px}
+.card-h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--ink);margin-bottom:8px}
+.card-p{font-size:.83rem;color:rgba(26,26,46,.60);line-height:1.6}
+/* Image + text row */
+.img-row{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start;margin-bottom:40px}
+.img-row.flip{direction:rtl}.img-row.flip>*{direction:ltr}
+.img-wrap{border-radius:18px;overflow:hidden;box-shadow:0 8px 32px rgba(26,26,46,.14)}
+.img-wrap img{width:100%;height:260px;object-fit:cover;display:block;transition:transform .4s}
+.img-wrap:hover img{transform:scale(1.05)}
+.img-text h3{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--ink);margin-bottom:10px}
+.img-text p{font-size:.88rem;color:rgba(26,26,46,.62);line-height:1.7;margin-bottom:12px}
+/* Highlight box */
+.hi-box{border-radius:16px;padding:22px 26px;margin-bottom:28px}
+.hi-box.green{background:var(--green-lt);border-left:4px solid var(--green)}
+.hi-box.gold{background:var(--gold-lt);border-left:4px solid var(--gold)}
+.hi-box h4{font-weight:800;font-size:.9rem;color:var(--green-dk);margin-bottom:6px}
+.hi-box.gold h4{color:var(--gold-dk)}
+.hi-box p{font-size:.84rem;color:rgba(26,26,46,.68);line-height:1.65}
+/* Food grid */
+.food-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:36px}
+.food-item{background:white;border-radius:14px;overflow:hidden;box-shadow:0 3px 14px rgba(26,26,46,.09);text-align:center;transition:transform .2s}
+.food-item:hover{transform:translateY(-3px)}
+.food-item img{width:100%;height:110px;object-fit:cover}
+.food-item p{padding:10px 8px;font-size:.78rem;font-weight:700;color:var(--ink)}
+/* Video embed */
+.video-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px;margin-bottom:40px}
+.video-wrap{border-radius:16px;overflow:hidden;box-shadow:0 6px 24px rgba(26,26,46,.13);aspect-ratio:16/9}
+.video-wrap iframe{width:100%;height:100%;border:none}
+/* Prayer times */
+.prayer-table{width:100%;border-collapse:collapse;background:white;border-radius:16px;overflow:hidden;box-shadow:0 4px 22px rgba(26,26,46,.09);margin-bottom:36px}
+.prayer-table th{background:var(--green-dk);color:white;padding:12px 16px;text-align:left;font-size:.82rem;letter-spacing:.5px}
+.prayer-table td{padding:12px 16px;border-bottom:1px solid #eef2f7;font-size:.84rem}
+.prayer-table tr:last-child td{border:none}
+.prayer-table tr:hover td{background:#f5f9f6}
+/* Quran verse */
+.quran-block{background:linear-gradient(135deg,var(--green-dk),var(--teal));border-radius:20px;padding:32px;color:white;text-align:center;margin-bottom:32px}
+.quran-arabic{font-family:'Amiri',serif;font-size:1.8rem;direction:rtl;line-height:2;margin-bottom:16px;opacity:.95}
+.quran-trans{font-size:.9rem;opacity:.80;line-height:1.7;font-style:italic;margin-bottom:8px}
+.quran-ref{font-size:.75rem;opacity:.60;font-weight:700;letter-spacing:1px}
+/* Breadcrumb */
+.breadcrumb{max-width:960px;margin:0 auto;padding:16px 24px 0;font-size:.78rem;color:rgba(26,26,46,.45)}
+.breadcrumb a{color:var(--green);text-decoration:none;font-weight:600}
+/* Timeline */
+.timeline{margin-bottom:36px}
+.tl-item{display:flex;gap:18px;margin-bottom:20px;position:relative}
+.tl-item::before{content:'';position:absolute;left:19px;top:42px;bottom:-20px;width:2px;background:rgba(26,107,60,.18)}
+.tl-item:last-child::before{display:none}
+.tl-dot{width:40px;height:40px;border-radius:50%;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;box-shadow:0 2px 10px rgba(26,107,60,.3)}
+.tl-body h4{font-weight:800;font-size:.9rem;color:var(--ink);margin-bottom:4px}
+.tl-body p{font-size:.82rem;color:rgba(26,26,46,.60);line-height:1.55}
+/* Footer */
+footer{background:var(--green-dk);color:rgba(255,255,255,.55);text-align:center;padding:24px;font-size:.75rem;margin-top:40px}
+@media(max-width:680px){.img-row{grid-template-columns:1fr}.img-row.flip{direction:ltr}.page-hero{padding:60px 20px 36px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">☪️ Islamic Festivals · Taiwan 2026</a>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">🏠 Home</a>
+    <a class="nav-link active" href="ramadan.html">🌙 Ramadan</a>
+    <a class="nav-link" href="eid_fitr.html">🎉 Eid ul Fitr</a>
+    <a class="nav-link" href="eid_adha.html">🐑 Eid ul Adha</a>
+    <a class="nav-link cal" href="calendar.html">📅 Calendar</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<div class="page-hero">
+  <img src="https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?w=1400&q=80&auto=format&fit=crop" alt="Ramadan lanterns at night"/>
+  <div class="page-hero-body">
+    <span class="ph-tag">🌙 18 Feb – 18 Mar 2026 · 1447 Hijri</span>
+    <h1 class="ph-h1">Ramadan<br><em>The Holy Month</em></h1>
+    <p class="ph-sub">The ninth and most sacred month of the Islamic calendar — 30 days of fasting, prayer, generosity, and spiritual renewal observed by Muslims across Taiwan and the world.</p>
+  </div>
+</div>
+
+<div class="breadcrumb"><a href="index.html">Home</a> › Ramadan 2026</div>
+
+<!-- Tab Navigation -->
+<div class="tab-nav">
+  <button class="tab-btn active" onclick="showTab('fasting',this)">🌙 Fasting & Meaning</button>
+  <button class="tab-btn" onclick="showTab('food',this)">🍽️ Food & Suhoor/Iftar</button>
+  <button class="tab-btn" onclick="showTab('prayers',this)">📿 Prayers & Quran</button>
+</div>
+
+<!-- ══ TAB 1: FASTING ══ -->
+<div class="tab-panel active" id="tab-fasting">
+
+  <h2 class="panel-h2">What is <em>Ramadan?</em></h2>
+  <p class="panel-lead">Ramadan is the ninth month of the Islamic (Hijri) lunar calendar. In 2026, it begins on <strong>18 February</strong> and ends on <strong>18 March</strong>, lasting 30 days. It is the month during which the Holy Quran was first revealed to Prophet Muhammad ﷺ, and it is observed worldwide by over 1.8 billion Muslims through fasting, prayer, reflection, and charity.</p>
+
+  <div class="quran-block">
+    <div class="quran-arabic">شَهْرُ رَمَضَانَ الَّذِي أُنزِلَ فِيهِ الْقُرْآنُ هُدًى لِّلنَّاسِ</div>
+    <div class="quran-trans">"The month of Ramadan is the one in which the Quran was revealed as guidance for mankind..."</div>
+    <div class="quran-ref">— Surah Al-Baqarah 2:185</div>
+  </div>
+
+  <div class="img-row">
+    <div class="img-wrap">
+      <img src="https://images.unsplash.com/photo-1633001328984-0c8e9b8d8d0e?w=700&q=80&auto=format&fit=crop" alt="Muslim family fasting" loading="lazy"/>
+    </div>
+    <div class="img-text">
+      <h3>The 5 Pillars & Fasting (Sawm)</h3>
+      <p>Fasting in Ramadan is the fourth of the Five Pillars of Islam — the core practices every Muslim must observe. During Ramadan, Muslims abstain from food, drink, smoking, and sinful behaviour from Fajr (dawn) until Maghrib (sunset) every day for the entire month.</p>
+      <p>The fast is not merely about hunger — it is an act of worship, self-discipline, empathy for the poor, and drawing closer to Allah. Every healthy adult Muslim is required to fast, with exceptions for the sick, elderly, pregnant women, travelers, and children.</p>
+      <div class="hi-box green"><h4>2026 Dates in Taiwan</h4><p>Ramadan 2026 in Taiwan: <strong>18 February – 18 March 2026</strong>. Suhoor (pre-dawn meal) in Taipei ends around 5:30–6:00 AM. Iftar (breaking fast) begins around 6:00–6:25 PM.</p></div>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:20px;color:var(--ink);">Daily Ramadan Routine</h3>
+  <div class="timeline">
+    <div class="tl-item"><div class="tl-dot">🌙</div><div class="tl-body"><h4>Suhoor (~3:30–5:30 AM)</h4><p>The pre-dawn meal eaten before the Fajr prayer. Muslims eat nutritious food to sustain energy throughout the long fast. After Suhoor, the fast begins with the intention (Niyyah).</p></div></div>
+    <div class="tl-item"><div class="tl-dot">🕌</div><div class="tl-body"><h4>Fajr Prayer (~5:30–6:10 AM)</h4><p>The first of five daily prayers. Marks the official start of the fast. Muslims recite Quran and supplications after Fajr.</p></div></div>
+    <div class="tl-item"><div class="tl-dot">☀️</div><div class="tl-body"><h4>Daytime (6 AM – 6 PM)</h4><p>Complete abstinence from food, drink, smoking, and immoral behaviour. Muslims work, study, and go about daily activities while fasting. Extra Quran recitation encouraged.</p></div></div>
+    <div class="tl-item"><div class="tl-dot">🌅</div><div class="tl-body"><h4>Iftar (~6:00–6:25 PM)</h4><p>Breaking the fast at sunset with the Maghrib prayer. Traditionally begins with dates and water, following the Sunnah of the Prophet ﷺ, then a full meal with family and community.</p></div></div>
+    <div class="tl-item"><div class="tl-dot">🌟</div><div class="tl-body"><h4>Tarawih Prayers (8–10 PM)</h4><p>Special nightly prayers performed only during Ramadan, usually in the mosque in congregation. Muslims pray 8–20 extra Rak'ahs reciting the Quran, aiming to complete the entire Quran by the end of Ramadan.</p></div></div>
+    <div class="tl-item"><div class="tl-dot">✨</div><div class="tl-body"><h4>Laylat al-Qadr (Last 10 nights)</h4><p>The Night of Power — the most sacred night of the Islamic year, falling on one of the odd nights of the last 10 days. In 2026, it is expected on the night of <strong>16 March</strong> (27th Ramadan).</p></div></div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card"><div class="card-icon">🤲</div><div class="card-h3">Zakat & Charity</div><p class="card-p">Ramadan multiplies rewards for good deeds. Muslims increase charitable giving (Sadaqah) and many pay Zakat al-Fitr — a compulsory charity before Eid al-Fitr to help the poor celebrate.</p></div>
+    <div class="card"><div class="card-icon">🕌</div><div class="card-h3">Mosques in Taiwan</div><p class="card-p">Taipei Grand Mosque (清真寺), Taichung Mosque, Tainan Mosque, Longgang Mosque, and Kaohsiung Islamic Center all hold special Ramadan Tarawih prayers and Iftar gatherings.</p></div>
+    <div class="card"><div class="card-icon">🌙</div><div class="card-h3">The Three Ashras</div><p class="card-p">Ramadan is divided into three 10-day periods: 1st Ashra (Mercy), 2nd Ashra (Forgiveness), 3rd Ashra (Salvation from Hellfire). Each carries special supplications and significance.</p></div>
+  </div>
+
+  <!-- Video -->
+  <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:18px;color:var(--ink);">🎥 Watch: What is Ramadan?</h3>
+  <div class="video-grid">
+    <div class="video-wrap"><iframe src="https://www.youtube.com/embed/2NP_a5qSSok" title="What is Ramadan?" allowfullscreen loading="lazy"></iframe></div>
+    <div class="video-wrap"><iframe src="https://www.youtube.com/embed/q3eLV0e7hHk" title="Ramadan explained" allowfullscreen loading="lazy"></iframe></div>
+  </div>
+
+</div>
+
+<!-- ══ TAB 2: FOOD ══ -->
+<div class="tab-panel" id="tab-food">
+
+  <h2 class="panel-h2">Suhoor, <em>Iftar</em> & Ramadan Food</h2>
+  <p class="panel-lead">Food plays a central spiritual and social role in Ramadan. The pre-dawn meal (Suhoor) fuels the fast, while Iftar — breaking the fast at sunset — is a joyful communal celebration. Here's what Muslims eat and how they break their fast during Ramadan.</p>
+
+  <div class="img-row">
+    <div class="img-text">
+      <h3>🌙 Suhoor — The Pre-Dawn Meal</h3>
+      <p>Eaten before Fajr (around 3:30–5:30 AM), Suhoor should be nutritious and filling to sustain energy through the day's fast. The Prophet ﷺ called Suhoor a blessed meal and encouraged Muslims not to skip it.</p>
+      <p><strong>Common Suhoor foods:</strong> Oats, eggs, whole grain bread, yoghurt, dates, bananas, rice, lentils, and plenty of water to stay hydrated throughout the day.</p>
+      <div class="hi-box gold"><h4>💡 Tip</h4><p>In Taiwan, many Muslim families eat congee (rice porridge), eggs, or noodles for Suhoor — blending their cultural food traditions with Islamic practice.</p></div>
+    </div>
+    <div class="img-wrap">
+      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=700&q=80&auto=format&fit=crop" alt="Suhoor meal spread" loading="lazy"/>
+    </div>
+  </div>
+
+  <div class="img-row flip">
+    <div class="img-text">
+      <h3>🌅 Iftar — Breaking the Fast</h3>
+      <p>At sunset, the Maghrib prayer is called and Muslims break their fast — traditionally with an odd number of dates and water, following the Sunnah of the Prophet ﷺ. Then they pray Maghrib before sitting down to the full Iftar meal.</p>
+      <p>Iftar is a joyous communal event. Families, friends, and mosque communities gather to share food, strengthen bonds, and celebrate the completion of another day's fast.</p>
+    </div>
+    <div class="img-wrap">
+      <img src="https://images.unsplash.com/photo-1563379091339-03246963d5a6?w=700&q=80&auto=format&fit=crop" alt="Iftar meal with dates" loading="lazy"/>
+    </div>
+  </div>
+
+  <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin:32px 0 18px;color:var(--ink);">🍽️ Traditional Iftar Foods</h3>
+  <div class="food-grid">
+    <div class="food-item"><img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=300&q=75&auto=format&fit=crop" alt="Dates"/><p>🌴 Dates (Tamr)</p></div>
+    <div class="food-item"><img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=300&q=75&auto=format&fit=crop" alt="Biryani"/><p>🍚 Biryani Rice</p></div>
+    <div class="food-item"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300&q=75&auto=format&fit=crop" alt="Soup"/><p>🥣 Lentil Soup</p></div>
+    <div class="food-item"><img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=300&q=75&auto=format&fit=crop" alt="Samosa"/><p>🥟 Samosa</p></div>
+    <div class="food-item"><img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=300&q=75&auto=format&fit=crop" alt="Kebab"/><p>🥩 Grilled Kebab</p></div>
+    <div class="food-item"><img src="https://images.unsplash.com/photo-1606787366850-de6330128bfc?w=300&q=75&auto=format&fit=crop" alt="Bread"/><p>🫓 Halal Flatbread</p></div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card"><div class="card-icon">🚫</div><div class="card-h3">What Breaks the Fast?</div><p class="card-p">Eating, drinking (including water), smoking, intentional vomiting, and intimate relations between spouses break the fast. Unintentional eating (forgetting) does not break the fast according to Islamic jurisprudence.</p></div>
+    <div class="card"><div class="card-icon">✅</div><div class="card-h3">Who is Exempt?</div><p class="card-p">The sick, elderly, pregnant or breastfeeding women, travelers, and young children are exempt from fasting. Those who miss days must make them up later (Qada) or pay Fidya (feeding the poor) if unable to fast.</p></div>
+    <div class="card"><div class="card-icon">🇹🇼</div><div class="card-h3">Ramadan in Taiwan</div><p class="card-p">Taiwan's Muslim community holds communal Iftar dinners at mosques in Taipei, Taichung, Tainan, and Kaohsiung. Muslim-friendly halal restaurants and Iftar events are increasingly available across Taiwan's cities.</p></div>
+  </div>
+
+  <div class="video-grid">
+    <div class="video-wrap"><iframe src="https://www.youtube.com/embed/ZFk_MhjV6eM" title="What Muslims eat during Ramadan" allowfullscreen loading="lazy"></iframe></div>
+    <div class="video-wrap"><iframe src="https://www.youtube.com/embed/z_y_k7DQBVU" title="Iftar around the world" allowfullscreen loading="lazy"></iframe></div>
+  </div>
+
+</div>
+
+<!-- ══ TAB 3: PRAYERS ══ -->
+<div class="tab-panel" id="tab-prayers">
+
+  <h2 class="panel-h2">Prayers & <em>Quran Recitation</em></h2>
+  <p class="panel-lead">Ramadan is above all a month of heightened worship. Muslims perform the five daily prayers, add the special Tarawih nightly prayers, recite the Quran, make extra supplications (Du'a), and seek the blessings of Laylat al-Qadr — the Night of Power.</p>
+
+  <div class="quran-block">
+    <div class="quran-arabic">إِنَّا أَنزَلْنَاهُ فِي لَيْلَةِ الْقَدْرِ</div>
+    <div class="quran-trans">"Indeed, We sent the Quran down during the Night of Power (Laylat al-Qadr)."</div>
+    <div class="quran-ref">— Surah Al-Qadr 97:1</div>
+  </div>
+
+  <h3 style="font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:16px;color:var(--ink);">🕌 Five Daily Prayers in Ramadan (Taipei, Taiwan 2026)</h3>
+  <table class="prayer-table">
+    <thead><tr><th>Prayer</th><th>Arabic</th><th>Time (Taipei Feb–Mar)</th><th>Significance in Ramadan</th></tr></thead>
+    <tbody>
+      <tr><td>🌙 Fajr (Dawn)</td><td>الفجر</td><td>~5:40–6:10 AM</td><td>Marks start of fast; Suhoor must end before this</td></tr>
+      <tr><td>☀️ Dhuhr (Noon)</td><td>الظهر</td><td>~12:10 PM</td><td>Midday prayer during the fast</td></tr>
+      <tr><td>🌤 Asr (Afternoon)</td><td>العصر</td><td>~3:30 PM</td><td>Afternoon prayer; spiritual reflection</td></tr>
+      <tr><td>🌅 Maghrib (Sunset)</td><td>المغرب</td><td>~6:00–6:25 PM</td><td><strong>Iftar time — fast is broken here</strong></td></tr>
+      <tr><td>🌙 Isha (Night)</td><td>العشاء</td><td>~7:20–7:40 PM</td><td>Night prayer before Tarawih begins</td></tr>
+      <tr><td style="color:var(--green);font-weight:700">⭐ Tarawih (Extra)</td><td>التراويح</td><td>~8:00–10:00 PM</td><td>Special Ramadan-only nightly prayer in congregation</td></tr>
+    </tbody>
+  </table>
+
+  <div class="img-row">
+    <div class="img-wrap">
+      <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=700&q=80&auto=format&fit=crop" alt="Muslim praying with Quran" loading="lazy"/>
+    </div>
+    <div class="img-text">
+      <h3>📖 Quran Recitation in Ramadan</h3>
+      <p>Ramadan is called "Shahr al-Quran" — the Month of the Quran. Muslims aim to complete reciting the entire Holy Quran (30 Juz / parts) over the 30 days, reading one Juz per day.</p>
+      <p>In mosques, the Imam leads Tarawih prayers reciting the Quran from memory. Many Muslims follow along with their own copies or apps. Quran recitation circles (Halaqas) are held daily in mosques across Taiwan during Ramadan.</p>
+      <div class="hi-box green"><h4>🌟 Laylat al-Qadr 2026</h4><p>The Night of Power is expected on <strong>16 March 2026</strong> (27th Ramadan). It is better than 1,000 months. Muslims spend this night in prayer, Quran recitation, and supplication.</p></div>
+    </div>
+  </div>
+
+  <div class="card-grid">
+    <div class="card"><div class="card-icon">📿</div><div class="card-h3">Dhikr & Tasbih</div><p class="card-p">Muslims repeat phrases like SubhanAllah (Glory to God), Alhamdulillah (Praise God), and Allahu Akbar (God is Greatest) throughout the day, especially after prayers. Prayer beads (Tasbih) help track the repetitions.</p></div>
+    <div class="card"><div class="card-icon">🤲</div><div class="card-h3">Du'a (Supplication)</div><p class="card-p">Du'a is the personal conversation between a Muslim and Allah. During Ramadan — especially at Iftar time, during Tarawih, and on Laylat al-Qadr — Du'as are considered especially powerful and likely to be answered.</p></div>
+    <div class="card"><div class="card-icon">🕋</div><div class="card-h3">I'tikaf (Retreat)</div><p class="card-p">During the last 10 days of Ramadan, some Muslims perform I'tikaf — a spiritual retreat inside the mosque, dedicating themselves entirely to worship, prayer, and seeking Laylat al-Qadr.</p></div>
+  </div>
+
+  <div class="video-grid">
+    <div class="video-wrap"><iframe src="https://www.youtube.com/embed/kPWcqNpERmU" title="Beautiful Quran recitation Ramadan" allowfullscreen loading="lazy"></iframe></div>
+    <div class="video-wrap"><iframe src="https://www.youtube.com/embed/3ROjXHgaskg" title="Eid prayer congregation" allowfullscreen loading="lazy"></iframe></div>
+  </div>
+
+</div>
+
+<footer>☪️ Islamic Festivals in Taiwan 2026 · <a href="index.html">Home</a> · <a href="calendar.html">Islamic Calendar</a> · Dates subject to moon sighting</footer>
+
+<script>
+function showTab(id,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:document.querySelector('.tab-nav').offsetTop-65,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
