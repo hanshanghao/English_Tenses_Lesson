@@ -428,7 +428,167 @@
   .photo-role-card .role-zh { font-size: 0.72rem; color: #9575CD; font-weight: 700; }
   .photo-role-card .role-def { font-size: 0.74rem; color: #78909c; margin-top: 4px; line-height: 1.3; }
 
-  /* Home Button */
+
+  /* ══ VOCAB AUDIO CONTROL BAR ══ */
+  .vocab-audio-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px;
+    background: linear-gradient(135deg, #1a2b4a 0%, #0a5c52 100%);
+    border-radius: 16px;
+    padding: 14px 20px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 20px rgba(26,43,74,0.18);
+  }
+  .vab-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .vab-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.65);
+    white-space: nowrap;
+  }
+
+  /* ON/OFF toggle switch */
+  .vab-toggle {
+    position: relative;
+    width: 46px; height: 24px;
+    background: #4ade80;
+    border: none; border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.25s;
+    flex-shrink: 0;
+  }
+  .vab-toggle.off { background: #6b7280; }
+  .toggle-thumb {
+    position: absolute;
+    top: 3px; left: 3px;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: white;
+    transition: left 0.25s cubic-bezier(.34,1.56,.64,1);
+    box-shadow: 0 1px 4px rgba(0,0,0,.25);
+  }
+  .vab-toggle.off .toggle-thumb { left: 25px; }
+  .vab-toggle-state {
+    font-size: 0.72rem; font-weight: 800;
+    color: #4ade80; letter-spacing: 1px;
+    min-width: 24px;
+    transition: color 0.2s;
+  }
+  .vab-toggle-state.off { color: #9ca3af; }
+
+  /* Speed / Mode buttons */
+  .vab-speed-btns { display: flex; gap: 5px; flex-wrap: wrap; }
+  .vab-speed {
+    background: rgba(255,255,255,0.10);
+    border: 1.5px solid rgba(255,255,255,0.20);
+    border-radius: 50px;
+    color: rgba(255,255,255,0.75);
+    cursor: pointer;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 5px 12px;
+    transition: all 0.18s;
+    white-space: nowrap;
+  }
+  .vab-speed:hover { background: rgba(255,255,255,0.20); color: white; }
+  .vab-speed.active {
+    background: #4FC3F7;
+    border-color: #4FC3F7;
+    color: #0a2540;
+  }
+
+  /* Play All / Stop */
+  .vab-play-all {
+    background: linear-gradient(135deg,#FFD54F,#f59e0b);
+    border: none; border-radius: 50px;
+    color: #1a2b4a; cursor: pointer;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.78rem; font-weight: 800;
+    padding: 7px 16px;
+    transition: all 0.2s;
+    box-shadow: 0 3px 12px rgba(255,213,79,.40);
+  }
+  .vab-play-all:hover { transform: scale(1.06); box-shadow: 0 5px 18px rgba(255,213,79,.55); }
+  .vab-play-all.playing { background: linear-gradient(135deg,#f97316,#dc2626); color: white; }
+  .vab-stop {
+    background: rgba(255,255,255,0.12);
+    border: 1.5px solid rgba(255,255,255,0.22);
+    border-radius: 50px; color: rgba(255,255,255,0.80);
+    cursor: pointer;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.78rem; font-weight: 700;
+    padding: 7px 14px;
+    transition: all 0.18s;
+  }
+  .vab-stop:hover { background: rgba(255,255,255,.22); color: white; }
+
+  /* Now-speaking bar */
+  .vocab-now-speaking {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(79,195,247,0.12);
+    border: 1.5px solid rgba(79,195,247,0.30);
+    border-radius: 10px;
+    padding: 8px 16px;
+    margin-bottom: 12px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #0a5c52;
+  }
+  .vns-wave { display:flex; align-items:center; gap:2px; }
+  .vns-wave span {
+    display: inline-block; width: 3px; border-radius: 3px;
+    background: #4FC3F7; animation: vnsWave .7s ease infinite;
+  }
+  .vns-wave span:nth-child(1){height:8px;animation-delay:0s}
+  .vns-wave span:nth-child(2){height:14px;animation-delay:.12s}
+  .vns-wave span:nth-child(3){height:10px;animation-delay:.24s}
+  .vns-wave span:nth-child(4){height:6px;animation-delay:.36s}
+  @keyframes vnsWave{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.9)}}
+
+  /* Row highlight while speaking */
+  .vocab-table tr.vt-speaking td { background: rgba(79,195,247,0.12) !important; }
+  .vocab-table tr.vt-speaking td:first-child { border-left: 3px solid #4FC3F7; }
+
+  /* Row number column */
+  .vocab-table .vt-num {
+    font-size: 0.72rem; color: #aab0c4; font-weight: 600;
+    text-align: center; width: 32px;
+  }
+
+  /* Per-row speak button */
+  .vt-speak-btn {
+    display: inline-flex; align-items: center; gap: 5px;
+    background: linear-gradient(135deg,#4FC3F7,#0288d1);
+    border: none; border-radius: 50px;
+    color: white; cursor: pointer;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.72rem; font-weight: 700;
+    padding: 5px 12px;
+    transition: all 0.20s cubic-bezier(.34,1.56,.64,1);
+    box-shadow: 0 2px 8px rgba(2,136,209,0.30);
+    white-space: nowrap;
+  }
+  .vt-speak-btn:hover { transform: scale(1.10); box-shadow: 0 4px 14px rgba(2,136,209,0.45); }
+  .vt-speak-btn.speaking { background: linear-gradient(135deg,#f97316,#dc2626); animation: speakPulse .6s ease infinite; }
+  @keyframes speakPulse { 0%,100%{transform:scale(1)}50%{transform:scale(1.07)} }
+
+  @media(max-width:640px){
+    .vocab-audio-bar { gap:10px; }
+    .vab-group { gap:6px; }
+  }
+/* Home Button */
 .home-btn {
   position: fixed;
   bottom: 20px;
@@ -946,14 +1106,76 @@ document.getElementById("topBtn").onclick = function(e) {
 <!-- VOCABULARY -->
 <div class="tab-panel" id="panel-vocab">
   <div class="section-title-bar"><span>📖</span> Full Vocabulary Reference</div>
-  <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
-    <button class="cat-btn all active" onclick="filterVocab('all',this)" style="padding:7px 18px;">All</button>
-    <button class="cat-btn family" onclick="filterVocab('family',this)" style="padding:7px 18px;">Family</button>
-    <button class="cat-btn jobs" onclick="filterVocab('jobs',this)" style="padding:7px 18px;">Jobs</button>
-    <button class="cat-btn all" onclick="filterVocab('action',this)" style="border-color:var(--lavender);color:var(--lavender); padding:7px 18px;">Actions</button>
+
+  <!-- ── AUDIO CONTROL BAR ── -->
+  <div class="vocab-audio-bar">
+    <!-- On/Off toggle -->
+    <div class="vab-group">
+      <span class="vab-label">🔊 Audio</span>
+      <button class="vab-toggle" id="vocabAudioToggle" onclick="toggleVocabAudio()" title="Turn audio on / off">
+        <span class="toggle-thumb"></span>
+      </button>
+      <span class="vab-toggle-state" id="vocabAudioState">ON</span>
+    </div>
+
+    <!-- Speed buttons -->
+    <div class="vab-group">
+      <span class="vab-label">⏱ Speed</span>
+      <div class="vab-speed-btns">
+        <button class="vab-speed active" id="vspeed-slow"   onclick="setVocabSpeed(0.65,'slow')"  title="Slow">🐌 Slow</button>
+        <button class="vab-speed"        id="vspeed-medium" onclick="setVocabSpeed(0.85,'medium')" title="Medium">🐢 Medium</button>
+        <button class="vab-speed"        id="vspeed-normal" onclick="setVocabSpeed(1.0,'normal')"  title="Normal">🐇 Normal</button>
+        <button class="vab-speed"        id="vspeed-fast"   onclick="setVocabSpeed(1.3,'fast')"   title="Fast">🚀 Fast</button>
+      </div>
+    </div>
+
+    <!-- Speak mode toggle -->
+    <div class="vab-group">
+      <span class="vab-label">📢 Reads</span>
+      <div class="vab-speed-btns">
+        <button class="vab-speed active" id="vmode-word"    onclick="setVocabMode('word')"       title="Word only">Word</button>
+        <button class="vab-speed"        id="vmode-def"     onclick="setVocabMode('def')"        title="Word + Definition">+Def</button>
+        <button class="vab-speed"        id="vmode-full"    onclick="setVocabMode('full')"       title="Word + Definition + Example">Full</button>
+      </div>
+    </div>
+
+    <!-- Play All / Stop -->
+    <div class="vab-group" style="margin-left:auto;">
+      <button class="vab-play-all" id="vocabPlayAll" onclick="playAllVocab()">▶ Play All</button>
+      <button class="vab-stop"     onclick="stopVocabAudio()">⏹ Stop</button>
+    </div>
   </div>
+
+  <!-- Currently speaking indicator -->
+  <div class="vocab-now-speaking" id="vocabNowSpeaking" style="display:none;">
+    <span class="vns-wave"><span></span><span></span><span></span><span></span></span>
+    <span id="vocabNowWord">—</span>
+  </div>
+
+  <!-- ── CATEGORY FILTERS ── -->
+  <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px;">
+    <button class="cat-btn all active" onclick="filterVocab('all',this)"    style="padding:7px 18px;">All</button>
+    <button class="cat-btn family"     onclick="filterVocab('family',this)" style="padding:7px 18px;">Family</button>
+    <button class="cat-btn jobs"       onclick="filterVocab('jobs',this)"   style="padding:7px 18px;">Jobs</button>
+    <button class="cat-btn all"        onclick="filterVocab('action',this)" style="border-color:var(--lavender);color:var(--lavender);padding:7px 18px;">Actions</button>
+  </div>
+
+  <!-- ── VOCAB TABLE ── -->
   <div style="overflow-x:auto; border-radius:14px; box-shadow:var(--shadow);">
-    <table class="vocab-table"><thead><tr><th>Word</th><th>Chinese</th><th>Category</th><th>Definition</th><th>Example</th><th>Audio</th></tr></thead><tbody id="vocabTbody"></tbody></table>
+    <table class="vocab-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Word</th>
+          <th>Chinese</th>
+          <th>Category</th>
+          <th>Definition</th>
+          <th>Example Sentence</th>
+          <th>Pronunciation</th>
+        </tr>
+      </thead>
+      <tbody id="vocabTbody"></tbody>
+    </table>
   </div>
 </div>
 
@@ -1420,16 +1642,172 @@ function filterVocab(cat,btn) {
   btn.classList.add('active');
   renderVocabTable();
 }
+
+// ══════ VOCAB AUDIO CONTROLS ══════
+let vocabAudioOn   = true;
+let vocabRate      = 0.65;          // default: slow for learners
+let vocabSpeakMode = 'word';        // 'word' | 'def' | 'full'
+let vocabPlayQueue = [];
+let vocabPlaying   = false;
+
+function toggleVocabAudio() {
+  vocabAudioOn = !vocabAudioOn;
+  const btn  = document.getElementById('vocabAudioToggle');
+  const state= document.getElementById('vocabAudioState');
+  btn.classList.toggle('off', !vocabAudioOn);
+  state.textContent = vocabAudioOn ? 'ON' : 'OFF';
+  state.classList.toggle('off', !vocabAudioOn);
+  if (!vocabAudioOn) stopVocabAudio();
+}
+
+function setVocabSpeed(rate, id) {
+  vocabRate = rate;
+  ['slow','medium','normal','fast'].forEach(s =>
+    document.getElementById('vspeed-'+s).classList.remove('active'));
+  document.getElementById('vspeed-'+id).classList.add('active');
+}
+
+function setVocabMode(mode) {
+  vocabSpeakMode = mode;
+  ['word','def','full'].forEach(m =>
+    document.getElementById('vmode-'+m).classList.remove('active'));
+  document.getElementById('vmode-'+mode).classList.add('active');
+}
+
+function getVocabVoice() {
+  const voices = window.speechSynthesis.getVoices();
+  const prefs = ['Google UK English Female','Google UK English Male',
+                 'Microsoft Hazel','Microsoft George','en-GB'];
+  for (const p of prefs) {
+    const v = voices.find(v => v.name.includes(p) || v.lang === p);
+    if (v) return v;
+  }
+  return voices.find(v => v.lang && v.lang.startsWith('en')) || voices[0];
+}
+
+function buildVocabText(v) {
+  if (vocabSpeakMode === 'word') return v.word;
+  if (vocabSpeakMode === 'def')  return v.word + '. ' + v.def;
+  return v.word + '. ' + v.def + '. Example: ' + v.ex.replace(/"/g,'');
+}
+
+function speakVocabRow(v, rowEl) {
+  if (!vocabAudioOn) return;
+  window.speechSynthesis.cancel();
+  // highlight row
+  document.querySelectorAll('.vocab-table tr.vt-speaking')
+    .forEach(r => r.classList.remove('vt-speaking'));
+  if (rowEl) rowEl.classList.add('vt-speaking');
+  // highlight button
+  document.querySelectorAll('.vt-speak-btn.speaking')
+    .forEach(b => b.classList.remove('speaking'));
+  if (rowEl) {
+    const btn = rowEl.querySelector('.vt-speak-btn');
+    if (btn) btn.classList.add('speaking');
+  }
+  // now-speaking bar
+  const bar  = document.getElementById('vocabNowSpeaking');
+  const word = document.getElementById('vocabNowWord');
+  if (bar) { bar.style.display = 'flex'; word.textContent = v.word; }
+
+  const text = buildVocabText(v);
+  const u = new SpeechSynthesisUtterance(text);
+  u.rate   = vocabRate;
+  u.pitch  = 1;
+  u.volume = 1;
+  const voice = getVocabVoice();
+  if (voice) u.voice = voice;
+  u.onend = () => {
+    if (rowEl) rowEl.classList.remove('vt-speaking');
+    if (rowEl) { const b=rowEl.querySelector('.vt-speak-btn'); if(b) b.classList.remove('speaking'); }
+    if (bar && !vocabPlaying) bar.style.display = 'none';
+  };
+  window.speechSynthesis.speak(u);
+}
+
+function stopVocabAudio() {
+  window.speechSynthesis.cancel();
+  vocabPlaying   = false;
+  vocabPlayQueue = [];
+  document.querySelectorAll('.vocab-table tr.vt-speaking')
+    .forEach(r => r.classList.remove('vt-speaking'));
+  document.querySelectorAll('.vt-speak-btn.speaking')
+    .forEach(b => b.classList.remove('speaking'));
+  const bar = document.getElementById('vocabNowSpeaking');
+  if (bar) bar.style.display = 'none';
+  const playBtn = document.getElementById('vocabPlayAll');
+  if (playBtn) { playBtn.textContent = '▶ Play All'; playBtn.classList.remove('playing'); }
+}
+
+function playAllVocab() {
+  if (!vocabAudioOn) { alert('Please turn audio ON first!'); return; }
+  if (vocabPlaying) { stopVocabAudio(); return; }
+  stopVocabAudio();
+  vocabPlaying = true;
+  const playBtn = document.getElementById('vocabPlayAll');
+  if (playBtn) { playBtn.textContent = '⏸ Pause'; playBtn.classList.add('playing'); }
+  const rows = vocabAll.filter(v => currentVocabFilter === 'all' || v.cat === currentVocabFilter);
+  const trs  = document.querySelectorAll('#vocabTbody tr');
+  let i = 0;
+  function playNext() {
+    if (!vocabPlaying || i >= rows.length) {
+      stopVocabAudio();
+      return;
+    }
+    const v   = rows[i];
+    const row = trs[i];
+    const text = buildVocabText(v);
+    document.querySelectorAll('.vocab-table tr.vt-speaking').forEach(r=>r.classList.remove('vt-speaking'));
+    document.querySelectorAll('.vt-speak-btn.speaking').forEach(b=>b.classList.remove('speaking'));
+    if (row) {
+      row.classList.add('vt-speaking');
+      row.scrollIntoView({ behavior:'smooth', block:'nearest' });
+      const btn = row.querySelector('.vt-speak-btn');
+      if (btn) btn.classList.add('speaking');
+    }
+    const bar  = document.getElementById('vocabNowSpeaking');
+    const word = document.getElementById('vocabNowWord');
+    if (bar) { bar.style.display='flex'; word.textContent = v.word; }
+
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.rate   = vocabRate;
+    u.pitch  = 1;
+    u.volume = 1;
+    const voice = getVocabVoice();
+    if (voice) u.voice = voice;
+    u.onend = () => {
+      if (row) row.classList.remove('vt-speaking');
+      if (row) { const b=row.querySelector('.vt-speak-btn'); if(b) b.classList.remove('speaking'); }
+      i++;
+      if (vocabPlaying) setTimeout(playNext, 500);
+    };
+    window.speechSynthesis.speak(u);
+  }
+  playNext();
+}
+
 function renderVocabTable() {
-  const rows=vocabAll.filter(v=>currentVocabFilter==='all'||v.cat===currentVocabFilter);
-  document.getElementById('vocabTbody').innerHTML=rows.map(v=>`<tr>
-    <td style="font-family:'Fredoka One',cursive;font-size:1rem;">${v.word}</td>
-    <td style="color:#7a6a9c;font-size:0.9rem;">${v.zh}</td>
-    <td><span class="vtag ${v.cat}">${v.cat}</span></td>
-    <td style="font-size:0.85rem;color:#555f7a;">${v.def}</td>
-    <td style="font-size:0.82rem;font-style:italic;color:#6b7a99;">${v.ex}</td>
-    <td><button class="speak-btn sky" onclick="speakWordCard('${v.word.replace(/'/g,"\\'")}','${v.def.replace(/'/g,"\\'")}','${v.ex.replace(/'/g,"\\'")}')" style="font-size:0.72rem;">🔊</button></td>
-  </tr>`).join('');
+  const rows = vocabAll.filter(v => currentVocabFilter === 'all' || v.cat === currentVocabFilter);
+  document.getElementById('vocabTbody').innerHTML = rows.map((v, idx) => {
+    const safeWord = v.word.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    const safeDef  = v.def.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    const safeEx   = v.ex.replace(/'/g, "\\'").replace(/"/g, '&quot;');
+    return `<tr onclick="speakVocabRow(vocabAll.find(x=>x.word==='${safeWord}'),this)" style="cursor:pointer;">
+      <td class="vt-num">${idx+1}</td>
+      <td style="font-family:'Fredoka One',cursive;font-size:1rem;font-weight:700;color:#1a2b4a;">${v.word}</td>
+      <td style="color:#7a6a9c;font-size:0.9rem;font-weight:600;">${v.zh}</td>
+      <td><span class="vtag ${v.cat}">${v.cat}</span></td>
+      <td style="font-size:0.85rem;color:#555f7a;">${v.def}</td>
+      <td style="font-size:0.82rem;font-style:italic;color:#6b7a99;">${v.ex}</td>
+      <td>
+        <button class="vt-speak-btn" title="Pronounce '${safeWord}'"
+          onclick="event.stopPropagation();speakVocabRow(vocabAll.find(x=>x.word==='${safeWord}'),this.closest('tr'))">
+          🔊 <span class="vt-btn-label">Listen</span>
+        </button>
+      </td>
+    </tr>`;
+  }).join('');
 }
 renderVocabTable();
 
