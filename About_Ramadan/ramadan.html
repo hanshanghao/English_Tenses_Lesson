@@ -94,6 +94,79 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:cen
 /* Footer */
 footer{background:var(--green-dk);color:rgba(255,255,255,.55);text-align:center;padding:24px;font-size:.75rem;margin-top:40px}
 @media(max-width:680px){.img-row{grid-template-columns:1fr}.img-row.flip{direction:ltr}.page-hero{padding:60px 20px 36px}}
+/* Home Button */
+.home-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 55px;
+  height: 55px;
+  background-color: #ff5722;
+  color: white;
+  font-size: 24px;
+  text-align: center;
+  line-height: 55px;
+  border-radius: 50%;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: 0.3s;
+  z-index: 999;
+}
+
+/* Back to Top Button */
+.top-btn {
+  position: fixed;
+  bottom: 85px; /* sits above home button */
+  right: 20px;
+  width: 55px;
+  height: 55px;
+  background-color: #007BFF;
+  color: white;
+  font-size: 22px;
+  text-align: center;
+  line-height: 55px;
+  border-radius: 50%;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: 0.3s;
+  display: none; /* hidden by default */
+  z-index: 999;
+}
+
+.home-btn:hover {
+  background-color: #e64a19;
+  transform: scale(1.1);
+}
+
+.top-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+}
+</style>
+
+<!-- Back to Top -->
+<a href="#" class="top-btn" id="topBtn" title="Back to Top">⬆</a>
+
+<!-- Home Button -->
+<a href="https://hanshanghao.github.io/English_Tenses_Lesson/" class="home-btn" title="Home">🏠</a>
+
+<script>
+// Show button when scrolling down
+window.onscroll = function() {
+  let btn = document.getElementById("topBtn");
+  if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+    btn.style.display = "block";
+  } else {
+    btn.style.display = "none";
+  }
+};
+
+// Smooth scroll to top
+document.getElementById("topBtn").onclick = function(e) {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+</script>
 </style>
 </head>
 <body>
