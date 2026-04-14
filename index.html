@@ -6,8 +6,8 @@
 <title>Lessons Learning · Multiplayer Classroom</title>
 <!-- PeerJS for WebRTC signaling -->
 <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
-<!-- QRCode.js for generating QR codes -->
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<!-- QRCode.js library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -153,15 +153,21 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
 }
 #qrCodeContainer{
   background:white;
-  padding:16px;
+  padding:20px;
   border-radius:20px;
   display:inline-block;
   box-shadow:var(--sh-sm);
+  min-width:200px;
+  min-height:200px;
 }
-#qrCanvas{
+#qrcode{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+#qrcode img{
   display:block;
-  width:180px;
-  height:180px;
+  margin:0 auto;
 }
 .students-list{
   background:rgba(13,122,110,0.06);
@@ -514,9 +520,12 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
   padding:8px 16px;
   border-radius:12px;
   font-family:monospace;
-  font-size:0.8rem;
+  font-size:0.7rem;
   margin-top:12px;
   word-break:break-all;
+  max-width:250px;
+  margin-left:auto;
+  margin-right:auto;
 }
 </style>
 
@@ -550,17 +559,17 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
   </header>
 
   <!-- MULTIPLAYER CONNECTION PANEL -->
-  <div class="multiplayer-panel">
+  <div class="multiplayer-panel" id="multiplayerPanel">
     <div class="panel-header">
       <h3>🎮 Classroom Session</h3>
-      <span class="badge" id="sessionStatus">HOST MODE</span>
+      <span class="badge" id="sessionStatus">INITIALIZING...</span>
     </div>
     
     <div class="connection-area">
       <div class="qr-section">
         <h4>📱 Scan to Join</h4>
         <div id="qrCodeContainer">
-          <canvas id="qrCanvas" width="180" height="180"></canvas>
+          <div id="qrcode"></div>
         </div>
         <div class="url-display" id="joinUrlDisplay"></div>
         <p style="font-size:0.75rem;color:var(--ink-soft);margin-top:12px;">
@@ -573,7 +582,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
         <div id="studentCount">0</div>
         <div class="connection-status" id="connectionStatus">
           <span class="status-dot"></span>
-          <span id="statusText">Waiting for students...</span>
+          <span id="statusText">Initializing connection...</span>
         </div>
         <div class="student-names" id="studentNamesList">
           <div style="color:var(--ink-soft);font-style:italic;">No students connected yet</div>
@@ -743,7 +752,7 @@ class ClassroomHost {
   constructor() {
     this.peer = null;
     this.peerId = null;
-    this.connections = new Map(); // peerId -> { conn, name }
+    this.connections = new Map();
     this.isActive = false;
     this.studentCounter = 0;
     
@@ -752,7 +761,7 @@ class ClassroomHost {
   }
   
   initElements() {
-    this.qrCanvas = document.getElementById('qrCanvas');
+    this.qrcodeDiv = document.getElementById('qrcode');
     this.joinUrlDisplay = document.getElementById('joinUrlDisplay');
     this.studentCountEl = document.getElementById('studentCount');
     this.connectedCountEl = document.getElementById('connectedCount');
@@ -770,9 +779,10 @@ class ClassroomHost {
     
     this.peer.on('open', (id) => {
       this.peerId = id;
-      console.log('Host Peer ID:', id);
+      console.log('✅ Host Peer ID:', id);
       this.sessionStatus.textContent = 'READY';
-      this.statusText.textContent = 'Ready to start session';
+      this.sessionStatus.style.background = '#d4a843';
+      this.statusText.textContent = 'Ready - Click "Start Session"';
       this.generateQRCode();
     });
     
@@ -782,28 +792,44 @@ class ClassroomHost {
     
     this.peer.on('error', (err) => {
       console.error('Peer error:', err);
-      this.showToast('Connection error: ' + err.message);
+      this.statusText.textContent = 'Connection error: ' + err.message;
+      this.showToast('Connection error. Check console.');
     });
+    
+    // Fallback if peer doesn't connect
+    setTimeout(() => {
+      if (!this.peerId) {
+        console.warn('Peer connection taking longer than expected...');
+        this.statusText.textContent = 'Connecting to signaling server...';
+      }
+    }, 3000);
   }
   
   generateQRCode() {
     const joinUrl = this.getJoinUrl();
     this.joinUrlDisplay.textContent = joinUrl;
     
-    QRCode.toCanvas(this.qrCanvas, joinUrl, {
-      width: 180,
-      margin: 2,
-      color: {
-        dark: '#0d1117',
-        light: '#ffffff'
-      }
-    }, (error) => {
-      if (error) console.error('QR Error:', error);
-    });
+    // Clear previous QR code
+    this.qrcodeDiv.innerHTML = '';
+    
+    // Generate new QR code
+    try {
+      new QRCode(this.qrcodeDiv, {
+        text: joinUrl,
+        width: 180,
+        height: 180,
+        colorDark: '#0d1117',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      });
+      console.log('✅ QR Code generated for:', joinUrl);
+    } catch (error) {
+      console.error('QR Code generation error:', error);
+      this.qrcodeDiv.innerHTML = '<div style="padding:20px;color:red;">QR Error<br><small>Copy link instead</small></div>';
+    }
   }
   
   getJoinUrl() {
-    // Create a student join URL with the host's peer ID
     const baseUrl = window.location.origin + window.location.pathname;
     return `${baseUrl}?join=${this.peerId}`;
   }
@@ -819,7 +845,6 @@ class ClassroomHost {
     this.statusText.textContent = 'Session active - Students can join!';
     this.showToast('🎉 Session started! Students can now scan the QR code.');
     
-    // Broadcast to all connected students that session is live
     this.broadcast({ type: 'session_started', timestamp: Date.now() });
   }
   
@@ -831,7 +856,6 @@ class ClassroomHost {
     
     this.broadcast({ type: 'session_ended' });
     
-    // Close all connections
     this.connections.forEach((data, peerId) => {
       data.conn.close();
     });
@@ -842,9 +866,8 @@ class ClassroomHost {
   
   handleNewConnection(conn) {
     conn.on('open', () => {
-      console.log('New student connection:', conn.peer);
+      console.log('🔗 New student connection:', conn.peer);
       
-      // Assign a student name
       this.studentCounter++;
       const studentName = `Student ${this.studentCounter}`;
       
@@ -856,14 +879,12 @@ class ClassroomHost {
       this.updateStudentList();
       this.showToast(`${studentName} joined the class!`);
       
-      // Send welcome message with student name
       conn.send({
         type: 'welcome',
         name: studentName,
         isActive: this.isActive
       });
       
-      // Broadcast updated student list to all
       this.broadcastStudentList();
     });
     
@@ -891,19 +912,17 @@ class ClassroomHost {
     const student = this.connections.get(peerId);
     if (!student) return;
     
-    console.log(`Message from ${student.name}:`, data);
+    console.log(`💬 Message from ${student.name}:`, data);
     
     switch(data.type) {
       case 'lesson_click':
-        // Student clicked a lesson - broadcast to all students
         this.broadcast({
           type: 'navigate',
           lesson: data.lesson,
           url: data.url,
           from: student.name
-        }, peerId); // Exclude sender
+        }, peerId);
         
-        // Also navigate the host
         if (data.url) {
           window.open(data.url, '_blank');
         }
@@ -911,16 +930,11 @@ class ClassroomHost {
         break;
         
       case 'answer':
-        // Handle quiz answers from students
         this.broadcast({
           type: 'answer_update',
           student: student.name,
           answer: data.answer
         });
-        break;
-        
-      case 'ping':
-        conn.send({ type: 'pong', timestamp: Date.now() });
         break;
     }
   }
@@ -945,7 +959,7 @@ class ClassroomHost {
   updateStudentList() {
     const count = this.connections.size;
     this.studentCountEl.textContent = count;
-    this.connectedCountEl.textContent = count;
+    if (this.connectedCountEl) this.connectedCountEl.textContent = count;
     
     if (count === 0) {
       this.studentNamesList.innerHTML = '<div style="color:var(--ink-soft);font-style:italic;">No students connected yet</div>';
@@ -992,7 +1006,7 @@ class ClassroomStudent {
     this.peer = new Peer();
     
     this.peer.on('open', (id) => {
-      console.log('Student Peer ID:', id);
+      console.log('🎓 Student Peer ID:', id);
       this.connectToHost();
     });
     
@@ -1003,16 +1017,15 @@ class ClassroomStudent {
   }
   
   connectToHost() {
+    console.log('🔗 Connecting to host:', this.hostId);
     this.connection = this.peer.connect(this.hostId, {
       reliable: true
     });
     
     this.connection.on('open', () => {
       this.isConnected = true;
-      console.log('Connected to host!');
+      console.log('✅ Connected to host!');
       this.showStudentMessage('✅ Connected to classroom!');
-      
-      // Override lesson links to sync with host
       this.setupLessonSync();
     });
     
@@ -1024,10 +1037,15 @@ class ClassroomStudent {
       this.isConnected = false;
       this.showStudentMessage('Disconnected from classroom');
     });
+    
+    this.connection.on('error', (err) => {
+      console.error('Connection error:', err);
+      this.showStudentMessage('Failed to connect to host');
+    });
   }
   
   handleHostMessage(data) {
-    console.log('Host message:', data);
+    console.log('📨 Host message:', data);
     
     switch(data.type) {
       case 'welcome':
@@ -1053,7 +1071,6 @@ class ClassroomStudent {
   }
   
   setupLessonSync() {
-    // Override all lesson card clicks to sync with host
     document.querySelectorAll('[data-lesson]').forEach(card => {
       card.addEventListener('click', (e) => {
         e.preventDefault();
@@ -1069,7 +1086,6 @@ class ClassroomStudent {
           this.showStudentMessage(`Sent: Opening ${lesson}`);
         }
         
-        // Still open locally
         if (url) {
           window.open(url, '_blank');
         }
@@ -1078,7 +1094,6 @@ class ClassroomStudent {
   }
   
   updateStudentDisplay(students) {
-    // Create a floating student list for mobile
     let panel = document.getElementById('studentPanel');
     if (!panel) {
       panel = document.createElement('div');
@@ -1113,21 +1128,18 @@ class ClassroomStudent {
 let classroomHost = null;
 let classroomStudent = null;
 
-// Check if we're in student mode (URL has ?join=PEER_ID)
+// Check if we're in student mode
 const urlParams = new URLSearchParams(window.location.search);
 const joinId = urlParams.get('join');
 
 if (joinId) {
   // STUDENT MODE
-  console.log('Student mode - joining host:', joinId);
-  classroomStudent = new ClassroomStudent(joinId);
+  console.log('🎓 Student mode - joining host:', joinId);
   
-  // Hide host panel, show student indicator
   document.addEventListener('DOMContentLoaded', () => {
-    const panel = document.querySelector('.multiplayer-panel');
+    const panel = document.getElementById('multiplayerPanel');
     if (panel) panel.style.display = 'none';
     
-    // Add student mode indicator
     const indicator = document.createElement('div');
     indicator.style.cssText = `
       position:fixed;top:20px;right:20px;
@@ -1136,29 +1148,29 @@ if (joinId) {
       font-weight:600;z-index:1000;
       box-shadow:var(--sh-md);
     `;
-    indicator.innerHTML = '🎓 Student Mode · Connected';
+    indicator.innerHTML = '🎓 Student Mode · Connecting...';
     document.body.appendChild(indicator);
+    
+    classroomStudent = new ClassroomStudent(joinId);
   });
 } else {
   // HOST MODE
-  console.log('Host mode');
+  console.log('👨‍🏫 Host mode');
   document.addEventListener('DOMContentLoaded', () => {
     classroomHost = new ClassroomHost();
   });
 }
 
 // ============= COMMON UTILITIES =============
-// Cursor glow
 document.addEventListener('DOMContentLoaded', () => {
   const cg = document.getElementById('cg');
-  document.addEventListener('mousemove', e => {
-    if (cg) {
+  if (cg) {
+    document.addEventListener('mousemove', e => {
       cg.style.left = e.clientX + 'px';
       cg.style.top = e.clientY + 'px';
-    }
-  });
+    });
+  }
 
-  // Parallax blobs
   document.addEventListener('mousemove', e => {
     const x = e.clientX / window.innerWidth - 0.5;
     const y = e.clientY / window.innerHeight - 0.5;
@@ -1170,8 +1182,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (b3) b3.style.transform = `translate(${x*10}px,${y*10}px)`;
   });
 
-  // Click ripple on cards
-  document.querySelectorAll('.lcard').forEach(card => {
+  document.querySelectorAll('.lcard, .fcard').forEach(card => {
     card.addEventListener('click', function(e) {
       const rect = this.getBoundingClientRect();
       const r = document.createElement('span');
@@ -1187,7 +1198,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Back to top button
   const topBtn = document.getElementById('topBtn');
   window.addEventListener('scroll', () => {
     if (topBtn) {
