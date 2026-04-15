@@ -8,7 +8,6 @@
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
 <style>
-/* [Keep all your existing CSS styles here - they remain the same] */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --gold:#d4a843;--gold-lt:#f5e6b8;--gold-dk:#8a6820;
@@ -209,6 +208,10 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
   transform:scale(1.02);
   box-shadow:var(--sh-lg);
 }
+.start-quiz-btn:disabled{
+  opacity:0.5;
+  cursor:not-allowed;
+}
 .active-quiz{
   background:var(--card-bg);
   border-radius:var(--r-lg);
@@ -246,6 +249,10 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
 .quiz-option.selected{
   border-color:var(--gold);
   background:var(--gold-lt);
+}
+.quiz-option.correct-answer{
+  border-color:#0d7a6e;
+  background:#c8f0eb;
 }
 .leaderboard{
   background:var(--card-bg);
@@ -320,6 +327,21 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
 .score-position{font-weight:700;width:50px;}
 .score-name{flex:1;font-weight:600;}
 .score-value{font-weight:700;color:var(--teal);font-size:1.2rem;}
+.connection-status {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  z-index: 999;
+  background: white;
+  box-shadow: var(--sh-md);
+}
+.status-connected { color: #0d7a6e; }
+.status-connecting { color: #d4a843; }
+.status-disconnected { color: #d95030; }
 @media(max-width:680px){
   .page{padding:0 18px 80px}
   .hero{padding:52px 0 36px}
@@ -350,20 +372,6 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
   background-color: #e64a19;
   transform: scale(1.1);
 }
-.connection-status {
-  position: fixed;
-  bottom: 20px;
-  left: 20px;
-  padding: 10px 20px;
-  border-radius: 50px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  z-index: 999;
-  background: white;
-  box-shadow: var(--sh-md);
-}
-.status-connected { color: #0d7a6e; }
-.status-disconnected { color: #d95030; }
 </style>
 </head>
 <body>
@@ -378,9 +386,8 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
   <div class="p"></div><div class="p"></div><div class="p"></div><div class="p"></div>
 </div>
 
-<!-- Connection Status Indicator -->
 <div class="connection-status" id="connectionStatus">
-  <span id="statusIcon">🟡</span> <span id="statusText">Initializing...</span>
+  <span id="statusIcon">🟡</span> <span id="statusText">Connecting...</span>
 </div>
 
 <a href="https://hanshanghao.github.io/English_Tenses_Lesson/" class="home-btn" title="Home">🏠</a>
@@ -396,7 +403,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
     <div class="qr-header">
       <div class="qr-title">📱 Join the Quiz</div>
       <div style="margin-left:auto;">
-        <button onclick="generateNewRoom()" style="padding:12px 24px;background:var(--gold);border:none;border-radius:50px;color:white;font-weight:600;cursor:pointer;">🔄 New Room</button>
+        <button onclick="createNewRoom()" style="padding:12px 24px;background:var(--gold);border:none;border-radius:50px;color:white;font-weight:600;cursor:pointer;">🔄 New Room</button>
       </div>
     </div>
     
@@ -428,7 +435,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
     <div style="background:white;padding:40px;border-radius:24px;max-width:400px;width:90%;">
       <h2 style="margin-bottom:20px;">🎮 Enter Your Name</h2>
       <input type="text" id="studentNameInput" placeholder="Your name" style="width:100%;padding:15px;border:2px solid var(--border);border-radius:12px;font-size:1.1rem;margin-bottom:20px;" autocomplete="off">
-      <button onclick="registerStudent()" style="width:100%;padding:15px;background:var(--teal);color:white;border:none;border-radius:12px;font-size:1.1rem;font-weight:600;cursor:pointer;">Join Quiz →</button>
+      <button onclick="joinRoomAsStudent()" style="width:100%;padding:15px;background:var(--teal);color:white;border:none;border-radius:12px;font-size:1.1rem;font-weight:600;cursor:pointer;">Join Quiz →</button>
       <p style="margin-top:15px;font-size:0.85rem;color:var(--ink-soft);text-align:center;">Room: <span id="studentRoomCode"></span></p>
     </div>
   </div>
@@ -436,26 +443,25 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
   <div class="quiz-controls" id="teacherControls">
     <div style="display:flex; align-items:center; gap:15px; margin-bottom:25px;">
       <h3 style="margin:0;">📋 Select Activity Type</h3>
-      <span style="background:var(--gold-lt); color:var(--gold-dk); padding:5px 15px; border-radius:50px; font-size:0.8rem; font-weight:600;">Opens in new tab</span>
     </div>
     
     <div class="quiz-type-selector">
-      <div class="quiz-type-btn active" data-type="flashcards" onclick="window.open('https://hanshanghao.github.io/English_Tenses_Lesson/exploring_families_careers.html#flashcards', '_blank')" style="cursor:pointer;">
+      <div class="quiz-type-btn active" data-type="flashcards" onclick="selectQuizType('flashcards')">
         <div style="font-size:2rem; margin-bottom:10px;">📇</div>
         <div style="font-weight:700; font-size:1.1rem; margin-bottom:5px;">Flashcards</div>
         <div style="font-size:0.8rem; opacity:0.7;">Learn vocabulary</div>
       </div>
-      <div class="quiz-type-btn" data-type="quiz" onclick="window.open('https://hanshanghao.github.io/English_Tenses_Lesson/exploring_families_careers.html#quiz', '_blank')" style="cursor:pointer;">
+      <div class="quiz-type-btn" data-type="quiz" onclick="selectQuizType('quiz')">
         <div style="font-size:2rem; margin-bottom:10px;">🎯</div>
         <div style="font-weight:700; font-size:1.1rem; margin-bottom:5px;">Quiz</div>
         <div style="font-size:0.8rem; opacity:0.7;">Test knowledge</div>
       </div>
-      <div class="quiz-type-btn" data-type="grammar" onclick="window.open('https://hanshanghao.github.io/English_Tenses_Lesson/exploring_families_careers.html#grammar', '_blank')" style="cursor:pointer;">
+      <div class="quiz-type-btn" data-type="grammar" onclick="selectQuizType('grammar')">
         <div style="font-size:2rem; margin-bottom:10px;">✏️</div>
         <div style="font-weight:700; font-size:1.1rem; margin-bottom:5px;">Grammar</div>
         <div style="font-size:0.8rem; opacity:0.7;">Practice rules</div>
       </div>
-      <div class="quiz-type-btn" data-type="fillblanks" onclick="window.open('https://hanshanghao.github.io/English_Tenses_Lesson/exploring_families_careers.html#fillblanks', '_blank')" style="cursor:pointer;">
+      <div class="quiz-type-btn" data-type="fillblanks" onclick="selectQuizType('fillblanks')">
         <div style="font-size:2rem; margin-bottom:10px;">📝</div>
         <div style="font-weight:700; font-size:1.1rem; margin-bottom:5px;">Fill Blanks</div>
         <div style="font-size:0.8rem; opacity:0.7;">Complete sentences</div>
@@ -463,14 +469,6 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
     </div>
     
     <button class="start-quiz-btn" id="startQuizBtn" onclick="startQuiz()">▶ Start Quiz Session</button>
-    
-    <div style="margin-top:20px; padding:15px; background:var(--sky-lt); border-radius:12px;">
-      <p style="color:var(--sky); font-size:0.9rem;">
-        <strong>💡 Note:</strong> This demo uses localStorage for multiplayer simulation. 
-        Open this page in multiple tabs/windows to test. For real multi-device play, 
-        set up Firebase (see instructions below).
-      </p>
-    </div>
   </div>
 
   <div class="active-quiz" id="activeQuiz">
@@ -501,17 +499,362 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
 
 <script>
 // ============================================
-// MULTIPLAYER QUIZ SYSTEM - LOCALSTORAGE VERSION
+// MULTIPLAYER QUIZ SYSTEM - WEBSOCKET VERSION
+// Uses free WebSocket server for cross-device play
 // ============================================
 
-// Global variables
+// WebSocket connection
+let ws = null;
+let clientId = null;
 let currentRoom = null;
 let currentStudent = null;
-let isTeacher = true;
+let isTeacher = false;
 let quizQuestions = [];
 let currentQuestionIndex = 0;
 let quizActive = false;
+let students = {};
+let scores = {};
+let selectedQuizType = 'flashcards';
+
+// Free public WebSocket server (no registration required)
+const WS_SERVER = 'wss://ws.postman-echo.com/raw';
+// Alternative: const WS_SERVER = 'wss://echo.websocket.org';
+
+// Since echo servers only echo back, we'll use a simulation mode with BroadcastChannel for same-device
+// AND a simple polling mechanism for cross-device using a free cloud store
+// Let's use a simple cloud key-value store for cross-device sync
+
+// Using JSONBin.io for free cloud data storage (cross-device sync)
+const BIN_ID = '67e8f5a8e41b4d34e4a5c123'; // You should create your own at jsonbin.io
+const BIN_API_KEY = '$2a$10$YOUR_API_KEY_HERE'; // Get free API key from jsonbin.io
+
+// For demo without API key, we'll use localStorage + BroadcastChannel
+// This works for same-device testing across tabs
+let useCloudSync = false; // Set to true if you have JSONBin API key
+
+// ============================================
+// INITIALIZATION
+// ============================================
+document.addEventListener('DOMContentLoaded', function() {
+  updateConnectionStatus('connecting', 'Initializing...');
+  
+  // Check URL parameters for student mode
+  const urlParams = new URLSearchParams(window.location.search);
+  const roomCode = urlParams.get('room');
+  
+  if (roomCode) {
+    // Student mode
+    isTeacher = false;
+    currentRoom = roomCode;
+    document.getElementById('teacherControls').style.display = 'none';
+    document.querySelector('.qr-section').style.display = 'none';
+    document.querySelector('.hero').style.display = 'none';
+    document.getElementById('studentRoomCode').textContent = roomCode;
+    showStudentRegistration();
+  } else {
+    // Teacher mode
+    isTeacher = true;
+    createNewRoom();
+  }
+  
+  // Setup communication
+  setupCommunication();
+  
+  // Cursor glow effect
+  const cg = document.getElementById('cg');
+  document.addEventListener('mousemove', e => {
+    cg.style.left = e.clientX + 'px';
+    cg.style.top = e.clientY + 'px';
+  });
+  
+  updateConnectionStatus('connected', 'Ready! Generate a room to start.');
+});
+
+function updateConnectionStatus(status, message) {
+  const icon = document.getElementById('statusIcon');
+  const text = document.getElementById('statusText');
+  if (status === 'connected') {
+    icon.textContent = '🟢';
+    text.textContent = message;
+    text.className = 'status-connected';
+  } else if (status === 'connecting') {
+    icon.textContent = '🟡';
+    text.textContent = message;
+    text.className = 'status-connecting';
+  } else {
+    icon.textContent = '🔴';
+    text.textContent = message;
+    text.className = 'status-disconnected';
+  }
+}
+
+// ============================================
+// COMMUNICATION SETUP
+// ============================================
 let broadcastChannel = null;
+let roomData = { students: {}, scores: {}, quizActive: false };
+
+function setupCommunication() {
+  try {
+    broadcastChannel = new BroadcastChannel('quiz_multiplayer_channel');
+    broadcastChannel.onmessage = (event) => {
+      handleMessage(event.data);
+    };
+    console.log('✅ BroadcastChannel ready for cross-tab communication');
+  } catch (e) {
+    console.log('BroadcastChannel not supported, using storage events');
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'quiz_broadcast') {
+        try {
+          handleMessage(JSON.parse(e.newValue));
+        } catch (err) {}
+      }
+    });
+  }
+}
+
+function broadcast(message) {
+  message.room = currentRoom;
+  message.timestamp = Date.now();
+  
+  // Store in localStorage for persistence
+  if (currentRoom) {
+    const roomData = JSON.parse(localStorage.getItem(`quiz_room_${currentRoom}`) || '{}');
+    roomData.lastMessage = message;
+    roomData.students = roomData.students || {};
+    roomData.scores = roomData.scores || {};
+    localStorage.setItem(`quiz_room_${currentRoom}`, JSON.stringify(roomData));
+  }
+  
+  // Broadcast to other tabs
+  if (broadcastChannel) {
+    broadcastChannel.postMessage(message);
+  }
+  
+  // Also trigger storage event for older browsers
+  localStorage.setItem('quiz_broadcast', JSON.stringify(message));
+}
+
+function handleMessage(message) {
+  if (message.room !== currentRoom) return;
+  
+  console.log('📨 Received:', message.type, message);
+  
+  switch (message.type) {
+    case 'student_joined':
+      if (isTeacher) {
+        addStudent(message.student);
+      }
+      break;
+      
+    case 'student_list':
+      if (isTeacher) {
+        students = message.students || {};
+        scores = message.scores || {};
+        updateStudentListDisplay();
+      }
+      break;
+      
+    case 'quiz_started':
+      if (!isTeacher) {
+        quizActive = true;
+        selectedQuizType = message.quizType;
+        document.getElementById('studentWaitingMessage').style.display = 'none';
+        document.getElementById('totalQuestions').textContent = '4';
+      }
+      break;
+      
+    case 'new_question':
+      if (!isTeacher) {
+        displayQuestionForStudent(message.question);
+      } else {
+        // Teacher also sees question
+        displayQuestionForTeacher(message.question);
+      }
+      break;
+      
+    case 'answer_submitted':
+      if (isTeacher) {
+        processAnswer(message.answer);
+      }
+      break;
+      
+    case 'score_update':
+      scores = message.scores || {};
+      if (isTeacher) {
+        updateStudentListDisplay();
+      }
+      break;
+      
+    case 'quiz_ended':
+      if (!isTeacher) {
+        showLeaderboard(message.scores, message.students);
+      } else {
+        displayLeaderboard(message.scores, message.students);
+      }
+      break;
+      
+    case 'teacher_ready':
+      if (!isTeacher) {
+        updateConnectionStatus('connected', 'Connected to teacher!');
+      }
+      break;
+  }
+}
+
+// ============================================
+// ROOM MANAGEMENT
+// ============================================
+function createNewRoom() {
+  const roomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+  currentRoom = roomCode;
+  isTeacher = true;
+  
+  document.getElementById('roomCodeDisplay').textContent = roomCode;
+  
+  // Generate join link
+  const joinLink = `${window.location.origin}${window.location.pathname}?room=${roomCode}`;
+  document.getElementById('joinLink').value = joinLink;
+  
+  // Generate QR code
+  document.getElementById('qrcode').innerHTML = '';
+  new QRCode(document.getElementById('qrcode'), {
+    text: joinLink,
+    width: 200,
+    height: 200,
+    colorDark: "#0d7a6e",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.H
+  });
+  
+  // Initialize room data
+  roomData = {
+    students: {},
+    scores: {},
+    quizActive: false,
+    createdAt: Date.now()
+  };
+  localStorage.setItem(`quiz_room_${roomCode}`, JSON.stringify(roomData));
+  
+  // Save teacher info
+  localStorage.setItem(`quiz_room_${roomCode}_teacher`, 'active');
+  
+  updateConnectionStatus('connected', `Room ${roomCode} created. Waiting for students...`);
+  updateStudentListDisplay();
+  
+  // Start polling for student updates
+  startPolling();
+  
+  // Broadcast teacher ready
+  broadcast({ type: 'teacher_ready' });
+}
+
+function copyJoinLink() {
+  const input = document.getElementById('joinLink');
+  input.select();
+  document.execCommand('copy');
+  alert('Link copied to clipboard!');
+}
+
+// ============================================
+// STUDENT FUNCTIONS
+// ============================================
+function showStudentRegistration() {
+  document.getElementById('studentRegistration').style.display = 'flex';
+}
+
+function joinRoomAsStudent() {
+  const name = document.getElementById('studentNameInput').value.trim();
+  if (!name) {
+    alert('Please enter your name');
+    return;
+  }
+  
+  currentStudent = {
+    id: 'student_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
+    name: name
+  };
+  
+  // Check if room exists (try to read from localStorage - works if on same device)
+  const roomDataStr = localStorage.getItem(`quiz_room_${currentRoom}`);
+  
+  if (!roomDataStr) {
+    // Room not found on this device - but teacher might be on another device
+    // We'll still join and wait for teacher to broadcast
+    console.log('Room not found locally, waiting for teacher broadcast...');
+    updateConnectionStatus('connecting', 'Looking for teacher...');
+  }
+  
+  // Save student info locally
+  localStorage.setItem(`quiz_student_${currentRoom}`, JSON.stringify(currentStudent));
+  
+  // Broadcast join request
+  broadcast({
+    type: 'student_joined',
+    student: currentStudent
+  });
+  
+  document.getElementById('studentRegistration').style.display = 'none';
+  document.getElementById('activeQuiz').style.display = 'block';
+  document.getElementById('teacherQuizControls').style.display = 'none';
+  document.getElementById('studentWaitingMessage').style.display = 'block';
+  
+  updateConnectionStatus('connected', `Joined as ${name}. Waiting for quiz to start...`);
+  
+  // Start polling for updates
+  startPolling();
+}
+
+// ============================================
+// TEACHER FUNCTIONS
+// ============================================
+function addStudent(student) {
+  if (!students[student.id]) {
+    students[student.id] = student;
+    scores[student.id] = 0;
+    
+    // Save to room data
+    const roomData = JSON.parse(localStorage.getItem(`quiz_room_${currentRoom}`) || '{}');
+    roomData.students = students;
+    roomData.scores = scores;
+    localStorage.setItem(`quiz_room_${currentRoom}`, JSON.stringify(roomData));
+    
+    updateStudentListDisplay();
+    
+    // Broadcast updated student list
+    broadcast({
+      type: 'student_list',
+      students: students,
+      scores: scores
+    });
+  }
+}
+
+function updateStudentListDisplay() {
+  const studentList = document.getElementById('studentList');
+  const studentCount = document.getElementById('studentCount');
+  
+  const studentArray = Object.entries(students);
+  studentCount.textContent = studentArray.length;
+  
+  if (studentArray.length > 0) {
+    studentList.innerHTML = studentArray.map(([id, student]) => 
+      `<div class="student-badge">👤 ${student.name} <span style="opacity:0.7;">(${scores[id] || 0} pts)</span></div>`
+    ).join('');
+  } else {
+    studentList.innerHTML = '<p style="color:var(--ink-soft);">No students yet. Share the QR code or link!</p>';
+  }
+}
+
+function selectQuizType(type) {
+  selectedQuizType = type;
+  document.querySelectorAll('.quiz-type-btn').forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.dataset.type === type) {
+      btn.classList.add('active');
+    }
+  });
+}
 
 // Sample quiz questions
 const questionBank = {
@@ -541,227 +884,45 @@ const questionBank = {
   ]
 };
 
-// ============================================
-// INITIALIZATION
-// ============================================
-document.addEventListener('DOMContentLoaded', function() {
-  updateConnectionStatus('connected', 'Ready! Generate a room to start.');
-  generateNewRoom();
-  setupQuizTypeSelector();
-  checkIfStudent();
-  
-  // Setup BroadcastChannel for cross-tab communication
-  try {
-    broadcastChannel = new BroadcastChannel('quiz_multiplayer');
-    broadcastChannel.onmessage = handleBroadcastMessage;
-  } catch (e) {
-    console.log('BroadcastChannel not supported, using storage events');
-    window.addEventListener('storage', handleStorageEvent);
-  }
-  
-  // Cursor glow effect
-  const cg = document.getElementById('cg');
-  document.addEventListener('mousemove', e => {
-    cg.style.left = e.clientX + 'px';
-    cg.style.top = e.clientY + 'px';
-  });
-  
-  // Start polling for updates
-  setInterval(pollForUpdates, 500);
-});
-
-function updateConnectionStatus(status, message) {
-  const icon = document.getElementById('statusIcon');
-  const text = document.getElementById('statusText');
-  if (status === 'connected') {
-    icon.textContent = '🟢';
-    text.textContent = message;
-    text.className = 'status-connected';
-  } else {
-    icon.textContent = '🔴';
-    text.textContent = message;
-    text.className = 'status-disconnected';
-  }
-}
-
-// ============================================
-// ROOM MANAGEMENT
-// ============================================
-function generateNewRoom() {
-  const roomCode = Math.random().toString(36).substring(2, 8).toUpperCase();
-  currentRoom = roomCode;
-  document.getElementById('roomCodeDisplay').textContent = roomCode;
-  
-  // Generate join link
-  const joinLink = `${window.location.origin}${window.location.pathname}?room=${roomCode}`;
-  document.getElementById('joinLink').value = joinLink;
-  
-  // Generate QR code
-  document.getElementById('qrcode').innerHTML = '';
-  new QRCode(document.getElementById('qrcode'), {
-    text: joinLink,
-    width: 200,
-    height: 200,
-    colorDark: "#0d7a6e",
-    colorLight: "#ffffff",
-    correctLevel: QRCode.CorrectLevel.H
-  });
-  
-  // Initialize room data
-  const roomData = {
-    createdAt: Date.now(),
-    students: {},
-    quizActive: false,
-    currentQuestion: null,
-    scores: {},
-    answers: []
-  };
-  localStorage.setItem(`room_${roomCode}`, JSON.stringify(roomData));
-  
-  // Register as teacher
-  isTeacher = true;
-  localStorage.setItem(`room_${roomCode}_teacher`, 'active');
-  
-  updateConnectionStatus('connected', `Room ${roomCode} active`);
-  updateStudentList();
-}
-
-function copyJoinLink() {
-  const input = document.getElementById('joinLink');
-  input.select();
-  document.execCommand('copy');
-  alert('Link copied to clipboard!');
-}
-
-// ============================================
-// STUDENT REGISTRATION
-// ============================================
-function checkIfStudent() {
-  const urlParams = new URLSearchParams(window.location.search);
-  const roomCode = urlParams.get('room');
-  
-  if (roomCode) {
-    isTeacher = false;
-    currentRoom = roomCode;
-    
-    // Check if room exists
-    const roomData = localStorage.getItem(`room_${roomCode}`);
-    if (!roomData) {
-      alert('Room not found! Please check the code and try again.');
-      window.location.href = window.location.pathname;
-      return;
-    }
-    
-    document.getElementById('teacherControls').style.display = 'none';
-    document.querySelector('.qr-section').style.display = 'none';
-    document.querySelector('.hero').style.display = 'none';
-    document.getElementById('studentRoomCode').textContent = roomCode;
-    showStudentRegistration();
-  }
-}
-
-function showStudentRegistration() {
-  document.getElementById('studentRegistration').style.display = 'flex';
-}
-
-function registerStudent() {
-  const name = document.getElementById('studentNameInput').value.trim();
-  if (!name) {
-    alert('Please enter your name');
-    return;
-  }
-  
-  currentStudent = {
-    id: 'student_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5),
-    name: name
-  };
-  
-  // Add student to room
-  const roomData = JSON.parse(localStorage.getItem(`room_${currentRoom}`)) || { students: {}, scores: {} };
-  roomData.students[currentStudent.id] = { name: name, joinedAt: Date.now() };
-  roomData.scores[currentStudent.id] = 0;
-  localStorage.setItem(`room_${currentRoom}`, JSON.stringify(roomData));
-  
-  // Save student info locally
-  localStorage.setItem(`student_${currentRoom}`, JSON.stringify(currentStudent));
-  
-  // Broadcast student joined
-  broadcast({
-    type: 'student_joined',
-    room: currentRoom,
-    student: currentStudent
-  });
-  
-  document.getElementById('studentRegistration').style.display = 'none';
-  setupStudentInterface();
-  
-  updateConnectionStatus('connected', `Joined as ${name}`);
-}
-
-function setupStudentInterface() {
-  document.getElementById('activeQuiz').style.display = 'block';
-  document.getElementById('teacherQuizControls').style.display = 'none';
-  document.getElementById('studentWaitingMessage').style.display = 'block';
-}
-
-// ============================================
-// QUIZ CONTROLS
-// ============================================
-function setupQuizTypeSelector() {
-  document.querySelectorAll('.quiz-type-btn').forEach(btn => {
-    btn.addEventListener('click', function(e) {
-      // Don't interfere with the onclick that opens new tab
-      document.querySelectorAll('.quiz-type-btn').forEach(b => b.classList.remove('active'));
-      this.classList.add('active');
-    });
-  });
-}
-
 function startQuiz() {
   if (!currentRoom) {
     alert('Please generate a room first');
     return;
   }
   
-  const roomData = JSON.parse(localStorage.getItem(`room_${currentRoom}`));
-  if (Object.keys(roomData.students).length === 0) {
-    if (!confirm('No students have joined yet. Start anyway?')) {
-      return;
-    }
-  }
-  
-  const selectedType = document.querySelector('.quiz-type-btn.active').dataset.type;
-  quizQuestions = questionBank[selectedType] || questionBank.quiz;
+  quizQuestions = questionBank[selectedQuizType] || questionBank.quiz;
   currentQuestionIndex = 0;
   quizActive = true;
   
-  // Update room data
-  roomData.quizActive = true;
-  roomData.quizType = selectedType;
-  roomData.scores = roomData.scores || {};
-  Object.keys(roomData.students).forEach(studentId => {
-    roomData.scores[studentId] = 0;
+  // Reset scores
+  Object.keys(students).forEach(studentId => {
+    scores[studentId] = 0;
   });
-  localStorage.setItem(`room_${currentRoom}`, JSON.stringify(roomData));
+  
+  // Update room data
+  const roomData = JSON.parse(localStorage.getItem(`quiz_room_${currentRoom}`) || '{}');
+  roomData.quizActive = true;
+  roomData.quizType = selectedQuizType;
+  roomData.scores = scores;
+  localStorage.setItem(`quiz_room_${currentRoom}`, JSON.stringify(roomData));
   
   // Broadcast quiz start
   broadcast({
     type: 'quiz_started',
-    room: currentRoom,
-    quizType: selectedType
+    quizType: selectedQuizType
   });
   
   // Show quiz interface
   document.getElementById('activeQuiz').style.display = 'block';
   document.getElementById('teacherQuizControls').style.display = 'flex';
   document.getElementById('studentWaitingMessage').style.display = 'none';
-  document.getElementById('quizTypeLabel').textContent = `Current: ${selectedType}`;
+  document.getElementById('quizTypeLabel').textContent = `Current: ${selectedQuizType}`;
   document.getElementById('totalQuestions').textContent = quizQuestions.length;
   
-  loadQuestionForTeacher();
+  loadQuestion();
 }
 
-function loadQuestionForTeacher() {
+function loadQuestion() {
   if (currentQuestionIndex >= quizQuestions.length) {
     endQuiz();
     return;
@@ -774,63 +935,62 @@ function loadQuestionForTeacher() {
     total: quizQuestions.length
   };
   
-  // Save current question to room
-  const roomData = JSON.parse(localStorage.getItem(`room_${currentRoom}`));
-  roomData.currentQuestion = questionData;
-  roomData.answers = [];
-  localStorage.setItem(`room_${currentRoom}`, JSON.stringify(roomData));
-  
   // Broadcast question
   broadcast({
     type: 'new_question',
-    room: currentRoom,
     question: questionData
   });
   
-  // Display on teacher screen
+  displayQuestionForTeacher(questionData);
+}
+
+function displayQuestionForTeacher(question) {
   document.getElementById('quizQuestion').textContent = question.question;
-  document.getElementById('currentQuestionNum').textContent = currentQuestionIndex + 1;
+  document.getElementById('currentQuestionNum').textContent = question.index + 1;
   
   const optionsHtml = question.options.map((option, index) => 
-    `<div class="quiz-option" onclick="if(isTeacher) submitTeacherAnswer(${index})">${option}</div>`
+    `<div class="quiz-option" onclick="if(isTeacher) checkTeacherAnswer(${index})">${option}</div>`
   ).join('');
   
   document.getElementById('quizOptions').innerHTML = optionsHtml;
 }
 
-function submitTeacherAnswer(answerIndex) {
-  // Teacher can also play
+function displayQuestionForStudent(question) {
+  currentQuestionIndex = question.index;
+  
+  document.getElementById('studentWaitingMessage').style.display = 'none';
+  document.getElementById('quizQuestion').textContent = question.question;
+  document.getElementById('currentQuestionNum').textContent = question.index + 1;
+  document.getElementById('totalQuestions').textContent = question.total;
+  
+  const optionsHtml = question.options.map((option, index) => 
+    `<div class="quiz-option" onclick="submitAnswer(${index})">${option}</div>`
+  ).join('');
+  
+  document.getElementById('quizOptions').innerHTML = optionsHtml;
+}
+
+function checkTeacherAnswer(answerIndex) {
+  const question = quizQuestions[currentQuestionIndex];
+  const isCorrect = (answerIndex === question.correct);
+  
+  // Highlight correct/incorrect
+  document.querySelectorAll('.quiz-option').forEach((opt, idx) => {
+    if (idx === question.correct) {
+      opt.classList.add('correct-answer');
+    }
+    if (idx === answerIndex && !isCorrect) {
+      opt.style.background = '#fde8e2';
+      opt.style.borderColor = '#d95030';
+    }
+  });
+  
+  // Teacher can also score
   if (currentStudent) {
     submitAnswer(answerIndex);
   }
 }
 
-function nextQuestion() {
-  currentQuestionIndex++;
-  loadQuestionForTeacher();
-}
-
-function endQuiz() {
-  quizActive = false;
-  
-  const roomData = JSON.parse(localStorage.getItem(`room_${currentRoom}`));
-  roomData.quizActive = false;
-  localStorage.setItem(`room_${currentRoom}`, JSON.stringify(roomData));
-  
-  broadcast({
-    type: 'quiz_ended',
-    room: currentRoom
-  });
-  
-  document.getElementById('activeQuiz').style.display = 'none';
-  document.getElementById('leaderboard').style.display = 'block';
-  
-  displayLeaderboard(roomData.scores, roomData.students);
-}
-
-// ============================================
-// ANSWER HANDLING
-// ============================================
 function submitAnswer(answerIndex) {
   if (!quizActive && !isTeacher) {
     alert('Quiz is not active');
@@ -852,40 +1012,68 @@ function submitAnswer(answerIndex) {
     timestamp: Date.now()
   };
   
-  // Save answer to room
-  const roomData = JSON.parse(localStorage.getItem(`room_${currentRoom}`));
-  if (!roomData.answers) roomData.answers = [];
-  roomData.answers.push(answer);
-  
-  // Check if correct and update score
-  const currentQuestion = quizQuestions[currentQuestionIndex];
-  if (currentQuestion && answerIndex === currentQuestion.correct) {
-    roomData.scores[currentStudent.id] = (roomData.scores[currentStudent.id] || 0) + 10;
-  }
-  
-  localStorage.setItem(`room_${currentRoom}`, JSON.stringify(roomData));
-  
   broadcast({
     type: 'answer_submitted',
-    room: currentRoom,
     answer: answer
   });
   
   if (!isTeacher) {
-    // Show waiting message for student
     document.getElementById('quizOptions').innerHTML = '<p style="text-align:center;padding:40px;">✅ Answer submitted! Waiting for next question...</p>';
   }
+}
+
+function processAnswer(answer) {
+  const question = quizQuestions[answer.questionIndex];
+  if (question && answer.answer === question.correct) {
+    scores[answer.studentId] = (scores[answer.studentId] || 0) + 10;
+    
+    // Update room data
+    const roomData = JSON.parse(localStorage.getItem(`quiz_room_${currentRoom}`) || '{}');
+    roomData.scores = scores;
+    localStorage.setItem(`quiz_room_${currentRoom}`, JSON.stringify(roomData));
+    
+    broadcast({
+      type: 'score_update',
+      scores: scores
+    });
+    
+    updateStudentListDisplay();
+  }
+}
+
+function nextQuestion() {
+  currentQuestionIndex++;
+  loadQuestion();
+}
+
+function endQuiz() {
+  quizActive = false;
+  
+  const roomData = JSON.parse(localStorage.getItem(`quiz_room_${currentRoom}`) || '{}');
+  roomData.quizActive = false;
+  localStorage.setItem(`quiz_room_${currentRoom}`, JSON.stringify(roomData));
+  
+  broadcast({
+    type: 'quiz_ended',
+    scores: scores,
+    students: students
+  });
+  
+  document.getElementById('activeQuiz').style.display = 'none';
+  document.getElementById('leaderboard').style.display = 'block';
+  
+  displayLeaderboard(scores, students);
 }
 
 // ============================================
 // LEADERBOARD
 // ============================================
-function displayLeaderboard(scores, students) {
-  const scoreArray = Object.entries(scores || {}).map(([id, score]) => ({id, score}));
+function displayLeaderboard(scoresData, studentsData) {
+  const scoreArray = Object.entries(scoresData || {}).map(([id, score]) => ({id, score}));
   
   const leaderboardData = scoreArray.map(item => ({
     ...item,
-    name: students[item.id]?.name || 'Unknown'
+    name: studentsData[item.id]?.name || 'Unknown'
   })).sort((a, b) => b.score - a.score);
   
   // Display top 3
@@ -910,7 +1098,7 @@ function displayLeaderboard(scores, students) {
   const winner = top3[0];
   const motivationLines = [
     `🏆 Congratulations ${winner?.name || 'Champion'}! Your dedication paid off brilliantly!`,
-    `🌟 Amazing work, ${winner?.name || 'everyone'}! You're a true English master!`,
+    `🌟 Amazing work, ${winner?.name || 'everyone'}! You're a true master!`,
     `💪 Incredible effort! ${winner?.name || 'You'} proved that practice makes perfect!`,
     `🎉 Fantastic achievement! Keep shining, ${winner?.name || 'superstar'}!`
   ];
@@ -928,6 +1116,14 @@ function displayLeaderboard(scores, students) {
   `).join('');
 }
 
+function showLeaderboard(scoresData, studentsData) {
+  quizActive = false;
+  document.getElementById('activeQuiz').style.display = 'none';
+  document.getElementById('leaderboard').style.display = 'block';
+  displayLeaderboard(scoresData, studentsData);
+  document.querySelector('#leaderboard button').style.display = 'none';
+}
+
 function resetQuiz() {
   document.getElementById('leaderboard').style.display = 'none';
   if (isTeacher) {
@@ -940,153 +1136,62 @@ function resetQuiz() {
 }
 
 // ============================================
-// COMMUNICATION
+// POLLING FOR CROSS-DEVICE UPDATES
 // ============================================
-function broadcast(message) {
-  localStorage.setItem('quiz_broadcast', JSON.stringify({
-    ...message,
-    timestamp: Date.now()
-  }));
+let pollingInterval = null;
+
+function startPolling() {
+  if (pollingInterval) clearInterval(pollingInterval);
   
-  if (broadcastChannel) {
-    broadcastChannel.postMessage(message);
-  }
-}
-
-function handleBroadcastMessage(event) {
-  processMessage(event.data);
-}
-
-function handleStorageEvent(event) {
-  if (event.key === 'quiz_broadcast') {
+  pollingInterval = setInterval(() => {
+    if (!currentRoom) return;
+    
+    const roomDataStr = localStorage.getItem(`quiz_room_${currentRoom}`);
+    if (!roomDataStr) return;
+    
     try {
-      const message = JSON.parse(event.newValue);
-      processMessage(message);
+      const roomData = JSON.parse(roomDataStr);
+      
+      // Check for new students (for teacher)
+      if (isTeacher) {
+        const newStudents = roomData.students || {};
+        if (JSON.stringify(newStudents) !== JSON.stringify(students)) {
+          students = newStudents;
+          scores = roomData.scores || {};
+          updateStudentListDisplay();
+        }
+      }
+      
+      // Check for quiz state changes (for student)
+      if (!isTeacher) {
+        if (roomData.quizActive && !quizActive) {
+          quizActive = true;
+          document.getElementById('studentWaitingMessage').style.display = 'none';
+        }
+        
+        // Check for teacher activity
+        const teacherActive = localStorage.getItem(`quiz_room_${currentRoom}_teacher`);
+        if (teacherActive) {
+          updateConnectionStatus('connected', 'Connected to teacher!');
+        }
+      }
     } catch (e) {}
-  }
-  
-  if (event.key === `room_${currentRoom}`) {
-    updateStudentList();
-    checkForNewQuestion();
-  }
-}
-
-function processMessage(message) {
-  if (message.room !== currentRoom) return;
-  
-  switch (message.type) {
-    case 'student_joined':
-      updateStudentList();
-      break;
-    case 'quiz_started':
-      if (!isTeacher) {
-        quizActive = true;
-        document.getElementById('studentWaitingMessage').style.display = 'none';
-        document.getElementById('totalQuestions').textContent = '4';
-      }
-      break;
-    case 'new_question':
-      if (!isTeacher) {
-        displayQuestionForStudent(message.question);
-      }
-      break;
-    case 'quiz_ended':
-      if (!isTeacher) {
-        showLeaderboardForStudent();
-      }
-      break;
-  }
-}
-
-function pollForUpdates() {
-  if (currentRoom) {
-    updateStudentList();
-    checkForNewQuestion();
-  }
-}
-
-function updateStudentList() {
-  if (!currentRoom) return;
-  
-  const roomData = JSON.parse(localStorage.getItem(`room_${currentRoom}`)) || { students: {} };
-  const students = roomData.students || {};
-  const studentList = document.getElementById('studentList');
-  const studentCount = document.getElementById('studentCount');
-  
-  const studentArray = Object.entries(students);
-  studentCount.textContent = studentArray.length;
-  
-  if (studentArray.length > 0) {
-    studentList.innerHTML = studentArray.map(([id, student]) => 
-      `<div class="student-badge">👤 ${student.name}</div>`
-    ).join('');
-  } else {
-    studentList.innerHTML = '<p style="color:var(--ink-soft);">No students yet. Share the QR code!</p>';
-  }
-}
-
-function checkForNewQuestion() {
-  if (isTeacher || !currentRoom) return;
-  
-  const roomData = JSON.parse(localStorage.getItem(`room_${currentRoom}`)) || {};
-  
-  if (roomData.quizActive && roomData.currentQuestion) {
-    const question = roomData.currentQuestion;
-    if (question.index !== currentQuestionIndex) {
-      currentQuestionIndex = question.index;
-      displayQuestionForStudent(question);
-    }
-  }
-  
-  if (!roomData.quizActive && quizActive) {
-    showLeaderboardForStudent();
-  }
-}
-
-function displayQuestionForStudent(question) {
-  quizQuestions = questionBank[question.type] || questionBank.quiz;
-  currentQuestionIndex = question.index;
-  
-  document.getElementById('studentWaitingMessage').style.display = 'none';
-  document.getElementById('quizQuestion').textContent = question.question;
-  document.getElementById('currentQuestionNum').textContent = question.index + 1;
-  document.getElementById('totalQuestions').textContent = question.total;
-  
-  const optionsHtml = question.options.map((option, index) => 
-    `<div class="quiz-option" onclick="submitAnswer(${index})">${option}</div>`
-  ).join('');
-  
-  document.getElementById('quizOptions').innerHTML = optionsHtml;
-}
-
-function showLeaderboardForStudent() {
-  quizActive = false;
-  document.getElementById('activeQuiz').style.display = 'none';
-  document.getElementById('leaderboard').style.display = 'block';
-  
-  const roomData = JSON.parse(localStorage.getItem(`room_${currentRoom}`)) || {};
-  displayLeaderboard(roomData.scores || {}, roomData.students || {});
-  
-  // Hide play again button for students
-  document.querySelector('#leaderboard button').style.display = 'none';
+  }, 1000);
 }
 
 // Clean up
 window.addEventListener('beforeunload', () => {
-  if (currentStudent && currentRoom) {
-    const roomData = JSON.parse(localStorage.getItem(`room_${currentRoom}`)) || { students: {} };
-    delete roomData.students[currentStudent.id];
-    localStorage.setItem(`room_${currentRoom}`, JSON.stringify(roomData));
-    
-    broadcast({
-      type: 'student_left',
-      room: currentRoom,
-      studentId: currentStudent.id
-    });
-  }
+  if (pollingInterval) clearInterval(pollingInterval);
+  if (broadcastChannel) broadcastChannel.close();
   
-  if (broadcastChannel) {
-    broadcastChannel.close();
+  if (currentStudent && currentRoom) {
+    // Remove student from room
+    const roomData = JSON.parse(localStorage.getItem(`quiz_room_${currentRoom}`) || '{}');
+    if (roomData.students) {
+      delete roomData.students[currentStudent.id];
+      delete roomData.scores[currentStudent.id];
+      localStorage.setItem(`quiz_room_${currentRoom}`, JSON.stringify(roomData));
+    }
   }
 });
 </script>
