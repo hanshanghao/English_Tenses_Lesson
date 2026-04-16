@@ -288,79 +288,83 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
   .fdesc{max-width:100%}
 }
 
-/* Home Button */
+/* Floating action buttons */
+.multiplayer-btn {
+  position: fixed;
+  bottom: 170px;
+  right: 20px;
+  width: 65px;
+  height: 65px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  text-decoration: none;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+  transition: opacity 0.4s ease, all 0.3s ease;
+  z-index: 998;
+  opacity: 1;
+}
+
+.multiplayer-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 28px rgba(102, 126, 234, 0.6);
+}
+
+.top-btn {
+  position: fixed;
+  bottom: 95px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background-color: #007BFF;
+  color: white;
+  font-size: 24px;
+  text-align: center;
+  line-height: 60px;
+  border-radius: 50%;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: opacity 0.4s ease, all 0.3s ease;
+  opacity: 1;
+  z-index: 999;
+}
+
+.top-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0,86,179,0.4);
+}
+
 .home-btn {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  width: 55px;
-  height: 55px;
-  background-color: #ff5722;
+  width: 60px;
+  height: 60px;
+  background-color: #e64a19;
   color: white;
   font-size: 24px;
   text-align: center;
-  line-height: 55px;
+  line-height: 60px;
   border-radius: 50%;
   text-decoration: none;
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  transition: 0.3s;
-  z-index: 999;
-}
-
-/* Back to Top Button */
-.top-btn {
-  position: fixed;
-  bottom: 85px;
-  right: 20px;
-  width: 55px;
-  height: 55px;
-  background-color: #007BFF;
-  color: white;
-  font-size: 22px;
-  text-align: center;
-  line-height: 55px;
-  border-radius: 50%;
-  text-decoration: none;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-  transition: 0.3s;
-  display: none;
+  transition: opacity 0.4s ease, all 0.3s ease;
+  opacity: 1;
   z-index: 999;
 }
 
 .home-btn:hover {
   background-color: #e64a19;
   transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(230,74,25,0.4);
 }
 
-.top-btn:hover {
-  background-color: #0056b3;
-  transform: scale(1.1);
-}
 </style>
-
-<!-- Back to Top -->
-<a href="#" class="top-btn" id="topBtn" title="Back to Top">⬆</a>
-
-<!-- Home Button -->
-<a href="https://hanshanghao.github.io/English_Tenses_Lesson/" class="home-btn" title="Home">🏠</a>
-
-<script>
-// Show button when scrolling down
-window.onscroll = function() {
-  let btn = document.getElementById("topBtn");
-  if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-    btn.style.display = "block";
-  } else {
-    btn.style.display = "none";
-  }
-};
-
-// Smooth scroll to top
-document.getElementById("topBtn").onclick = function(e) {
-  e.preventDefault();
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-};
-</script>
 </head>
 <body>
 
@@ -560,6 +564,15 @@ document.getElementById("topBtn").onclick = function(e) {
 
 </div><!-- /page -->
 
+<!-- Floating Multiplayer Quiz Button -->
+<a href="game.html" class="multiplayer-btn" title="Multiplayer Quiz">🎮</a>
+
+<!-- Back to Top -->
+<a href="#" class="top-btn" id="topBtn" title="Back to Top">⬆</a>
+
+<!-- Home Button -->
+<a href="https://hanshanghao.github.io/English_Tenses_Lesson/" class="home-btn" title="Home">🏠</a>
+
 <script>
 /* cursor glow */
 const cg = document.getElementById('cg');
@@ -589,6 +602,85 @@ document.querySelectorAll('.lcard, .fcard').forEach(card => {
     requestAnimationFrame(() => { r.style.transform='translate(-50%,-50%) scale(90)'; r.style.opacity='0'; });
     setTimeout(() => r.remove(), 600);
   });
+});
+
+// Show button when scrolling down
+let fadeTimeout;
+let lastScrollTop = 0;
+const buttons = [
+  document.querySelector('.multiplayer-btn'),
+  document.getElementById('topBtn'),
+  document.querySelector('.home-btn')
+];
+
+function showButtons() {
+  buttons.forEach(btn => btn.style.opacity = '1');
+  clearTimeout(fadeTimeout);
+  fadeTimeout = setTimeout(() => {
+    buttons.forEach(btn => btn.style.opacity = '0.2');
+  }, 3000);
+}
+
+// Show/hide top button based on scroll direction
+window.addEventListener('scroll', () => {
+  const currentScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  const topBtn = document.getElementById('topBtn');
+  
+  // Only show top button when scrolling downwards past 200px
+  if (currentScroll > lastScrollTop && currentScroll > 200) {
+    topBtn.style.display = 'block';
+    showButtons();
+  } else if (currentScroll <= 200) {
+    topBtn.style.display = 'none';
+  }
+  
+  lastScrollTop = currentScroll;
+});
+
+// Show on mouse movement
+document.addEventListener('mousemove', showButtons);
+
+// Show on touch
+document.addEventListener('touchstart', showButtons);
+document.addEventListener('touchmove', showButtons);
+
+// Multiplayer button hover
+document.querySelector('.multiplayer-btn').addEventListener('mouseenter', showButtons);
+document.querySelector('.multiplayer-btn').addEventListener('mouseleave', () => {
+  clearTimeout(fadeTimeout);
+  fadeTimeout = setTimeout(() => {
+    buttons.forEach(btn => btn.style.opacity = '0.2');
+  }, 3000);
+});
+
+// Top button
+document.getElementById('topBtn').addEventListener('mouseenter', showButtons);
+document.getElementById('topBtn').addEventListener('mouseleave', () => {
+  clearTimeout(fadeTimeout);
+  fadeTimeout = setTimeout(() => {
+    buttons.forEach(btn => btn.style.opacity = '0.2');
+  }, 3000);
+});
+
+document.getElementById('topBtn').addEventListener('click', function(e) {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// Home button
+document.querySelector('.home-btn').addEventListener('mouseenter', showButtons);
+document.querySelector('.home-btn').addEventListener('mouseleave', () => {
+  clearTimeout(fadeTimeout);
+  fadeTimeout = setTimeout(() => {
+    buttons.forEach(btn => btn.style.opacity = '0.2');
+  }, 3000);
+});
+
+// Initial fade after 3 seconds
+window.addEventListener('load', () => {
+  fadeTimeout = setTimeout(() => {
+    buttons.forEach(btn => btn.style.opacity = '0.2');
+  }, 3000);
 });
 </script>
 </body>
