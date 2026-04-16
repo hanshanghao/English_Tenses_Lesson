@@ -3,11 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Lessons Learning · Multiplayer Classroom</title>
-<!-- PeerJS for WebRTC signaling -->
-<script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
-<!-- QRCode.js library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<title>Lessons Learning</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -23,8 +19,6 @@
   --sh-md:0 8px 40px rgba(13,17,23,0.14);
   --sh-lg:0 22px 72px rgba(13,17,23,0.22);
   --r-lg:22px;
-  --success:#10b981;
-  --warning:#f59e0b;
 }
 html{scroll-behavior:smooth}
 body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow-x:hidden}
@@ -43,12 +37,14 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
     rgba(25,10,65,0.75) 100%);
 }
 
+/* animated colour blobs over photo */
 .blob{position:fixed;border-radius:50%;filter:blur(80px);opacity:0.22;pointer-events:none;z-index:1;animation:blobDrift ease infinite}
 .b1{width:520px;height:520px;background:#ffd54f;top:-140px;left:-100px;animation-duration:14s}
 .b2{width:380px;height:380px;background:#4fc3f7;bottom:-80px;right:-70px;animation-duration:18s;animation-delay:-6s}
 .b3{width:240px;height:240px;background:#a5d6a7;top:38%;left:54%;animation-duration:11s;animation-delay:-3s}
 @keyframes blobDrift{0%,100%{transform:scale(1)translate(0,0)}40%{transform:scale(1.10)translate(18px,-14px)}70%{transform:scale(0.94)translate(-12px,10px)}}
 
+/* chalk dust particles */
 .particles{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
 .p{position:absolute;border-radius:50%;background:rgba(255,255,255,0.50);animation:floatUp linear infinite}
 .p:nth-child(1){width:4px;height:4px;left:7%;animation-duration:10s}
@@ -61,6 +57,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
 .p:nth-child(8){width:4px;height:4px;left:88%;animation-duration:12s;animation-delay:-3s}
 @keyframes floatUp{0%{bottom:-10px;opacity:0;transform:translateX(0)}10%{opacity:0.7}90%{opacity:0.2}100%{bottom:106%;opacity:0;transform:translateX(16px)}}
 
+/* cursor glow */
 .cglow{position:fixed;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(212,168,67,0.11) 0%,transparent 70%);pointer-events:none;z-index:2;transform:translate(-50%,-50%);transition:left .10s,top .10s}
 
 /* ═══ PAGE WRAPPER ═══ */
@@ -105,165 +102,6 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
 .stat-n{font-family:'Playfair Display',serif;font-size:1.55rem;font-weight:700;color:#fff;line-height:1}
 .stat-l{font-size:.68rem;color:rgba(255,255,255,.60);font-weight:500;text-transform:uppercase;letter-spacing:1px;margin-top:3px}
 
-/* ═══ MULTIPLAYER PANEL ═══ */
-.multiplayer-panel{
-  background:rgba(255,255,255,0.95);
-  border-radius:28px;
-  padding:28px 32px;
-  margin-bottom:40px;
-  box-shadow:var(--sh-lg);
-  border:1.5px solid rgba(255,255,255,0.5);
-  backdrop-filter:blur(12px);
-  animation:fadeUp .7s .15s ease both;
-}
-.panel-header{
-  display:flex;
-  align-items:center;
-  gap:16px;
-  margin-bottom:24px;
-}
-.panel-header h3{
-  font-family:'Playfair Display',serif;
-  font-size:1.8rem;
-  font-weight:700;
-  color:var(--ink);
-}
-.panel-header .badge{
-  background:var(--gold);
-  color:white;
-  padding:4px 14px;
-  border-radius:40px;
-  font-size:0.8rem;
-  font-weight:600;
-}
-.connection-area{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:24px;
-}
-.qr-section{
-  text-align:center;
-}
-.qr-section h4{
-  font-size:0.9rem;
-  text-transform:uppercase;
-  letter-spacing:2px;
-  color:var(--ink-soft);
-  margin-bottom:16px;
-}
-#qrCodeContainer{
-  background:white;
-  padding:20px;
-  border-radius:20px;
-  display:inline-block;
-  box-shadow:var(--sh-sm);
-  min-width:200px;
-  min-height:200px;
-}
-#qrcode{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-}
-#qrcode img{
-  display:block;
-  margin:0 auto;
-}
-.students-list{
-  background:rgba(13,122,110,0.06);
-  border-radius:18px;
-  padding:20px;
-  border:1px solid rgba(13,122,110,0.15);
-}
-.students-list h4{
-  font-size:0.9rem;
-  text-transform:uppercase;
-  letter-spacing:2px;
-  color:var(--ink-soft);
-  margin-bottom:16px;
-}
-#studentCount{
-  font-size:2.5rem;
-  font-weight:700;
-  color:var(--teal);
-  line-height:1;
-  margin-bottom:8px;
-}
-.connection-status{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  color:var(--success);
-  font-weight:500;
-  margin-bottom:20px;
-}
-.status-dot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:var(--success);
-  animation:pulse 2s ease infinite;
-}
-.student-names{
-  max-height:120px;
-  overflow-y:auto;
-  font-size:0.85rem;
-}
-.student-item{
-  padding:6px 0;
-  border-bottom:1px solid rgba(0,0,0,0.05);
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-.student-item::before{
-  content:'👤';
-  opacity:0.5;
-  font-size:0.9rem;
-}
-.controls{
-  grid-column:1/-1;
-  display:flex;
-  gap:12px;
-  justify-content:center;
-  margin-top:16px;
-}
-.btn{
-  padding:12px 28px;
-  border-radius:50px;
-  font-weight:600;
-  font-size:0.9rem;
-  border:none;
-  cursor:pointer;
-  transition:all .25s;
-  background:white;
-  border:1.5px solid var(--border);
-  color:var(--ink);
-}
-.btn-primary{
-  background:linear-gradient(135deg,var(--teal),#065f56);
-  color:white;
-  border:none;
-  box-shadow:0 4px 16px rgba(13,122,110,0.3);
-}
-.btn-primary:hover{
-  transform:scale(1.05);
-  box-shadow:0 6px 24px rgba(13,122,110,0.4);
-}
-.btn-warning{
-  background:linear-gradient(135deg,var(--coral),#8c2c18);
-  color:white;
-  border:none;
-}
-.btn-warning:hover{
-  transform:scale(1.05);
-}
-.btn:disabled{
-  opacity:0.5;
-  cursor:not-allowed;
-  transform:none;
-}
-
 /* ═══ DIVIDER ═══ */
 .divider{display:flex;align-items:center;gap:14px;margin-bottom:36px;animation:fadeUp .6s .35s ease both}
 .dl{flex:1;height:1px;background:rgba(255,255,255,.20)}
@@ -307,6 +145,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
 .lcard:hover .carr{transform:translate(3px,-3px) scale(1.18);color:var(--ink);border-color:rgba(13,17,23,.28)}
 .clvl{font-size:.64rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:rgba(13,17,23,.30)}
 
+/* card colour themes */
 .c1 .strip{background:linear-gradient(180deg,#2176bb,#0d4d80)}
 .c1 .nbubble{background:var(--sky-lt);color:var(--sky)}
 .c1:hover{border-color:rgba(24,103,166,.35)}
@@ -434,26 +273,6 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
   animation:fadeUp .6s 1.0s ease both;
 }
 
-/* ═══ TOAST NOTIFICATION ═══ */
-.toast{
-  position:fixed;
-  bottom:30px;
-  left:50%;
-  transform:translateX(-50%);
-  background:rgba(13,17,23,0.9);
-  color:white;
-  padding:12px 28px;
-  border-radius:50px;
-  font-weight:500;
-  backdrop-filter:blur(8px);
-  z-index:1000;
-  animation:toastIn 0.3s ease;
-}
-@keyframes toastIn{
-  from{opacity:0;transform:translateX(-50%) translateY(20px);}
-  to{opacity:1;transform:translateX(-50%) translateY(0);}
-}
-
 /* ═══ ANIMATION ═══ */
 @keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
 
@@ -467,7 +286,6 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
   .finner{grid-template-columns:1fr;padding:30px 26px}
   .ficons{display:none}
   .fdesc{max-width:100%}
-  .connection-area{grid-template-columns:1fr}
 }
 
 /* Home Button */
@@ -489,6 +307,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
   z-index: 999;
 }
 
+/* Back to Top Button */
 .top-btn {
   position: fixed;
   bottom: 85px;
@@ -508,65 +327,91 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
   z-index: 999;
 }
 
-.home-btn:hover, .top-btn:hover {
+.home-btn:hover {
+  background-color: #e64a19;
   transform: scale(1.1);
 }
-.home-btn:hover { background-color: #e64a19; }
-.top-btn:hover { background-color: #0056b3; }
 
-/* URL display area */
-.url-display{
-  background:rgba(0,0,0,0.05);
-  padding:8px 16px;
-  border-radius:12px;
-  font-family:monospace;
-  font-size:0.7rem;
-  margin-top:12px;
-  word-break:break-all;
-  max-width:250px;
-  margin-left:auto;
-  margin-right:auto;
+.top-btn:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
 }
 </style>
 
+<!-- Back to Top -->
 <a href="#" class="top-btn" id="topBtn" title="Back to Top">⬆</a>
+
+<!-- Home Button -->
 <a href="https://hanshanghao.github.io/English_Tenses_Lesson/" class="home-btn" title="Home">🏠</a>
+
+<script>
+// Show button when scrolling down
+window.onscroll = function() {
+  let btn = document.getElementById("topBtn");
+  if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+    btn.style.display = "block";
+  } else {
+    btn.style.display = "none";
+  }
+};
+
+// Smooth scroll to top
+document.getElementById("topBtn").onclick = function(e) {
+  e.preventDefault();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+</script>
 </head>
 <body>
 
+<!-- cursor glow -->
 <div class="cglow" id="cg"></div>
+
+<!-- background photo + overlay -->
 <div class="bg-photo"></div>
+
+<!-- colour blobs -->
 <div class="blob b1"></div>
 <div class="blob b2"></div>
 <div class="blob b3"></div>
+
+<!-- floating particles -->
 <div class="particles">
   <div class="p"></div><div class="p"></div><div class="p"></div><div class="p"></div>
   <div class="p"></div><div class="p"></div><div class="p"></div><div class="p"></div>
 </div>
 
+<!-- ══════════ PAGE ══════════ -->
 <div class="page">
 
+  <!-- HERO -->
   <header class="hero">
-    <div class="eyebrow"><span class="dot"></span>Grade 3–4 · Multiplayer Classroom</div>
+    <div class="eyebrow"><span class="dot"></span>Grade 3–4 · English Learning Programme</div>
     <h1 class="h1">Lessons<br><em>Learning</em></h1>
-    <p class="sub">Scan the QR code to join the class! Up to 30 students can connect and explore lessons together in real-time.</p>
+    <p class="sub">Explore carefully crafted lessons on phonics, grammar, and the world around us — designed to make English joyful and fun for every student.</p>
     <div class="stats">
       <div class="stat"><span class="stat-n">5</span><span class="stat-l">Lessons</span></div>
-      <div class="stat"><span class="stat-n" id="connectedCount">0</span><span class="stat-l">Connected</span></div>
       <div class="stat"><span class="stat-n">🇬🇧</span><span class="stat-l">British Audio</span></div>
-      <div class="stat"><span class="stat-n">🎯</span><span class="stat-l">Multiplayer</span></div>
+      <div class="stat"><span class="stat-n">✦</span><span class="stat-l">Interactive</span></div>
+      <div class="stat"><span class="stat-n">🎯</span><span class="stat-l">Quizzes</span></div>
+    </div>
+  </header>
 
+  <!-- DIVIDER -->
   <div class="divider">
     <div class="dl"></div>
     <div class="di">📚</div>
     <div class="dl"></div>
   </div>
-    </div>
-      
+
+  <!-- SECTION LABEL -->
   <div class="sec-lbl">Core Lessons</div>
 
+  <!-- ── NUMBERED LESSON CARDS ── -->
   <div class="lessons-group">
-    <a class="lcard c1" href="british_alphabet_phonics.html" data-lesson="alphabet">
+
+    <!-- 1 -->
+    <a class="lcard c1" href="british_alphabet_phonics.html">
       <div class="strip"></div>
       <div class="cnum"><div class="nbubble">1</div></div>
       <div class="cbody">
@@ -586,7 +431,8 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
       </div>
     </a>
 
-    <a class="lcard c2" href="english_tenses_full_lesson.html" data-lesson="tenses">
+    <!-- 2 -->
+    <a class="lcard c2" href="english_tenses_full_lesson.html">
       <div class="strip"></div>
       <div class="cnum"><div class="nbubble">2</div></div>
       <div class="cbody">
@@ -606,7 +452,8 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
       </div>
     </a>
 
-    <a class="lcard c3" href="active_passive_voice_lesson.html" data-lesson="voice">
+    <!-- 3 -->
+    <a class="lcard c3" href="active_passive_voice_lesson.html">
       <div class="strip"></div>
       <div class="cnum"><div class="nbubble">3</div></div>
       <div class="cbody">
@@ -626,7 +473,8 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
       </div>
     </a>
 
-    <a class="lcard c3" href="About_Ramadan/index2.html" data-lesson="islamic">
+    <!-- 4 -->
+    <a class="lcard c3" href="About_Ramadan/index2.html">
       <div class="strip"></div>
       <div class="cnum"><div class="nbubble">4</div></div>
       <div class="cbody">
@@ -645,8 +493,10 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
         </div>
       </div>
     </a>
-  </div>
+    
+  </div><!-- /lessons-group -->
 
+  <!-- ── SEPARATOR LINE ── -->
   <div class="spacer">
     <div class="sd"></div>
     <div class="sl"></div>
@@ -655,7 +505,8 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
     <div class="sd"></div>
   </div>
 
-  <a class="fcard" href="exploring_families_careers.html" data-lesson="families">
+  <!-- ── FEATURED CARD: Exploring Families & Occupations ── -->
+  <a class="fcard" href="exploring_families_careers.html">
     <div class="fbg"></div>
     <div class="fshape fs1"></div>
     <div class="fshape fs2"></div>
@@ -667,6 +518,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
     </div>
 
     <div class="finner">
+      <!-- LEFT: text content -->
       <div>
         <div class="fbadge"><span class="fs">★</span> Featured · Grade 3–4</div>
         <div class="ftitle">Exploring <em>Families</em><br>&amp; Occupations</div>
@@ -687,6 +539,7 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
         </span>
       </div>
 
+      <!-- RIGHT: icon cluster -->
       <div class="ficons">
         <div class="fibox">👨‍👩‍👧</div>
         <div class="fibox">📚</div>
@@ -696,480 +549,46 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
     </div>
   </a>
 
+  <!-- FOOTER -->
   <div class="footer">
     <span>✦</span>
     <span>Lessons Learning · Grade 3–4 English</span>
     <span>✦</span>
-    <span>Multiplayer Mode Active</span>
+    <span>British Accent · Interactive Audio</span>
     <span>✦</span>
   </div>
 
-</div>
+</div><!-- /page -->
 
 <script>
-// ============= MULTIPLAYER WEBRTC SYSTEM =============
-class ClassroomHost {
-  constructor() {
-    this.peer = null;
-    this.peerId = null;
-    this.connections = new Map();
-    this.isActive = false;
-    this.studentCounter = 0;
-    
-    this.initElements();
-    this.initPeer();
-  }
-  
-  initElements() {
-    this.qrcodeDiv = document.getElementById('qrcode');
-    this.joinUrlDisplay = document.getElementById('joinUrlDisplay');
-    this.studentCountEl = document.getElementById('studentCount');
-    this.connectedCountEl = document.getElementById('connectedCount');
-    this.studentNamesList = document.getElementById('studentNamesList');
-    this.statusText = document.getElementById('statusText');
-    this.sessionStatus = document.getElementById('sessionStatus');
-    
-    document.getElementById('startSessionBtn').addEventListener('click', () => this.startSession());
-    document.getElementById('endSessionBtn').addEventListener('click', () => this.endSession());
-    document.getElementById('copyLinkBtn').addEventListener('click', () => this.copyJoinLink());
-  }
-  
-  initPeer() {
-    this.peer = new Peer();
-    
-    this.peer.on('open', (id) => {
-      this.peerId = id;
-      console.log('✅ Host Peer ID:', id);
-      this.sessionStatus.textContent = 'READY';
-      this.sessionStatus.style.background = '#d4a843';
-      this.statusText.textContent = 'Ready - Click "Start Session"';
-      this.generateQRCode();
-    });
-    
-    this.peer.on('connection', (conn) => {
-      this.handleNewConnection(conn);
-    });
-    
-    this.peer.on('error', (err) => {
-      console.error('Peer error:', err);
-      this.statusText.textContent = 'Connection error: ' + err.message;
-      this.showToast('Connection error. Check console.');
-    });
-    
-    // Fallback if peer doesn't connect
-    setTimeout(() => {
-      if (!this.peerId) {
-        console.warn('Peer connection taking longer than expected...');
-        this.statusText.textContent = 'Connecting to signaling server...';
-      }
-    }, 3000);
-  }
-  
-  generateQRCode() {
-    const joinUrl = this.getJoinUrl();
-    this.joinUrlDisplay.textContent = joinUrl;
-    
-    // Clear previous QR code
-    this.qrcodeDiv.innerHTML = '';
-    
-    // Generate new QR code
-    try {
-      new QRCode(this.qrcodeDiv, {
-        text: joinUrl,
-        width: 180,
-        height: 180,
-        colorDark: '#0d1117',
-        colorLight: '#ffffff',
-        correctLevel: QRCode.CorrectLevel.H
-      });
-      console.log('✅ QR Code generated for:', joinUrl);
-    } catch (error) {
-      console.error('QR Code generation error:', error);
-      this.qrcodeDiv.innerHTML = '<div style="padding:20px;color:red;">QR Error<br><small>Copy link instead</small></div>';
-    }
-  }
-  
-  getJoinUrl() {
-    const baseUrl = window.location.origin + window.location.pathname;
-    return `${baseUrl}?join=${this.peerId}`;
-  }
-  
-  startSession() {
-    if (!this.peerId) {
-      this.showToast('Peer not ready yet. Please wait...');
-      return;
-    }
-    this.isActive = true;
-    this.sessionStatus.textContent = 'LIVE';
-    this.sessionStatus.style.background = '#10b981';
-    this.statusText.textContent = 'Session active - Students can join!';
-    this.showToast('🎉 Session started! Students can now scan the QR code.');
-    
-    this.broadcast({ type: 'session_started', timestamp: Date.now() });
-  }
-  
-  endSession() {
-    this.isActive = false;
-    this.sessionStatus.textContent = 'ENDED';
-    this.sessionStatus.style.background = '#d95030';
-    this.statusText.textContent = 'Session ended';
-    
-    this.broadcast({ type: 'session_ended' });
-    
-    this.connections.forEach((data, peerId) => {
-      data.conn.close();
-    });
-    this.connections.clear();
-    this.updateStudentList();
-    this.showToast('Session ended. All students disconnected.');
-  }
-  
-  handleNewConnection(conn) {
-    conn.on('open', () => {
-      console.log('🔗 New student connection:', conn.peer);
-      
-      this.studentCounter++;
-      const studentName = `Student ${this.studentCounter}`;
-      
-      this.connections.set(conn.peer, {
-        conn: conn,
-        name: studentName
-      });
-      
-      this.updateStudentList();
-      this.showToast(`${studentName} joined the class!`);
-      
-      conn.send({
-        type: 'welcome',
-        name: studentName,
-        isActive: this.isActive
-      });
-      
-      this.broadcastStudentList();
-    });
-    
-    conn.on('data', (data) => {
-      this.handleStudentMessage(conn.peer, data);
-    });
-    
-    conn.on('close', () => {
-      console.log('Student disconnected:', conn.peer);
-      const student = this.connections.get(conn.peer);
-      if (student) {
-        this.showToast(`${student.name} left the class`);
-      }
-      this.connections.delete(conn.peer);
-      this.updateStudentList();
-      this.broadcastStudentList();
-    });
-    
-    conn.on('error', (err) => {
-      console.error('Connection error:', err);
-    });
-  }
-  
-  handleStudentMessage(peerId, data) {
-    const student = this.connections.get(peerId);
-    if (!student) return;
-    
-    console.log(`💬 Message from ${student.name}:`, data);
-    
-    switch(data.type) {
-      case 'lesson_click':
-        this.broadcast({
-          type: 'navigate',
-          lesson: data.lesson,
-          url: data.url,
-          from: student.name
-        }, peerId);
-        
-        if (data.url) {
-          window.open(data.url, '_blank');
-        }
-        this.showToast(`${student.name} opened ${data.lesson}`);
-        break;
-        
-      case 'answer':
-        this.broadcast({
-          type: 'answer_update',
-          student: student.name,
-          answer: data.answer
-        });
-        break;
-    }
-  }
-  
-  broadcast(message, excludePeerId = null) {
-    this.connections.forEach((data, peerId) => {
-      if (peerId !== excludePeerId && data.conn.open) {
-        data.conn.send(message);
-      }
-    });
-  }
-  
-  broadcastStudentList() {
-    const students = Array.from(this.connections.values()).map(d => d.name);
-    this.broadcast({
-      type: 'student_list',
-      students: students,
-      count: students.length
-    });
-  }
-  
-  updateStudentList() {
-    const count = this.connections.size;
-    this.studentCountEl.textContent = count;
-    if (this.connectedCountEl) this.connectedCountEl.textContent = count;
-    
-    if (count === 0) {
-      this.studentNamesList.innerHTML = '<div style="color:var(--ink-soft);font-style:italic;">No students connected yet</div>';
-    } else {
-      let html = '';
-      this.connections.forEach((data) => {
-        html += `<div class="student-item">${data.name}</div>`;
-      });
-      this.studentNamesList.innerHTML = html;
-    }
-  }
-  
-  copyJoinLink() {
-    const url = this.getJoinUrl();
-    navigator.clipboard.writeText(url).then(() => {
-      this.showToast('📋 Join link copied to clipboard!');
-    }).catch(() => {
-      prompt('Copy this link to share:', url);
-    });
-  }
-  
-  showToast(message) {
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.textContent = message;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
-  }
-}
+/* cursor glow */
+const cg = document.getElementById('cg');
+document.addEventListener('mousemove', e => {
+  cg.style.left = e.clientX + 'px';
+  cg.style.top  = e.clientY + 'px';
+});
 
-// ============= STUDENT MODE =============
-class ClassroomStudent {
-  constructor(hostId) {
-    this.hostId = hostId;
-    this.peer = null;
-    this.connection = null;
-    this.studentName = '';
-    this.isConnected = false;
-    
-    this.initPeer();
-  }
-  
-  initPeer() {
-    this.peer = new Peer();
-    
-    this.peer.on('open', (id) => {
-      console.log('🎓 Student Peer ID:', id);
-      this.connectToHost();
-    });
-    
-    this.peer.on('error', (err) => {
-      console.error('Student peer error:', err);
-      this.showStudentMessage('Connection error: ' + err.message);
-    });
-  }
-  
-  connectToHost() {
-    console.log('🔗 Connecting to host:', this.hostId);
-    this.connection = this.peer.connect(this.hostId, {
-      reliable: true
-    });
-    
-    this.connection.on('open', () => {
-      this.isConnected = true;
-      console.log('✅ Connected to host!');
-      this.showStudentMessage('✅ Connected to classroom!');
-      this.setupLessonSync();
-    });
-    
-    this.connection.on('data', (data) => {
-      this.handleHostMessage(data);
-    });
-    
-    this.connection.on('close', () => {
-      this.isConnected = false;
-      this.showStudentMessage('Disconnected from classroom');
-    });
-    
-    this.connection.on('error', (err) => {
-      console.error('Connection error:', err);
-      this.showStudentMessage('Failed to connect to host');
-    });
-  }
-  
-  handleHostMessage(data) {
-    console.log('📨 Host message:', data);
-    
-    switch(data.type) {
-      case 'welcome':
-        this.studentName = data.name;
-        this.showStudentMessage(`🎓 You are ${data.name}`);
-        break;
-        
-      case 'navigate':
-        if (data.url) {
-          window.location.href = data.url;
-        }
-        this.showStudentMessage(`📖 ${data.from} opened a lesson`);
-        break;
-        
-      case 'student_list':
-        this.updateStudentDisplay(data.students);
-        break;
-        
-      case 'session_ended':
-        this.showStudentMessage('Classroom session ended by teacher');
-        break;
-    }
-  }
-  
-  setupLessonSync() {
-    document.querySelectorAll('[data-lesson]').forEach(card => {
-      card.addEventListener('click', (e) => {
-        e.preventDefault();
-        const lesson = card.getAttribute('data-lesson');
-        const url = card.getAttribute('href');
-        
-        if (this.isConnected && this.connection) {
-          this.connection.send({
-            type: 'lesson_click',
-            lesson: lesson,
-            url: url
-          });
-          this.showStudentMessage(`Sent: Opening ${lesson}`);
-        }
-        
-        if (url) {
-          window.open(url, '_blank');
-        }
-      });
-    });
-  }
-  
-  updateStudentDisplay(students) {
-    let panel = document.getElementById('studentPanel');
-    if (!panel) {
-      panel = document.createElement('div');
-      panel.id = 'studentPanel';
-      panel.style.cssText = `
-        position:fixed;bottom:80px;right:20px;
-        background:rgba(255,255,255,0.95);
-        border-radius:16px;padding:12px 16px;
-        box-shadow:0 4px 20px rgba(0,0,0,0.2);
-        max-height:200px;overflow-y:auto;
-        font-size:0.8rem;z-index:1000;
-        border:1px solid var(--gold);
-      `;
-      document.body.appendChild(panel);
-    }
-    
-    let html = '<strong>👥 Classmates (' + students.length + ')</strong><br>';
-    students.forEach(s => { html += `• ${s}<br>`; });
-    panel.innerHTML = html;
-  }
-  
-  showStudentMessage(msg) {
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.textContent = msg;
-    document.body.appendChild(toast);
-    setTimeout(() => toast.remove(), 3000);
-  }
-}
+/* parallax blobs */
+document.addEventListener('mousemove', e => {
+  const x = e.clientX / window.innerWidth  - 0.5;
+  const y = e.clientY / window.innerHeight - 0.5;
+  document.querySelector('.b1').style.transform = `translate(${x*22}px,${y*22}px)`;
+  document.querySelector('.b2').style.transform = `translate(${-x*16}px,${-y*16}px)`;
+  document.querySelector('.b3').style.transform = `translate(${x*10}px,${y*10}px)`;
+});
 
-// ============= INITIALIZATION =============
-let classroomHost = null;
-let classroomStudent = null;
-
-// Check if we're in student mode
-const urlParams = new URLSearchParams(window.location.search);
-const joinId = urlParams.get('join');
-
-if (joinId) {
-  // STUDENT MODE
-  console.log('🎓 Student mode - joining host:', joinId);
-  
-  document.addEventListener('DOMContentLoaded', () => {
-    const panel = document.getElementById('multiplayerPanel');
-    if (panel) panel.style.display = 'none';
-    
-    const indicator = document.createElement('div');
-    indicator.style.cssText = `
-      position:fixed;top:20px;right:20px;
-      background:var(--teal);color:white;
-      padding:8px 16px;border-radius:50px;
-      font-weight:600;z-index:1000;
-      box-shadow:var(--sh-md);
-    `;
-    indicator.innerHTML = '🎓 Student Mode · Connecting...';
-    document.body.appendChild(indicator);
-    
-    classroomStudent = new ClassroomStudent(joinId);
+/* click ripple */
+document.querySelectorAll('.lcard, .fcard').forEach(card => {
+  card.addEventListener('click', function(e) {
+    const rect = this.getBoundingClientRect();
+    const r = document.createElement('span');
+    r.className = 'ripple';
+    r.style.left = (e.clientX - rect.left) + 'px';
+    r.style.top  = (e.clientY - rect.top)  + 'px';
+    this.appendChild(r);
+    requestAnimationFrame(() => { r.style.transform='translate(-50%,-50%) scale(90)'; r.style.opacity='0'; });
+    setTimeout(() => r.remove(), 600);
   });
-} else {
-  // HOST MODE
-  console.log('👨‍🏫 Host mode');
-  document.addEventListener('DOMContentLoaded', () => {
-    classroomHost = new ClassroomHost();
-  });
-}
-
-// ============= COMMON UTILITIES =============
-document.addEventListener('DOMContentLoaded', () => {
-  const cg = document.getElementById('cg');
-  if (cg) {
-    document.addEventListener('mousemove', e => {
-      cg.style.left = e.clientX + 'px';
-      cg.style.top = e.clientY + 'px';
-    });
-  }
-
-  document.addEventListener('mousemove', e => {
-    const x = e.clientX / window.innerWidth - 0.5;
-    const y = e.clientY / window.innerHeight - 0.5;
-    const b1 = document.querySelector('.b1');
-    const b2 = document.querySelector('.b2');
-    const b3 = document.querySelector('.b3');
-    if (b1) b1.style.transform = `translate(${x*22}px,${y*22}px)`;
-    if (b2) b2.style.transform = `translate(${-x*16}px,${-y*16}px)`;
-    if (b3) b3.style.transform = `translate(${x*10}px,${y*10}px)`;
-  });
-
-  document.querySelectorAll('.lcard, .fcard').forEach(card => {
-    card.addEventListener('click', function(e) {
-      const rect = this.getBoundingClientRect();
-      const r = document.createElement('span');
-      r.className = 'ripple';
-      r.style.left = (e.clientX - rect.left) + 'px';
-      r.style.top = (e.clientY - rect.top) + 'px';
-      this.appendChild(r);
-      requestAnimationFrame(() => { 
-        r.style.transform='translate(-50%,-50%) scale(90)'; 
-        r.style.opacity='0'; 
-      });
-      setTimeout(() => r.remove(), 600);
-    });
-  });
-
-  const topBtn = document.getElementById('topBtn');
-  window.addEventListener('scroll', () => {
-    if (topBtn) {
-      topBtn.style.display = (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) ? 'block' : 'none';
-    }
-  });
-  if (topBtn) {
-    topBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
 });
 </script>
 </body>
