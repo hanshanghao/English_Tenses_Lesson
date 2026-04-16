@@ -556,68 +556,6 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);min-height:100vh;overflow
       <div class="stat"><span class="stat-n">🇬🇧</span><span class="stat-l">British Audio</span></div>
       <div class="stat"><span class="stat-n">🎯</span><span class="stat-l">Multiplayer</span></div>
 
-<div style="margin-top:30px; animation:fadeUp .7s .4s ease both;">
-  <a href="multiplayer_quiz.html" style="
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    padding: 16px 32px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 1.1rem;
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-    transition: all 0.3s;
-  " onmouseover="this.style.transform='translateY(-3px)';this.style.boxShadow='0 12px 35px rgba(102, 126, 234, 0.4)'" onmouseout="this.style.transform='translateY(0)';this.style.boxShadow='0 8px 25px rgba(102, 126, 234, 0.3)'">
-    <span style="font-size:1.5rem;">🎮</span>
-    Join Multiplayer Quiz Room
-    <span style="font-size:1.2rem;">→</span>
-  </a>
-</div>
-    </div>
-  </header>
-
-  <!-- MULTIPLAYER CONNECTION PANEL -->
-  <div class="multiplayer-panel" id="multiplayerPanel">
-    <div class="panel-header">
-      <h3>🎮 Classroom Session</h3>
-      <span class="badge" id="sessionStatus">INITIALIZING...</span>
-    </div>
-    
-    <div class="connection-area">
-      <div class="qr-section">
-        <h4>📱 Scan to Join</h4>
-        <div id="qrCodeContainer">
-          <div id="qrcode"></div>
-        </div>
-        <div class="url-display" id="joinUrlDisplay"></div>
-        <p style="font-size:0.75rem;color:var(--ink-soft);margin-top:12px;">
-          Students scan this QR code with their phone camera
-        </p>
-      </div>
-      
-      <div class="students-list">
-        <h4>👥 Connected Students</h4>
-        <div id="studentCount">0</div>
-        <div class="connection-status" id="connectionStatus">
-          <span class="status-dot"></span>
-          <span id="statusText">Initializing connection...</span>
-        </div>
-        <div class="student-names" id="studentNamesList">
-          <div style="color:var(--ink-soft);font-style:italic;">No students connected yet</div>
-        </div>
-      </div>
-      
-      <div class="controls">
-        <button class="btn btn-primary" id="startSessionBtn">🚀 Start Session</button>
-        <button class="btn" id="copyLinkBtn">📋 Copy Join Link</button>
-        <button class="btn btn-warning" id="endSessionBtn">⏹️ End Session</button>
-      </div>
-    </div>
-  </div>
-
   <div class="divider">
     <div class="dl"></div>
     <div class="di">📚</div>
