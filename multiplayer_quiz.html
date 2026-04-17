@@ -3,8 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>English Learning Game</title>
-  <script src="https://unpkg.com/peerjs@1.4.7/dist/peerjs.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.0/qrcode.min.js"></script>
   <style>
     .blue { color: blue; font-weight: bold; }
     body { font-family: 'Comic Sans MS', cursive, sans-serif; background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24); background-size: 400% 400%; animation: gradientShift 10s ease infinite; text-align: center; }
@@ -24,47 +22,25 @@
     img:hover { transform: scale(1.1); }
     .highlight { animation: pulse 1s infinite; }
     @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-    .leaderboard { background: #fff; border-radius: 10px; padding: 20px; margin-top: 20px; box-shadow: 0 0 10px rgba(0,0,0,0.2); }
-    .leaderboard table { width: 100%; border-collapse: collapse; }
-    .leaderboard th, .leaderboard td { padding: 10px; text-align: center; border: 1px solid #333; }
-    .leaderboard th { background: #4ecdc4; color: white; }
-    .leaderboard tr:nth-child(even) { background: #f9f9f9; }
-    #qrCode { border: 2px solid #333; padding: 10px; background: white; display: inline-block; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>🎉 English Learning Game! 🎉</h1>
-    <div id="multiplayerSetup">
-      <p id="statusText">Setting up game...</p>
-      <div id="hostUI" style="display:none;">
-        <p>Room ID: <span id="roomId"></span></p>
-        <div id="qrCode">Generating QR code...</div>
-        <p>Share the QR code for students to join.</p>
-        <select id="quizTypeSelect">
-          <option value="vocab">Vocabulary Quiz</option>
-          <option value="sentences">Sentences Drill</option>
-        </select>
-        <button id="startMultiQuiz">🚀 Start Quiz</button>
-      </div>
+    <p>Learn English with a British accent! Choose your quiz:</p>
+    <button id="startVocab">🚀 Start Vocabulary Quiz</button>
+    <button id="startSentences">🎭 Start Sentences Drill</button>
+    <div id="vocabQuiz" class="quiz">
+      <h2>Vocabulary Quiz 🧠</h2>
+      <div id="vocabWord"></div>
+      <p>Click the correct picture!</p>
+      <div id="vocabOptions" class="options"></div>
     </div>
-    <div id="multiQuestion" class="quiz" style="display:none;">
-      <div id="questionContent"></div>
-      <div id="multiOptions" class="options"></div>
-    </div>
-    <div id="status"></div>
-    <div id="leaderboard" class="leaderboard" style="display:none;">
-      <h2>🏆 Leaderboard</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Name</th>
-            <th>Score</th>
-          </tr>
-        </thead>
-        <tbody id="leaderboardBody"></tbody>
-      </table>
+    <div id="sentencesQuiz" class="quiz">
+      <h2>Sentences Drill 🗣️</h2>
+      <div id="sentenceImage"></div>
+      <p>Choose the correct sentence!</p>
+      <div id="sentenceOptions" class="options"></div>
     </div>
   </div>
   <script>
@@ -119,13 +95,6 @@
       { text: 'Have fun!', image: 'https://source.unsplash.com/featured/?having+fun' },
       { text: 'Help!', image: 'https://source.unsplash.com/featured/?help' },
     ];
-    let isHost = false;
-    let peer;
-    let connections = [];
-    let players = {};
-    let myName = '';
-    let currentAnswers = {};
-    let quizType = '';
     let currentQuiz = [];
     let currentIndex = 0;
     let correctAnswer = 0;
@@ -135,40 +104,6 @@
       const voices = synth.getVoices();
       britishFemale = voices.find(v => v.lang === 'en-GB' && v.name.toLowerCase().includes('female')) || voices.find(v => v.lang === 'en-GB') || voices.find(v => v.name.toLowerCase().includes('british')) || voices[0];
     };
-    const urlParams = new URLSearchParams(window.location.search);
-    const room = urlParams.get('room');
-    if (room) {
-      document.getElementById('statusText').textContent = 'Joining game...';
-      myName = prompt('Enter your name:');
-      if (myName) {
-        peer = new Peer();
-        peer.on('open', () => {
-          const conn = peer.connect(room);
-          conn.on('open', () => {
-            connections.push(conn);
-            conn.send({type: 'join', name: myName});
-            document.getElementById('multiplayerSetup').style.display = 'none';
-          });
-          conn.on('data', data => handleData(conn, data));
-        });
-      }
-    } else {
-      document.getElementById('statusText').textContent = 'Hosting game...';
-      isHost = true;
-      document.getElementById('hostUI').style.display = 'block';
-      peer = new Peer();
-      peer.on('open', id => {
-        document.getElementById('roomId').textContent = id;
-        QRCode.toCanvas(document.getElementById('qrCode'), window.location.href + '?room=' + id, {width: 200});
-      });
-      peer.on('connection', conn => {
-        conn.on('data', data => handleData(conn, data));
-        conn.on('open', () => {
-          connections.push(conn);
-          conn.send({type: 'welcome'});
-        });
-      });
-    }
     function highlightText(text) {
       return text
         .replace(/([aeiou])/gi, '<span class="blue">$1</span>')
@@ -182,159 +117,99 @@
       utterance.pitch = 1.2;
       synth.speak(utterance);
     }
+    function startVocab() {
+      document.getElementById('vocabQuiz').classList.add('active');
+      document.getElementById('sentencesQuiz').classList.remove('active');
+      currentQuiz = [...vocabulary];
+      shuffle(currentQuiz);
+      currentIndex = 0;
+      showVocabQuestion();
+    }
+    function startSentences() {
+      document.getElementById('sentencesQuiz').classList.add('active');
+      document.getElementById('vocabQuiz').classList.remove('active');
+      currentQuiz = [...sentences];
+      shuffle(currentQuiz);
+      currentIndex = 0;
+      showSentenceQuestion();
+    }
     function shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
       }
     }
-    document.getElementById('connectBtn').onclick = () => {
-      const id = document.getElementById('joinId').value;
-      peer = new Peer();
-      peer.on('open', () => {
-        const conn = peer.connect(id);
-        conn.on('open', () => {
-          connections.push(conn);
-          myName = prompt('Enter your name:');
-          conn.send({type: 'join', name: myName});
-          document.getElementById('multiplayerSetup').style.display = 'none';
-        });
-        conn.on('data', data => handleData(conn, data));
-      });
-    };
-    document.getElementById('showJoinQR').onclick = () => {
-      const id = document.getElementById('joinId').value;
-      if (id) {
-        QRCode.toCanvas(document.getElementById('joinQR'), window.location.href + '?room=' + id, {width: 200});
-      } else {
-        alert('Enter Room ID first');
-      }
-    };
-    function handleData(conn, data) {
-      if (data.type === 'join') {
-        players[conn.peer] = {name: data.name, score: 0};
-      } else if (data.type === 'answer') {
-        currentAnswers[conn.peer] = data.answerIdx;
-      } else if (data.type === 'startQuiz') {
-        quizType = data.quizType;
-        startMultiQuiz();
-      } else if (data.type === 'question') {
-        showMultiQuestion(data.question);
-      } else if (data.type === 'results') {
-        showResults(data.results, data.correctText);
-      } else if (data.type === 'leaderboard') {
-        showLeaderboard(data.leaderboard);
-      }
-    }
-    document.getElementById('startMultiQuiz').onclick = () => {
-      quizType = document.getElementById('quizTypeSelect').value;
-      connections.forEach(conn => conn.send({type: 'startQuiz', quizType}));
-      document.getElementById('multiplayerSetup').style.display = 'none';
-      startMultiQuiz();
-    };
-    function startMultiQuiz() {
-      currentQuiz = quizType === 'vocab' ? [...vocabulary] : [...sentences];
-      shuffle(currentQuiz);
-      currentIndex = 0;
-      showMultiQuestionHost();
-    }
-    function showMultiQuestionHost() {
+    function showVocabQuestion() {
       if (currentIndex >= currentQuiz.length) {
-        const leaderboard = Object.values(players).sort((a,b) => b.score - a.score);
-        connections.forEach(conn => conn.send({type: 'leaderboard', leaderboard}));
-        showLeaderboard(leaderboard);
+        speak('Quiz finished! Well done!');
+        alert('🎉 Quiz finished! Well done! 🎉');
         return;
       }
-      const question = currentQuiz[currentIndex];
-      connections.forEach(conn => conn.send({type: 'question', question}));
-      showMultiQuestion(question);
-      currentAnswers = {};
-      setTimeout(() => {
-        const results = {};
-        connections.forEach(conn => {
-          const pid = conn.peer;
-          const answer = currentAnswers[pid];
-          const correct = answer === correctAnswer;
-          if (correct) players[pid].score++;
-          results[pid] = {name: players[pid].name, correct, answer};
-        });
-        const correctText = quizType === 'vocab' ? question.word : question.text;
-        connections.forEach(conn => conn.send({type: 'results', results, correctText}));
-        showResults(results, correctText);
-        currentIndex++;
-        setTimeout(showMultiQuestionHost, 5000);
-      }, 10000);
-    }
-    function showMultiQuestion(question) {
-      document.getElementById('multiQuestion').style.display = 'block';
-      document.getElementById('status').innerHTML = '';
-      const content = document.getElementById('questionContent');
-      const optionsDiv = document.getElementById('multiOptions');
+      const item = currentQuiz[currentIndex];
+      document.getElementById('vocabWord').innerHTML = highlightText(item.word);
+      speak(item.word);
+      const options = [item];
+      while (options.length < 4) {
+        const random = vocabulary[Math.floor(Math.random() * vocabulary.length)];
+        if (!options.some(o => o.word === random.word)) options.push(random);
+      }
+      shuffle(options);
+      correctAnswer = options.findIndex(o => o.word === item.word);
+      const optionsDiv = document.getElementById('vocabOptions');
       optionsDiv.innerHTML = '';
-      if (quizType === 'vocab') {
-        content.innerHTML = '<h2>' + highlightText(question.word) + '</h2><p>Click the correct picture!</p>';
-        speak(question.word);
-        const options = [question];
-        while (options.length < 4) {
-          const random = vocabulary[Math.floor(Math.random() * vocabulary.length)];
-          if (!options.some(o => o.word === random.word)) options.push(random);
-        }
-        shuffle(options);
-        correctAnswer = options.findIndex(o => o.word === question.word);
-        options.forEach((opt, idx) => {
-          const img = document.createElement('img');
-          img.src = opt.image;
-          img.onclick = () => {
-            if (!isHost) connections[0].send({type: 'answer', answerIdx: idx});
-          };
-          optionsDiv.appendChild(img);
-        });
-      } else {
+      options.forEach((opt, idx) => {
         const img = document.createElement('img');
-        img.src = question.image;
-        content.innerHTML = '<h2>Sentences Drill</h2>';
-        content.appendChild(img);
-        content.innerHTML += '<p>Choose the correct sentence!</p>';
-        speak(question.text);
-        const options = [question];
-        while (options.length < 4) {
-          const random = sentences[Math.floor(Math.random() * sentences.length)];
-          if (!options.some(o => o.text === random.text)) options.push(random);
-        }
-        shuffle(options);
-        correctAnswer = options.findIndex(o => o.text === question.text);
-        options.forEach((opt, idx) => {
-          const div = document.createElement('div');
-          div.className = 'option';
-          div.innerHTML = highlightText(opt.text);
-          div.onclick = () => {
-            if (!isHost) connections[0].send({type: 'answer', answerIdx: idx});
-          };
-          optionsDiv.appendChild(div);
-        });
-      }
-    }
-    function showResults(results, correctText) {
-      let html = '<h3>Results:</h3>';
-      for (const pid in results) {
-        const r = results[pid];
-        html += `<p>${r.name}: ${r.correct ? '✅ Correct' : '❌ Wrong'} (Correct: ${highlightText(correctText)})</p>`;
-      }
-      document.getElementById('status').innerHTML = html;
-      speak('Results: ' + Object.values(results).map(r => r.name + (r.correct ? ' correct' : ' wrong')).join(', '));
-    }
-    function showLeaderboard(leaderboard) {
-      document.getElementById('multiQuestion').style.display = 'none';
-      document.getElementById('status').innerHTML = '';
-      document.getElementById('leaderboard').style.display = 'block';
-      const tbody = document.getElementById('leaderboardBody');
-      tbody.innerHTML = '';
-      leaderboard.forEach((p, idx) => {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${idx + 1}</td><td>${p.name}</td><td>${p.score}</td>`;
-        tbody.appendChild(tr);
+        img.src = opt.image;
+        img.onclick = () => checkAnswer(idx === correctAnswer);
+        optionsDiv.appendChild(img);
       });
     }
+    function showSentenceQuestion() {
+      if (currentIndex >= currentQuiz.length) {
+        speak('Drill finished! Brilliant!');
+        alert('🎉 Drill finished! Brilliant! 🎉');
+        return;
+      }
+      const item = currentQuiz[currentIndex];
+      const img = document.createElement('img');
+      img.src = item.image;
+      document.getElementById('sentenceImage').innerHTML = '';
+      document.getElementById('sentenceImage').appendChild(img);
+      speak(item.text);
+      const options = [item];
+      while (options.length < 4) {
+        const random = sentences[Math.floor(Math.random() * sentences.length)];
+        if (!options.some(o => o.text === random.text)) options.push(random);
+      }
+      shuffle(options);
+      correctAnswer = options.findIndex(o => o.text === item.text);
+      const optionsDiv = document.getElementById('sentenceOptions');
+      optionsDiv.innerHTML = '';
+      options.forEach((opt, idx) => {
+        const div = document.createElement('div');
+        div.className = 'option';
+        div.innerHTML = highlightText(opt.text);
+        div.onclick = () => checkAnswer(idx === correctAnswer);
+        optionsDiv.appendChild(div);
+      });
+    }
+    function checkAnswer(isCorrect) {
+      if (isCorrect) {
+        speak('Correct! Jolly good!');
+        currentIndex++;
+        setTimeout(() => {
+          if (document.getElementById('vocabQuiz').classList.contains('active')) {
+            showVocabQuestion();
+          } else {
+            showSentenceQuestion();
+          }
+        }, 1000);
+      } else {
+        speak('Oops! Try again, old chap!');
+      }
+    }
+    document.getElementById('startVocab').onclick = startVocab;
+    document.getElementById('startSentences').onclick = startSentences;
   </script>
 </body>
 </html>
