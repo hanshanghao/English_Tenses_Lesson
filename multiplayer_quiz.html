@@ -1,215 +1,696 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>English Learning Game</title>
-  <style>
-    .blue { color: blue; font-weight: bold; }
-    body { font-family: 'Comic Sans MS', cursive, sans-serif; background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f9ca24); background-size: 400% 400%; animation: gradientShift 10s ease infinite; text-align: center; }
-    @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
-    .container { max-width: 900px; margin: 0 auto; padding: 20px; background: rgba(255, 255, 255, 0.9); border-radius: 20px; box-shadow: 0 0 20px rgba(0,0,0,0.2); }
-    h1 { color: #333; font-size: 2.5em; text-shadow: 2px 2px #ff6b6b; }
-    button { background: #4ecdc4; color: white; border: none; padding: 15px 30px; font-size: 1.2em; border-radius: 10px; cursor: pointer; margin: 10px; transition: background 0.3s; }
-    button:hover { background: #45b7d1; }
-    .quiz { display: none; padding: 20px; }
-    .active { display: block; }
-    #vocabWord { font-size: 2em; margin: 20px; padding: 10px; background: #f9ca24; border-radius: 10px; }
-    #sentenceImage img { width: 300px; height: 200px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.3); }
-    .options { display: flex; flex-wrap: wrap; justify-content: center; margin-top: 20px; }
-    .option { margin: 10px; padding: 15px; border: 2px solid #333; cursor: pointer; border-radius: 10px; background: #fff; transition: background 0.3s, transform 0.2s; font-size: 1.1em; }
-    .option:hover { background: #ff6b6b; color: white; transform: scale(1.05); }
-    img { width: 200px; height: 150px; margin: 10px; border: 3px solid #333; cursor: pointer; border-radius: 10px; transition: transform 0.2s; }
-    img:hover { transform: scale(1.1); }
-    .highlight { animation: pulse 1s infinite; }
-    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Learning Quiz</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+  :root { --bg1:#ff9a9e; --bg2:#fecfef; --card:rgba(255,255,255,0.93); --shadow:0 8px 32px rgba(0,0,0,0.18); --radius:24px; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Nunito',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;background:linear-gradient(135deg,var(--bg1),var(--bg2));transition:background 1.2s ease;padding:0 16px 52px;overflow-x:hidden}
+  .bg-shapes{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .shape{position:absolute;border-radius:50%;opacity:.12;animation:floatShape 12s ease-in-out infinite}
+  .shape:nth-child(1){width:220px;height:220px;background:#fff;top:-60px;left:-60px}
+  .shape:nth-child(2){width:160px;height:160px;background:#fff;top:40%;right:-40px;animation-delay:3s}
+  .shape:nth-child(3){width:100px;height:100px;background:#fff;bottom:10%;left:20%;animation-delay:6s}
+  .shape:nth-child(4){width:80px;height:80px;background:#fff;bottom:30%;right:25%;animation-delay:9s}
+  @keyframes floatShape{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-28px) scale(1.08)}}
+  .container{position:relative;z-index:1;width:100%;max-width:830px}
+
+  /* ── SITE HEADER ── */
+  .site-header{text-align:center;padding:26px 0 0}
+  .site-header h1{font-family:'Fredoka One',cursive;font-size:clamp(1.9rem,5vw,3.1rem);color:#fff;text-shadow:0 4px 18px rgba(0,0,0,0.22)}
+  .site-header p{color:rgba(255,255,255,.9);font-weight:700;font-size:.95rem;margin-top:4px;text-shadow:0 2px 8px rgba(0,0,0,.12)}
+
+  /* ── TAB NAV ── */
+  .tab-nav{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;background:rgba(255,255,255,.2);backdrop-filter:blur(10px);border-radius:0 0 26px 26px;padding:10px 12px 14px;margin-bottom:28px;box-shadow:0 4px 24px rgba(0,0,0,.12)}
+  .tab-btn{font-family:'Fredoka One',cursive;font-size:clamp(.85rem,2.5vw,1.05rem);padding:12px 24px;border:none;border-radius:50px;cursor:pointer;background:rgba(255,255,255,.32);color:rgba(255,255,255,.92);transition:all .27s;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+  .tab-btn:hover{background:rgba(255,255,255,.55);color:#5a5095;transform:translateY(-2px)}
+  .tab-btn.active{background:#fff;color:#6c63ff;box-shadow:0 6px 22px rgba(108,99,255,.35);transform:translateY(-2px) scale(1.04)}
+
+  /* ── TAB PANELS ── */
+  .tab-panel{display:none}
+  .tab-panel.active{display:block}
+
+  /* ── SHARED QUIZ ── */
+  .progress-label{text-align:right;color:rgba(255,255,255,.95);font-size:.84rem;font-weight:800;margin-bottom:6px}
+  .progress-wrap{background:rgba(255,255,255,.3);border-radius:50px;height:14px;margin-bottom:18px;overflow:hidden;box-shadow:inset 0 2px 6px rgba(0,0,0,.1)}
+  .progress-bar{height:100%;background:linear-gradient(90deg,#fff,rgba(255,255,255,.7));border-radius:50px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+  .score-strip{display:flex;justify-content:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+  .score-badge{background:rgba(255,255,255,.26);backdrop-filter:blur(6px);border-radius:50px;padding:7px 18px;color:#fff;font-size:.86rem;font-weight:800;text-shadow:0 1px 4px rgba(0,0,0,.14);display:flex;align-items:center;gap:6px}
+  .score-badge .num{font-size:1.18rem;font-family:'Fredoka One',cursive}
+  .voice-panel{background:rgba(255,255,255,.2);backdrop-filter:blur(8px);border-radius:18px;padding:12px 16px;margin-bottom:18px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+  .voice-panel label{color:#fff;font-weight:800;font-size:.84rem;white-space:nowrap;text-shadow:0 1px 4px rgba(0,0,0,.14)}
+  .speed-btns{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+  .speed-btn{background:rgba(255,255,255,.4);border:2px solid rgba(255,255,255,.62);color:#4a4a8a;font-weight:800;font-size:.74rem;padding:5px 11px;border-radius:50px;cursor:pointer;transition:all .2s}
+  .speed-btn.active,.speed-btn:hover{background:#fff;color:#6c63ff;transform:scale(1.08);box-shadow:0 2px 10px rgba(108,99,255,.3)}
+  .listen-btn-top{background:#fff;border:none;border-radius:50px;padding:8px 16px;cursor:pointer;font-weight:800;font-size:.84rem;color:#6c63ff;display:flex;align-items:center;gap:6px;box-shadow:0 2px 12px rgba(108,99,255,.24);transition:all .2s}
+  .listen-btn-top:hover{transform:scale(1.06)}
+  .quiz-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px 22px 22px;text-align:center;animation:slideIn .5s cubic-bezier(.4,0,.2,1)}
+  @keyframes slideIn{from{opacity:0;transform:translateY(28px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+  .letter-badge{display:inline-block;background:linear-gradient(135deg,#6c63ff,#a18cd1);color:#fff;font-family:'Fredoka One',cursive;font-size:.9rem;padding:4px 14px;border-radius:50px;margin-bottom:10px;box-shadow:0 2px 10px rgba(108,99,255,.3)}
+  .quiz-letter{font-family:'Fredoka One',cursive;font-size:3rem;line-height:1;margin-bottom:6px;background:linear-gradient(135deg,#6c63ff,#f093fb);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .quiz-photo-wrap{width:185px;height:185px;margin:0 auto 16px;border-radius:20px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,.13);border:4px solid rgba(108,99,255,.18);background:#f0f4ff;display:flex;align-items:center;justify-content:center;font-size:5.2rem}
+  .question-text{font-size:1rem;color:#555;font-weight:700;margin-bottom:18px}
+  .question-text strong{color:#6c63ff}
+  .options-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px}
+  .option-btn{background:linear-gradient(135deg,#f8f9ff,#eef0ff);border:3px solid #dde1ff;border-radius:16px;padding:12px 8px;font-family:'Nunito',sans-serif;font-size:1.02rem;font-weight:800;color:#4a4a8a;cursor:pointer;transition:all .22s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;justify-content:center;gap:6px;line-height:1.3;text-align:center}
+  .option-btn:hover:not(:disabled){background:linear-gradient(135deg,#6c63ff,#a18cd1);color:#fff;border-color:#6c63ff;transform:translateY(-3px) scale(1.03);box-shadow:0 6px 20px rgba(108,99,255,.34)}
+  .option-btn.correct{background:linear-gradient(135deg,#22c55e,#4ade80)!important;border-color:#16a34a!important;color:#fff!important;transform:scale(1.05);box-shadow:0 6px 20px rgba(34,197,94,.44)}
+  .option-btn.wrong{background:linear-gradient(135deg,#ef4444,#f87171)!important;border-color:#dc2626!important;color:#fff!important;animation:shake .4s ease}
+  .option-btn.reveal{background:linear-gradient(135deg,#22c55e,#4ade80)!important;border-color:#16a34a!important;color:#fff!important;animation:pulseReveal .6s ease}
+  .option-btn:disabled{cursor:not-allowed;opacity:.72}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+  @keyframes pulseReveal{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+  .feedback{min-height:50px;border-radius:14px;padding:10px 14px;font-weight:800;font-size:.94rem;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px;transition:all .3s;opacity:0;line-height:1.4;text-align:center}
+  .feedback.show{opacity:1}
+  .feedback.correct-fb{background:linear-gradient(135deg,#d1fae5,#a7f3d0);color:#065f46;border:2px solid #6ee7b7}
+  .feedback.wrong-fb{background:linear-gradient(135deg,#fee2e2,#fecaca);color:#7f1d1d;border:2px solid #fca5a5}
+  .next-btn{background:linear-gradient(135deg,#6c63ff,#a18cd1);color:#fff;border:none;border-radius:50px;padding:13px 40px;font-family:'Fredoka One',cursive;font-size:1.12rem;cursor:pointer;box-shadow:0 6px 22px rgba(108,99,255,.4);transition:all .22s;display:none}
+  .next-btn:hover{transform:translateY(-3px) scale(1.05)}
+  .next-btn.visible{display:inline-block}
+
+  /* ── START / RESULT SCREENS ── */
+  .start-screen,.result-screen{text-align:center}
+  .result-screen{display:none}
+  .result-screen.show{display:block}
+  .screen-card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:30px 24px}
+  .screen-card h2{font-family:'Fredoka One',cursive;font-size:1.85rem;color:#6c63ff;margin-bottom:10px}
+  .screen-card p{color:#666;font-weight:700;font-size:.96rem;margin-bottom:20px;line-height:1.8}
+  .start-btn{background:linear-gradient(135deg,#6c63ff,#a18cd1);color:#fff;border:none;border-radius:50px;padding:14px 48px;font-family:'Fredoka One',cursive;font-size:1.28rem;cursor:pointer;box-shadow:0 6px 22px rgba(108,99,255,.38);transition:all .22s}
+  .start-btn:hover{transform:scale(1.06)}
+  .result-trophy{font-size:4.5rem;margin-bottom:10px;animation:bounce 1s ease infinite}
+  @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+  .result-title{font-family:'Fredoka One',cursive;font-size:2.2rem;color:#6c63ff;margin-bottom:6px}
+  .stars-row{font-size:2.1rem;margin-bottom:8px}
+  .result-score-txt{font-size:1.1rem;color:#555;font-weight:800;margin-bottom:22px}
+  .restart-btn{background:linear-gradient(135deg,#6c63ff,#a18cd1);color:#fff;border:none;border-radius:50px;padding:13px 40px;font-family:'Fredoka One',cursive;font-size:1.18rem;cursor:pointer;box-shadow:0 6px 22px rgba(108,99,255,.38);transition:all .22s;margin:5px}
+  .restart-btn:hover{transform:scale(1.05)}
+  .restart-btn.alt{background:linear-gradient(135deg,#f093fb,#f5576c)}
+
+  /* ── CLASSROOM SPECIFIC ── */
+  .mode-toggle{display:flex;gap:10px;margin-bottom:18px;justify-content:center;flex-wrap:wrap}
+  .mode-btn{background:rgba(255,255,255,.36);border:2px solid rgba(255,255,255,.6);color:#fff;font-weight:800;font-size:.82rem;padding:8px 18px;border-radius:50px;cursor:pointer;transition:all .2s}
+  .mode-btn.active{background:#fff;color:#6c63ff;box-shadow:0 3px 12px rgba(108,99,255,.3)}
+  .cmd-display{background:linear-gradient(135deg,rgba(108,99,255,.1),rgba(161,140,209,.15));border-radius:20px;padding:20px 14px 14px;margin-bottom:16px;border:2px solid rgba(108,99,255,.2)}
+  .cmd-num-badge{display:inline-block;background:linear-gradient(135deg,#6c63ff,#a18cd1);color:#fff;font-family:'Fredoka One',cursive;font-size:.82rem;padding:3px 12px;border-radius:50px;margin-bottom:8px}
+  .cmd-scene-emoji{font-size:4.8rem;display:block;animation:popIn .5s cubic-bezier(.4,0,.2,1)}
+  @keyframes popIn{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+  .cmd-scene-desc{font-size:.84rem;color:#888;font-weight:700;margin-top:6px;line-height:1.4;font-style:italic}
+  .hint-row{display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:12px}
+  .hint-toggle{background:rgba(255,255,255,.32);border:2px solid rgba(255,255,255,.58);color:#fff;font-weight:800;font-size:.78rem;padding:6px 14px;border-radius:50px;cursor:pointer;transition:all .2s}
+  .hint-toggle:hover{background:rgba(255,255,255,.55)}
+  .hint-box{background:rgba(255,255,255,.88);border-radius:12px;padding:10px 14px;font-size:.88rem;color:#555;font-weight:700;border:2px solid #dde1ff;margin-bottom:12px;display:none;line-height:1.5}
+  .hint-box.show{display:block}
+  .type-wrap{display:flex;gap:10px;margin-bottom:16px}
+  .type-input{flex:1;border:3px solid #dde1ff;border-radius:14px;padding:12px 14px;font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;color:#4a4a8a;outline:none;transition:border-color .2s}
+  .type-input:focus{border-color:#6c63ff}
+  .type-submit{background:linear-gradient(135deg,#6c63ff,#a18cd1);color:#fff;border:none;border-radius:14px;padding:12px 18px;font-family:'Fredoka One',cursive;font-size:.96rem;cursor:pointer;white-space:nowrap}
+
+  /* Confetti */
+  .confetti-piece{position:fixed;font-size:1.8rem;pointer-events:none;z-index:9999;animation:cfFly 1.2s ease-out forwards}
+  @keyframes cfFly{from{opacity:1;transform:translateY(0) rotate(0deg) scale(1)}to{opacity:0;transform:translateY(-180px) rotate(720deg) scale(.3)}}
+
+  @media(max-width:500px){
+    .options-grid{gap:8px}
+    .option-btn{font-size:.9rem;padding:10px 5px}
+    .quiz-photo-wrap{width:150px;height:150px}
+    .cmd-scene-emoji{font-size:3.8rem}
+  }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>🎉 English Learning Game! 🎉</h1>
-    <p>Learn English with a British accent! Choose your quiz:</p>
-    <button id="startVocab">🚀 Start Vocabulary Quiz</button>
-    <button id="startSentences">🎭 Start Sentences Drill</button>
-    <div id="vocabQuiz" class="quiz">
-      <h2>Vocabulary Quiz 🧠</h2>
-      <div id="vocabWord"></div>
-      <p>Click the correct picture!</p>
-      <div id="vocabOptions" class="options"></div>
-    </div>
-    <div id="sentencesQuiz" class="quiz">
-      <h2>Sentences Drill 🗣️</h2>
-      <div id="sentenceImage"></div>
-      <p>Choose the correct sentence!</p>
-      <div id="sentenceOptions" class="options"></div>
-    </div>
+
+<div class="bg-shapes">
+  <div class="shape"></div><div class="shape"></div>
+  <div class="shape"></div><div class="shape"></div>
+</div>
+
+<div class="container">
+
+  <div class="site-header">
+    <h1>🌟 English Learning Quiz</h1>
+    <p>Fun interactive quizzes for young learners!</p>
   </div>
-  <script>
-    const vocabulary = [
-      { word: 'bathroom', image: 'https://source.unsplash.com/featured/?bathroom' },
-      { word: 'bedroom', image: 'https://source.unsplash.com/featured/?bedroom' },
-      { word: 'kitchen', image: 'https://source.unsplash.com/featured/?kitchen' },
-      { word: 'dining room', image: 'https://source.unsplash.com/featured/?dining+room' },
-      { word: 'living room', image: 'https://source.unsplash.com/featured/?living+room' },
-      { word: 'cooking', image: 'https://source.unsplash.com/featured/?cooking' },
-      { word: 'eating', image: 'https://source.unsplash.com/featured/?eating' },
-      { word: 'reading', image: 'https://source.unsplash.com/featured/?reading' },
-      { word: 'sleeping', image: 'https://source.unsplash.com/featured/?sleeping' },
-      { word: 'writing', image: 'https://source.unsplash.com/featured/?writing' },
-      { word: 'running', image: 'https://source.unsplash.com/featured/?running' },
-      { word: 'a hamburger', image: 'https://source.unsplash.com/featured/?hamburger' },
-      { word: 'a hot dog', image: 'https://source.unsplash.com/featured/?hot+dog' },
-      { word: 'juice', image: 'https://source.unsplash.com/featured/?juice' },
-      { word: 'milk', image: 'https://source.unsplash.com/featured/?milk' },
-      { word: 'water', image: 'https://source.unsplash.com/featured/?water' },
-      { word: 'ice cream', image: 'https://source.unsplash.com/featured/?ice+cream' },
-      { word: 'bears', image: 'https://source.unsplash.com/featured/?bear' },
-      { word: 'lions', image: 'https://source.unsplash.com/featured/?lion' },
-      { word: 'monkeys', image: 'https://source.unsplash.com/featured/?monkey' },
-      { word: 'tigers', image: 'https://source.unsplash.com/featured/?tiger' },
-      { word: 'zebras', image: 'https://source.unsplash.com/featured/?zebra' },
-      { word: 'a sachet', image: 'https://source.unsplash.com/featured/?tea+sachet' },
-      { word: 'a dragon boat race', image: 'https://source.unsplash.com/featured/?dragon+boat+race' },
-      { word: 'a rice dumpling', image: 'https://source.unsplash.com/featured/?rice+dumpling' },
-      { word: 'stand an egg', image: 'https://source.unsplash.com/featured/?standing+egg' },
-    ];
-    const sentences = [
-      { text: 'Where are you? I’m in the bedroom.', image: 'https://source.unsplash.com/featured/?person+in+bedroom' },
-      { text: 'Where’s Kevin? He’s in the dining room.', image: 'https://source.unsplash.com/featured/?boy+in+dining+room' },
-      { text: 'Where’s Mom? She’s in the dining room.', image: 'https://source.unsplash.com/featured/?woman+in+dining+room' },
-      { text: 'What are you doing? I’m reading.', image: 'https://source.unsplash.com/featured/?person+reading' },
-      { text: 'What’s he doing? He’s sleeping.', image: 'https://source.unsplash.com/featured/?man+sleeping' },
-      { text: 'What’s she doing? She’s sleeping.', image: 'https://source.unsplash.com/featured/?woman+sleeping' },
-      { text: 'What do you want for lunch? I want a hot dog.', image: 'https://source.unsplash.com/featured/?hot+dog' },
-      { text: 'What do you want for lunch? I want two hamburgers.', image: 'https://source.unsplash.com/featured/?hamburgers' },
-      { text: 'What do you want for lunch? I want some juice.', image: 'https://source.unsplash.com/featured/?juice' },
-      { text: 'Do you like bears? Yes, I do.', image: 'https://source.unsplash.com/featured/?bear' },
-      { text: 'Do you like bears? No, I don’t. I like tigers.', image: 'https://source.unsplash.com/featured/?tiger' },
-      { text: 'What are these? They’re rice dumplings.', image: 'https://source.unsplash.com/featured/?rice+dumplings' },
-      { text: 'What are those? They’re rice dumplings.', image: 'https://source.unsplash.com/featured/?rice+dumplings' },
-      { text: 'This is for you.', image: 'https://source.unsplash.com/featured/?giving+gift' },
-      { text: 'Cool!', image: 'https://source.unsplash.com/featured/?cool' },
-      { text: 'I’m done.', image: 'https://source.unsplash.com/featured/?finished' },
-      { text: 'Me too.', image: 'https://source.unsplash.com/featured/?also+done' },
-      { text: 'Good idea!', image: 'https://source.unsplash.com/featured/?good+idea' },
-      { text: 'How about you?', image: 'https://source.unsplash.com/featured/?asking' },
-      { text: 'Have fun!', image: 'https://source.unsplash.com/featured/?having+fun' },
-      { text: 'Help!', image: 'https://source.unsplash.com/featured/?help' },
-    ];
-    let currentQuiz = [];
-    let currentIndex = 0;
-    let correctAnswer = 0;
-    const synth = window.speechSynthesis;
-    let britishFemale;
-    synth.onvoiceschanged = () => {
-      const voices = synth.getVoices();
-      britishFemale = voices.find(v => v.lang === 'en-GB' && v.name.toLowerCase().includes('female')) || voices.find(v => v.lang === 'en-GB') || voices.find(v => v.name.toLowerCase().includes('british')) || voices[0];
-    };
-    function highlightText(text) {
-      return text
-        .replace(/([aeiou])/gi, '<span class="blue">$1</span>')
-        .replace(/\b(is|are|a|am)\b/gi, '<span class="blue">$1</span>')
-        .replace(/(\w+ing)/gi, '<span class="blue">$1</span>');
-    }
-    function speak(text) {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.voice = britishFemale;
-      utterance.rate = 0.6;
-      utterance.pitch = 1.2;
-      synth.speak(utterance);
-    }
-    function startVocab() {
-      document.getElementById('vocabQuiz').classList.add('active');
-      document.getElementById('sentencesQuiz').classList.remove('active');
-      currentQuiz = [...vocabulary];
-      shuffle(currentQuiz);
-      currentIndex = 0;
-      showVocabQuestion();
-    }
-    function startSentences() {
-      document.getElementById('sentencesQuiz').classList.add('active');
-      document.getElementById('vocabQuiz').classList.remove('active');
-      currentQuiz = [...sentences];
-      shuffle(currentQuiz);
-      currentIndex = 0;
-      showSentenceQuestion();
-    }
-    function shuffle(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-      }
-    }
-    function showVocabQuestion() {
-      if (currentIndex >= currentQuiz.length) {
-        speak('Quiz finished! Well done!');
-        alert('🎉 Quiz finished! Well done! 🎉');
-        return;
-      }
-      const item = currentQuiz[currentIndex];
-      document.getElementById('vocabWord').innerHTML = highlightText(item.word);
-      speak(item.word);
-      const options = [item];
-      while (options.length < 4) {
-        const random = vocabulary[Math.floor(Math.random() * vocabulary.length)];
-        if (!options.some(o => o.word === random.word)) options.push(random);
-      }
-      shuffle(options);
-      correctAnswer = options.findIndex(o => o.word === item.word);
-      const optionsDiv = document.getElementById('vocabOptions');
-      optionsDiv.innerHTML = '';
-      options.forEach((opt, idx) => {
-        const img = document.createElement('img');
-        img.src = opt.image;
-        img.onclick = () => checkAnswer(idx === correctAnswer);
-        optionsDiv.appendChild(img);
-      });
-    }
-    function showSentenceQuestion() {
-      if (currentIndex >= currentQuiz.length) {
-        speak('Drill finished! Brilliant!');
-        alert('🎉 Drill finished! Brilliant! 🎉');
-        return;
-      }
-      const item = currentQuiz[currentIndex];
-      const img = document.createElement('img');
-      img.src = item.image;
-      document.getElementById('sentenceImage').innerHTML = '';
-      document.getElementById('sentenceImage').appendChild(img);
-      speak(item.text);
-      const options = [item];
-      while (options.length < 4) {
-        const random = sentences[Math.floor(Math.random() * sentences.length)];
-        if (!options.some(o => o.text === random.text)) options.push(random);
-      }
-      shuffle(options);
-      correctAnswer = options.findIndex(o => o.text === item.text);
-      const optionsDiv = document.getElementById('sentenceOptions');
-      optionsDiv.innerHTML = '';
-      options.forEach((opt, idx) => {
-        const div = document.createElement('div');
-        div.className = 'option';
-        div.innerHTML = highlightText(opt.text);
-        div.onclick = () => checkAnswer(idx === correctAnswer);
-        optionsDiv.appendChild(div);
-      });
-    }
-    function checkAnswer(isCorrect) {
-      if (isCorrect) {
-        speak('Correct! Jolly good!');
-        currentIndex++;
-        setTimeout(() => {
-          if (document.getElementById('vocabQuiz').classList.contains('active')) {
-            showVocabQuestion();
-          } else {
-            showSentenceQuestion();
-          }
-        }, 1000);
-      } else {
-        speak('Oops! Try again, old chap!');
-      }
-    }
-    document.getElementById('startVocab').onclick = startVocab;
-    document.getElementById('startSentences').onclick = startSentences;
-  </script>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab('tab-az',this)">🔤 A–Z Photo Quiz</button>
+    <button class="tab-btn" onclick="switchTab('tab-cls',this)">🏫 Daily Classroom English</button>
+  </div>
+
+  <!-- ============================================================
+       TAB 1 : A–Z PHOTO QUIZ
+  ============================================================ -->
+  <div class="tab-panel active" id="tab-az">
+
+    <div class="start-screen" id="az-start">
+      <div class="screen-card">
+        <div style="font-size:3.6rem;margin-bottom:12px">🎉</div>
+        <h2>A–Z Photo Quiz!</h2>
+        <p>👀 Look at the photo carefully<br>🔤 Choose the correct word<br>🔊 Listen with British accent<br>⭐ Earn stars for every right answer!</p>
+        <button class="start-btn" onclick="azStart()">▶ Start Quiz!</button>
+      </div>
+    </div>
+
+    <div id="az-quiz" style="display:none">
+      <div class="progress-label" id="az-pl">Question 1 / 26</div>
+      <div class="progress-wrap"><div class="progress-bar" id="az-pb" style="width:0%"></div></div>
+      <div class="score-strip">
+        <div class="score-badge">✅ Correct <span class="num" id="az-sc">0</span></div>
+        <div class="score-badge">❌ Wrong <span class="num" id="az-sw">0</span></div>
+        <div class="score-badge">⭐ Stars <span class="num" id="az-ss">0</span></div>
+      </div>
+      <div class="voice-panel">
+        <label>🎙️ Speed:</label>
+        <div class="speed-btns">
+          <button class="speed-btn" onclick="setRate('az',.6,this)">🐌 V.Slow</button>
+          <button class="speed-btn" onclick="setRate('az',.8,this)">🐢 Slow</button>
+          <button class="speed-btn active" onclick="setRate('az',1,this)">🚶 Normal</button>
+          <button class="speed-btn" onclick="setRate('az',1.3,this)">🏃 Fast</button>
+          <button class="speed-btn" onclick="setRate('az',1.6,this)">⚡ V.Fast</button>
+        </div>
+        <button class="listen-btn-top" onclick="azSpeak()">🔊 Listen</button>
+      </div>
+      <div class="quiz-card" id="az-card">
+        <div class="letter-badge" id="az-badge">Aa</div>
+        <div class="quiz-letter" id="az-letter">A</div>
+        <div class="quiz-photo-wrap"><span id="az-emoji">🍎</span></div>
+        <div class="question-text">Which word matches the photo?</div>
+        <div class="options-grid" id="az-grid"></div>
+        <div class="feedback" id="az-fb"></div>
+        <button class="next-btn" id="az-next" onclick="azNext()">Next ➡</button>
+      </div>
+    </div>
+
+    <div class="result-screen" id="az-result">
+      <div class="screen-card">
+        <div class="result-trophy" id="az-rt">🏆</div>
+        <div class="result-title" id="az-rtt">Amazing!</div>
+        <div class="stars-row" id="az-rs">⭐⭐⭐</div>
+        <div class="result-score-txt" id="az-rsc"></div>
+        <button class="restart-btn" onclick="azRestart()">🔄 Play Again</button>
+      </div>
+    </div>
+
+  </div><!-- /tab-az -->
+
+  <!-- ============================================================
+       TAB 2 : DAILY CLASSROOM ENGLISH
+  ============================================================ -->
+  <div class="tab-panel" id="tab-cls">
+
+    <div class="start-screen" id="cls-start">
+      <div class="screen-card">
+        <div style="font-size:3.6rem;margin-bottom:12px">🏫</div>
+        <h2>Daily Classroom English</h2>
+        <p>📸 See the classroom scene<br>🗣️ Choose the correct teacher command<br>🔊 Listen with British accent<br>✍️ Try <em>Type-It</em> mode for a challenge!</p>
+
+        <div style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin-bottom:20px;font-size:2rem">
+          <span title="Raise your hand">✋</span>
+          <span title="Put down your hand">👇</span>
+          <span title="Take out your book">📖</span>
+          <span title="Put away your book">🎒</span>
+          <span title="Open your book">📂</span>
+          <span title="Close your book">📕</span>
+          <span title="Come here, please">🚶</span>
+          <span title="Go back to your seat">💺</span>
+        </div>
+
+        <div class="mode-toggle">
+          <button class="mode-btn active" id="cls-sm1" onclick="clsSetMode('mc')">📝 Multiple Choice</button>
+          <button class="mode-btn" id="cls-sm2" onclick="clsSetMode('type')">✍️ Type It!</button>
+        </div>
+        <button class="start-btn" onclick="clsStart()">▶ Start Quiz!</button>
+      </div>
+    </div>
+
+    <div id="cls-quiz" style="display:none">
+      <div class="progress-label" id="cls-pl">Command 1 / 8</div>
+      <div class="progress-wrap"><div class="progress-bar" id="cls-pb" style="width:0%"></div></div>
+      <div class="score-strip">
+        <div class="score-badge">✅ Correct <span class="num" id="cls-sc">0</span></div>
+        <div class="score-badge">❌ Wrong <span class="num" id="cls-sw">0</span></div>
+        <div class="score-badge">⭐ Stars <span class="num" id="cls-ss">0</span></div>
+      </div>
+      <div class="voice-panel">
+        <label>🎙️ Speed:</label>
+        <div class="speed-btns">
+          <button class="speed-btn" onclick="setRate('cls',.6,this)">🐌 V.Slow</button>
+          <button class="speed-btn" onclick="setRate('cls',.8,this)">🐢 Slow</button>
+          <button class="speed-btn active" onclick="setRate('cls',1,this)">🚶 Normal</button>
+          <button class="speed-btn" onclick="setRate('cls',1.3,this)">🏃 Fast</button>
+          <button class="speed-btn" onclick="setRate('cls',1.6,this)">⚡ V.Fast</button>
+        </div>
+        <button class="listen-btn-top" onclick="clsSpeak()">🔊 Listen</button>
+      </div>
+
+      <div class="quiz-card" id="cls-card">
+        <div class="cmd-display">
+          <span class="cmd-num-badge" id="cls-cn">Command 1</span>
+          <span class="cmd-scene-emoji" id="cls-emoji">✋</span>
+          <div class="cmd-scene-desc" id="cls-desc"></div>
+        </div>
+
+        <div class="question-text" id="cls-qt">What does the teacher say?</div>
+
+        <div class="hint-row">
+          <button class="hint-toggle" id="cls-htbtn" onclick="clsToggleHint()">💡 Show Hint</button>
+        </div>
+        <div class="hint-box" id="cls-hb"></div>
+
+        <div class="options-grid" id="cls-grid"></div>
+
+        <div id="cls-type" style="display:none">
+          <div class="type-wrap">
+            <input class="type-input" id="cls-input" placeholder="Type the teacher's command…" onkeydown="if(event.key==='Enter')clsCheckType()">
+            <button class="type-submit" onclick="clsCheckType()">✔ Check</button>
+          </div>
+        </div>
+
+        <div class="feedback" id="cls-fb"></div>
+        <button class="next-btn" id="cls-next" onclick="clsNext()">Next ➡</button>
+      </div>
+    </div>
+
+    <div class="result-screen" id="cls-result">
+      <div class="screen-card">
+        <div class="result-trophy" id="cls-rt">🏆</div>
+        <div class="result-title" id="cls-rtt">Brilliant!</div>
+        <div class="stars-row" id="cls-rs">⭐⭐⭐</div>
+        <div class="result-score-txt" id="cls-rsc"></div>
+        <div>
+          <button class="restart-btn" onclick="clsRestart('mc')">📝 MC Again</button>
+          <button class="restart-btn alt" onclick="clsRestart('type')">✍️ Type It!</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /tab-cls -->
+</div><!-- /container -->
+
+<script>
+/* ======================================================
+   SHARED
+====================================================== */
+let voice=null, azRate=1, clsRate=1;
+
+function loadVoices(){
+  const vv=speechSynthesis.getVoices();
+  const tests=[
+    v=>v.name==='Serena',
+    v=>v.name.includes('Serena'),
+    v=>v.name.includes('Martha'),
+    v=>v.name.includes('Emily'),
+    v=>v.name.includes('Karen')&&v.lang.startsWith('en'),
+    v=>v.lang==='en-GB'&&/female/i.test(v.name),
+    v=>v.lang==='en-GB',
+    v=>v.lang.startsWith('en-')&&/female/i.test(v.name),
+    v=>v.lang.startsWith('en')
+  ];
+  for(const t of tests){const f=vv.find(t);if(f){voice=f;break;}}
+}
+speechSynthesis.onvoiceschanged=loadVoices;
+setTimeout(loadVoices,400);
+
+function speak(text,rate){
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.rate=rate||1; u.pitch=1.05; u.volume=1;
+  if(voice)u.voice=voice; else u.lang='en-GB';
+  speechSynthesis.speak(u);
+}
+
+function setRate(ns,r,el){
+  if(ns==='az')azRate=r; else clsRate=r;
+  el.closest('.speed-btns').querySelectorAll('.speed-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+}
+
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]];}return b;}
+
+function switchTab(id,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  speechSynthesis.cancel();
+  const bgs={
+    'tab-az':['#ff9a9e','#fecfef'],
+    'tab-cls':['#4facfe','#00f2fe']
+  };
+  const [c1,c2]=bgs[id]||['#ff9a9e','#fecfef'];
+  document.documentElement.style.setProperty('--bg1',c1);
+  document.documentElement.style.setProperty('--bg2',c2);
+}
+
+function confetti(fromEl){
+  const em=['⭐','🎉','✨','🌟','💫','🎊','👏','🌈'];
+  const r=fromEl.getBoundingClientRect();
+  for(let i=0;i<9;i++)setTimeout(()=>{
+    const el=document.createElement('div');
+    el.className='confetti-piece';
+    el.textContent=em[0|Math.random()*em.length];
+    el.style.cssText=`left:${r.left+r.width/2+(Math.random()-.5)*110}px;top:${r.top+scrollY}px`;
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),1300);
+  },i*70);
+}
+
+/* ======================================================
+   A–Z QUIZ DATA
+====================================================== */
+const azData=[
+  {l:'A',w:'apple',e:'🍎',c:['#ff9a9e','#fecfef'],h:'A red fruit that grows on trees'},
+  {l:'B',w:'boy',e:'👦',c:['#a1c4fd','#c2e9fb'],h:'A young male child'},
+  {l:'C',w:'cup',e:'☕',c:['#84fab0','#8fd3f4'],h:'You drink from this'},
+  {l:'D',w:'duck',e:'🦆',c:['#ffecd2','#fcb69f'],h:'A bird that loves water'},
+  {l:'E',w:'elephant',e:'🐘',c:['#d4fc79','#96e6a1'],h:'The largest land animal'},
+  {l:'F',w:'fan',e:'🪭',c:['#f6d365','#fda085'],h:'It keeps you cool'},
+  {l:'G',w:'girl',e:'👧',c:['#f093fb','#f5576c'],h:'A young female child'},
+  {l:'H',w:'hat',e:'🎩',c:['#4facfe','#00f2fe'],h:'You wear this on your head'},
+  {l:'I',w:'insect',e:'🪲',c:['#43e97b','#38f9d7'],h:'A small creature with six legs'},
+  {l:'J',w:'jam',e:'🍓',c:['#fa709a','#fee140'],h:'Sweet spread on bread'},
+  {l:'K',w:'kite',e:'🪁',c:['#30cfd0','#667eea'],h:'You fly this in the wind'},
+  {l:'L',w:'leg',e:'🦵',c:['#a18cd1','#fbc2eb'],h:'You use this to walk'},
+  {l:'M',w:'milk',e:'🥛',c:['#e0c3fc','#8ec5fc'],h:'A white drink from cows'},
+  {l:'N',w:'neck',e:'👤',c:['#f77062','#fe5196'],h:'Connects your head and body'},
+  {l:'O',w:'otter',e:'🦦',c:['#96fbc4','#f9f586'],h:'A furry animal that swims'},
+  {l:'P',w:'pink',e:'🌸',c:['#fccb90','#d57eeb'],h:'A beautiful light red colour'},
+  {l:'Q',w:'quiz',e:'📝',c:['#a1ffce','#faffd1'],h:'A fun test of knowledge'},
+  {l:'R',w:'rabbit',e:'🐰',c:['#fbc7d4','#9796f0'],h:'A fluffy animal with long ears'},
+  {l:'S',w:'sun',e:'☀️',c:['#f9d423','#ff4e50'],h:'It shines in the sky'},
+  {l:'T',w:'tiger',e:'🐯',c:['#f7971e','#ffd200'],h:'A big striped wild cat'},
+  {l:'U',w:'umbrella',e:'☂️',c:['#4481eb','#04befe'],h:'Keeps you dry in the rain'},
+  {l:'V',w:'vest',e:'🦺',c:['#f83600','#f9d423'],h:'A sleeveless garment'},
+  {l:'W',w:'window',e:'🪟',c:['#00b4d8','#90e0ef'],h:'Glass opening in a wall'},
+  {l:'X',w:'box',e:'📦',c:['#c6ea8d','#fe90af'],h:'A container to store things in'},
+  {l:'Y',w:'yogurt',e:'🍶',c:['#e0c3fc','#9face6'],h:'A creamy dairy food'},
+  {l:'Z',w:'zebra',e:'🦓',c:['#bdc3c7','#667eea'],h:'A striped animal from Africa'},
+];
+
+let azQ=[],azI=0,azCor=0,azWr=0,azSt=0,azDone=false;
+
+function azStart(){
+  show('az-quiz'); hide('az-start');
+  azQ=shuffle(azData).map(item=>{
+    const d=shuffle(azData.filter(v=>v.w!==item.w)).slice(0,3).map(v=>v.w);
+    return{...item,opts:shuffle([item.w,...d])};
+  });
+  azI=0;azCor=0;azWr=0;azSt=0;azUpdateScore();azRender();
+}
+
+function azRender(){
+  azDone=false;
+  const q=azQ[azI];
+  setBg(q.c[0],q.c[1]);
+  setText('az-pl',`Question ${azI+1} / ${azQ.length}`);
+  setWidth('az-pb',azI/azQ.length*100);
+  setText('az-badge',q.l+q.l.toLowerCase());
+  setText('az-letter',q.l);
+  setText('az-emoji',q.e);
+  const grid=document.getElementById('az-grid');
+  grid.innerHTML='';
+  q.opts.forEach(o=>{
+    const b=btn(o); b.dataset.w=o;
+    b.onclick=()=>azCheck(o,b,q);
+    grid.appendChild(b);
+  });
+  resetFb('az-fb'); hideNext('az-next');
+  animCard('az-card');
+  setTimeout(()=>speak(q.w,azRate),650);
+}
+
+function azCheck(sel,el,q){
+  if(azDone)return; azDone=true;
+  disableGrid('az-grid');
+  if(sel===q.w){
+    azCor++;azSt++;
+    el.classList.add('correct');
+    showFb('az-fb','correct','🎉 Fantastic! That\'s correct!');
+    speak('Fantastic! '+q.w+'! Well done!',azRate*.9);
+    confetti(el);
+  }else{
+    azWr++;
+    el.classList.add('wrong');
+    revealCorrect('az-grid',q.w,'w');
+    showFb('az-fb','wrong',`😔 Not quite! The answer is <strong>"${q.w}"</strong> — ${q.h}`);
+    speak('The correct answer is '+q.w+'. '+q.h,azRate*.85);
+  }
+  azUpdateScore(); showNext('az-next');
+}
+
+function azNext(){azI++;if(azI>=azQ.length)azResult();else azRender();}
+
+function azUpdateScore(){
+  setText('az-sc',azCor);setText('az-sw',azWr);setText('az-ss',azSt);
+}
+
+function azResult(){
+  hide('az-quiz'); show('az-result');
+  const[t,ti,s]=grade(azCor,azQ.length);
+  setText('az-rt',t);setText('az-rtt',ti);setText('az-rs',s);
+  setText('az-rsc',`You got ${azCor} out of ${azQ.length} correct! (${Math.round(azCor/azQ.length*100)}%)`);
+  setBg('#667eea','#764ba2');
+  speak(ti+'! You got '+azCor+' out of '+azQ.length+' correct!',0.9);
+}
+
+function azRestart(){hide('az-result');azStart();}
+function azSpeak(){if(azQ.length)speak(azQ[azI].w,azRate);}
+
+/* ======================================================
+   CLASSROOM QUIZ DATA
+====================================================== */
+const clsData=[
+  {
+    n:1,cmd:'Raise your hand.',
+    e:'✋',
+    scene:'A student raises their hand up high at the desk',
+    hint:'You do this when you want to answer or ask a question.',
+    dist:['Put down your hand.','Open your book.','Come here, please.']
+  },
+  {
+    n:2,cmd:'Put down your hand.',
+    e:'👇',
+    scene:'A student lowers their raised hand back to the desk',
+    hint:'The teacher says this after seeing your raised hand.',
+    dist:['Raise your hand.','Go back to your seat.','Close your book.']
+  },
+  {
+    n:3,cmd:'Take out your book.',
+    e:'📖',
+    scene:'A student reaches into their bag and takes out a book',
+    hint:'Get your book ready — class is starting!',
+    dist:['Put away your book.','Open your book.','Close your book.']
+  },
+  {
+    n:4,cmd:'Put away your book.',
+    e:'🎒',
+    scene:'A student carefully places their book back into the school bag',
+    hint:'The lesson is finished — time to tidy up!',
+    dist:['Take out your book.','Open your book.','Come here, please.']
+  },
+  {
+    n:5,cmd:'Open your book.',
+    e:'📂',
+    scene:'A student sitting at a desk opens their book to a page',
+    hint:'Find the right page and open up!',
+    dist:['Close your book.','Put away your book.','Raise your hand.']
+  },
+  {
+    n:6,cmd:'Close your book.',
+    e:'📕',
+    scene:'A student closes their book and rests their hands on top',
+    hint:'Time to listen — no more reading for now!',
+    dist:['Open your book.','Take out your book.','Go back to your seat.']
+  },
+  {
+    n:7,cmd:'Come here, please.',
+    e:'🚶',
+    scene:'A teacher waves their hand to call a student over to them',
+    hint:'The teacher is calling you over politely with a smile!',
+    dist:['Go back to your seat.','Raise your hand.','Put down your hand.']
+  },
+  {
+    n:8,cmd:'Go back to your seat.',
+    e:'💺',
+    scene:'A teacher points back toward the classroom seats for the student to return',
+    hint:'After coming to the front, sit down again now.',
+    dist:['Come here, please.','Open your book.','Raise your hand.']
+  },
+];
+
+const clsBgs=[
+  ['#4facfe','#00f2fe'],['#43e97b','#38f9d7'],['#f093fb','#f5576c'],['#ffecd2','#fcb69f'],
+  ['#a18cd1','#fbc2eb'],['#fbc7d4','#9796f0'],['#f9d423','#ff4e50'],['#30cfd0','#667eea']
+];
+
+let clsQ=[],clsI=0,clsCor=0,clsWr=0,clsSt=0,clsDone=false;
+let clsMode='mc', clsHint=false;
+
+function clsSetMode(m){
+  clsMode=m;
+  document.getElementById('cls-sm1').classList.toggle('active',m==='mc');
+  document.getElementById('cls-sm2').classList.toggle('active',m==='type');
+}
+
+function clsStart(){
+  show('cls-quiz'); hide('cls-start');
+  clsQ=shuffle([...clsData]);
+  clsI=0;clsCor=0;clsWr=0;clsSt=0;clsUpdateScore();clsRender();
+}
+
+function clsRender(){
+  clsDone=false;clsHint=false;
+  const q=clsQ[clsI];
+  const [c1,c2]=clsBgs[clsI%clsBgs.length];
+  setBg(c1,c2);
+  setText('cls-pl',`Command ${clsI+1} / ${clsQ.length}`);
+  setWidth('cls-pb',clsI/clsQ.length*100);
+  setText('cls-cn','Command '+q.n);
+  setText('cls-emoji',q.e);
+  setText('cls-desc',q.scene);
+  document.getElementById('cls-qt').innerHTML=
+    clsMode==='type'?'<strong>Type</strong> what the teacher says:':'<strong>Choose</strong> what the teacher says:';
+
+  // Hint
+  const hb=document.getElementById('cls-hb');
+  hb.textContent=q.hint; hb.classList.remove('show');
+  document.getElementById('cls-htbtn').textContent='💡 Show Hint';
+
+  const grid=document.getElementById('cls-grid');
+  const typeEl=document.getElementById('cls-type');
+
+  if(clsMode==='mc'){
+    grid.style.display='grid'; typeEl.style.display='none';
+    grid.innerHTML='';
+    shuffle([q.cmd,...q.dist]).forEach(o=>{
+      const b=btn(o); b.dataset.c=o;
+      b.onclick=()=>clsCheck(o,b,q);
+      grid.appendChild(b);
+    });
+  } else {
+    grid.style.display='none'; typeEl.style.display='block';
+    const inp=document.getElementById('cls-input');
+    inp.value=''; inp.disabled=false; inp.style.borderColor='#dde1ff';
+    setTimeout(()=>inp.focus(),220);
+  }
+
+  resetFb('cls-fb'); hideNext('cls-next');
+  animCard('cls-card');
+  setTimeout(()=>speak(q.cmd,clsRate),700);
+}
+
+function clsCheck(sel,el,q){
+  if(clsDone)return; clsDone=true;
+  disableGrid('cls-grid');
+  if(sel===q.cmd){
+    clsCor++;clsSt++;
+    el.classList.add('correct');
+    showFb('cls-fb','correct','🎉 Excellent! That\'s correct!');
+    speak('Excellent! '+q.cmd+' Well done!',clsRate*.9);
+    confetti(el);
+  }else{
+    clsWr++;
+    el.classList.add('wrong');
+    revealCorrect('cls-grid',q.cmd,'c');
+    showFb('cls-fb','wrong',`😔 Not quite! The correct command is <strong>"${q.cmd}"</strong>`);
+    speak('The correct answer is: '+q.cmd,clsRate*.85);
+  }
+  clsUpdateScore(); showNext('cls-next');
+}
+
+function clsCheckType(){
+  if(clsDone)return;
+  const q=clsQ[clsI];
+  const inp=document.getElementById('cls-input');
+  const typed=inp.value.trim().toLowerCase().replace(/[.!?,]/g,'');
+  const correct=q.cmd.toLowerCase().replace(/[.!?,]/g,'');
+  inp.disabled=true; clsDone=true;
+  if(typed===correct){
+    clsCor++;clsSt++;
+    inp.style.borderColor='#22c55e';
+    showFb('cls-fb','correct','🎉 Perfect typing! Excellent!');
+    speak('Perfect! '+q.cmd,clsRate*.9);
+    confetti(inp);
+  }else{
+    clsWr++;
+    inp.style.borderColor='#ef4444';
+    showFb('cls-fb','wrong',`😔 Almost! The correct phrase is: <strong>"${q.cmd}"</strong>`);
+    speak('The correct answer is '+q.cmd,clsRate*.85);
+  }
+  clsUpdateScore(); showNext('cls-next');
+}
+
+function clsNext(){clsI++;if(clsI>=clsQ.length)clsResult();else clsRender();}
+
+function clsUpdateScore(){
+  setText('cls-sc',clsCor);setText('cls-sw',clsWr);setText('cls-ss',clsSt);
+}
+
+function clsResult(){
+  hide('cls-quiz'); show('cls-result');
+  const[t,ti,s]=grade(clsCor,clsQ.length);
+  setText('cls-rt',t);setText('cls-rtt',ti);setText('cls-rs',s);
+  setText('cls-rsc',`You got ${clsCor} out of ${clsQ.length} correct! (${Math.round(clsCor/clsQ.length*100)}%)`);
+  setBg('#11998e','#38ef7d');
+  speak(ti+'! You got '+clsCor+' out of '+clsQ.length+' correct!',0.9);
+}
+
+function clsRestart(m){
+  hide('cls-result'); clsSetMode(m); clsStart();
+}
+
+function clsSpeak(){if(clsQ.length)speak(clsQ[clsI].cmd,clsRate);}
+
+function clsToggleHint(){
+  clsHint=!clsHint;
+  document.getElementById('cls-hb').classList.toggle('show',clsHint);
+  document.getElementById('cls-htbtn').textContent=clsHint?'🙈 Hide Hint':'💡 Show Hint';
+}
+
+/* ======================================================
+   DOM HELPERS
+====================================================== */
+function show(id){const el=document.getElementById(id);if(el)el.style.display='block';}
+function hide(id){const el=document.getElementById(id);if(el)el.style.display='none';}
+function setText(id,v){const el=document.getElementById(id);if(el)el.textContent=v;}
+function setWidth(id,pct){const el=document.getElementById(id);if(el)el.style.width=pct+'%';}
+function setBg(c1,c2){
+  document.documentElement.style.setProperty('--bg1',c1);
+  document.documentElement.style.setProperty('--bg2',c2);
+}
+function btn(label){
+  const b=document.createElement('button');
+  b.className='option-btn'; b.textContent=label;
+  return b;
+}
+function disableGrid(id){document.querySelectorAll(`#${id} .option-btn`).forEach(b=>b.disabled=true);}
+function revealCorrect(gridId,correctVal,dataAttr){
+  document.querySelectorAll(`#${gridId} .option-btn`).forEach(b=>{
+    if(b.dataset[dataAttr]===correctVal)b.classList.add('reveal');
+  });
+}
+function resetFb(id){const el=document.getElementById(id);el.className='feedback';el.innerHTML='';}
+function showFb(id,type,html){
+  const el=document.getElementById(id);
+  el.className=`feedback ${type==='correct'?'correct-fb':'wrong-fb'} show`;
+  el.innerHTML=html;
+}
+function showNext(id){document.getElementById(id).classList.add('visible');}
+function hideNext(id){document.getElementById(id).classList.remove('visible');}
+function animCard(id){
+  const c=document.getElementById(id);
+  c.style.animation='none'; void c.offsetWidth; c.style.animation='slideIn .5s cubic-bezier(.4,0,.2,1)';
+}
+function grade(cor,tot){
+  const p=cor/tot;
+  if(p===1)     return['🏆','Perfect Score!','⭐⭐⭐⭐⭐'];
+  if(p>=.8)     return['🥇','Brilliant Work!','⭐⭐⭐⭐'];
+  if(p>=.6)     return['🥈','Well Done!','⭐⭐⭐'];
+  if(p>=.4)     return['🥉','Keep Practising!','⭐⭐'];
+  return        ['📚','Keep Trying!','⭐'];
+}
+</script>
 </body>
 </html>
