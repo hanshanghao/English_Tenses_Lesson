@@ -155,7 +155,7 @@
     .quiz-photo-wrap{width:150px;height:150px}
     .cmd-scene-emoji{font-size:3.8rem}
   }
-/* Home Button */
+  /* Home Button */
 .home-btn {
   position: fixed;
   bottom: 20px;
@@ -574,6 +574,7 @@ document.getElementById("topBtn").onclick = function(e) {
           <span style="background:rgba(17,153,142,.12);border:2px solid rgba(17,153,142,.3);border-radius:50px;padding:5px 14px;font-size:.82rem;font-weight:800;color:#1a6b55">🍰 Food</span>
           <span style="background:rgba(17,153,142,.12);border:2px solid rgba(17,153,142,.3);border-radius:50px;padding:5px 14px;font-size:.82rem;font-weight:800;color:#1a6b55">🕐 Time</span>
           <span style="background:rgba(17,153,142,.12);border:2px solid rgba(17,153,142,.3);border-radius:50px;padding:5px 14px;font-size:.82rem;font-weight:800;color:#1a6b55">💬 Sentences</span>
+          <span style="background:rgba(17,153,142,.12);border:2px solid rgba(17,153,142,.3);border-radius:50px;padding:5px 14px;font-size:.82rem;font-weight:800;color:#1a6b55">🏫 Classroom</span>
         </div>
         <div class="mode-toggle" style="margin-bottom:20px">
           <button class="mode-btn active" id="match-sm1" onclick="matchSetCat('all')">🌟 All</button>
@@ -581,6 +582,7 @@ document.getElementById("topBtn").onclick = function(e) {
           <button class="mode-btn" id="match-sm3" onclick="matchSetCat('food')">🍰 Food</button>
           <button class="mode-btn" id="match-sm4" onclick="matchSetCat('time')">🕐 Time</button>
           <button class="mode-btn" id="match-sm5" onclick="matchSetCat('sentences')">💬 Sentences</button>
+          <button class="mode-btn" id="match-sm6" onclick="matchSetCat('classroom')">🏫 Classroom</button>
         </div>
         <button class="start-btn" style="background:linear-gradient(135deg,#11998e,#38ef7d);color:#fff" onclick="matchStart()">▶ Start Matching!</button>
       </div>
@@ -1386,6 +1388,26 @@ const MATCH_DATA = [
   {id:'st13',en:"Time to go home.",             zh:'回家時間到了。',          cat:'sentences', hint:'end of day'},
   {id:'st14',en:"Do you like cake?",            zh:'你喜歡蛋糕嗎？',          cat:'sentences', hint:'cake question'},
   {id:'st15',en:"Yes, I do.",                   zh:'是的，我喜歡。',          cat:'sentences', hint:'confirming you like it'},
+
+  // ── CLASSROOM ENGLISH (new) ──
+  {id:'ce1',  en:"Let's count.",             zh:'我們來數一數。',    cat:'classroom', hint:'counting together as a class'},
+  {id:'ce2',  en:"Let's clean up.",          zh:'我們來打掃吧。',    cat:'classroom', hint:'tidying up the room'},
+  {id:'ce3',  en:"Any questions?",           zh:'有任何問題嗎？',    cat:'classroom', hint:'teacher asking if anyone is confused'},
+  {id:'ce4',  en:"It's your turn.",          zh:'輪到你了。',        cat:'classroom', hint:'now it is your chance to go'},
+  {id:'ce5',  en:"Time for class.",          zh:'上課了。',          cat:'classroom', hint:'class is about to start'},
+  {id:'ce6',  en:"Time for lunch.",          zh:'午餐時間到了。',    cat:'classroom', hint:'lunchtime has arrived'},
+  {id:'ce7',  en:'Spell the word "bag."',    zh:'請拼出 bag。',      cat:'classroom', hint:'say each letter of the word'},
+  {id:'ce8',  en:'Write the word "bag."',    zh:'請寫出 bag。',      cat:'classroom', hint:'write the word on paper'},
+  // ── NUMBERS 21–29 (new) ──
+  {id:'n21',  en:'twenty-one',   zh:'二十一', cat:'numbers', hint:'21'},
+  {id:'n22',  en:'twenty-two',   zh:'二十二', cat:'numbers', hint:'22'},
+  {id:'n23',  en:'twenty-three', zh:'二十三', cat:'numbers', hint:'23'},
+  {id:'n24',  en:'twenty-four',  zh:'二十四', cat:'numbers', hint:'24'},
+  {id:'n25',  en:'twenty-five',  zh:'二十五', cat:'numbers', hint:'25'},
+  {id:'n26',  en:'twenty-six',   zh:'二十六', cat:'numbers', hint:'26'},
+  {id:'n27',  en:'twenty-seven', zh:'二十七', cat:'numbers', hint:'27'},
+  {id:'n28',  en:'twenty-eight', zh:'二十八', cat:'numbers', hint:'28'},
+  {id:'n29',  en:'twenty-nine',  zh:'二十九', cat:'numbers', hint:'29'},
 ];
 
 // Deduplicate by en+zh pair
@@ -1417,7 +1439,7 @@ function matchVoiceToggle(cb){
 
 function matchSetCat(cat){
   matchCat=cat;
-  ['all','numbers','food','time','sentences'].forEach((c,i)=>{
+  ['all','numbers','food','time','sentences','classroom'].forEach((c,i)=>{
     const el=document.getElementById('match-sm'+(i+1));
     if(el) el.classList.toggle('active',c===cat);
   });
@@ -1453,7 +1475,7 @@ function matchRenderRound(){
   setText('match-pairs-left',`${pairs.length} pairs to match`);
   setText('match-sc',matchTotalCor); setText('match-sw',matchTotalWr); setText('match-ss',matchTotalSt);
 
-  const catLabel={all:'🌟 All Words',numbers:'🔢 Numbers',food:'🍰 Food',time:'🕐 Time',sentences:'💬 Sentences'};
+  const catLabel={all:'🌟 All Words',numbers:'🔢 Numbers',food:'🍰 Food',time:'🕐 Time',sentences:'💬 Sentences',classroom:'🏫 Classroom English'};
   setText('match-section-title', '✨ '+catLabel[matchCat]+' — Tap a Chinese card, then its English match!');
 
   // Build zh column (fixed order)
