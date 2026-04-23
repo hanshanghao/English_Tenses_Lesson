@@ -80,6 +80,51 @@
   .tab-panel { display: none; animation: fadeIn .35s ease; }
   .tab-panel.active { display: block; }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+  /* ── AUDIO ON/OFF TOGGLE ── */
+  .ab-onoff {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(255,255,255,0.14);
+    border: 1.5px solid rgba(255,255,255,0.30);
+    border-radius: 50px;
+    padding: 6px 12px 6px 9px;
+    cursor: pointer;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.78rem; font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    transition: background 0.2s, border-color 0.2s, opacity 0.2s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .ab-onoff:hover { background: rgba(255,255,255,0.22); }
+  .ab-onoff.audio-off {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.45);
+  }
+  .ab-onoff-icon { font-size: 1rem; line-height: 1; transition: filter 0.2s; }
+  .ab-onoff.audio-off .ab-onoff-icon { filter: grayscale(1); }
+  .ab-onoff-label {
+    min-width: 22px; text-align: left;
+    color: #4ade80; transition: color 0.2s;
+  }
+  .ab-onoff.audio-off .ab-onoff-label { color: rgba(255,255,255,0.40); }
+  /* Sliding pill track */
+  .ab-onoff-track {
+    position: relative; width: 38px; height: 21px;
+    background: #4ade80; border-radius: 50px;
+    flex-shrink: 0; transition: background 0.25s;
+  }
+  .ab-onoff.audio-off .ab-onoff-track { background: #6b7280; }
+  .ab-onoff-thumb {
+    position: absolute; top: 2.5px; left: 2.5px;
+    width: 16px; height: 16px; border-radius: 50%;
+    background: white;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    transition: left 0.25s cubic-bezier(.34,1.56,.64,1);
+  }
+  .ab-onoff.audio-off .ab-onoff-thumb { left: 19.5px; }
+
   .audio-bar {
     background: linear-gradient(135deg, var(--navy), #2d4a7a);
     border-radius: var(--radius); padding: 16px 22px;
@@ -588,6 +633,7 @@
     .vocab-audio-bar { gap:10px; }
     .vab-group { gap:6px; }
   }
+
 /* Home Button */
 .home-btn {
   position: fixed;
@@ -690,6 +736,14 @@ document.getElementById("topBtn").onclick = function(e) {
 <div class="tab-panel active" id="panel-home">
   <div class="audio-bar">
     <span class="ab-label">🔊 Audio Reader</span>
+
+    <!-- ── ON / OFF TOGGLE ── -->
+    <button class="ab-onoff" id="audioOnOffBtn" onclick="toggleAudioOnOff()" title="Turn audio pronunciation on or off">
+      <span class="ab-onoff-icon">🔊</span>
+      <span class="ab-onoff-label" id="audioOnOffLabel">ON</span>
+      <span class="ab-onoff-track"><span class="ab-onoff-thumb"></span></span>
+    </button>
+
     <button class="play-all-btn" id="playAllBtn" onclick="startFullAudio()">▶ Play All</button>
     <button class="stop-btn" onclick="stopAudio()">⏹ Stop</button>
     <div class="speed-control">Speed:
@@ -1218,6 +1272,13 @@ function getBritishVoice() {
 }
 
 function speakText(text, onEnd) {
+  // ── Respect the ON/OFF toggle ──
+  if (!audioEnabled) {
+    const np = document.getElementById('nowPlaying');
+    if (np) np.textContent = '🔇 Audio is OFF';
+    if (onEnd) onEnd();
+    return;
+  }
   synth.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.rate = currentRate; u.pitch = 1.05; u.volume = 1; u.lang = 'en-GB';
@@ -1259,6 +1320,36 @@ function speakFamilyCard(el, word, definition, example) {
   u2.onend = () => { setTimeout(() => window.speechSynthesis.speak(u3), 400); };
   
   window.speechSynthesis.speak(u1);
+}
+
+// ── AUDIO ON/OFF TOGGLE ──
+let audioEnabled = true;
+
+function toggleAudioOnOff() {
+  audioEnabled = !audioEnabled;
+  const btn   = document.getElementById('audioOnOffBtn');
+  const label = document.getElementById('audioOnOffLabel');
+
+  if (audioEnabled) {
+    btn.classList.remove('audio-off');
+    label.textContent = 'ON';
+    btn.title = 'Audio is ON — click to turn off';
+  } else {
+    btn.classList.add('audio-off');
+    label.textContent = 'OFF';
+    btn.title = 'Audio is OFF — click to turn on';
+    // Stop any current speech immediately
+    if (synth) synth.cancel();
+    const np = document.getElementById('nowPlaying');
+    if (np) np.textContent = 'Audio OFF';
+  }
+}
+
+// Patch the core speak wrapper to respect the toggle
+const _origSpeak = window.speakText || null;
+function guardedSpeak(text, onEnd) {
+  if (!audioEnabled) { if (onEnd) onEnd(); return; }
+  if (_origSpeak) { _origSpeak(text, onEnd); }
 }
 
 function stopAudio() {
