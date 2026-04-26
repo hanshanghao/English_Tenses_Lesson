@@ -8,14 +8,51 @@
 <style>
   :root { --bg1:#ff9a9e; --bg2:#fecfef; --card:rgba(255,255,255,0.93); --shadow:0 8px 32px rgba(0,0,0,0.18); --radius:24px; }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Nunito',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;background:linear-gradient(135deg,var(--bg1),var(--bg2));transition:background 1.2s ease;padding:0 16px 52px;overflow-x:hidden}
+
+  /* ── PULSING RAINBOW BACKGROUND ── */
+  @keyframes bgPulse{
+    0%   { background-position: 0% 50% }
+    50%  { background-position: 100% 50% }
+    100% { background-position: 0% 50% }
+  }
+  body{
+    font-family:'Nunito',sans-serif;
+    min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;
+    background: linear-gradient(135deg,
+      #ff9a9e, #fecfef, #ffecd2, #fcb69f,
+      #a1c4fd, #c2e9fb, #d4fc79, #96e6a1,
+      #f6d365, #fda085, #f093fb, #f5576c,
+      #4facfe, #00f2fe, #43e97b, #38f9d7,
+      #fa709a, #fee140, #a18cd1, #fbc2eb,
+      #30cfd0, #667eea, #f7971e, #ffd200,
+      #ff9a9e, #fecfef
+    );
+    background-size: 600% 600%;
+    animation: bgPulse 40s ease infinite;
+    transition: none;
+    padding:0 16px 52px;
+    overflow-x:hidden;
+  }
+
+  /* ── FLOATING COLOURED SHAPES ── */
   .bg-shapes{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-  .shape{position:absolute;border-radius:50%;opacity:.12;animation:floatShape 12s ease-in-out infinite}
-  .shape:nth-child(1){width:220px;height:220px;background:#fff;top:-60px;left:-60px}
-  .shape:nth-child(2){width:160px;height:160px;background:#fff;top:40%;right:-40px;animation-delay:3s}
-  .shape:nth-child(3){width:100px;height:100px;background:#fff;bottom:10%;left:20%;animation-delay:6s}
-  .shape:nth-child(4){width:80px;height:80px;background:#fff;bottom:30%;right:25%;animation-delay:9s}
-  @keyframes floatShape{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-28px) scale(1.08)}}
+  .shape{position:absolute;border-radius:50%;animation:floatShape 10s ease-in-out infinite;mix-blend-mode:screen;filter:blur(2px)}
+  .shape:nth-child(1){width:280px;height:280px;background:radial-gradient(circle,rgba(255,182,255,.55),rgba(255,100,180,.18));top:-80px;left:-80px;animation-duration:11s;animation-delay:0s}
+  .shape:nth-child(2){width:220px;height:220px;background:radial-gradient(circle,rgba(100,200,255,.55),rgba(50,100,255,.18));top:35%;right:-60px;animation-duration:13s;animation-delay:2s}
+  .shape:nth-child(3){width:160px;height:160px;background:radial-gradient(circle,rgba(160,255,120,.55),rgba(60,200,80,.18));bottom:8%;left:15%;animation-duration:9s;animation-delay:5s}
+  .shape:nth-child(4){width:120px;height:120px;background:radial-gradient(circle,rgba(255,230,80,.6),rgba(255,160,30,.2));bottom:25%;right:20%;animation-duration:14s;animation-delay:7s}
+  .shape:nth-child(5){width:180px;height:180px;background:radial-gradient(circle,rgba(255,120,120,.5),rgba(255,60,100,.15));top:20%;left:40%;animation-duration:12s;animation-delay:1s}
+  .shape:nth-child(6){width:100px;height:100px;background:radial-gradient(circle,rgba(180,120,255,.55),rgba(120,60,255,.2));top:60%;left:5%;animation-duration:10s;animation-delay:4s}
+  .shape:nth-child(7){width:140px;height:140px;background:radial-gradient(circle,rgba(80,230,200,.5),rgba(20,180,160,.18));top:10%;right:30%;animation-duration:15s;animation-delay:6s}
+  .shape:nth-child(8){width:90px;height:90px;background:radial-gradient(circle,rgba(255,200,100,.6),rgba(255,140,0,.2));bottom:40%;left:55%;animation-duration:8s;animation-delay:3s}
+  @keyframes floatShape{
+    0%  {transform:translateY(0)   translateX(0)   scale(1)   rotate(0deg)}
+    25% {transform:translateY(-22px) translateX(12px) scale(1.06) rotate(5deg)}
+    50% {transform:translateY(-38px) translateX(-8px) scale(1.12) rotate(-3deg)}
+    75% {transform:translateY(-18px) translateX(18px) scale(1.04) rotate(7deg)}
+    100%{transform:translateY(0)   translateX(0)   scale(1)   rotate(0deg)}
+  }
   .container{position:relative;z-index:1;width:100%;max-width:830px}
 
   /* ── SITE HEADER ── */
@@ -233,6 +270,8 @@ document.getElementById("topBtn").onclick = function(e) {
 <body>
 
 <div class="bg-shapes">
+  <div class="shape"></div><div class="shape"></div>
+  <div class="shape"></div><div class="shape"></div>
   <div class="shape"></div><div class="shape"></div>
   <div class="shape"></div><div class="shape"></div>
 </div>
@@ -633,8 +672,7 @@ function switchTab(id,btn){
     'tab-match':['#11998e','#38ef7d']
   };
   const [c1,c2]=bgs[id]||['#ff9a9e','#fecfef'];
-  document.documentElement.style.setProperty('--bg1',c1);
-  document.documentElement.style.setProperty('--bg2',c2);
+  setBg(c1,c2);
 }
 
 function confetti(fromEl){
@@ -1003,9 +1041,20 @@ function show(id){const el=document.getElementById(id);if(el)el.style.display='b
 function hide(id){const el=document.getElementById(id);if(el)el.style.display='none';}
 function setText(id,v){const el=document.getElementById(id);if(el)el.textContent=v;}
 function setWidth(id,pct){const el=document.getElementById(id);if(el)el.style.width=pct+'%';}
+// setBg: tints the bg-overlay element instead of stopping the pulse animation
 function setBg(c1,c2){
-  document.documentElement.style.setProperty('--bg1',c1);
-  document.documentElement.style.setProperty('--bg2',c2);
+  let ov = document.getElementById('bg-tint-overlay');
+  if(!ov){
+    ov = document.createElement('div');
+    ov.id = 'bg-tint-overlay';
+    ov.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:0;transition:opacity 1.4s ease,background 1.4s ease;opacity:0';
+    document.body.insertBefore(ov, document.body.firstChild);
+  }
+  ov.style.background = `linear-gradient(135deg,${c1}55,${c2}55)`;
+  ov.style.opacity = '1';
+  // Fade overlay back out after 2.5s so the rainbow pulse shows through again
+  clearTimeout(ov._fadeTimer);
+  ov._fadeTimer = setTimeout(()=>{ ov.style.opacity='0'; }, 2500);
 }
 function btn(label){
   const b=document.createElement('button');
