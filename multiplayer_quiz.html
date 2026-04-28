@@ -750,7 +750,12 @@ function azRender(){
   });
   resetFb('az-fb'); hideNext('az-next');
   animCard('az-card');
-  setTimeout(()=>{ if(azVoiceOn) speak(q.w,azRate); },650);
+  const azPhotoWrap=document.querySelector('#az-card .quiz-photo-wrap');
+  if(azPhotoWrap){
+    azPhotoWrap.style.cursor='pointer';
+    azPhotoWrap.title='Click to hear the word';
+    azPhotoWrap.onclick=azSpeak;
+  }
 }
 
 function azCheck(sel,el,q){
@@ -760,7 +765,7 @@ function azCheck(sel,el,q){
     azCor++;azSt++;
     el.classList.add('correct');
     showFb('az-fb','correct','🎉 Fantastic! That\'s correct!');
-    if(azVoiceOn) speak('Fantastic! '+q.w+'! Well done!',azRate*.9);
+    if(azVoiceOn) speak('Fantastic! Well done!',azRate*.9);
     confetti(el);
   }else{
     azWr++;
@@ -954,7 +959,6 @@ function clsRender(){
 
   resetFb('cls-fb'); hideNext('cls-next');
   animCard('cls-card');
-  setTimeout(()=>{ if(clsVoiceOn) speak(q.cmd,clsRate); },700);
 }
 
 function clsCheck(sel,el,q){
@@ -964,7 +968,7 @@ function clsCheck(sel,el,q){
     clsCor++;clsSt++;
     el.classList.add('correct');
     showFb('cls-fb','correct','🎉 Excellent! That\'s correct!');
-    if(clsVoiceOn) speak('Excellent! '+q.cmd+' Well done!',clsRate*.9);
+    if(clsVoiceOn) speak('Excellent! Well done!',clsRate*.9);
     confetti(el);
   }else{
     clsWr++;
@@ -987,7 +991,7 @@ function clsCheckType(){
     clsCor++;clsSt++;
     inp.style.borderColor='#22c55e';
     showFb('cls-fb','correct','🎉 Perfect typing! Excellent!');
-    if(clsVoiceOn) speak('Perfect! '+q.cmd,clsRate*.9);
+    if(clsVoiceOn) speak('Perfect! Well done!',clsRate*.9);
     confetti(inp);
   }else{
     clsWr++;
@@ -1247,7 +1251,12 @@ function vqRender(){
 
   resetFb('vq-fb'); hideNext('vq-next');
   animCard('vq-card');
-  setTimeout(()=>{ if(vqVoiceOn) speak(q.word, vqRate); }, 600);
+  const vqPhoto=document.getElementById('vq-photo');
+  if(vqPhoto){
+    vqPhoto.style.cursor='pointer';
+    vqPhoto.title='Click to hear the word';
+    vqPhoto.onclick=vqSpeak;
+  }
 }
 
 function vqCheck(sel,el,q){
@@ -1257,7 +1266,7 @@ function vqCheck(sel,el,q){
     vqCor++; vqSt++;
     el.classList.add('correct');
     showFb('vq-fb','correct','🎉 Excellent! That\'s correct!');
-    if(vqVoiceOn) speak('Excellent! '+q.word+'! Well done!', vqRate*.9);
+    if(vqVoiceOn) speak('Excellent! Well done!', vqRate*.9);
     confetti(el);
   } else {
     vqWr++;
@@ -1531,7 +1540,7 @@ function matchAttempt(){
     zh.card.onclick=null; en.card.onclick=null;
     // Flying confetti
     confetti(zh.card);
-    if(matchVoiceOn) speak(zh.pair.en+'. Correct!', 0.8);
+    if(matchVoiceOn) speak('Great match! Well done!', 0.8);
     showFb('match-fb','correct','🎉 Correct! Great match!');
     setTimeout(()=>resetFb('match-fb'),1200);
     // Check if all matched
