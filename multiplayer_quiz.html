@@ -593,6 +593,7 @@ document.getElementById("topBtn").onclick = function(e) {
       </div>
 
       <div class="feedback" id="match-fb"></div>
+      <button class="next-btn" id="match-next" onclick="matchNextRound()">Next Round ➡</button>
     </div>
 
     <!-- RESULT -->
@@ -1185,7 +1186,7 @@ function vqVoiceToggle(cb){
 
 function vqSetCat(cat){
   vqCat=cat;
-  ['all','rooms','actions','food'].forEach((c,i)=>{
+  ['all','rooms','actions','food','animals','phonics'].forEach((c,i)=>{
     document.getElementById('vq-sm'+(i+1)).classList.toggle('active',c===cat);
   });
 }
@@ -1197,7 +1198,7 @@ function vqStart(){
   vqI=0; vqCor=0; vqWr=0; vqSt=0;
   vqUpdateScore(); vqRender();
   // cat badge
-  const labels={'all':'🌟 All Words','rooms':'🏠 Rooms','actions':'🏃 Actions','food':'🍔 Food'};
+  const labels={'all':'🌟 All Words','rooms':'🏠 Rooms','actions':'🏃 Actions','food':'🍔 Food','animals':'🦁 Animals','phonics':'🔤 Phonics'};
   setText('vq-cat-badge', labels[vqCat]||'🌟 All Words');
 }
 
@@ -1217,10 +1218,24 @@ function vqRender(){
     frame.innerHTML=`<div class="vq-emoji">${q.emoji}</div>`;
   }
 
-  // Build options: correct + 3 distractors from same or mixed categories
-  const pool = VQ_DATA.filter(d=>d.id!==q.id);
-  const distract = shuffle(pool).slice(0,3).map(d=>d.word);
-  const opts = shuffle([q.word, ...distract]);
+  // Build options: correct + 3 distractors from the same category whenever possible
+  let opts;
+  if(q.id==='phone'){
+    opts = shuffle([q.word, 'call', 'mobile phone', 'xylophone']);
+  } else if(q.id==='wheel'){
+    opts = shuffle([q.word, 'rim', 'car', 'xylophone']);
+  } else if(q.id==='hamburgers'){
+    opts = shuffle([q.word, 'hot dog', 'burger', 'water']);
+  } else if(q.id==='hamburger'){
+    opts = shuffle([q.word, 'tea', 'bread', 'juice']);
+  } else {
+    let pool = VQ_DATA.filter(d=>d.id!==q.id && d.cat===q.cat);
+    if(pool.length < 3){
+      pool = VQ_DATA.filter(d=>d.id!==q.id);
+    }
+    const distract = shuffle(pool).slice(0,3).map(d=>d.word);
+    opts = shuffle([q.word, ...distract]);
+  }
 
   const grid=document.getElementById('vq-grid');
   grid.innerHTML='';
@@ -1463,6 +1478,9 @@ function matchRenderRound(){
     zhCol.appendChild(zcard);
   });
 
+  const nextBtn=document.getElementById('match-next');
+  if(nextBtn) nextBtn.classList.remove('visible');
+
   // English column shuffled
   shuffle([...pairs]).forEach(p=>{
     const ecard=makeMatchCard(p.en,'en',p.id,()=>matchSelectEn(p.id, ecard, p));
@@ -1521,7 +1539,11 @@ function matchAttempt(){
     setText('match-pairs-left',`${remaining} pair${remaining!==1?'s':''} to match`);
     setText('match-sc',matchTotalCor); setText('match-ss',matchTotalSt);
     if(remaining===0){
-      setTimeout(()=>{matchRoundIdx++;matchRenderRound();},900);
+      const nextBtn=document.getElementById('match-next');
+      if(nextBtn){
+        nextBtn.textContent = matchRoundIdx+1 < matchRounds.length ? 'Next Round ➡' : 'See Results';
+        nextBtn.classList.add('visible');
+      }
     }
   } else {
     // ❌ Wrong
@@ -1556,6 +1578,11 @@ function matchHint(){
 function matchSpeak(){
   if(!matchCurrentPair||!matchVoiceOn) return;
   speak(matchCurrentPair.en, 0.75);
+}
+
+function matchNextRound(){
+  matchRoundIdx++;
+  matchRenderRound();
 }
 
 function matchResult(){
