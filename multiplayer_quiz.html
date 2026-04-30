@@ -288,6 +288,7 @@ document.getElementById("topBtn").onclick = function(e) {
     <button class="tab-btn" onclick="switchTab('tab-cls',this)">🏫 Daily Classroom English</button>
     <button class="tab-btn" onclick="switchTab('tab-vq',this)">📚 Vocabulary Quiz</button>
     <button class="tab-btn" onclick="switchTab('tab-match',this)">🎯 Choose the Correct Match</button>
+    <button class="tab-btn" onclick="switchTab('tab-mes',this)">✍️ Make Easy Sentences</button>
   </div>
 
   <!-- ============================================================
@@ -610,6 +611,83 @@ document.getElementById("topBtn").onclick = function(e) {
 
   </div><!-- /tab-match -->
 
+  <!-- ============================================================
+       TAB 5 : MAKE EASY SENTENCES
+  ============================================================ -->
+  <div class="tab-panel" id="tab-mes">
+
+    <!-- START SCREEN -->
+    <div class="start-screen" id="mes-start">
+      <div class="screen-card">
+        <div style="font-size:3.6rem;margin-bottom:12px">✍️</div>
+        <h2 style="color:#6c63ff">Make Easy Sentences!</h2>
+        <p>🎯 Use: <strong>a, an, is, are, am</strong> + <strong>-ing words</strong><br>📝 Click words to complete each sentence<br>🔊 Hear words in British English!</p>
+        <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:16px 0 22px" id="mes-preview-strip"></div>
+        <div class="mode-toggle" style="margin-bottom:20px">
+          <button class="mode-btn active" id="mes-sm1" onclick="mesSetCat('all')">🌟 All</button>
+          <button class="mode-btn" id="mes-sm2" onclick="mesSetCat('rooms')">🏠 Rooms</button>
+          <button class="mode-btn" id="mes-sm3" onclick="mesSetCat('actions')">🏃 Actions</button>
+          <button class="mode-btn" id="mes-sm4" onclick="mesSetCat('food')">🍔 Food</button>
+          <button class="mode-btn" id="mes-sm5" onclick="mesSetCat('animals')">🦁 Animals</button>
+        </div>
+        <button class="start-btn" style="background:linear-gradient(135deg,#6c63ff,#a18cd1);color:#fff" onclick="mesStart()">▶ Start Making Sentences!</button>
+      </div>
+    </div>
+
+    <!-- QUIZ SECTION -->
+    <div id="mes-quiz" style="display:none">
+      <div class="progress-label" id="mes-pl">Sentence 1 / 10</div>
+      <div class="progress-wrap"><div class="progress-bar" id="mes-pb" style="width:0%"></div></div>
+      <div class="score-strip">
+        <div class="score-badge">✅ Correct <span class="num" id="mes-sc">0</span></div>
+        <div class="score-badge">❌ Wrong <span class="num" id="mes-sw">0</span></div>
+        <div class="score-badge">⭐ Completed <span class="num" id="mes-ss">0</span></div>
+      </div>
+
+      <!-- Voice panel -->
+      <div class="voice-panel">
+        <label>🔊 Pronunciation:</label>
+        <label class="voice-toggle">
+          <input type="checkbox" id="mes-voiceOn" checked onchange="mesVoiceToggle(this)">
+          <span class="toggle-track"></span>
+          <span class="toggle-label" id="mes-voiceLabel">ON</span>
+        </label>
+        <button class="listen-btn-top" id="mes-listenBtn" onclick="mesSpeak()">🎧 Hear Sentence</button>
+      </div>
+
+      <!-- Sentence card -->
+      <div class="quiz-card" id="mes-card">
+        <div style="text-align:center;margin-bottom:16px">
+          <span class="letter-badge" id="mes-cat-badge">🌟 Mixed</span>
+        </div>
+
+        <div id="mes-sentence-display" style="background:rgba(108,99,255,.08);border-radius:16px;padding:16px 14px;margin-bottom:16px;min-height:60px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;border:2px dashed rgba(108,99,255,.3);font-size:1rem;font-weight:700;color:#555;line-height:1.8">
+        </div>
+
+        <div style="text-align:center;margin-bottom:16px;font-size:.9rem;color:#888">
+          📚 <strong>Word Bank:</strong> Click the words to complete the sentence
+        </div>
+
+        <div class="options-grid" id="mes-bank" style="grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:18px"></div>
+
+        <div class="feedback" id="mes-fb"></div>
+        <button class="next-btn" id="mes-next" onclick="mesNext()">Next Sentence ➡</button>
+      </div>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div class="result-screen" id="mes-result">
+      <div class="screen-card">
+        <div class="result-trophy" id="mes-rt">🏆</div>
+        <div class="result-title" id="mes-rtt">Fantastic!</div>
+        <div class="stars-row" id="mes-rs">⭐⭐⭐</div>
+        <div class="result-score-txt" id="mes-rsc"></div>
+        <button class="restart-btn" style="background:linear-gradient(135deg,#6c63ff,#a18cd1)" onclick="mesRestart()">🔄 Make More Sentences</button>
+      </div>
+    </div>
+
+  </div><!-- /tab-mes -->
+
 </div><!-- /container -->
 
 <script>
@@ -750,12 +828,7 @@ function azRender(){
   });
   resetFb('az-fb'); hideNext('az-next');
   animCard('az-card');
-  const azPhotoWrap=document.querySelector('#az-card .quiz-photo-wrap');
-  if(azPhotoWrap){
-    azPhotoWrap.style.cursor='pointer';
-    azPhotoWrap.title='Click to hear the word';
-    azPhotoWrap.onclick=azSpeak;
-  }
+  setTimeout(()=>{ if(azVoiceOn) speak(q.w,azRate); },650);
 }
 
 function azCheck(sel,el,q){
@@ -765,7 +838,7 @@ function azCheck(sel,el,q){
     azCor++;azSt++;
     el.classList.add('correct');
     showFb('az-fb','correct','🎉 Fantastic! That\'s correct!');
-    if(azVoiceOn) speak('Fantastic! Well done!',azRate*.9);
+    if(azVoiceOn) speak('Fantastic! '+q.w+'! Well done!',azRate*.9);
     confetti(el);
   }else{
     azWr++;
@@ -959,6 +1032,7 @@ function clsRender(){
 
   resetFb('cls-fb'); hideNext('cls-next');
   animCard('cls-card');
+  setTimeout(()=>{ if(clsVoiceOn) speak(q.cmd,clsRate); },700);
 }
 
 function clsCheck(sel,el,q){
@@ -968,7 +1042,7 @@ function clsCheck(sel,el,q){
     clsCor++;clsSt++;
     el.classList.add('correct');
     showFb('cls-fb','correct','🎉 Excellent! That\'s correct!');
-    if(clsVoiceOn) speak('Excellent! Well done!',clsRate*.9);
+    if(clsVoiceOn) speak('Excellent! '+q.cmd+' Well done!',clsRate*.9);
     confetti(el);
   }else{
     clsWr++;
@@ -991,7 +1065,7 @@ function clsCheckType(){
     clsCor++;clsSt++;
     inp.style.borderColor='#22c55e';
     showFb('cls-fb','correct','🎉 Perfect typing! Excellent!');
-    if(clsVoiceOn) speak('Perfect! Well done!',clsRate*.9);
+    if(clsVoiceOn) speak('Perfect! '+q.cmd,clsRate*.9);
     confetti(inp);
   }else{
     clsWr++;
@@ -1251,12 +1325,7 @@ function vqRender(){
 
   resetFb('vq-fb'); hideNext('vq-next');
   animCard('vq-card');
-  const vqPhoto=document.getElementById('vq-photo');
-  if(vqPhoto){
-    vqPhoto.style.cursor='pointer';
-    vqPhoto.title='Click to hear the word';
-    vqPhoto.onclick=vqSpeak;
-  }
+  setTimeout(()=>{ if(vqVoiceOn) speak(q.word, vqRate); }, 600);
 }
 
 function vqCheck(sel,el,q){
@@ -1266,7 +1335,7 @@ function vqCheck(sel,el,q){
     vqCor++; vqSt++;
     el.classList.add('correct');
     showFb('vq-fb','correct','🎉 Excellent! That\'s correct!');
-    if(vqVoiceOn) speak('Excellent! Well done!', vqRate*.9);
+    if(vqVoiceOn) speak('Excellent! '+q.word+'! Well done!', vqRate*.9);
     confetti(el);
   } else {
     vqWr++;
@@ -1540,7 +1609,7 @@ function matchAttempt(){
     zh.card.onclick=null; en.card.onclick=null;
     // Flying confetti
     confetti(zh.card);
-    if(matchVoiceOn) speak('Great match! Well done!', 0.8);
+    if(matchVoiceOn) speak(zh.pair.en+'. Correct!', 0.8);
     showFb('match-fb','correct','🎉 Correct! Great match!');
     setTimeout(()=>resetFb('match-fb'),1200);
     // Check if all matched
@@ -1630,6 +1699,189 @@ function matchResult(){
 }
 
 function matchRestart(){ hide('match-result'); show('match-start'); }
+
+/* ======================================================
+   MAKE EASY SENTENCES (TAB 5)
+====================================================== */
+
+// Sentence templates using present continuous and articles
+const MES_TEMPLATES = [
+  // Rooms category
+  {cat:'rooms',
+   sentences: [
+     {template: 'This is ____ bathroom.', blanks: ['a'], options: ['a','an','the'], correct: 'a'},
+     {template: 'I am sleeping in ____ bedroom.', blanks: ['a'], options: ['a','an','the'], correct: 'a'},
+     {template: 'They are cooking in ____ kitchen.', blanks: ['the'], options: ['a','an','the'], correct: 'the'},
+     {template: 'We ____ eating in the dining room.', blanks: ['are'], options: ['am','is','are'], correct: 'are'},
+     {template: 'He ____ reading in the living room.', blanks: ['is'], options: ['am','is','are'], correct: 'is'},
+   ]
+  },
+  // Actions category
+  {cat:'actions',
+   sentences: [
+     {template: 'I ____ sleeping.', blanks: ['am'], options: ['am','is','are'], correct: 'am'},
+     {template: 'She ____ reading a book.', blanks: ['is'], options: ['am','is','are'], correct: 'is'},
+     {template: 'They ____ eating lunch.', blanks: ['are'], options: ['am','is','are'], correct: 'are'},
+     {template: 'He ____ writing with ____ pencil.', blanks: ['is','a'], options: ['am','is','are','a','an','the'], correct: 'is'},
+     {template: 'I ____ running fast.', blanks: ['am'], options: ['am','is','are'], correct: 'am'},
+   ]
+  },
+  // Food category
+  {cat:'food',
+   sentences: [
+     {template: 'This is ____ hamburger.', blanks: ['a'], options: ['a','an','the'], correct: 'a'},
+     {template: 'I like ____ ice cream.', blanks: ['an'], options: ['a','an','the'], correct: 'an'},
+     {template: 'They are drinking ____ milk.', blanks: ['the'], options: ['a','an','the'], correct: 'the'},
+     {template: 'He ____ eating ____ hot dog.', blanks: ['is','a'], options: ['am','is','are','a','an','the'], correct: 'is'},
+     {template: 'We ____ drinking juice.', blanks: ['are'], options: ['am','is','are'], correct: 'are'},
+   ]
+  },
+  // Animals category
+  {cat:'animals',
+   sentences: [
+     {template: 'I see ____ lion.', blanks: ['a'], options: ['a','an','the'], correct: 'a'},
+     {template: 'The zebras ____ running.', blanks: ['are'], options: ['am','is','are'], correct: 'are'},
+     {template: 'He is watching ____ monkey.', blanks: ['a'], options: ['a','an','the'], correct: 'a'},
+     {template: 'The bears ____ sleeping.', blanks: ['are'], options: ['am','is','are'], correct: 'are'},
+     {template: 'She ____ playing with ____ tiger.', blanks: ['is','a'], options: ['am','is','are','a','an','the'], correct: 'is'},
+   ]
+  }
+];
+
+let mesQ=[], mesI=0, mesCor=0, mesWr=0, mesSt=0, mesDone=false, mesCat='all', mesVoiceOn=true;
+let mesCurrent=null;
+
+function mesVoiceToggle(cb){
+  mesVoiceOn=cb.checked;
+  document.getElementById('mes-voiceLabel').textContent=mesVoiceOn?'ON':'OFF';
+  document.getElementById('mes-listenBtn').disabled=!mesVoiceOn;
+  if(!mesVoiceOn) speechSynthesis.cancel();
+}
+
+function mesSetCat(cat){
+  mesCat=cat;
+  ['all','rooms','actions','food','animals'].forEach((c,i)=>{
+    const btn=document.getElementById('mes-sm'+(i+1));
+    if(btn) btn.classList.toggle('active',c===cat);
+  });
+}
+
+function mesStart(){
+  hide('mes-start'); show('mes-quiz');
+  
+  // Generate sentence questions
+  mesQ=[];
+  const filtered = mesCat==='all' ? MES_TEMPLATES : MES_TEMPLATES.filter(t=>t.cat===mesCat);
+  
+  // Create questions from templates
+  filtered.forEach(template=>{
+    template.sentences.forEach(sentence=>{
+      mesQ.push({
+        category: template.cat,
+        template: sentence.template,
+        blanks: sentence.blanks,
+        options: sentence.options,
+        correct: sentence.correct
+      });
+    });
+  });
+  
+  mesQ = shuffle(mesQ).slice(0,10);
+  mesI=0; mesCor=0; mesWr=0; mesSt=0;
+  mesUpdateScore(); mesRender();
+}
+
+function mesRender(){
+  mesDone=false;
+  mesCurrent=mesQ[mesI];
+  
+  setText('mes-pl',`Sentence ${mesI+1} / ${mesQ.length}`);
+  setWidth('mes-pb',mesI/mesQ.length*100);
+  
+  const catEmoji={'rooms':'🏠','actions':'🏃','food':'🍔','animals':'🦁','all':'🌟'};
+  const catName={'rooms':'Rooms','actions':'Actions','food':'Food','animals':'Animals','all':'All'};
+  setText('mes-cat-badge',`${catEmoji[mesCurrent.category]} ${catName[mesCurrent.category]}`);
+  
+  // Display sentence with blanks
+  let display=mesCurrent.template;
+  const blankHTML='<span style="background:#ffeb3b;color:#333;padding:2px 8px;border-radius:4px;font-weight:900;min-width:60px;display:inline-block;text-align:center;">_____</span>';
+  for(let i=0;i<mesCurrent.blanks.length;i++){
+    display=display.replace('____',blankHTML);
+  }
+  
+  document.getElementById('mes-sentence-display').innerHTML=display;
+  
+  // Create word bank buttons
+  const bank=document.getElementById('mes-bank');
+  bank.innerHTML='';
+  const allWords=shuffle([...mesCurrent.options]);
+  
+  allWords.forEach(word=>{
+    const btn=document.createElement('button');
+    btn.className='option-btn';
+    btn.textContent=word;
+    btn.dataset.word=word;
+    btn.onclick=()=>mesCheckWord(word,btn);
+    bank.appendChild(btn);
+  });
+  
+  resetFb('mes-fb'); hideNext('mes-next');
+  animCard('mes-card');
+  setTimeout(()=>{ if(mesVoiceOn) speak(mesCurrent.template.replace(/__/g,'blank'),mesRate); },650);
+}
+
+function mesCheckWord(selected,btn){
+  if(mesDone)return; mesDone=true;
+  
+  const isCorrect=selected===mesCurrent.correct;
+  
+  if(isCorrect){
+    mesCor++;mesSt++;
+    btn.classList.add('correct');
+    showFb('mes-fb','correct-fb','✓ Excellent! That\'s correct!');
+    if(mesVoiceOn) speak('Correct! '+selected,0.9);
+    confetti(btn);
+  }else{
+    mesWr++;
+    btn.classList.add('wrong');
+    showFb('mes-fb','wrong-fb',`✗ Not quite! The answer is "<strong>${mesCurrent.correct}</strong>"`);
+    if(mesVoiceOn) speak('The correct answer is '+mesCurrent.correct,0.85);
+  }
+  
+  mesUpdateScore();
+  showNext('mes-next');
+}
+
+function mesNext(){
+  mesI++;
+  if(mesI>=mesQ.length) mesResult();
+  else mesRender();
+}
+
+function mesUpdateScore(){
+  setText('mes-sc',mesCor);
+  setText('mes-sw',mesWr);
+  setText('mes-ss',mesSt);
+}
+
+function mesResult(){
+  hide('mes-quiz'); show('mes-result');
+  const[t,ti,s]=grade(mesCor,mesQ.length);
+  setText('mes-rt',t); setText('mes-rtt',ti); setText('mes-rs',s);
+  setText('mes-rsc',`You got ${mesCor} out of ${mesQ.length} sentences correct! (${Math.round(mesCor/mesQ.length*100)}%)`);
+  setBg('#6c63ff','#a18cd1');
+  if(mesVoiceOn) speak(ti+'! You got '+mesCor+' out of '+mesQ.length+' correct!',0.9);
+}
+
+function mesRestart(){ hide('mes-result'); mesStart(); }
+
+function mesSpeak(){
+  if(mesCurrent && mesVoiceOn){
+    speak(mesCurrent.template.replace(/__+/g,'blank'),mesRate);
+  }
+}
+
+let mesRate=1;
 
 </script>
 </body>
