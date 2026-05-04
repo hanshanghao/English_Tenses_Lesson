@@ -103,6 +103,8 @@
   .option-btn.wrong{background:linear-gradient(135deg,#ef4444,#f87171)!important;border-color:#dc2626!important;color:#fff!important;animation:shake .4s ease}
   .option-btn.reveal{background:linear-gradient(135deg,#22c55e,#4ade80)!important;border-color:#16a34a!important;color:#fff!important;animation:pulseReveal .6s ease}
   .option-btn:disabled{cursor:not-allowed;opacity:.72}
+  .hint-gram-blue{color:#2563eb;font-weight:900}
+  .hint-gram-yellow{color:#d97706;font-weight:900}
   @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
   @keyframes pulseReveal{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
   .feedback{min-height:50px;border-radius:14px;padding:10px 14px;font-weight:800;font-size:.94rem;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:14px;transition:all .3s;opacity:0;line-height:1.4;text-align:center}
@@ -316,11 +318,11 @@ document.getElementById("topBtn").onclick = function(e) {
       <div class="voice-panel">
         <label>🔊 Pronunciation:</label>
         <label class="voice-toggle">
-          <input type="checkbox" id="az-voiceOn" checked onchange="azVoiceToggle(this)">
+          <input type="checkbox" id="az-voiceOn" onchange="azVoiceToggle(this)">
           <span class="toggle-track"></span>
-          <span class="toggle-label" id="az-voiceLabel">ON</span>
+          <span class="toggle-label" id="az-voiceLabel">OFF</span>
         </label>
-        <button class="listen-btn-top" id="az-listenBtn" onclick="azSpeak()">🎧 Listen Again</button>
+        <button class="listen-btn-top" id="az-listenBtn" onclick="azSpeak()" disabled>🎧 Listen Again</button>
       </div>
       <div class="quiz-card" id="az-card">
         <div class="letter-badge" id="az-badge">Aa</div>
@@ -397,11 +399,11 @@ document.getElementById("topBtn").onclick = function(e) {
       <div class="voice-panel">
         <label>🔊 Pronunciation:</label>
         <label class="voice-toggle">
-          <input type="checkbox" id="cls-voiceOn" checked onchange="clsVoiceToggle(this)">
+          <input type="checkbox" id="cls-voiceOn" onchange="clsVoiceToggle(this)">
           <span class="toggle-track"></span>
-          <span class="toggle-label" id="cls-voiceLabel">ON</span>
+          <span class="toggle-label" id="cls-voiceLabel">OFF</span>
         </label>
-        <button class="listen-btn-top" id="cls-listenBtn" onclick="clsSpeak()">🎧 Listen Again</button>
+        <button class="listen-btn-top" id="cls-listenBtn" onclick="clsSpeak()" disabled>🎧 Listen Again</button>
       </div>
 
       <div class="quiz-card" id="cls-card">
@@ -486,11 +488,11 @@ document.getElementById("topBtn").onclick = function(e) {
       <div class="voice-panel">
         <label>🔊 Pronunciation:</label>
         <label class="voice-toggle">
-          <input type="checkbox" id="vq-voiceOn" checked onchange="vqVoiceToggle(this)">
+          <input type="checkbox" id="vq-voiceOn" onchange="vqVoiceToggle(this)">
           <span class="toggle-track"></span>
-          <span class="toggle-label" id="vq-voiceLabel">ON</span>
+          <span class="toggle-label" id="vq-voiceLabel">OFF</span>
         </label>
-        <button class="listen-btn-top" id="vq-listenBtn" onclick="vqSpeak()">🎧 Listen Again</button>
+        <button class="listen-btn-top" id="vq-listenBtn" onclick="vqSpeak()" disabled>🎧 Listen Again</button>
       </div>
 
       <!-- Category badge -->
@@ -571,11 +573,11 @@ document.getElementById("topBtn").onclick = function(e) {
       <div class="voice-panel">
         <label>🔊 Pronunciation:</label>
         <label class="voice-toggle">
-          <input type="checkbox" id="match-voiceOn" checked onchange="matchVoiceToggle(this)">
+          <input type="checkbox" id="match-voiceOn" onchange="matchVoiceToggle(this)">
           <span class="toggle-track"></span>
-          <span class="toggle-label" id="match-voiceLabel">ON</span>
+          <span class="toggle-label" id="match-voiceLabel">OFF</span>
         </label>
-        <button class="listen-btn-top" id="match-listenBtn" onclick="matchSpeak()">🎧 Listen</button>
+        <button class="listen-btn-top" id="match-listenBtn" onclick="matchSpeak()" disabled>🎧 Listen</button>
         <button class="match-hint-btn" onclick="matchHint()">💡 Hint</button>
       </div>
 
@@ -648,11 +650,11 @@ document.getElementById("topBtn").onclick = function(e) {
       <div class="voice-panel">
         <label>🔊 Pronunciation:</label>
         <label class="voice-toggle">
-          <input type="checkbox" id="mes-voiceOn" checked onchange="mesVoiceToggle(this)">
+          <input type="checkbox" id="mes-voiceOn" onchange="mesVoiceToggle(this)">
           <span class="toggle-track"></span>
-          <span class="toggle-label" id="mes-voiceLabel">ON</span>
+          <span class="toggle-label" id="mes-voiceLabel">OFF</span>
         </label>
-        <button class="listen-btn-top" id="mes-listenBtn" onclick="mesSpeak()">🎧 Hear Sentence</button>
+        <button class="listen-btn-top" id="mes-listenBtn" onclick="mesSpeak()" disabled>🎧 Hear Sentence</button>
       </div>
 
       <!-- Sentence card -->
@@ -663,6 +665,8 @@ document.getElementById("topBtn").onclick = function(e) {
 
         <div id="mes-sentence-display" style="background:rgba(108,99,255,.08);border-radius:16px;padding:16px 14px;margin-bottom:16px;min-height:60px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;border:2px dashed rgba(108,99,255,.3);font-size:1rem;font-weight:700;color:#555;line-height:1.8">
         </div>
+        <div style="margin:10px 0 6px;font-size:.95rem;font-weight:800;color:#3b3b5f;text-align:center">Smart Grammar Hint / 智能语法提示</div>
+        <div id="mes-article-hint" style="margin:0 0 10px;font-size:.9rem;color:#2e2e58;line-height:1.5;text-align:center;min-height:36px"></div>
 
         <div style="text-align:center;margin-bottom:16px;font-size:.9rem;color:#888">
           📚 <strong>Word Bank:</strong> Click the words to complete the sentence
@@ -694,7 +698,7 @@ document.getElementById("topBtn").onclick = function(e) {
 /* ======================================================
    SHARED
 ====================================================== */
-let voice=null, azRate=1, clsRate=1, azVoiceOn=true, clsVoiceOn=true;
+let voice=null, azRate=1, clsRate=1, azVoiceOn=false, clsVoiceOn=false;
 
 // ── Voice ON/OFF toggles ──
 function azVoiceToggle(cb){
@@ -1253,7 +1257,7 @@ const VQ_BGS=[
 ];
 
 let vqAll=[], vqQ=[], vqI=0, vqCor=0, vqWr=0, vqSt=0, vqDone=false;
-let vqVoiceOn=true, vqRate=1, vqCat='all';
+let vqVoiceOn=false, vqRate=1, vqCat='all';
 
 function vqVoiceToggle(cb){
   vqVoiceOn=cb.checked;
@@ -1495,7 +1499,7 @@ const MATCH_BGS=[
 let matchCat='all', matchPool=[], matchRounds=[], matchRoundIdx=0;
 let matchSelZh=null, matchSelEn=null;
 let matchTotalCor=0, matchTotalWr=0, matchTotalSt=0;
-let matchVoiceOn=true, matchCurrentPair=null;
+let matchVoiceOn=false, matchCurrentPair=null;
 const MATCH_PER_ROUND=4;
 
 function matchVoiceToggle(cb){
@@ -1709,11 +1713,13 @@ const MES_TEMPLATES = [
   // Rooms category
   {cat:'rooms',
    sentences: [
-     {template: 'This is ____ bathroom.', blanks: ['a'], options: ['a','an','the'], correct: 'a'},
-     {template: 'I am sleeping in ____ bedroom.', blanks: ['a'], options: ['a','an','the'], correct: 'a'},
-     {template: 'They are cooking in ____ kitchen.', blanks: ['the'], options: ['a','an','the'], correct: 'the'},
-     {template: 'We ____ eating in the dining room.', blanks: ['are'], options: ['am','is','are'], correct: 'are'},
-     {template: 'He ____ reading in the living room.', blanks: ['is'], options: ['am','is','are'], correct: 'is'},
+     {template: 'This is ____ bathroom.', blanks: ['a'], options: ['a','an','the'], correct: 'a', note: 'Use "a" because we are naming one bathroom for the first time. Use "the" when talking about a specific bathroom already known.'},
+     {template: 'I am sleeping in ____ bedroom.', blanks: ['a'], options: ['a','an','the'], correct: 'a', note: 'Use "a" because this is one bedroom in general. Use "the" when it is the specific bedroom we already mentioned.'},
+     {template: 'They are cooking in ____ kitchen.', blanks: ['the'], options: ['a','an','the'], correct: 'the', note: 'Use "the" because this kitchen is the specific room everyone knows. Use "a" for any kitchen in general.'},
+     {template: 'We are eating in ____ dining room.', blanks: ['the'], options: ['a','an','the'], correct: 'the', note: 'Use "the" because it is the particular dining room in the house.'},
+     {template: 'He is reading in ____ living room.', blanks: ['the'], options: ['a','an','the'], correct: 'the', note: 'Use "the" because this is the living room we are talking about.'},
+     {template: 'I see ____ bedroom window.', blanks: ['a'], options: ['a','an','the'], correct: 'a', note: 'Use "a" because it is one bedroom window and not a specific one yet.'},
+     {template: 'We are going to ____ kitchen.', blanks: ['the'], options: ['a','an','the'], correct: 'the', note: 'Use "the" when referring to the home kitchen everyone knows.'},
    ]
   },
   // Actions category
@@ -1722,33 +1728,41 @@ const MES_TEMPLATES = [
      {template: 'I ____ sleeping.', blanks: ['am'], options: ['am','is','are'], correct: 'am'},
      {template: 'She ____ reading a book.', blanks: ['is'], options: ['am','is','are'], correct: 'is'},
      {template: 'They ____ eating lunch.', blanks: ['are'], options: ['am','is','are'], correct: 'are'},
-     {template: 'He ____ writing with ____ pencil.', blanks: ['is','a'], options: ['am','is','are','a','an','the'], correct: 'is'},
+     {template: 'He ____ writing now.', blanks: ['is'], options: ['am','is','are'], correct: 'is'},
      {template: 'I ____ running fast.', blanks: ['am'], options: ['am','is','are'], correct: 'am'},
+     {template: 'We ____ washing the dishes.', blanks: ['are'], options: ['am','is','are'], correct: 'are'},
+     {template: 'She ____ watching TV.', blanks: ['is'], options: ['am','is','are'], correct: 'is'},
    ]
   },
   // Food category
   {cat:'food',
    sentences: [
-     {template: 'This is ____ hamburger.', blanks: ['a'], options: ['a','an','the'], correct: 'a'},
-     {template: 'I like ____ ice cream.', blanks: ['an'], options: ['a','an','the'], correct: 'an'},
-     {template: 'They are drinking ____ milk.', blanks: ['the'], options: ['a','an','the'], correct: 'the'},
-     {template: 'He ____ eating ____ hot dog.', blanks: ['is','a'], options: ['am','is','are','a','an','the'], correct: 'is'},
+     {template: 'This is ____ hamburger.', blanks: ['a'], options: ['a','an','the'], correct: 'a', note: 'Use "a" because hamburger is one item and we are not talking about a specific one yet.'},
+     {template: 'I like ____ ice cream.', blanks: ['an'], options: ['a','an','the'], correct: 'an', note: 'Use "an" before ice cream because it starts with a vowel sound.'},
+     {template: 'I am eating ____ apple.', blanks: ['an'], options: ['a','an','the'], correct: 'an', note: 'Use "an" before apple because it starts with a vowel sound.'},
+     {template: 'She is drinking ____ orange juice.', blanks: ['the'], options: ['a','an','the'], correct: 'the', note: 'Use "the" because this orange juice is already known in this context.'},
+     {template: 'They are drinking ____ milk.', blanks: ['the'], options: ['a','an','the'], correct: 'the', note: 'Use "the" when referring to the milk everyone already knows about.'},
+     {template: 'He is eating ____ hot dog.', blanks: ['a'], options: ['a','an','the'], correct: 'a', note: 'Use "a" because it is any single hot dog, not a specific one.'},
      {template: 'We ____ drinking juice.', blanks: ['are'], options: ['am','is','are'], correct: 'are'},
+     {template: 'She is eating ____ sandwich.', blanks: ['a'], options: ['a','an','the'], correct: 'a', note: 'Use "a" when mentioning one sandwich in general.'},
+     {template: 'I bought ____ ice cream.', blanks: ['an'], options: ['a','an','the'], correct: 'an', note: 'Use "an" before ice cream because it begins with a vowel sound.'},
    ]
   },
   // Animals category
   {cat:'animals',
    sentences: [
-     {template: 'I see ____ lion.', blanks: ['a'], options: ['a','an','the'], correct: 'a'},
+     {template: 'I see ____ lion.', blanks: ['a'], options: ['a','an','the'], correct: 'a', note: 'Use "a" when introducing one lion for the first time.'},
      {template: 'The zebras ____ running.', blanks: ['are'], options: ['am','is','are'], correct: 'are'},
-     {template: 'He is watching ____ monkey.', blanks: ['a'], options: ['a','an','the'], correct: 'a'},
+     {template: 'He is watching ____ monkey.', blanks: ['a'], options: ['a','an','the'], correct: 'a', note: 'Use "a" because it is one monkey, not one specific monkey already known.'},
      {template: 'The bears ____ sleeping.', blanks: ['are'], options: ['am','is','are'], correct: 'are'},
-     {template: 'She ____ playing with ____ tiger.', blanks: ['is','a'], options: ['am','is','are','a','an','the'], correct: 'is'},
+     {template: 'A tiger ____ sleeping.', blanks: ['is'], options: ['am','is','are'], correct: 'is'},
+     {template: 'She is feeding ____ zebra.', blanks: ['a'], options: ['a','an','the'], correct: 'a', note: 'Use "a" when talking about one zebra in general.'},
+     {template: 'I am looking at ____ elephant.', blanks: ['an'], options: ['a','an','the'], correct: 'an', note: 'Use "an" before elephant because it begins with a vowel sound.'},
    ]
   }
 ];
 
-let mesQ=[], mesI=0, mesCor=0, mesWr=0, mesSt=0, mesDone=false, mesCat='all', mesVoiceOn=true;
+let mesQ=[], mesI=0, mesCor=0, mesWr=0, mesSt=0, mesDone=false, mesCat='all', mesVoiceOn=false;
 let mesCurrent=null;
 
 function mesVoiceToggle(cb){
@@ -1764,6 +1778,49 @@ function mesSetCat(cat){
     const btn=document.getElementById('mes-sm'+(i+1));
     if(btn) btn.classList.toggle('active',c===cat);
   });
+}
+
+function mesCleanWord(word){
+  return (word||'').replace(/[^a-zA-Z]/g,'');
+}
+
+function mesExtractSentenceContext(item){
+  const template = item.template || '';
+  const blankIndex = template.indexOf('____');
+  if(blankIndex < 0) return {before: template.trim(), after: '', nextWord: ''};
+  const before = template.slice(0, blankIndex).trim();
+  const after = template.slice(blankIndex + 4).trim();
+  const nextWordRaw = after.split(/\s+/)[0] || '';
+  return {before, after, nextWord: mesCleanWord(nextWordRaw)};
+}
+
+function mesHighlightGrammar(text){
+  return text.replace(/\b(a|an|the|is|are|am)\b/gi, (match) => {
+    const cls = /^(a|an|the)$/i.test(match) ? 'hint-gram-blue' : 'hint-gram-yellow';
+    return `<span class="${cls}">${match}</span>`;
+  });
+}
+
+function mesGetSentenceHint(item){
+  if(!item) return '';
+  const ctx = mesExtractSentenceContext(item);
+  const target = ctx.nextWord || 'word';
+  let hint = '';
+
+  if(item.options.some(o=>['a','an','the'].includes(o))){
+    hint = `Choose the correct article: <strong>a / an / the</strong> — think about whether "${target}" is general or specific, and whether it begins with a vowel sound. 如果 "${target}" 是一般的或不特定的，就选 a/an；如果是特定的，就选 the。`;
+  } else if(item.options.some(o=>['am','is','are'].includes(o))){
+    const subject = (ctx.before.split(/\s+/).slice(-1)[0] || '').toLowerCase();
+    if(subject === 'i'){
+      hint = `Choose the correct verb: <strong>am / is / are</strong> — match it with the subject "${subject}". 如果主语是 I，就选 am。`;
+    } else if(['he','she','it','this','that'].includes(subject)){
+      hint = `Choose the correct verb: <strong>am / is / are</strong> — match it with the subject "${subject}". 如果主语是 ${subject} 或一个单数事物，就选 is。`;
+    } else {
+      hint = `Choose the correct verb: <strong>am / is / are</strong> — match it with the subject "${subject}". 如果主语是 we/they/you 或复数，就选 are。`;
+    }
+  }
+
+  return mesHighlightGrammar(hint);
 }
 
 function mesStart(){
@@ -1810,6 +1867,7 @@ function mesRender(){
   }
   
   document.getElementById('mes-sentence-display').innerHTML=display;
+  document.getElementById('mes-article-hint').innerHTML = mesGetSentenceHint(mesCurrent);
   
   // Create word bank buttons
   const bank=document.getElementById('mes-bank');
@@ -1834,17 +1892,19 @@ function mesCheckWord(selected,btn){
   if(mesDone)return; mesDone=true;
   
   const isCorrect=selected===mesCurrent.correct;
+  const sentenceHint = mesGetSentenceHint(mesCurrent);
+  const note = sentenceHint ? `<div style="margin-top:8px;font-size:.88rem;color:#3b3b5f;line-height:1.5;border-top:1px solid rgba(0,0,0,.08);padding-top:8px">💡 ${sentenceHint}</div>` : '';
   
   if(isCorrect){
     mesCor++;mesSt++;
     btn.classList.add('correct');
-    showFb('mes-fb','correct-fb','✓ Excellent! That\'s correct!');
+    showFb('mes-fb','correct-fb',`✓ Excellent! That\'s correct!${note}`);
     if(mesVoiceOn) speak('Correct! '+selected,0.9);
     confetti(btn);
   }else{
     mesWr++;
     btn.classList.add('wrong');
-    showFb('mes-fb','wrong-fb',`✗ Not quite! The answer is "<strong>${mesCurrent.correct}</strong>"`);
+    showFb('mes-fb','wrong-fb',`✗ Not quite! The answer is "<strong>${mesCurrent.correct}</strong>".${note}`);
     if(mesVoiceOn) speak('The correct answer is '+mesCurrent.correct,0.85);
   }
   
