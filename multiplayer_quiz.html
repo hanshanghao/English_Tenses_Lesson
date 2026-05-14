@@ -291,6 +291,7 @@ document.getElementById("topBtn").onclick = function(e) {
     <button class="tab-btn" onclick="switchTab('tab-vq',this)">📚 Vocabulary Quiz</button>
     <button class="tab-btn" onclick="switchTab('tab-match',this)">🎯 Choose the Correct Match</button>
     <button class="tab-btn" onclick="switchTab('tab-mes',this)">✍️ Make Easy Sentences</button>
+    <button class="tab-btn" onclick="switchTab('tab-wmq',this)">📖 Word Meanings Quiz</button>
   </div>
 
   <!-- ============================================================
@@ -692,6 +693,87 @@ document.getElementById("topBtn").onclick = function(e) {
 
   </div><!-- /tab-mes -->
 
+  <!-- ============================================================
+       TAB 6 : WORD MEANINGS QUIZ
+  ============================================================ -->
+  <div class="tab-panel" id="tab-wmq">
+
+    <!-- START SCREEN -->
+    <div class="start-screen" id="wmq-start">
+      <div class="screen-card">
+        <div style="font-size:3.6rem;margin-bottom:12px">📖</div>
+        <h2 style="color:#e67e22">Word Meanings Quiz!</h2>
+        <p>📚 Read each sentence carefully<br>🏷️ Pick the correct word from the word bank<br>🌈 Categories: Abilities, Animals, Colors, Family, Festival, Jobs, Numbers, Size, Height, Stationery!</p>
+        <div class="mode-toggle" style="margin-bottom:20px;flex-wrap:wrap;justify-content:center">
+          <button class="mode-btn active" id="wmq-cat-all"    onclick="wmqSetCat('all')">🌟 All</button>
+          <button class="mode-btn" id="wmq-cat-abilities" onclick="wmqSetCat('abilities')">💪 Abilities</button>
+          <button class="mode-btn" id="wmq-cat-animals"   onclick="wmqSetCat('animals')">🐾 Animals</button>
+          <button class="mode-btn" id="wmq-cat-colors"    onclick="wmqSetCat('colors')">🎨 Colors</button>
+          <button class="mode-btn" id="wmq-cat-family"    onclick="wmqSetCat('family')">👨‍👩‍👧 Family</button>
+          <button class="mode-btn" id="wmq-cat-festival"  onclick="wmqSetCat('festival')">🎃 Festival</button>
+          <button class="mode-btn" id="wmq-cat-jobs"      onclick="wmqSetCat('jobs')">👷 Jobs</button>
+          <button class="mode-btn" id="wmq-cat-numbers"   onclick="wmqSetCat('numbers')">🔢 Numbers</button>
+          <button class="mode-btn" id="wmq-cat-size"      onclick="wmqSetCat('size')">📐 Size &amp; Height</button>
+          <button class="mode-btn" id="wmq-cat-stationery" onclick="wmqSetCat('stationery')">✏️ Stationery</button>
+        </div>
+        <button class="start-btn" style="background:linear-gradient(135deg,#e67e22,#f39c12);color:#fff" onclick="wmqStart()">▶ Start Quiz!</button>
+      </div>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="wmq-quiz" style="display:none">
+      <div class="progress-label" id="wmq-pl">Question 1 / 12</div>
+      <div class="progress-wrap"><div class="progress-bar" id="wmq-pb" style="width:0%"></div></div>
+      <div class="score-strip">
+        <div class="score-badge">✅ Correct <span class="num" id="wmq-sc">0</span></div>
+        <div class="score-badge">❌ Wrong   <span class="num" id="wmq-sw">0</span></div>
+        <div class="score-badge">⭐ Stars   <span class="num" id="wmq-ss">0</span></div>
+      </div>
+
+      <div class="voice-panel">
+        <label>🔊 Pronunciation:</label>
+        <label class="voice-toggle">
+          <input type="checkbox" id="wmq-voiceOn" onchange="wmqVoiceToggle(this)">
+          <span class="toggle-track"></span>
+          <span class="toggle-label" id="wmq-voiceLabel">OFF</span>
+        </label>
+        <button class="listen-btn-top" id="wmq-listenBtn" onclick="wmqSpeak()" disabled>🎧 Hear</button>
+      </div>
+
+      <div class="quiz-card" id="wmq-card">
+        <div style="text-align:center;margin-bottom:10px">
+          <span class="letter-badge" id="wmq-cat-badge">🌟 All</span>
+        </div>
+
+        <!-- Sentence with blank -->
+        <div id="wmq-sentence" style="background:rgba(230,126,34,.09);border-radius:16px;padding:18px 16px;margin-bottom:14px;font-size:1.08rem;font-weight:800;color:#3b2a1a;line-height:1.9;text-align:center;border:2px dashed rgba(230,126,34,.35)"></div>
+
+        <!-- Dynamic smart hint -->
+        <div id="wmq-hint-box" style="background:rgba(255,255,255,.7);border-radius:12px;padding:10px 14px;margin-bottom:14px;text-align:left;border-left:4px solid #e67e22;font-size:.88rem;color:#444;line-height:1.6;min-height:44px"></div>
+
+        <!-- Word bank -->
+        <div style="text-align:center;font-size:.88rem;color:#888;font-weight:700;margin-bottom:8px">📦 Word Bank — click the correct answer:</div>
+        <div class="options-grid" id="wmq-bank" style="grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:9px;margin-bottom:18px"></div>
+
+        <div class="feedback" id="wmq-fb"></div>
+        <button class="next-btn" id="wmq-next" onclick="wmqNext()">Next Question ➡</button>
+      </div>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div class="result-screen" id="wmq-result">
+      <div class="screen-card">
+        <div class="result-trophy" id="wmq-rt">🏆</div>
+        <div class="result-title" id="wmq-rtt">Excellent!</div>
+        <div class="stars-row" id="wmq-rs">⭐⭐⭐</div>
+        <div class="result-score-txt" id="wmq-rsc"></div>
+        <div id="wmq-review-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin:16px 0 22px;max-height:340px;overflow-y:auto"></div>
+        <button class="restart-btn" style="background:linear-gradient(135deg,#e67e22,#f39c12)" onclick="wmqRestart()">🔄 Play Again</button>
+      </div>
+    </div>
+
+  </div><!-- /tab-wmq -->
+
 </div><!-- /container -->
 
 <script>
@@ -752,7 +834,9 @@ function switchTab(id,btn){
     'tab-az':['#ff9a9e','#fecfef'],
     'tab-cls':['#4facfe','#00f2fe'],
     'tab-vq':['#f7971e','#ffd200'],
-    'tab-match':['#11998e','#38ef7d']
+    'tab-match':['#11998e','#38ef7d'],
+    'tab-mes':['#6c63ff','#a18cd1'],
+    'tab-wmq':['#e67e22','#f39c12']
   };
   const [c1,c2]=bgs[id]||['#ff9a9e','#fecfef'];
   setBg(c1,c2);
@@ -1942,6 +2026,342 @@ function mesSpeak(){
 }
 
 let mesRate=1;
+
+/* ======================================================
+   WORD MEANINGS QUIZ  (Tab 6)
+   Vocabulary from the image: Abilities, Animals, Colors,
+   Family, Festival, Jobs, Numbers, Size/Height, Stationery
+====================================================== */
+
+// ── category colours ──
+const WMQ_BGS = {
+  abilities:  ['#43e97b','#38f9d7'],
+  animals:    ['#ffecd2','#fcb69f'],
+  colors:     ['#f093fb','#f5576c'],
+  family:     ['#a1c4fd','#c2e9fb'],
+  festival:   ['#fa709a','#fee140'],
+  jobs:       ['#4facfe','#00f2fe'],
+  numbers:    ['#d4fc79','#96e6a1'],
+  size:       ['#f6d365','#fda085'],
+  stationery: ['#e0c3fc','#8ec5fc'],
+};
+
+// ── smart per-word hints ──
+const WMQ_HINTS = {
+  // abilities
+  dance:    {zh:'跳舞',   icon:'💃', tip:'Move your body rhythmically to music.'},
+  draw:     {zh:'畫畫',   icon:'🎨', tip:'Make a picture with a pencil or pen.'},
+  jump:     {zh:'跳',     icon:'🦘', tip:'Push off the ground with both feet and go up!'},
+  read:     {zh:'閱讀',   icon:'📖', tip:'Look at words and understand their meaning.'},
+  sing:     {zh:'唱歌',   icon:'🎤', tip:'Use your voice to make music with words.'},
+  swim:     {zh:'游泳',   icon:'🏊', tip:'Move through water using your arms and legs.'},
+  write:    {zh:'寫字',   icon:'✏️', tip:'Make letters or words on paper.'},
+  // animals
+  bird:     {zh:'鳥',     icon:'🐦', tip:'A feathered animal with wings that can usually fly.'},
+  cat:      {zh:'貓',     icon:'🐱', tip:'A furry pet that says "meow" and loves to nap.'},
+  dog:      {zh:'狗',     icon:'🐶', tip:'A loyal pet that barks and loves to play fetch.'},
+  fish:     {zh:'魚',     icon:'🐟', tip:'A scaly animal that lives in water and breathes through gills.'},
+  // colors
+  black:    {zh:'黑色',   icon:'⚫', tip:'The darkest colour — the colour of night sky.'},
+  blue:     {zh:'藍色',   icon:'🔵', tip:'The colour of the sky and the sea.'},
+  green:    {zh:'綠色',   icon:'🟢', tip:'The colour of leaves, grass, and nature.'},
+  red:      {zh:'紅色',   icon:'🔴', tip:'The colour of fire engines, roses, and strawberries.'},
+  white:    {zh:'白色',   icon:'⚪', tip:'The colour of snow, clouds, and milk.'},
+  yellow:   {zh:'黃色',   icon:'🟡', tip:'The bright colour of the sun and bananas.'},
+  // family
+  brother:     {zh:'哥哥/弟弟', icon:'👦', tip:'A boy who has the same parents as you.'},
+  father:      {zh:'爸爸',      icon:'👨', tip:'Your male parent — also called Dad or Daddy.'},
+  grandfather: {zh:'爺爺',      icon:'👴', tip:'Your father\'s or mother\'s father — also called Grandpa.'},
+  grandmother: {zh:'奶奶',      icon:'👵', tip:'Your father\'s or mother\'s mother — also called Grandma.'},
+  mother:      {zh:'媽媽',      icon:'👩', tip:'Your female parent — also called Mum or Mommy.'},
+  sister:      {zh:'姐姐/妹妹', icon:'👧', tip:'A girl who has the same parents as you.'},
+  // festival (Halloween)
+  bat:      {zh:'蝙蝠',   icon:'🦇', tip:'A flying mammal that comes out at night — popular at Halloween!'},
+  ghost:    {zh:'鬼',     icon:'👻', tip:'A spooky spirit — the most famous Halloween symbol!'},
+  pumpkin:  {zh:'南瓜',   icon:'🎃', tip:'An orange vegetable carved with a face for Halloween.'},
+  spider:   {zh:'蜘蛛',   icon:'🕷️', tip:'An eight-legged creature that spins webs.'},
+  witch:    {zh:'女巫',   icon:'🧙‍♀️', tip:'A magical woman on a broomstick — classic Halloween costume!'},
+  vampire:  {zh:'吸血鬼', icon:'🧛', tip:'A mythical creature that drinks blood — "I vant to suck your blood!"'},
+  card:     {zh:'卡片',   icon:'💌', tip:'A folded piece of paper with a message — given on special days.'},
+  flower:   {zh:'花',     icon:'🌸', tip:'The colourful part of a plant — often given as a gift.'},
+  gift:     {zh:'禮物',   icon:'🎁', tip:'Something wrapped up and given to someone on a special day.'},
+  heart:    {zh:'心',     icon:'❤️', tip:'The shape that stands for love — ♥'},
+  love:     {zh:'愛',     icon:'💖', tip:'A deep feeling of warmth and care for someone.'},
+  // jobs
+  cook:     {zh:'廚師',   icon:'👨‍🍳', tip:'A person who prepares and makes delicious food — works in a kitchen.'},
+  doctor:   {zh:'醫生',   icon:'👨‍⚕️', tip:'A person who takes care of sick people and helps them get better.'},
+  driver:   {zh:'司機',   icon:'🚗', tip:'A person whose job is to drive a car, bus, or truck.'},
+  nurse:    {zh:'護理師', icon:'👩‍⚕️', tip:'A healthcare worker who looks after patients in a hospital.'},
+  student:  {zh:'學生',   icon:'🎒', tip:'A person who goes to school to learn new things — that\'s you!'},
+  teacher:  {zh:'教師',   icon:'👩‍🏫', tip:'A person who helps students learn — they work in a school.'},
+  // numbers
+  one:      {zh:'一',  icon:'1️⃣', tip:'The first number — only one of something.'},
+  two:      {zh:'二',  icon:'2️⃣', tip:'One more than one — a pair!'},
+  three:    {zh:'三',  icon:'3️⃣', tip:'Two plus one — like three little pigs.'},
+  four:     {zh:'四',  icon:'4️⃣', tip:'A square has four sides.'},
+  five:     {zh:'五',  icon:'5️⃣', tip:'You have five fingers on one hand!'},
+  six:      {zh:'六',  icon:'6️⃣', tip:'An insect has six legs.'},
+  seven:    {zh:'七',  icon:'7️⃣', tip:'There are seven days in a week.'},
+  eight:    {zh:'八',  icon:'8️⃣', tip:'A spider has eight legs.'},
+  nine:     {zh:'九',  icon:'9️⃣', tip:'One less than ten.'},
+  ten:      {zh:'十',  icon:'🔟', tip:'You have ten fingers altogether.'},
+  eleven:   {zh:'十一',icon:'1️⃣1️⃣', tip:'Ten and one more.'},
+  twelve:   {zh:'十二',icon:'🕛', tip:'There are twelve months in a year.'},
+  thirteen: {zh:'十三',icon:'🔢', tip:'12 + 1 = thirteen.'},
+  fourteen: {zh:'十四',icon:'🔢', tip:'10 + 4 = fourteen.'},
+  fifteen:  {zh:'十五',icon:'🔢', tip:'10 + 5 = fifteen.'},
+  // size & height
+  big:      {zh:'大的',  icon:'🐘', tip:'Large in size — the opposite of small.'},
+  small:    {zh:'小的',  icon:'🐭', tip:'Little in size — the opposite of big.'},
+  tall:     {zh:'高的',  icon:'🦒', tip:'Having great height — a giraffe is very tall!'},
+  short:    {zh:'矮的',  icon:'🐢', tip:'Not very tall — the opposite of tall.'},
+  // stationery
+  book:     {zh:'書',    icon:'📚', tip:'Pages of words bound together — you read it to learn.'},
+  eraser:   {zh:'橡皮擦',icon:'🩹', tip:'A soft block that removes pencil marks — also called a rubber.'},
+  marker:   {zh:'彩色筆',icon:'🖊️', tip:'A thick colourful pen used for drawing or colouring.'},
+  pen:      {zh:'原子筆',icon:'🖊️', tip:'A writing tool with ink — used for important writing.'},
+  pencil:   {zh:'鉛筆',  icon:'✏️', tip:'A thin stick with a graphite core for writing — you can erase it!'},
+  ruler:    {zh:'尺',    icon:'📏', tip:'A flat stick used to measure length and draw straight lines.'},
+};
+
+// ── sentence templates: ____ = blank to fill ──
+const WMQ_DATA = [
+  // ABILITIES
+  {cat:'abilities', sentence:'I can ____. I move my body to music.',             answer:'dance',    bank:['dance','swim','read','jump'],         hint:'Moving to music is called ____ing.'},
+  {cat:'abilities', sentence:'She can ____. She makes pictures with a pencil.',  answer:'draw',     bank:['draw','write','sing','dance'],        hint:'To make a picture with a pencil you ____.'},
+  {cat:'abilities', sentence:'The frog can ____ very high.',                     answer:'jump',     bank:['jump','swim','read','sing'],          hint:'Frogs use their strong legs to ____.'},
+  {cat:'abilities', sentence:'He likes to ____ books every night.',              answer:'read',     bank:['read','write','dance','jump'],        hint:'You use your eyes to ____ words on a page.'},
+  {cat:'abilities', sentence:'They ____ a song together at school.',             answer:'sing',     bank:['sing','draw','jump','swim'],          hint:'You use your voice to ____ a song.'},
+  {cat:'abilities', sentence:'Fish can ____. They live in water.',               answer:'swim',     bank:['swim','jump','read','dance'],         hint:'To move through water, you ____.'},
+  {cat:'abilities', sentence:'I ____ letters in my notebook every day.',         answer:'write',    bank:['write','draw','sing','jump'],         hint:'To make letters on paper you ____.'},
+
+  // ANIMALS
+  {cat:'animals', sentence:'A ____ has feathers and can fly in the sky.',        answer:'bird',     bank:['bird','cat','dog','fish'],            hint:'It has feathers and wings — it\'s a ____.'},
+  {cat:'animals', sentence:'My ____ says "meow" and sleeps on the sofa.',        answer:'cat',      bank:['cat','dog','bird','fish'],            hint:'This pet says "meow" — it\'s a ____.'},
+  {cat:'animals', sentence:'The ____ barks loudly at the postman.',              answer:'dog',      bank:['dog','cat','fish','bird'],            hint:'This pet barks — it\'s a ____.'},
+  {cat:'animals', sentence:'A ____ lives in the water and has scales.',          answer:'fish',     bank:['fish','bird','cat','dog'],            hint:'It swims and has scales — it\'s a ____.'},
+
+  // COLORS
+  {cat:'colors', sentence:'The night sky is very dark ____.',                    answer:'black',    bank:['black','white','blue','red'],         hint:'The opposite of white is ____.'},
+  {cat:'colors', sentence:'The sky and the sea are both ____.',                  answer:'blue',     bank:['blue','green','red','yellow'],        hint:'The colour of the sky is ____.'},
+  {cat:'colors', sentence:'Leaves and grass are ____ in spring.',                answer:'green',    bank:['green','blue','black','yellow'],      hint:'The colour of leaves and grass is ____.'},
+  {cat:'colors', sentence:'Strawberries and fire engines are ____.',             answer:'red',      bank:['red','blue','yellow','green'],        hint:'The colour of a rose is ____.'},
+  {cat:'colors', sentence:'Snow and milk are the colour ____.',                  answer:'white',    bank:['white','black','blue','red'],         hint:'The colour of clouds and snow is ____.'},
+  {cat:'colors', sentence:'The sun and bananas are the colour ____.',            answer:'yellow',   bank:['yellow','red','green','white'],       hint:'The colour of the sun is ____.'},
+
+  // FAMILY
+  {cat:'family', sentence:'My ____ is a boy. We have the same mum and dad.',     answer:'brother',    bank:['brother','sister','father','mother'],   hint:'A boy who shares your parents is your ____.'},
+  {cat:'family', sentence:'My ____ goes to work every day. He is my dad.',       answer:'father',     bank:['father','mother','grandfather','sister'], hint:'Your male parent is your ____.'},
+  {cat:'family', sentence:'My ____ has white hair and tells great stories.',     answer:'grandfather',bank:['grandfather','grandmother','father','brother'], hint:'Your dad\'s dad is your ____.'},
+  {cat:'family', sentence:'My ____ bakes delicious cakes. She is my grandma.',  answer:'grandmother',bank:['grandmother','grandfather','mother','sister'], hint:'Your mum\'s mum is your ____.'},
+  {cat:'family', sentence:'My ____ hugs me when I am sad. She is my mum.',       answer:'mother',     bank:['mother','father','sister','grandmother'], hint:'Your female parent is your ____.'},
+  {cat:'family', sentence:'My ____ is a girl. We have the same parents.',        answer:'sister',     bank:['sister','brother','mother','father'],   hint:'A girl who shares your parents is your ____.'},
+
+  // FESTIVAL
+  {cat:'festival', sentence:'A ____ is a flying mammal that loves the dark night.', answer:'bat',     bank:['bat','ghost','spider','witch'],       hint:'This flying night creature hangs upside down — it\'s a ____.'},
+  {cat:'festival', sentence:'A ____ is a spooky spirit that says "Boo!"',           answer:'ghost',   bank:['ghost','bat','vampire','pumpkin'],    hint:'A scary spirit at Halloween is a ____.'},
+  {cat:'festival', sentence:'We carve a face on a ____ for Halloween.',              answer:'pumpkin', bank:['pumpkin','bat','ghost','flower'],     hint:'Orange vegetable carved for Halloween is a ____.'},
+  {cat:'festival', sentence:'A ____ has eight legs and spins a web.',                answer:'spider',  bank:['spider','bat','witch','ghost'],       hint:'Eight-legged web-spinner — it\'s a ____.'},
+  {cat:'festival', sentence:'A ____ rides a broomstick and wears a black hat.',     answer:'witch',   bank:['witch','vampire','ghost','spider'],   hint:'This Halloween character rides a broomstick — a ____.'},
+  {cat:'festival', sentence:'A ____ drinks blood and turns into a bat at night.',   answer:'vampire', bank:['vampire','witch','ghost','bat'],      hint:'This creature only comes out at night and drinks blood — a ____.'},
+  {cat:'festival', sentence:'I gave her a ____ full of roses to show I care.',      answer:'flower',  bank:['flower','gift','card','heart'],       hint:'A blooming plant given as a present is a ____.'},
+  {cat:'festival', sentence:'I wrote "Happy Birthday!" on a ____ for my friend.',  answer:'card',    bank:['card','gift','heart','flower'],       hint:'A folded paper with a message is a ____.'},
+  {cat:'festival', sentence:'She opened the ____ and found a beautiful necklace.', answer:'gift',    bank:['gift','card','flower','heart'],       hint:'A wrapped present is called a ____.'},
+  {cat:'festival', sentence:'I drew a ____ on the card because I love you.',        answer:'heart',   bank:['heart','flower','card','love'],       hint:'The ♥ shape stands for ____.'},
+  {cat:'festival', sentence:'Parents feel great ____ for their children.',          answer:'love',    bank:['love','heart','gift','flower'],       hint:'A deep feeling of warmth and care is ____.'},
+
+  // JOBS
+  {cat:'jobs', sentence:'A ____ prepares delicious meals in the restaurant kitchen.', answer:'cook',    bank:['cook','doctor','driver','nurse'],   hint:'This person works in a kitchen and makes food — a ____.'},
+  {cat:'jobs', sentence:'A ____ helps sick people get better at the hospital.',       answer:'doctor',  bank:['doctor','nurse','teacher','cook'],  hint:'When you are sick you visit a ____.'},
+  {cat:'jobs', sentence:'A bus ____ takes people safely from place to place.',        answer:'driver',  bank:['driver','cook','student','teacher'],hint:'This person drives a bus or taxi — a ____.'},
+  {cat:'jobs', sentence:'A ____ looks after patients and gives them medicine.',       answer:'nurse',   bank:['nurse','doctor','teacher','cook'],  hint:'This healthcare worker wears scrubs — a ____.'},
+  {cat:'jobs', sentence:'A ____ goes to school every day to learn new things.',       answer:'student', bank:['student','teacher','nurse','driver'],hint:'A person who studies at school is a ____.'},
+  {cat:'jobs', sentence:'A ____ stands in front of the class and explains the lesson.', answer:'teacher', bank:['teacher','student','cook','doctor'], hint:'This person teaches you in school — a ____.'},
+
+  // NUMBERS
+  {cat:'numbers', sentence:'I have ____ nose on my face — just one!',                answer:'one',      bank:['one','two','three','four'],      hint:'The number 1 is ____.'},
+  {cat:'numbers', sentence:'A bicycle has ____ wheels.',                             answer:'two',      bank:['two','one','three','four'],      hint:'The number 2 is ____.'},
+  {cat:'numbers', sentence:'A triangle has ____ sides.',                             answer:'three',    bank:['three','two','four','five'],     hint:'The number 3 is ____.'},
+  {cat:'numbers', sentence:'A cat has ____ legs.',                                   answer:'four',     bank:['four','three','five','two'],     hint:'The number 4 is ____.'},
+  {cat:'numbers', sentence:'I have ____ fingers on one hand.',                       answer:'five',     bank:['five','four','six','three'],     hint:'The number 5 is ____.'},
+  {cat:'numbers', sentence:'An insect has ____ legs.',                               answer:'six',      bank:['six','five','seven','four'],     hint:'The number 6 is ____.'},
+  {cat:'numbers', sentence:'There are ____ days in a week.',                         answer:'seven',    bank:['seven','six','eight','five'],    hint:'The number 7 is ____.'},
+  {cat:'numbers', sentence:'A spider has ____ legs.',                                answer:'eight',    bank:['eight','seven','nine','six'],    hint:'The number 8 is ____.'},
+  {cat:'numbers', sentence:'____ is one less than ten.',                             answer:'nine',     bank:['nine','eight','ten','seven'],    hint:'The number 9 is ____.'},
+  {cat:'numbers', sentence:'I have ____ fingers on both hands together.',            answer:'ten',      bank:['ten','nine','eleven','eight'],   hint:'The number 10 is ____.'},
+  {cat:'numbers', sentence:'____ is ten plus one.',                                  answer:'eleven',   bank:['eleven','ten','twelve','nine'],  hint:'The number 11 is ____.'},
+  {cat:'numbers', sentence:'There are ____ months in a year.',                       answer:'twelve',   bank:['twelve','eleven','thirteen','ten'], hint:'The number 12 is ____.'},
+  {cat:'numbers', sentence:'____ is ten plus three.',                                answer:'thirteen', bank:['thirteen','twelve','fourteen','eleven'], hint:'The number 13 is ____.'},
+  {cat:'numbers', sentence:'____ is ten plus four.',                                 answer:'fourteen', bank:['fourteen','thirteen','fifteen','twelve'], hint:'The number 14 is ____.'},
+  {cat:'numbers', sentence:'____ is ten plus five.',                                 answer:'fifteen',  bank:['fifteen','fourteen','eleven','thirteen'], hint:'The number 15 is ____.'},
+
+  // SIZE & HEIGHT
+  {cat:'size', sentence:'An elephant is very ____ — it is huge!',                   answer:'big',      bank:['big','small','tall','short'],     hint:'Very large in size means ____.'},
+  {cat:'size', sentence:'An ant is very ____. It is tiny!',                          answer:'small',    bank:['small','big','tall','short'],     hint:'Very little in size means ____.'},
+  {cat:'size', sentence:'A giraffe is very ____. Its neck is long.',                answer:'tall',     bank:['tall','short','big','small'],     hint:'Having great height means ____.'},
+  {cat:'size', sentence:'A penguin is ____. It cannot fly high.',                   answer:'short',    bank:['short','tall','small','big'],     hint:'Not very tall means ____.'},
+
+  // STATIONERY
+  {cat:'stationery', sentence:'I keep many ____ on my desk and read them every day.', answer:'book',    bank:['book','pen','pencil','ruler'],    hint:'You read a ____ to learn.'},
+  {cat:'stationery', sentence:'I used an ____ to remove the pencil mistake.',         answer:'eraser',  bank:['eraser','marker','pen','ruler'],  hint:'It removes pencil marks — an ____.'},
+  {cat:'stationery', sentence:'She coloured the poster with a bright orange ____.',   answer:'marker',  bank:['marker','pen','pencil','eraser'], hint:'A thick colourful pen is a ____.'},
+  {cat:'stationery', sentence:'Please use a ____ to sign your name here.',            answer:'pen',     bank:['pen','pencil','marker','ruler'],  hint:'A writing tool with ink (not erased) is a ____.'},
+  {cat:'stationery', sentence:'I write my homework with a ____. I can erase mistakes.', answer:'pencil', bank:['pencil','pen','eraser','book'],  hint:'Graphite writing tool you can erase — a ____.'},
+  {cat:'stationery', sentence:'I use a ____ to draw straight lines and measure.',     answer:'ruler',   bank:['ruler','eraser','book','marker'], hint:'Flat measuring stick — a ____.'},
+];
+
+let wmqQ=[], wmqI=0, wmqCor=0, wmqWr=0, wmqSt=0, wmqDone=false;
+let wmqVoiceOn=false, wmqRate=1, wmqCat='all', wmqCurrent=null;
+
+function wmqVoiceToggle(cb){
+  wmqVoiceOn=cb.checked;
+  document.getElementById('wmq-voiceLabel').textContent=wmqVoiceOn?'ON':'OFF';
+  document.getElementById('wmq-listenBtn').disabled=!wmqVoiceOn;
+  if(!wmqVoiceOn) speechSynthesis.cancel();
+}
+
+function wmqSetCat(cat){
+  wmqCat=cat;
+  ['all','abilities','animals','colors','family','festival','jobs','numbers','size','stationery'].forEach(c=>{
+    const id='wmq-cat-'+c;
+    const el=document.getElementById(id);
+    if(el) el.classList.toggle('active', c===cat);
+  });
+}
+
+function wmqStart(){
+  hide('wmq-start'); show('wmq-quiz');
+  const pool = wmqCat==='all' ? WMQ_DATA : WMQ_DATA.filter(d=>d.cat===wmqCat);
+  wmqQ = shuffle([...pool]).slice(0, 14);
+  wmqI=0; wmqCor=0; wmqWr=0; wmqSt=0;
+  wmqUpdateScore(); wmqRender();
+}
+
+function wmqBuildHint(item){
+  const h = WMQ_HINTS[item.answer] || {};
+  const icon   = h.icon  || '💡';
+  const tip    = h.tip   || item.hint.replace('____', `<b>"${item.answer}"</b>`);
+  const zh     = h.zh    ? `<span style="color:#e67e22;font-weight:900;font-size:.95rem"> ${h.zh}</span>` : '';
+  const catLbl = item.cat.charAt(0).toUpperCase()+item.cat.slice(1);
+  // article hint
+  const w      = item.answer.toLowerCase();
+  const vowel  = /^[aeiou]/i.test(w) && !['university','uniform','user','unique','unicorn','one','once'].includes(w);
+  const art    = vowel ? 'an' : 'a';
+  const artLine= `<div style="margin-top:5px;font-size:.8rem;color:#2563eb">📌 Article: <b>${art} ${item.answer}</b> — starts with ${vowel?'a vowel':'a consonant'} → use <b>${art}</b></div>`;
+
+  return `<div>
+    <div style="font-size:.9rem;font-weight:800;color:#333">${icon} ${tip}${zh}</div>
+    <div style="font-size:.78rem;color:#888;margin-top:3px">🏷️ Category: <b>${catLbl}</b></div>
+    ${artLine}
+  </div>`;
+}
+
+function wmqRender(){
+  wmqDone = false;
+  wmqCurrent = wmqQ[wmqI];
+  const q = wmqCurrent;
+
+  setText('wmq-pl', `Question ${wmqI+1} / ${wmqQ.length}`);
+  setWidth('wmq-pb', wmqI/wmqQ.length*100);
+
+  const catNames={abilities:'💪 Abilities',animals:'🐾 Animals',colors:'🎨 Colors',family:'👨‍👩‍👧 Family',festival:'🎃 Festival',jobs:'👷 Jobs',numbers:'🔢 Numbers',size:'📐 Size & Height',stationery:'✏️ Stationery'};
+  setText('wmq-cat-badge', catNames[q.cat]||'🌟');
+  const [c1,c2] = WMQ_BGS[q.cat]||['#e67e22','#f39c12'];
+  setBg(c1,c2);
+
+  // Sentence display with blank
+  const blankSpan = '<span style="background:#ffeb3b;color:#333;padding:3px 14px;border-radius:8px;font-weight:900;min-width:80px;display:inline-block;text-align:center;border:2px dashed #f59e0b;font-size:1rem">_____</span>';
+  document.getElementById('wmq-sentence').innerHTML = q.sentence.replace('____', blankSpan);
+
+  // Smart hint (always shown before answering)
+  document.getElementById('wmq-hint-box').innerHTML = wmqBuildHint(q);
+
+  // Word bank buttons (shuffled)
+  const bank = document.getElementById('wmq-bank');
+  bank.innerHTML = '';
+  shuffle([...q.bank]).forEach(word=>{
+    const b = document.createElement('button');
+    b.className='option-btn';
+    // highlight special grammar words
+    if(/^(a|an|the|is|are|am)$/i.test(word)){
+      b.innerHTML=`<span style="color:#2563eb;font-weight:900">${word}</span>`;
+    } else { b.textContent=word; }
+    b.dataset.w=word;
+    b.onclick=()=>wmqCheck(word,b,q);
+    bank.appendChild(b);
+  });
+
+  resetFb('wmq-fb'); hideNext('wmq-next');
+  animCard('wmq-card');
+  setTimeout(()=>{ if(wmqVoiceOn) speak(q.sentence.replace('____', q.answer), wmqRate); }, 650);
+}
+
+function wmqCheck(sel, el, q){
+  if(wmqDone) return; wmqDone=true;
+  document.querySelectorAll('#wmq-bank .option-btn').forEach(b=>b.disabled=true);
+
+  const h = WMQ_HINTS[q.answer]||{};
+  // Full answer sentence with highlighting
+  const filled = q.sentence.replace('____', `<b style="color:#2563eb;background:#dbeafe;padding:0 6px;border-radius:6px">${q.answer}</b>`);
+  // Revealed hint box with full info
+  document.getElementById('wmq-hint-box').innerHTML = `<div style="font-size:.88rem">
+    <b>${h.icon||'💡'} ${h.tip||''}</b>${h.zh?` <span style="color:#e67e22;font-weight:900">${h.zh}</span>`:''}
+    <div style="margin-top:6px;font-size:.85rem;background:rgba(255,255,255,.6);border-radius:8px;padding:7px 10px">${filled}</div>
+  </div>`;
+
+  if(sel===q.answer){
+    wmqCor++; wmqSt++;
+    el.classList.add('correct');
+    showFb('wmq-fb','correct',`🎉 Excellent! <strong>"${q.answer}"</strong> is correct! ${h.zh?'<span style="color:#e67e22">'+h.zh+'</span>':''}`);
+    if(wmqVoiceOn) speak('Excellent! '+q.answer+'! Well done!', wmqRate*.9);
+    confetti(el);
+  } else {
+    wmqWr++;
+    el.classList.add('wrong');
+    document.querySelectorAll('#wmq-bank .option-btn').forEach(b=>{ if(b.dataset.w===q.answer) b.classList.add('reveal'); });
+    showFb('wmq-fb','wrong',`😔 Not quite! The answer is <strong>"${q.answer}"</strong> — ${h.tip||q.hint.replace('____','"'+q.answer+'"')}`);
+    if(wmqVoiceOn) speak('The correct answer is '+q.answer, wmqRate*.85);
+  }
+  wmqUpdateScore(); showNext('wmq-next');
+}
+
+function wmqNext(){
+  wmqI++;
+  if(wmqI>=wmqQ.length) wmqResult();
+  else wmqRender();
+}
+
+function wmqUpdateScore(){
+  setText('wmq-sc',wmqCor); setText('wmq-sw',wmqWr); setText('wmq-ss',wmqSt);
+}
+
+function wmqResult(){
+  hide('wmq-quiz'); show('wmq-result');
+  const[t,ti,s]=grade(wmqCor,wmqQ.length);
+  setText('wmq-rt',t); setText('wmq-rtt',ti); setText('wmq-rs',s);
+  setText('wmq-rsc',`You got ${wmqCor} out of ${wmqQ.length} correct! (${Math.round(wmqCor/wmqQ.length*100)}%)`);
+  // Review grid
+  const grid=document.getElementById('wmq-review-grid');
+  if(grid){
+    grid.innerHTML=wmqQ.map(q=>{
+      const h=WMQ_HINTS[q.answer]||{icon:'💡',zh:''};
+      return `<div style="background:#fff;border-radius:12px;padding:8px 10px;box-shadow:0 3px 10px rgba(0,0,0,.1);border:2px solid rgba(230,126,34,.25);font-size:.82rem">
+        <div style="font-size:1.5rem;text-align:center">${h.icon||'💡'}</div>
+        <div style="font-weight:900;color:#e67e22;text-align:center">${q.answer}</div>
+        <div style="color:#888;text-align:center">${h.zh||''}</div>
+        <div style="color:#555;font-size:.76rem;margin-top:4px;line-height:1.4">${h.tip||''}</div>
+      </div>`;
+    }).join('');
+  }
+  setBg('#e67e22','#f39c12');
+  if(wmqVoiceOn) speak(ti+'! You got '+wmqCor+' out of '+wmqQ.length+' correct!', 0.9);
+}
+
+function wmqRestart(){ hide('wmq-result'); show('wmq-start'); }
+function wmqSpeak(){
+  if(wmqCurrent && wmqVoiceOn)
+    speak(wmqCurrent.sentence.replace('____', wmqCurrent.answer), wmqRate);
+}
 
 </script>
 </body>
