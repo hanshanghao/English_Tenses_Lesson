@@ -727,6 +727,7 @@ document.getElementById("topBtn").onclick = function(e) {
   <button class="tab-btn" onclick="switchTab('quiz')">🧠 Quiz</button>
   <button class="tab-btn" onclick="switchTab('fillblanks')">✏️ Fill Blanks</button>
   <button class="tab-btn" onclick="switchTab('vocab')">📖 Vocabulary</button>
+  <button class="tab-btn" onclick="switchTab('intl-words')">🌍 Grade 3-4 Intl-Words</button>
   <button class="tab-btn" onclick="switchTab('progress')">⭐ My Stars</button>
 </nav>
 
@@ -738,9 +739,9 @@ document.getElementById("topBtn").onclick = function(e) {
     <span class="ab-label">🔊 Audio Reader</span>
 
     <!-- ── ON / OFF TOGGLE ── -->
-    <button class="ab-onoff" id="audioOnOffBtn" onclick="toggleAudioOnOff()" title="Turn audio pronunciation on or off">
+    <button class="ab-onoff audio-off" id="audioOnOffBtn" onclick="toggleAudioOnOff()" title="Turn audio pronunciation on or off">
       <span class="ab-onoff-icon">🔊</span>
-      <span class="ab-onoff-label" id="audioOnOffLabel">ON</span>
+      <span class="ab-onoff-label" id="audioOnOffLabel">OFF</span>
       <span class="ab-onoff-track"><span class="ab-onoff-thumb"></span></span>
     </button>
 
@@ -1172,10 +1173,10 @@ document.getElementById("topBtn").onclick = function(e) {
     <!-- On/Off toggle -->
     <div class="vab-group">
       <span class="vab-label">🔊 Audio</span>
-      <button class="vab-toggle" id="vocabAudioToggle" onclick="toggleVocabAudio()" title="Turn audio on / off">
+      <button class="vab-toggle off" id="vocabAudioToggle" onclick="toggleVocabAudio()" title="Turn audio on / off">
         <span class="toggle-thumb"></span>
       </button>
-      <span class="vab-toggle-state" id="vocabAudioState">ON</span>
+      <span class="vab-toggle-state off" id="vocabAudioState">OFF</span>
     </div>
 
     <!-- Speed buttons -->
@@ -1236,6 +1237,14 @@ document.getElementById("topBtn").onclick = function(e) {
       </thead>
       <tbody id="vocabTbody"></tbody>
     </table>
+  </div>
+</div>
+
+<!-- INTL-WORDS -->
+<div class="tab-panel" id="panel-intl-words">
+  <div class="section-title-bar"><span>🌍</span> Grade 3-4 Intl-Words</div>
+  <div style="text-align:center; padding:40px; color:#8896b0; font-size:1rem;">
+    <p>Coming soon!</p>
   </div>
 </div>
 
@@ -1329,7 +1338,7 @@ function speakFamilyCard(el, word, definition, example) {
 }
 
 // ── AUDIO ON/OFF TOGGLE ──
-let audioEnabled = true;
+let audioEnabled = false;
 
 function toggleAudioOnOff() {
   audioEnabled = !audioEnabled;
@@ -1720,15 +1729,15 @@ const vocabAll=[
   {word:'Scientist',zh:'科學家',cat:'jobs',def:'Does experiments.',ex:'"She is a scientist."'},
   {word:'Librarian',zh:'圖書館員',cat:'jobs',def:'Helps people find books.',ex:'"The librarian is helpful."'},
   {word:'Plumber',zh:'水電工',cat:'jobs',def:'Fixes water pipes.',ex:'"The plumber fixed our pipes."'},
-  {word:'run',zh:'跑',cat:'action',def:'Move quickly with your legs.',ex:'"I can run fast."'},
-  {word:'jump',zh:'跳',cat:'action',def:'Spring up into the air.',ex:'"I can jump high."'},
-  {word:'sing',zh:'唱歌',cat:'action',def:'Make music with your voice.',ex:'"I can sing a song."'},
-  {word:'dance',zh:'跳舞',cat:'action',def:'Move your body to music.',ex:'"I can dance."'},
+  {word:'run',zh:'跑',cat:'action',def:'Jog/Sprint quickly with your legs.',ex:'"I can run fast."'},
+  {word:'jump',zh:'跳',cat:'action',def:'Leap - to push yourself off the ground into the air.',ex:'"I can jump high."'},
+  {word:'sing',zh:'唱歌',cat:'action',def:'To make musical sounds with your voice.',ex:'"I can sing a song."'},
+  {word:'dance',zh:'跳舞',cat:'action',def:'To move your body rhythmically to music.',ex:'"I can dance."'},
   {word:'read',zh:'閱讀',cat:'action',def:'Look at and understand words.',ex:'"I can read a book."'},
   {word:'write',zh:'寫字',cat:'action',def:'Form letters and words.',ex:'"I can write my name."'},
   {word:'draw',zh:'畫圖',cat:'action',def:'Make pictures with a pencil.',ex:'"I can draw a cat."'},
-  {word:'cook',zh:'煮飯',cat:'action',def:'Prepare food using heat.',ex:'"I can cook dinner."'},
-  {word:'swim',zh:'游泳',cat:'action',def:'Move through water.',ex:'"I can swim."'},
+  {word:'cook',zh:'煮飯',cat:'action',def:'Prepare food using heat/fire.',ex:'"I can cook dinner."'},
+  {word:'swim',zh:'游泳',cat:'action',def:'To move through water using your arms and legs.',ex:'"I can swim."'},
   {word:'help',zh:'幫助',cat:'action',def:'Make things easier for someone.',ex:'"I can help my teacher."'},
 ];
 
@@ -1741,7 +1750,7 @@ function filterVocab(cat,btn) {
 }
 
 // ══════ VOCAB AUDIO CONTROLS ══════
-let vocabAudioOn   = true;
+let vocabAudioOn   = false;
 let vocabRate      = 0.65;          // default: slow for learners
 let vocabSpeakMode = 'word';        // 'word' | 'def' | 'full'
 let vocabPlayQueue = [];
