@@ -780,7 +780,7 @@ document.getElementById("topBtn").onclick = function(e) {
 /* ======================================================
    SHARED
 ====================================================== */
-let voice=null, azRate=1, clsRate=1, azVoiceOn=false, clsVoiceOn=false;
+let voice=null, azRate=0.7, clsRate=0.7, azVoiceOn=false, clsVoiceOn=false;
 
 // ── Voice ON/OFF toggles ──
 function azVoiceToggle(cb){
@@ -814,12 +814,59 @@ function loadVoices(){
 speechSynthesis.onvoiceschanged=loadVoices;
 setTimeout(loadVoices,400);
 
-function speak(text,rate){
+// ── GLOBAL VOICE SETTINGS ──
+// Very slow rate (0.7) for clear student pronunciation
+// Punctuation marks trigger natural pauses via SSML-style text manipulation
+const SPEAK_BASE_RATE = 0.7;
+
+function speak(text, rate){
   speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(text);
-  u.rate=rate||1; u.pitch=1.05; u.volume=1;
-  if(voice)u.voice=voice; else u.lang='en-GB';
-  speechSynthesis.speak(u);
+  // Insert silence padding after punctuation for natural reading breaks
+  // Web Speech API doesn't support SSML, so we split on punctuation
+  // and queue multiple utterances with small delays
+  const pauseMap = {
+    ',': 280, '.': 420, '?': 420, '!': 420, ';': 350, ':': 350
+  };
+  // Split text into segments at punctuation boundaries
+  const segments = [];
+  let current = '';
+  for(let i = 0; i < text.length; i++){
+    const ch = text[i];
+    current += ch;
+    if(pauseMap[ch]){
+      segments.push({ txt: current.trim(), pause: pauseMap[ch] });
+      current = '';
+    }
+  }
+  if(current.trim()) segments.push({ txt: current.trim(), pause: 0 });
+
+  // If single short segment (no punctuation), just speak it directly
+  if(segments.length <= 1){
+    const u = new SpeechSynthesisUtterance(text);
+    u.rate  = rate || SPEAK_BASE_RATE;
+    u.pitch = 1.05;
+    u.volume = 1;
+    if(voice) u.voice = voice; else u.lang = 'en-GB';
+    speechSynthesis.speak(u);
+    return;
+  }
+
+  // Queue utterances with timed gaps between them
+  let delay = 0;
+  segments.forEach(seg => {
+    if(!seg.txt) return;
+    setTimeout(() => {
+      const u = new SpeechSynthesisUtterance(seg.txt);
+      u.rate   = rate || SPEAK_BASE_RATE;
+      u.pitch  = 1.05;
+      u.volume = 1;
+      if(voice) u.voice = voice; else u.lang = 'en-GB';
+      speechSynthesis.speak(u);
+    }, delay);
+    // Estimate duration of this segment: ~60ms per char at rate 0.7, plus punctuation pause
+    const charMs = Math.round((seg.txt.length * 60) / (rate || SPEAK_BASE_RATE));
+    delay += charMs + (seg.pause || 0);
+  });
 }
 
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=0|Math.random()*(i+1);[b[i],b[j]]=[b[j],b[i]];}return b;}
@@ -1341,7 +1388,7 @@ const VQ_BGS=[
 ];
 
 let vqAll=[], vqQ=[], vqI=0, vqCor=0, vqWr=0, vqSt=0, vqDone=false;
-let vqVoiceOn=false, vqRate=1, vqCat='all';
+let vqVoiceOn=false, vqRate=0.7, vqCat='all';
 
 function vqVoiceToggle(cb){
   vqVoiceOn=cb.checked;
@@ -2025,7 +2072,7 @@ function mesSpeak(){
   }
 }
 
-let mesRate=1;
+let mesRate=0.7;
 
 /* ======================================================
    WORD MEANINGS QUIZ  (Tab 6)
@@ -2122,6 +2169,25 @@ const WMQ_HINTS = {
   pen:      {zh:'原子筆',icon:'🖊️', tip:'A writing tool with ink — used for important writing.'},
   pencil:   {zh:'鉛筆',  icon:'✏️', tip:'A thin stick with a graphite core for writing — you can erase it!'},
   ruler:    {zh:'尺',    icon:'📏', tip:'A flat stick used to measure length and draw straight lines.'},
+  // A-Z words (new answers)
+  apple:    {zh:'蘋果',  icon:'🍎', tip:'A crunchy red or green fruit that grows on trees.'},
+  duck:     {zh:'鴨子',  icon:'🦆', tip:'A white water bird that says quack and swims in ponds.'},
+  elephant: {zh:'大象',  icon:'🐘', tip:'The largest land animal with a long trunk.'},
+  rabbit:   {zh:'兔子',  icon:'🐰', tip:'A fluffy hopping animal with very long ears.'},
+  zebra:    {zh:'斑馬',  icon:'🦓', tip:'An African animal with black and white stripes.'},
+  tiger:    {zh:'老虎',  icon:'🐯', tip:'A big wild cat with orange fur and black stripes.'},
+  cup:      {zh:'杯子',  icon:'☕', tip:'A small container with a handle used for hot drinks.'},
+  umbrella: {zh:'雨傘',  icon:'☂️', tip:'You open it above your head to stay dry in the rain.'},
+  kite:     {zh:'風箏',  icon:'🪁', tip:'A flying toy on a string — best on a windy day.'},
+  // VQ food (new answers)
+  water:    {zh:'水',    icon:'💧', tip:'Clear and colourless — the most important drink for life.'},
+  milk:     {zh:'牛奶',  icon:'🥛', tip:'A white drink from cows — good for your bones.'},
+  ice:      {zh:'冰',    icon:'🧊', tip:'Frozen water — also used in the phrase ice cream!'},
+  // VQ phonics (new answers)
+  shirt:    {zh:'襯衫',  icon:'👕', tip:'A clothing item for the upper body with buttons. SH sound!'},
+  chips:    {zh:'洋芋片',icon:'🍟', tip:'Thin crispy salty snack — starts with CH.'},
+  whale:    {zh:'鯨魚',  icon:'🐋', tip:'The largest ocean animal — breathes air like us.'},
+  dolphin:  {zh:'海豚',  icon:'🐬', tip:'A clever sea animal that leaps and does tricks.'},
 };
 
 // ── sentence templates: ____ = blank to fill ──
@@ -2208,10 +2274,144 @@ const WMQ_DATA = [
   {cat:'stationery', sentence:'Please use a ____ to sign your name here.',            answer:'pen',     bank:['pen','pencil','marker','ruler'],  hint:'A writing tool with ink (not erased) is a ____.'},
   {cat:'stationery', sentence:'I write my homework with a ____. I can erase mistakes.', answer:'pencil', bank:['pencil','pen','eraser','book'],  hint:'Graphite writing tool you can erase — a ____.'},
   {cat:'stationery', sentence:'I use a ____ to draw straight lines and measure.',     answer:'ruler',   bank:['ruler','eraser','book','marker'], hint:'Flat measuring stick — a ____.'},
+
+  // ── 16 NEW QUESTIONS — from A-Z, VQ, classroom & careers vocabulary ──
+
+  // Abilities (new angles)
+  {cat:'abilities', sentence:'Frogs and kangaroos can ____ very high.',              answer:'jump',   bank:['jump','swim','sing','draw'],     hint:'They spring off the ground with powerful legs.'},
+  {cat:'abilities', sentence:'A parrot can ____. It copies words it hears.',        answer:'sing',   bank:['sing','draw','jump','write'],    hint:'To make sounds or words with your voice.'},
+  {cat:'abilities', sentence:'She wants to ____ a picture of her family.',           answer:'draw',   bank:['draw','read','swim','write'],    hint:'To make an image with a pencil or crayon.'},
+
+  // Animals (from A-Z quiz)
+  {cat:'animals',   sentence:'A ____ has beautiful feathers and can chirp.',         answer:'bird',   bank:['bird','fish','cat','dog'],       hint:'It has wings and feathers and lives in trees.'},
+  {cat:'animals',   sentence:'A ____ is a furry pet that purrs and says "meow".',    answer:'cat',    bank:['cat','dog','bird','fish'],       hint:'This quiet indoor pet chases mice.'},
+  {cat:'animals',   sentence:'A ____ lives under the sea and cannot breathe air.',  answer:'fish',   bank:['fish','bird','dog','cat'],       hint:'It has scales and breathes through gills.'},
+
+  // Festival (new clues)
+  {cat:'festival',  sentence:'We light a candle inside a carved ____ at Halloween.', answer:'pumpkin',bank:['pumpkin','ghost','bat','card'],  hint:'A round orange vegetable with a face cut into it.'},
+  {cat:'festival',  sentence:'I put a ____ and some chocolates into the box as a present.', answer:'gift', bank:['gift','card','heart','flower'], hint:'Something you wrap up and give to someone special.'},
+
+  // Jobs (from VQ careers)
+  {cat:'jobs',      sentence:'A ____ drives the school bus safely every morning.',  answer:'driver', bank:['driver','cook','nurse','teacher'],hint:'This person operates a vehicle for work.'},
+  {cat:'jobs',      sentence:'A ____ gives medicine and looks after ill patients.',  answer:'nurse',  bank:['nurse','doctor','student','driver'],hint:'A healthcare worker in a hospital wearing scrubs.'},
+
+  // Colors (new contexts)
+  {cat:'colors',    sentence:'The deep ocean water looks dark ____.',               answer:'blue',   bank:['blue','green','red','black'],    hint:'The colour of the sky and the sea.'},
+  {cat:'colors',    sentence:'A polar bear and fresh snow are both ____.',          answer:'white',  bank:['white','yellow','black','blue'], hint:'The lightest colour — the opposite of black.'},
+
+  // Size & Height (new animals)
+  {cat:'size',      sentence:'A whale is very ____. It is the biggest sea animal.', answer:'big',    bank:['big','small','short','tall'],    hint:'Very large — the opposite of small.'},
+  {cat:'size',      sentence:'A giraffe has a very ____ neck to reach the leaves.',  answer:'tall',   bank:['tall','short','big','small'],    hint:'Having great height — stretching way up high.'},
+
+  // Numbers (new clue contexts)
+  {cat:'numbers',   sentence:'Twins means ____ children born at the same time.',    answer:'two',    bank:['two','one','three','four'],      hint:'One plus one — a pair.'},
+  {cat:'numbers',   sentence:'A week has ____ days: Mon, Tue, Wed, Thu, Fri, Sat, Sun.', answer:'seven', bank:['seven','six','eight','five'], hint:'Count the days of the week.'},
+
+  // ── 16 SYSTEM-GENERATED QUESTIONS — new vocabulary from across the whole game ──
+
+  // A-Z quiz words (untested)
+  {cat:'animals',
+   sentence:'A ____ is a red or green fruit that grows on trees.',
+   answer:'apple',
+   bank:['apple','orange','mango','pear'],
+   hint:'It starts with the letter A and is crunchy and sweet.'},
+
+  {cat:'animals',
+   sentence:'A ____ is a white bird that says "quack" and swims in ponds.',
+   answer:'duck',
+   bank:['duck','bird','rabbit','fish'],
+   hint:'This water bird starts with the letter D.'},
+
+  {cat:'size',
+   sentence:'An ____ is the largest animal that lives on land.',
+   answer:'elephant',
+   bank:['elephant','tiger','rabbit','duck'],
+   hint:'It has a very long nose called a trunk. Starts with E.'},
+
+  {cat:'animals',
+   sentence:'A ____ is a fluffy animal with very long ears that loves carrots.',
+   answer:'rabbit',
+   bank:['rabbit','duck','otter','tiger'],
+   hint:'It hops and starts with the letter R.'},
+
+  {cat:'animals',
+   sentence:'A ____ has black and white stripes and lives in Africa.',
+   answer:'zebra',
+   bank:['zebra','tiger','rabbit','elephant'],
+   hint:'It looks like a striped horse. Starts with Z.'},
+
+  {cat:'animals',
+   sentence:'A ____ is a big wild cat with orange fur and black stripes.',
+   answer:'tiger',
+   bank:['tiger','lion','rabbit','zebra'],
+   hint:'It has stripes and is a big wild cat. Starts with T.'},
+
+  // VQ food words (untested)
+  {cat:'festival',
+   sentence:'I am thirsty. I want to drink some cold ____.',
+   answer:'water',
+   bank:['water','juice','milk','yogurt'],
+   hint:'Clear and colourless — the most important drink for life.'},
+
+  {cat:'festival',
+   sentence:'She is drinking a glass of ____. It is white and comes from cows.',
+   answer:'milk',
+   bank:['milk','water','juice','yogurt'],
+   hint:'White drink from cows — good for your bones.'},
+
+  {cat:'festival',
+   sentence:'He is eating ____ cream. It is cold, sweet and frozen.',
+   answer:'ice',
+   bank:['ice','orange','apple','hot'],
+   hint:'This frozen sweet dessert starts with I — ____ cream.'},
+
+  // VQ phonics words (untested) — framed as fill-in-the-blank
+  {cat:'stationery',
+   sentence:'He is wearing a blue ____ with buttons down the front.',
+   answer:'shirt',
+   bank:['shirt','vest','hat','jacket'],
+   hint:'A piece of clothing for the upper body — starts with SH.'},
+
+  {cat:'stationery',
+   sentence:'We ate ____ and cheese for a snack. They were crispy and salty.',
+   answer:'chips',
+   bank:['chips','lunch','cheese','bread'],
+   hint:'Thin crispy snack that starts with CH.'},
+
+  {cat:'animals',
+   sentence:'A ____ is the biggest animal in the ocean. It breathes air.',
+   answer:'whale',
+   bank:['whale','dolphin','shark','otter'],
+   hint:'Largest ocean animal — starts with WH.'},
+
+  {cat:'animals',
+   sentence:'A ____ is a very smart sea animal that can jump and do tricks.',
+   answer:'dolphin',
+   bank:['dolphin','whale','otter','fish'],
+   hint:'It leaps out of the water and ends with the PH sound.'},
+
+  // A-Z words: cup, umbrella, kite
+  {cat:'stationery',
+   sentence:'I drink my hot cocoa from a ____. It has a handle.',
+   answer:'cup',
+   bank:['cup','bowl','glass','plate'],
+   hint:'A small container with a handle for hot drinks. Starts with C.'},
+
+  {cat:'festival',
+   sentence:'It is raining! I need my ____ to stay dry.',
+   answer:'umbrella',
+   bank:['umbrella','hat','vest','kite'],
+   hint:'You open it above your head in the rain. Starts with U.'},
+
+  {cat:'abilities',
+   sentence:'On a windy day we love to fly a ____ in the park.',
+   answer:'kite',
+   bank:['kite','ball','fan','umbrella'],
+   hint:'You hold a string and it soars in the wind. Starts with K.'},
 ];
 
 let wmqQ=[], wmqI=0, wmqCor=0, wmqWr=0, wmqSt=0, wmqDone=false;
-let wmqVoiceOn=false, wmqRate=1, wmqCat='all', wmqCurrent=null;
+let wmqVoiceOn=false, wmqRate=0.7, wmqCat='all', wmqCurrent=null;
 
 function wmqVoiceToggle(cb){
   wmqVoiceOn=cb.checked;
@@ -2232,27 +2432,44 @@ function wmqSetCat(cat){
 function wmqStart(){
   hide('wmq-start'); show('wmq-quiz');
   const pool = wmqCat==='all' ? WMQ_DATA : WMQ_DATA.filter(d=>d.cat===wmqCat);
-  wmqQ = shuffle([...pool]).slice(0, 14);
+
+  // ── Guaranteed-different session ordering ──
+  // Each restart/refresh advances a session counter stored in sessionStorage.
+  // We rotate the pool by (sessionCount × prime step) before shuffling,
+  // ensuring the first card is always different from the previous game.
+  const storageKey = 'wmq_session_' + wmqCat;
+  let sessionCount = parseInt(sessionStorage.getItem(storageKey) || '0', 10);
+  sessionCount = (sessionCount + 1) % 9999;
+  sessionStorage.setItem(storageKey, sessionCount);
+
+  // Step size 11 is coprime with most pool sizes — cycles through all starting offsets
+  const offset = (sessionCount * 11) % pool.length;
+  const rotated = [...pool.slice(offset), ...pool.slice(0, offset)];
+
+  // Shuffle the rotated pool, take 30 (or all if pool < 30)
+  wmqQ = shuffle(rotated).slice(0, Math.min(30, rotated.length));
+
   wmqI=0; wmqCor=0; wmqWr=0; wmqSt=0;
   wmqUpdateScore(); wmqRender();
 }
 
 function wmqBuildHint(item){
-  const h = WMQ_HINTS[item.answer] || {};
-  const icon   = h.icon  || '💡';
-  const tip    = h.tip   || item.hint.replace('____', `<b>"${item.answer}"</b>`);
-  const zh     = h.zh    ? `<span style="color:#e67e22;font-weight:900;font-size:.95rem"> ${h.zh}</span>` : '';
-  const catLbl = item.cat.charAt(0).toUpperCase()+item.cat.slice(1);
-  // article hint
-  const w      = item.answer.toLowerCase();
-  const vowel  = /^[aeiou]/i.test(w) && !['university','uniform','user','unique','unicorn','one','once'].includes(w);
-  const art    = vowel ? 'an' : 'a';
-  const artLine= `<div style="margin-top:5px;font-size:.8rem;color:#2563eb">📌 Article: <b>${art} ${item.answer}</b> — starts with ${vowel?'a vowel':'a consonant'} → use <b>${art}</b></div>`;
-
-  return `<div>
-    <div style="font-size:.9rem;font-weight:800;color:#333">${icon} ${tip}${zh}</div>
-    <div style="font-size:.78rem;color:#888;margin-top:3px">🏷️ Category: <b>${catLbl}</b></div>
-    ${artLine}
+  const catData = {
+    abilities:  { en:'💪 Abilities',   zh:'能力' },
+    animals:    { en:'🐾 Animals',     zh:'動物' },
+    colors:     { en:'🎨 Colors',      zh:'顏色' },
+    family:     { en:'👨‍👩‍👧 Family',    zh:'家庭' },
+    festival:   { en:'🎃 Festival',    zh:'節日' },
+    jobs:       { en:'👷 Jobs',        zh:'職業' },
+    numbers:    { en:'🔢 Numbers',     zh:'數字' },
+    size:       { en:'📐 Size & Height', zh:'大小與高度' },
+    stationery: { en:'✏️ Stationery',  zh:'文具' },
+  };
+  const c = catData[item.cat] || { en: item.cat.charAt(0).toUpperCase()+item.cat.slice(1), zh:'' };
+  return `<div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+    <span style="font-size:.88rem;color:#888;font-weight:700">🏷️ Category:</span>
+    <span style="font-size:.95rem;font-weight:900;color:#e67e22">${c.en}</span>
+    ${c.zh ? `<span style="font-size:.9rem;font-weight:900;color:#9b59b6;letter-spacing:.04em">／${c.zh}</span>` : ''}
   </div>`;
 }
 
@@ -2264,8 +2481,9 @@ function wmqRender(){
   setText('wmq-pl', `Question ${wmqI+1} / ${wmqQ.length}`);
   setWidth('wmq-pb', wmqI/wmqQ.length*100);
 
-  const catNames={abilities:'💪 Abilities',animals:'🐾 Animals',colors:'🎨 Colors',family:'👨‍👩‍👧 Family',festival:'🎃 Festival',jobs:'👷 Jobs',numbers:'🔢 Numbers',size:'📐 Size & Height',stationery:'✏️ Stationery'};
-  setText('wmq-cat-badge', catNames[q.cat]||'🌟');
+  const catData2 = {abilities:{en:'💪 Abilities',zh:'能力'},animals:{en:'🐾 Animals',zh:'動物'},colors:{en:'🎨 Colors',zh:'顏色'},family:{en:'👨‍👩‍👧 Family',zh:'家庭'},festival:{en:'🎃 Festival',zh:'節日'},jobs:{en:'👷 Jobs',zh:'職業'},numbers:{en:'🔢 Numbers',zh:'數字'},size:{en:'📐 Size & Height',zh:'大小與高度'},stationery:{en:'✏️ Stationery',zh:'文具'}};
+  const cd = catData2[q.cat]||{en:q.cat,zh:''};
+  document.getElementById('wmq-cat-badge').innerHTML = `${cd.en}${cd.zh?' <span style="font-size:.7em;opacity:.85">／'+cd.zh+'</span>':''}`;
   const [c1,c2] = WMQ_BGS[q.cat]||['#e67e22','#f39c12'];
   setBg(c1,c2);
 
@@ -2300,26 +2518,20 @@ function wmqCheck(sel, el, q){
   if(wmqDone) return; wmqDone=true;
   document.querySelectorAll('#wmq-bank .option-btn').forEach(b=>b.disabled=true);
 
-  const h = WMQ_HINTS[q.answer]||{};
-  // Full answer sentence with highlighting
-  const filled = q.sentence.replace('____', `<b style="color:#2563eb;background:#dbeafe;padding:0 6px;border-radius:6px">${q.answer}</b>`);
-  // Revealed hint box with full info
-  document.getElementById('wmq-hint-box').innerHTML = `<div style="font-size:.88rem">
-    <b>${h.icon||'💡'} ${h.tip||''}</b>${h.zh?` <span style="color:#e67e22;font-weight:900">${h.zh}</span>`:''}
-    <div style="margin-top:6px;font-size:.85rem;background:rgba(255,255,255,.6);border-radius:8px;padding:7px 10px">${filled}</div>
-  </div>`;
+  // Post-answer hint box — category only (bilingual), same as pre-answer
+  document.getElementById('wmq-hint-box').innerHTML = wmqBuildHint(q);
 
   if(sel===q.answer){
     wmqCor++; wmqSt++;
     el.classList.add('correct');
-    showFb('wmq-fb','correct',`🎉 Excellent! <strong>"${q.answer}"</strong> is correct! ${h.zh?'<span style="color:#e67e22">'+h.zh+'</span>':''}`);
+    showFb('wmq-fb','correct',`🎉 Excellent! <strong>"${q.answer}"</strong> is correct!`);
     if(wmqVoiceOn) speak('Excellent! '+q.answer+'! Well done!', wmqRate*.9);
     confetti(el);
   } else {
     wmqWr++;
     el.classList.add('wrong');
     document.querySelectorAll('#wmq-bank .option-btn').forEach(b=>{ if(b.dataset.w===q.answer) b.classList.add('reveal'); });
-    showFb('wmq-fb','wrong',`😔 Not quite! The answer is <strong>"${q.answer}"</strong> — ${h.tip||q.hint.replace('____','"'+q.answer+'"')}`);
+    showFb('wmq-fb','wrong',`😔 Not quite! The answer is <strong>"${q.answer}"</strong>`);
     if(wmqVoiceOn) speak('The correct answer is '+q.answer, wmqRate*.85);
   }
   wmqUpdateScore(); showNext('wmq-next');
