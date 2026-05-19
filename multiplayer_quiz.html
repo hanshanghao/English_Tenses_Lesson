@@ -194,7 +194,6 @@
     .quiz-photo-wrap{width:150px;height:150px}
     .cmd-scene-emoji{font-size:3.8rem}
   }
-
 <!-- Add this CSS in your <style> section -->
 <style>
 /* Back to Top Button */
@@ -2519,6 +2518,33 @@ const WMQ_DATA = [
    answer:'kite',
    bank:['kite','ball','fan','umbrella'],
    hint:'You hold a string and it soars in the wind. Starts with K.'},
+
+  // NEW WORDS
+  {cat:'stationery', sentence:'I wear a ____ to school every day.', answer:'shirt', bank:['shirt','shoes','hat','jacket'], hint:'A piece of clothing for your upper body.'},
+  {cat:'stationery', sentence:'She wears a warm ____ in winter.', answer:'jacket', bank:['jacket','shirt','dress','pants'], hint:'A warm coat for your body.'},
+  {cat:'festival', sentence:'I buy food at the ____ every weekend.', answer:'shop', bank:['shop','park','school','hospital'], hint:'A place where you buy things.'},
+  {cat:'festival', sentence:'The big ____ sails on the ocean.', answer:'ship', bank:['ship','car','plane','train'], hint:'A large boat that travels on sea.'},
+  {cat:'festival', sentence:'I eat ____ with my lunch every day.', answer:'chips', bank:['chips','bread','rice','pasta'], hint:'Fried potato strips.'},
+  {cat:'festival', sentence:'I love ____ on my pizza.', answer:'cheese', bank:['cheese','meat','sauce','vegetable'], hint:'Yellow dairy food on pizza.'},
+  {cat:'festival', sentence:'We have ____ at noon every day.', answer:'lunch', bank:['lunch','breakfast','dinner','snack'], hint:'The meal we eat at midday.'},
+  {cat:'festival', sentence:'I paid with ____ at the store.', answer:'cash', bank:['cash','card','coin','check'], hint:'Paper or metal money.'},
+  {cat:'abilities', sentence:'I ____ my hands when I am happy.', answer:'clap', bank:['clap','shake','wash','watch'], hint:'To hit your hands together.'},
+  {cat:'abilities', sentence:'She ____ the dirty dishes every night.', answer:'wash', bank:['wash','cook','clean','throw'], hint:'To clean with water.'},
+  {cat:'abilities', sentence:'They ____ TV after dinner every day.', answer:'watch', bank:['watch','wash','cook','play'], hint:'To look at a screen.'},
+  {cat:'abilities', sentence:'We ____ our food with friends.', answer:'share', bank:['share','eat','cook','buy'], hint:'To give part of something to others.'},
+  {cat:'abilities', sentence:'The chef ____ the vegetables for dinner.', answer:'chop', bank:['chop','wash','cook','eat'], hint:'To cut into small pieces.'},
+  {cat:'abilities', sentence:'The sun ____ brightly in the sky.', answer:'shine', bank:['shine','sleep','fall','hide'], hint:'To give light.'},
+  {cat:'abilities', sentence:'The loud noise made me ____ in surprise.', answer:'jump', bank:['jump','shock','cheat','crush'], hint:'To move up suddenly from surprise.'},
+  {cat:'abilities', sentence:'The game showed a ____ on the screen.', answer:'shock', bank:['shock','cheat','crush','flash'], hint:'A sudden surprising moment.'},
+  {cat:'abilities', sentence:'He tried to ____ on the test and got caught.', answer:'cheat', bank:['cheat','share','help','play'], hint:'To do something wrong to win.'},
+  {cat:'stationery', sentence:'I sit on the soft ____ after school.', answer:'couch', bank:['couch','chair','table','bed'], hint:'A soft piece of furniture to sit on.'},
+  {cat:'stationery', sentence:'I sit on a ____ to do my homework.', answer:'chair', bank:['chair','couch','desk','floor'], hint:'A piece of furniture with legs.'},
+  {cat:'animals', sentence:'I touched my ____ with my fingers.', answer:'chin', bank:['chin','nose','ear','eye'], hint:'Part of your face below your mouth.'},
+  {cat:'size', sentence:'The rich ____ man lives in a big house.', answer:'rich', bank:['rich','poor','young','old'], hint:'Having a lot of money.'},
+  {cat:'abilities', sentence:'I have a ____ on my classmate.', answer:'crush', bank:['crush','friend','teacher','enemy'], hint:'A special feeling for someone.'},
+  {cat:'abilities', sentence:'The horse gave the tree a ____ with its tail.', answer:'lash', bank:['lash','hit','touch','pull'], hint:'A quick whipping movement.'},
+  {cat:'size', sentence:'I have ____ money to buy toys.', answer:'much', bank:['much','many','few','little'], hint:'A large amount.'},
+  {cat:'animals', sentence:'A ____ swims in the ocean and has scales.', answer:'fish', bank:['fish','bird','dog','cat'], hint:'A creature in water with scales.'},
 ];
 
 let wmqQ=[], wmqI=0, wmqCor=0, wmqWr=0, wmqSt=0, wmqDone=false;
@@ -2558,7 +2584,7 @@ function wmqStart(){
   const rotated = [...pool.slice(offset), ...pool.slice(0, offset)];
 
   // Shuffle the rotated pool, take 30 (or all if pool < 30)
-  wmqQ = shuffle(rotated).slice(0, Math.min(30, rotated.length));
+  wmqQ = shuffle(rotated).slice(0, Math.min(54, rotated.length));
 
   wmqI=0; wmqCor=0; wmqWr=0; wmqSt=0;
   wmqUpdateScore(); wmqRender();
