@@ -2503,5 +2503,291 @@ function wmqSpeak(){
 }
 
 </script>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Tenses Lesson - with Effects</title>
+    <style>
+        /* ============ BUTTON STYLES ============ */
+        .top-btn {
+            position: fixed;
+            bottom: 85px;
+            right: 20px;
+            width: 55px;
+            height: 55px;
+            background-color: #007BFF;
+            color: white;
+            font-size: 22px;
+            text-align: center;
+            line-height: 55px;
+            border-radius: 50%;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transition: opacity 0.5s ease, background-color 0.3s, transform 0.3s;
+            display: none;
+            z-index: 999;
+            opacity: 0.2;
+        }
+
+        .home-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 55px;
+            height: 55px;
+            background-color: #ff5722;
+            color: white;
+            font-size: 22px;
+            text-align: center;
+            line-height: 55px;
+            border-radius: 50%;
+            text-decoration: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transition: opacity 0.5s ease, background-color 0.3s, transform 0.3s;
+            z-index: 999;
+            opacity: 0.2;
+        }
+
+        .top-btn:hover, .home-btn:hover {
+            opacity: 1 !important;
+            transform: scale(1.1);
+        }
+
+        .top-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .home-btn:hover {
+            background-color: #e64a19;
+        }
+
+        /* ============ CURSOR GLOW ============ */
+        #cg {
+            position: fixed;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.3) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s;
+        }
+
+        /* ============ BACKGROUND BLOBS ============ */
+        .b1, .b2, .b3 {
+            position: fixed;
+            border-radius: 50%;
+            z-index: -1;
+            pointer-events: none;
+            transition: transform 0.3s ease-out;
+        }
+        .b1 {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 173, 173, 0.4) 0%, transparent 70%);
+            top: 10%;
+            left: 10%;
+        }
+        .b2 {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(160, 196, 255, 0.4) 0%, transparent 70%);
+            top: 60%;
+            right: 15%;
+        }
+        .b3 {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 214, 165, 0.4) 0%, transparent 70%);
+            bottom: 20%;
+            left: 20%;
+        }
+
+        /* ============ RIPPLE EFFECT ============ */
+        .lcard, .fcard {
+            position: relative;
+            overflow: hidden;
+        }
+        .ripple {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            pointer-events: none;
+            transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+        }
+
+        /* ============ DEMO CONTENT ============ */
+        body {
+            min-height: 200vh;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        .content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .lcard, .fcard {
+            background: white;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cursor Glow Element -->
+    <div id="cg"></div>
+
+    <!-- Background Blobs -->
+    <div class="b1"></div>
+    <div class="b2"></div>
+    <div class="b3"></div>
+
+    <!-- Demo Content -->
+    <div class="content">
+        <h1>English Tenses Lesson 📚</h1>
+        
+        <div class="lcard">
+            <h2>Present Simple Tense</h2>
+            <p>I walk to school every day. She walks to school every day.</p>
+            <p>Click me to see ripple effect!</p>
+        </div>
+
+        <div class="fcard">
+            <h2>Past Simple Tense</h2>
+            <p>I walked to school yesterday. They played football last week.</p>
+            <p>Click me too!</p>
+        </div>
+
+        <div class="lcard">
+            <h2>Future Simple Tense</h2>
+            <p>I will walk to school tomorrow. She will call you later.</p>
+        </div>
+
+        <p>⬇️ Scroll down to see the back-to-top button appear ⬇️</p>
+        <div style="height: 100px;"></div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <a href="#" class="top-btn" id="topBtn" title="Back to Top">⬆</a>
+
+    <!-- Home Button -->
+    <a href="https://hanshanghao.github.io/English_Tenses_Lesson/" class="home-btn" title="Home">🏠</a>
+
+    <script>
+        /* cursor glow */
+        const cg = document.getElementById('cg');
+        document.addEventListener('mousemove', e => {
+            cg.style.left = e.clientX + 'px';
+            cg.style.top  = e.clientY + 'px';
+        });
+
+        /* parallax blobs */
+        document.addEventListener('mousemove', e => {
+            const x = e.clientX / window.innerWidth  - 0.5;
+            const y = e.clientY / window.innerHeight - 0.5;
+            document.querySelector('.b1').style.transform = `translate(${x*22}px,${y*22}px)`;
+            document.querySelector('.b2').style.transform = `translate(${-x*16}px,${-y*16}px)`;
+            document.querySelector('.b3').style.transform = `translate(${x*10}px,${y*10}px)`;
+        });
+
+        /* click ripple */
+        document.querySelectorAll('.lcard, .fcard').forEach(card => {
+            card.addEventListener('click', function(e) {
+                const rect = this.getBoundingClientRect();
+                const r = document.createElement('span');
+                r.className = 'ripple';
+                r.style.left = (e.clientX - rect.left) + 'px';
+                r.style.top  = (e.clientY - rect.top)  + 'px';
+                this.appendChild(r);
+                requestAnimationFrame(() => { 
+                    r.style.transform='translate(-50%,-50%) scale(90)'; 
+                    r.style.opacity='0'; 
+                });
+                setTimeout(() => r.remove(), 600);
+            });
+        });
+
+        // Show button when scrolling down
+        let fadeTimeout;
+        let lastScrollTop = 0;
+        const buttons = [
+            document.getElementById('topBtn'),
+            document.querySelector('.home-btn')
+        ];
+
+        function showButtons() {
+            buttons.forEach(btn => btn.style.opacity = '1');
+            clearTimeout(fadeTimeout);
+            fadeTimeout = setTimeout(() => {
+                buttons.forEach(btn => btn.style.opacity = '0.2');
+            }, 3000);
+        }
+
+        // Show/hide top button based on scroll direction
+        window.addEventListener('scroll', () => {
+            const currentScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const topBtn = document.getElementById('topBtn');
+            
+            // Only show top button when scrolling downwards past 200px
+            if (currentScroll > lastScrollTop && currentScroll > 200) {
+                topBtn.style.display = 'block';
+                showButtons();
+            } else if (currentScroll <= 200) {
+                topBtn.style.display = 'none';
+            }
+            
+            lastScrollTop = currentScroll;
+        });
+
+        // Show on mouse movement
+        document.addEventListener('mousemove', showButtons);
+
+        // Show on touch
+        document.addEventListener('touchstart', showButtons);
+        document.addEventListener('touchmove', showButtons);
+
+        // Top button
+        document.getElementById('topBtn').addEventListener('mouseenter', showButtons);
+        document.getElementById('topBtn').addEventListener('mouseleave', () => {
+            clearTimeout(fadeTimeout);
+            fadeTimeout = setTimeout(() => {
+                buttons.forEach(btn => btn.style.opacity = '0.2');
+            }, 3000);
+        });
+
+        document.getElementById('topBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Home button
+        document.querySelector('.home-btn').addEventListener('mouseenter', showButtons);
+        document.querySelector('.home-btn').addEventListener('mouseleave', () => {
+            clearTimeout(fadeTimeout);
+            fadeTimeout = setTimeout(() => {
+                buttons.forEach(btn => btn.style.opacity = '0.2');
+            }, 3000);
+        });
+
+        // Initial fade after 3 seconds
+        window.addEventListener('load', () => {
+            fadeTimeout = setTimeout(() => {
+                buttons.forEach(btn => btn.style.opacity = '0.2');
+            }, 3000);
+        });
+    </script>
 </body>
 </html>
