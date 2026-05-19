@@ -194,6 +194,244 @@
     .quiz-photo-wrap{width:150px;height:150px}
     .cmd-scene-emoji{font-size:3.8rem}
   }
+
+<!-- Add this CSS in your <style> section -->
+<style>
+/* Back to Top Button */
+.top-btn {
+  position: fixed;
+  bottom: 85px;
+  right: 20px;
+  width: 55px;
+  height: 55px;
+  background-color: #007BFF;
+  color: white;
+  font-size: 22px;
+  text-align: center;
+  line-height: 55px;
+  border-radius: 50%;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: opacity 0.4s ease, transform 0.3s, background-color 0.3s;
+  display: none;
+  z-index: 999;
+  opacity: 1;
+}
+
+/* Home Button */
+.home-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 55px;
+  height: 55px;
+  background-color: #ff5722;
+  color: white;
+  font-size: 24px;
+  text-align: center;
+  line-height: 55px;
+  border-radius: 50%;
+  text-decoration: none;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: opacity 0.4s ease, transform 0.3s, background-color 0.3s;
+  display: block;
+  z-index: 999;
+  opacity: 1;
+}
+
+.home-btn:hover,
+.top-btn:hover {
+  transform: scale(1.1);
+  opacity: 1 !important;
+}
+
+.home-btn:active,
+.top-btn:active {
+  transform: scale(0.95);
+}
+
+/* Cursor glow element (if needed) */
+.cursor-glow {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  width: 20px;
+  height: 20px;
+  background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  display: none; /* Hidden by default, shown on desktop */
+}
+</style>
+
+<!-- Cursor glow element (add this right after <body> tag) -->
+<div class="cursor-glow" id="cg"></div>
+
+<!-- Back to Top Button -->
+<a href="#" class="top-btn" id="topBtn" title="Back to Top">⬆</a>
+
+<!-- Home Button -->
+<a href="https://hanshanghao.github.io/English_Tenses_Lesson/" class="home-btn" id="homeBtn" title="Home">🏠</a>
+
+<script>
+(function() {
+  /* cursor glow */
+  const cg = document.getElementById('cg');
+  if (cg) {
+    // Show cursor glow only on non-touch devices
+    if (!('ontouchstart' in window)) {
+      cg.style.display = 'block';
+    }
+    document.addEventListener('mousemove', e => {
+      if (cg) {
+        cg.style.left = e.clientX + 'px';
+        cg.style.top = e.clientY + 'px';
+      }
+    });
+  }
+
+  /* parallax blobs (if elements exist) */
+  const b1 = document.querySelector('.b1');
+  const b2 = document.querySelector('.b2');
+  const b3 = document.querySelector('.b3');
+  if (b1 || b2 || b3) {
+    document.addEventListener('mousemove', e => {
+      const x = e.clientX / window.innerWidth - 0.5;
+      const y = e.clientY / window.innerHeight - 0.5;
+      if (b1) b1.style.transform = `translate(${x*22}px,${y*22}px)`;
+      if (b2) b2.style.transform = `translate(${-x*16}px,${-y*16}px)`;
+      if (b3) b3.style.transform = `translate(${x*10}px,${y*10}px)`;
+    });
+  }
+
+  /* click ripple effect */
+  document.querySelectorAll('.lcard, .fcard').forEach(card => {
+    card.addEventListener('click', function(e) {
+      const rect = this.getBoundingClientRect();
+      const r = document.createElement('span');
+      r.className = 'ripple';
+      r.style.cssText = `
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: rgba(255,255,255,0.4);
+        border-radius: 50%;
+        pointer-events: none;
+        transition: all 0.6s ease-out;
+      `;
+      r.style.left = (e.clientX - rect.left) + 'px';
+      r.style.top = (e.clientY - rect.top) + 'px';
+      this.style.position = this.style.position || 'relative';
+      this.style.overflow = 'hidden';
+      this.appendChild(r);
+      requestAnimationFrame(() => {
+        r.style.transform = 'translate(-50%,-50%) scale(90)';
+        r.style.opacity = '0';
+      });
+      setTimeout(() => r.remove(), 600);
+    });
+  });
+
+  // Button fade functionality
+  let fadeTimeout;
+  const topBtn = document.getElementById('topBtn');
+  const homeBtn = document.getElementById('homeBtn');
+  const buttons = [topBtn, homeBtn].filter(btn => btn !== null);
+
+  function showButtons() {
+    buttons.forEach(btn => {
+      if (btn) btn.style.opacity = '1';
+    });
+    clearTimeout(fadeTimeout);
+    fadeTimeout = setTimeout(() => {
+      buttons.forEach(btn => {
+        if (btn && !btn.matches(':hover')) {
+          btn.style.opacity = '0.2';
+        }
+      });
+    }, 3000);
+  }
+
+  // Show/hide top button based on scroll position
+  window.addEventListener('scroll', () => {
+    const currentScroll = document.body.scrollTop || document.documentElement.scrollTop;
+    
+    if (topBtn) {
+      // Show top button only when scrolled past 200px
+      if (currentScroll > 200) {
+        topBtn.style.display = 'block';
+      } else {
+        topBtn.style.display = 'none';
+      }
+    }
+    
+    // Show buttons on scroll
+    showButtons();
+  });
+
+  // Show on mouse movement
+  document.addEventListener('mousemove', showButtons);
+
+  // Show on touch
+  document.addEventListener('touchstart', showButtons, { passive: true });
+  document.addEventListener('touchmove', showButtons, { passive: true });
+
+  // Top button click - smooth scroll to top
+  if (topBtn) {
+    topBtn.addEventListener('mouseenter', function() {
+      this.style.opacity = '1';
+      clearTimeout(fadeTimeout);
+    });
+    
+    topBtn.addEventListener('mouseleave', function() {
+      clearTimeout(fadeTimeout);
+      fadeTimeout = setTimeout(() => {
+        buttons.forEach(btn => {
+          if (btn && !btn.matches(':hover')) {
+            btn.style.opacity = '0.2';
+          }
+        });
+      }, 3000);
+    });
+    
+    topBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // Home button hover handlers
+  if (homeBtn) {
+    homeBtn.addEventListener('mouseenter', function() {
+      this.style.opacity = '1';
+      clearTimeout(fadeTimeout);
+    });
+    
+    homeBtn.addEventListener('mouseleave', function() {
+      clearTimeout(fadeTimeout);
+      fadeTimeout = setTimeout(() => {
+        buttons.forEach(btn => {
+          if (btn && !btn.matches(':hover')) {
+            btn.style.opacity = '0.2';
+          }
+        });
+      }, 3000);
+    });
+  }
+
+  // Initial fade after 3 seconds on page load
+  window.addEventListener('load', () => {
+    fadeTimeout = setTimeout(() => {
+      buttons.forEach(btn => {
+        if (btn && !btn.matches(':hover')) {
+          btn.style.opacity = '0.2';
+        }
+      });
+    }, 3000);
+  });
+
+})();
+</script>
 </style>
 </head>
 <body>
