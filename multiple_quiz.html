@@ -1,0 +1,2089 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Learning Quiz - Multiple Choice & Vocabulary</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --primary: #6c5ce7; --primary-light: #a29bfe; --secondary: #fd79a8;
+  --accent: #fdcb6e; --success: #00b894; --danger: #e17055; --info: #74b9ff;
+  --bg: #f0f4ff; --card: #fff; --text: #2d3436; --text-light: #636e72;
+  --shadow: 0 8px 32px rgba(108,92,231,0.15);
+  --radius: 20px; --radius-sm: 12px;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text);
+  min-height: 100vh; overflow-x: hidden;
+}
+h1, h2, h3, h4 { font-family: 'Baloo 2', cursive; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+
+/* Header */
+.main-header {
+  background: linear-gradient(135deg, var(--primary), #4834d4);
+  padding: 20px 0; color: #fff; text-align: center;
+  box-shadow: 0 4px 20px rgba(108,92,231,0.3); position: relative; z-index: 10;
+}
+.main-header h1 { font-size: 2.2rem; letter-spacing: 1px; }
+.main-header h1 i { margin-right: 10px; }
+.main-header p { font-size: 1.1rem; opacity: 0.9; margin-top: 4px; }
+
+/* Tabs */
+.tab-bar {
+  display: flex; gap: 4px; padding: 12px 16px; max-width: 1100px;
+  margin: 0 auto; overflow-x: auto; background: var(--bg);
+  position: sticky; top: 0; z-index: 20; scrollbar-width: thin;
+}
+.tab-btn {
+  flex-shrink: 0; padding: 10px 20px; border: none; border-radius: var(--radius-sm);
+  background: var(--card); color: var(--text-light); font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem; font-weight: 700; cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06); transition: all 0.3s ease;
+  display: flex; align-items: center; gap: 8px;
+}
+.tab-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+.tab-btn.active { background: var(--primary); color: #fff; box-shadow: 0 4px 16px rgba(108,92,231,0.3); }
+.tab-btn i { font-size: 1.1rem; }
+.tab-content { display: none; animation: fadeUp 0.5s ease; }
+.tab-content.active { display: block; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes bounce { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+@keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+@keyframes pulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.05); opacity: 0.8; } }
+@keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes popIn { 0% { transform: scale(0); opacity: 0; } 70% { transform: scale(1.1); } 100% { transform: scale(1); opacity: 1; } }
+@keyframes confettiFall { 0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+@keyframes slideIn { from { opacity: 0; transform: translateX(-30px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes glow { 0%,100% { box-shadow: 0 0 8px rgba(108,92,231,0.3); } 50% { box-shadow: 0 0 25px rgba(108,92,231,0.6); } }
+@keyframes flipIn { 0% { transform: rotateY(90deg); opacity: 0; } 100% { transform: rotateY(0); opacity: 1; } }
+@keyframes starBurst { 0% { transform: scale(0) rotate(0deg); opacity: 1; } 100% { transform: scale(3) rotate(360deg); opacity: 0; } }
+@keyframes charBounce { 0%,100% { transform: translate(-50%,-55%) scale(1); } 50% { transform: translate(-50%,-65%) scale(1.05); } }
+@keyframes charFloat { 0%,100% { transform: translate(-50%,-52%); } 50% { transform: translate(-50%,-58%); } }
+@keyframes charShake { 0%,100% { transform: translate(-50%,-50%) rotate(0); } 20% { transform: translate(-50%,-50%) rotate(-6deg); } 40% { transform: translate(-50%,-50%) rotate(6deg); } 60% { transform: translate(-50%,-50%) rotate(-4deg); } 80% { transform: translate(-50%,-50%) rotate(4deg); } }
+@keyframes charPulse { 0%,100% { transform: translate(-50%,-50%) scale(1); } 50% { transform: translate(-50%,-50%) scale(1.1); } }
+@keyframes floatUp { 0% { opacity:0; transform: translateY(0) scale(0); } 50% { opacity:1; transform: translateY(-20px) scale(1); } 100% { opacity:0; transform: translateY(-40px) scale(0.5); } }
+@keyframes slideDown { from { opacity:0; transform: translateY(-20px); } to { opacity:1; transform: translateY(0); } }
+
+/* Character Scene */
+.character-scene {
+  position: relative; width: 140px; height: 140px; margin: 0 auto 10px;
+}
+.character-bg {
+  position: absolute; width: 130px; height: 130px; border-radius: 50%;
+  left: 50%; top: 50%; transform: translate(-50%,-50%);
+  z-index: 0; transition: all 0.5s ease;
+}
+.character-bg.happy-bg { background: radial-gradient(circle, #ffeaa7, #fdcb6e); }
+.character-bg.sad-bg { background: radial-gradient(circle, #a29bfe, #6c5ce7); }
+.character-bg.angry-bg { background: radial-gradient(circle, #ff7675, #d63031); }
+.character-bg.hungry-bg { background: radial-gradient(circle, #fab1a0, #e17055); }
+.character-bg.thirsty-bg { background: radial-gradient(circle, #81ecec, #00b894); }
+.character-bg.mad-bg { background: radial-gradient(circle, #fd79a8, #e84393); }
+.character-face {
+  position: absolute; left: 50%; top: 50%;
+  font-size: 4.2rem; z-index: 1;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+}
+.character-face.happy-char { animation: charBounce 2s ease-in-out infinite; }
+.character-face.sad-char { animation: charFloat 3s ease-in-out infinite; }
+.character-face.angry-char { animation: charShake 0.5s ease-in-out infinite; }
+.character-face.hungry-char { animation: charPulse 2.5s ease-in-out infinite; }
+.character-face.thirsty-char { animation: charFloat 2.5s ease-in-out infinite; }
+.character-face.mad-char { animation: charShake 0.7s ease-in-out infinite; }
+.char-particle {
+  position: absolute; font-size: 1.1rem; z-index: 2;
+  animation: floatUp 2s ease-out infinite; pointer-events: none;
+}
+.char-particle:nth-child(4) { animation-delay: 0.4s; left: 12%; }
+.char-particle:nth-child(5) { animation-delay: 0.8s; right: 12%; left: auto; }
+.char-particle:nth-child(6) { animation-delay: 1.2s; left: 20%; }
+.char-particle:nth-child(7) { animation-delay: 1.6s; right: 18%; left: auto; }
+
+/* Enhanced Quiz Options */
+.quiz-option {
+  padding: 18px 16px; border: 3px solid #e8e8e8; border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, #fafafa, #f5f3ff); cursor: pointer;
+  font-size: 1.15rem; font-weight: 700; text-align: center;
+  transition: all 0.3s ease; font-family: 'Nunito', sans-serif;
+  position: relative; overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+.quiz-option::before {
+  content: ''; position: absolute; inset: 0; opacity: 0;
+  background: linear-gradient(135deg, rgba(108,92,231,0.08), rgba(253,121,168,0.08));
+  transition: opacity 0.3s ease;
+}
+.quiz-option:hover:not(.disabled)::before { opacity: 1; }
+.quiz-option:hover:not(.disabled) {
+  border-color: var(--primary); transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(108,92,231,0.18);
+}
+.quiz-option .opt-letter {
+  display: inline-block; width: 32px; height: 32px; line-height: 32px;
+  background: var(--primary); color: #fff; border-radius: 50%;
+  font-size: 0.85rem; font-weight: 800; margin-right: 10px;
+  text-align: center; vertical-align: middle;
+}
+.quiz-option .opt-text { vertical-align: middle; }
+.quiz-option.correct {
+  border-color: var(--success); background: linear-gradient(135deg, #e6fff5, #d4fce8);
+  animation: popIn 0.4s ease;
+  box-shadow: 0 0 20px rgba(0,184,148,0.25);
+}
+.quiz-option.wrong {
+  border-color: var(--danger); background: linear-gradient(135deg, #ffe8e0, #ffd5c5);
+  animation: shake 0.5s ease;
+}
+.quiz-option.disabled { cursor: not-allowed; opacity: 0.7; }
+
+/* Audio Button */
+.quiz-audio-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 20px; border: 2px solid var(--primary); border-radius: 20px;
+  background: #fff; color: var(--primary); font-family: 'Nunito', sans-serif;
+  font-weight: 700; font-size: 0.9rem; cursor: pointer;
+  transition: all 0.3s ease;
+}
+.quiz-audio-btn:hover { background: var(--primary); color: #fff; transform: scale(1.05); box-shadow: 0 4px 12px rgba(108,92,231,0.2); }
+.quiz-audio-btn:active { transform: scale(0.95); }
+
+/* Sentence Prompt */
+.sentence-prompt {
+  max-width: 500px; margin: 12px auto 0; text-align: center;
+  animation: slideDown 0.4s ease;
+}
+.sentence-prompt-inner {
+  background: linear-gradient(135deg, #f8f7ff, #fff);
+  border: 2px solid var(--primary-light); border-radius: var(--radius-sm);
+  padding: 14px 18px;
+}
+.sentence-prompt-inner p { font-size: 1rem; font-weight: 600; color: var(--text); }
+.sentence-yes-btn, .sentence-show-btn {
+  padding: 8px 18px; border: none; border-radius: var(--radius-sm);
+  font-family: 'Nunito', sans-serif; font-weight: 700; cursor: pointer;
+  transition: all 0.3s ease; font-size: 0.9rem;
+}
+.sentence-yes-btn { background: var(--success); color: #fff; }
+.sentence-yes-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,184,148,0.3); }
+.sentence-show-btn { background: var(--accent); color: #2d3436; }
+.sentence-show-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(253,203,110,0.3); }
+
+.section-card {
+  background: var(--card); border-radius: var(--radius); padding: 24px;
+  box-shadow: var(--shadow); margin: 16px auto; max-width: 1100px;
+}
+.section-title {
+  font-size: 1.6rem; color: var(--primary); margin-bottom: 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title i { font-size: 1.8rem; }
+
+/* ===== QUIZ TAB ===== */
+.quiz-header {
+  text-align: center; margin-bottom: 20px;
+}
+.quiz-progress {
+  display: flex; align-items: center; gap: 16px; justify-content: center; margin-bottom: 12px;
+}
+.quiz-progress-bar {
+  flex: 1; max-width: 400px; height: 12px; background: #e8e8e8; border-radius: 6px; overflow: hidden;
+}
+.quiz-progress-fill {
+  height: 100%; background: linear-gradient(90deg, var(--success), #55efc4);
+  border-radius: 6px; transition: width 0.6s ease;
+}
+.quiz-score {
+  font-size: 1.1rem; font-weight: 700; color: var(--primary);
+  background: #f0edff; padding: 6px 16px; border-radius: 20px;
+}
+.quiz-question-number {
+  font-size: 0.95rem; color: var(--text-light); font-weight: 600;
+}
+.quiz-emojis {
+  font-size: 5rem; text-align: center; margin: 16px 0;
+  animation: float 3s ease-in-out infinite;
+}
+.quiz-dialogue {
+  background: #f8f7ff; border-radius: var(--radius-sm); padding: 16px 20px;
+  margin: 12px 0 20px; border-left: 4px solid var(--primary);
+  font-size: 1.15rem; line-height: 1.7; text-align: center;
+}
+.quiz-dialogue strong { color: var(--primary); }
+.quiz-question-text {
+  font-size: 1.3rem; font-weight: 700; text-align: center; margin-bottom: 20px;
+  color: var(--text);
+}
+.quiz-options {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px; max-width: 600px; margin: 0 auto;
+}
+.quiz-feedback {
+  text-align: center; padding: 16px; margin-top: 16px; border-radius: var(--radius-sm);
+  font-size: 1.15rem; font-weight: 700; display: none;
+}
+.quiz-feedback.show { display: block; animation: popIn 0.4s ease; }
+.quiz-feedback.correct { background: #e6fff5; color: #00b894; }
+.quiz-feedback.wrong { background: #ffe8e0; color: #e17055; }
+.quiz-next-btn {
+  display: none; margin: 16px auto 0; padding: 12px 36px;
+  background: var(--primary); color: #fff; border: none; border-radius: var(--radius-sm);
+  font-size: 1.1rem; font-weight: 700; cursor: pointer; font-family: 'Nunito', sans-serif;
+  transition: all 0.3s ease;
+}
+.quiz-next-btn:hover { background: #5b4bd1; transform: translateY(-2px); }
+.quiz-next-btn.show { display: block; }
+
+/* Results */
+.quiz-results {
+  display: none; text-align: center; padding: 30px;
+}
+.quiz-results.show { display: block; animation: popIn 0.6s ease; }
+.quiz-results .results-icon { font-size: 5rem; margin-bottom: 10px; }
+.quiz-results h2 { font-size: 2rem; color: var(--primary); margin-bottom: 8px; }
+.quiz-results .results-score { font-size: 3rem; font-weight: 800; color: var(--secondary); }
+.quiz-results p { font-size: 1.15rem; color: var(--text-light); margin: 8px 0; }
+.quiz-restart-btn {
+  padding: 12px 36px; background: var(--primary); color: #fff; border: none;
+  border-radius: var(--radius-sm); font-size: 1.1rem; font-weight: 700; cursor: pointer;
+  font-family: 'Nunito', sans-serif; margin-top: 16px; transition: all 0.3s ease;
+}
+.quiz-restart-btn:hover { background: #5b4bd1; transform: translateY(-2px); }
+
+/* ===== VOCABULARY TAB ===== */
+.vocab-controls {
+  display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;
+}
+.vocab-search {
+  flex: 1; min-width: 200px; padding: 12px 18px; border: 2px solid #e8e8e8;
+  border-radius: var(--radius-sm); font-size: 1rem; font-family: 'Nunito', sans-serif;
+  transition: border 0.3s ease;
+}
+.vocab-search:focus { outline: none; border-color: var(--primary); }
+.vocab-filter {
+  padding: 10px 18px; border: 2px solid #e8e8e8; border-radius: var(--radius-sm);
+  font-size: 0.95rem; font-family: 'Nunito', sans-serif; background: #fff; cursor: pointer;
+}
+.vocab-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px; max-height: 600px; overflow-y: auto; padding-right: 4px;
+}
+.vocab-grid::-webkit-scrollbar { width: 6px; }
+.vocab-grid::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+.vocab-card {
+  background: #fafafa; border: 2px solid #e8e8e8; border-radius: var(--radius-sm);
+  padding: 14px; cursor: pointer; transition: all 0.3s ease;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.vocab-card:hover { border-color: var(--primary-light); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(108,92,231,0.1); }
+.vocab-card .word { font-size: 1.15rem; font-weight: 800; color: var(--primary); }
+.vocab-card .pronounce { font-size: 0.85rem; color: var(--text-light); font-style: italic; }
+.vocab-card .definition { font-size: 0.9rem; color: var(--text); line-height: 1.5; }
+.vocab-card .category-tag {
+  align-self: flex-start; font-size: 0.75rem; padding: 2px 10px;
+  border-radius: 12px; font-weight: 700; text-transform: uppercase;
+}
+.tag-academic { background: #e8f4fd; color: #2980b9; }
+.tag-literary { background: #fde8f0; color: #e84393; }
+.tag-grammar { background: #e8fce8; color: #00b894; }
+.tag-domain { background: #fff3e0; color: #e67e22; }
+.vocab-card .play-sound {
+  align-self: flex-end; background: none; border: none; color: var(--primary);
+  font-size: 1.2rem; cursor: pointer; padding: 4px; transition: transform 0.3s ease;
+}
+.vocab-card .play-sound:hover { transform: scale(1.2); }
+
+/* ===== FLASHCARDS TAB ===== */
+.flashcard-container {
+  perspective: 1000px; max-width: 400px; height: 300px; margin: 20px auto; cursor: pointer;
+}
+.flashcard-inner {
+  position: relative; width: 100%; height: 100%; transition: transform 0.6s ease;
+  transform-style: preserve-3d;
+}
+.flashcard-container.flipped .flashcard-inner { transform: rotateY(180deg); }
+.flashcard-front, .flashcard-back {
+  position: absolute; width: 100%; height: 100%; backface-visibility: hidden;
+  border-radius: var(--radius); display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: 24px; text-align: center;
+  box-shadow: var(--shadow);
+}
+.flashcard-front {
+  background: linear-gradient(135deg, var(--primary), #4834d4); color: #fff;
+}
+.flashcard-front .big-word { font-size: 2.5rem; font-family: 'Baloo 2', cursive; font-weight: 800; }
+.flashcard-front .hint { font-size: 0.9rem; opacity: 0.8; margin-top: 8px; }
+.flashcard-back {
+  background: #fff; color: var(--text); transform: rotateY(180deg);
+  border: 3px solid var(--primary-light);
+}
+.flashcard-back .def { font-size: 1.1rem; line-height: 1.6; }
+.flashcard-back .example { font-size: 0.95rem; color: var(--text-light); margin-top: 10px; font-style: italic; }
+.flashcard-controls {
+  display: flex; justify-content: center; gap: 12px; align-items: center; margin-top: 16px;
+}
+.flashcard-controls button {
+  padding: 10px 20px; border: none; border-radius: var(--radius-sm);
+  background: var(--primary); color: #fff; font-family: 'Nunito', sans-serif;
+  font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.3s ease;
+}
+.flashcard-controls button:hover { background: #5b4bd1; transform: translateY(-2px); }
+.flashcard-controls .fc-counter { font-weight: 700; font-size: 1.05rem; color: var(--text-light); }
+.flashcard-shuffle {
+  background: var(--accent) !important; color: #2d3436 !important;
+}
+.flashcard-shuffle:hover { background: #f0c04e !important; }
+
+/* ===== WORD GAMES ===== */
+.game-area {
+  min-height: 300px; position: relative;
+}
+.game-tabs {
+  display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap;
+}
+.game-tab {
+  padding: 8px 18px; border: 2px solid #e8e8e8; border-radius: var(--radius-sm);
+  background: #fff; font-family: 'Nunito', sans-serif; font-weight: 700;
+  font-size: 0.9rem; cursor: pointer; transition: all 0.3s ease;
+}
+.game-tab.active { border-color: var(--primary); background: var(--primary); color: #fff; }
+.game-tab:hover:not(.active) { border-color: var(--primary-light); }
+
+/* Matching Game */
+.matching-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 700px; margin: 0 auto;
+}
+.match-col { display: flex; flex-direction: column; gap: 10px; }
+.match-item {
+  padding: 12px 16px; border: 2px solid #e8e8e8; border-radius: var(--radius-sm);
+  background: #fafafa; text-align: center; font-weight: 700; font-size: 1rem;
+  cursor: pointer; transition: all 0.3s ease; min-height: 50px;
+  display: flex; align-items: center; justify-content: center;
+}
+.match-item:hover:not(.matched):not(.disabled) {
+  border-color: var(--primary); background: #f0edff; transform: scale(1.02);
+}
+.match-item.selected { border-color: var(--primary); background: #e0dbff; box-shadow: 0 0 0 3px rgba(108,92,231,0.3); }
+.match-item.matched { border-color: var(--success); background: #e6fff5; cursor: default; opacity: 0.8; }
+
+/* Sorting Game */
+.sort-area {
+  display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 16px;
+  min-height: 60px; padding: 12px; background: #f8f7ff; border-radius: var(--radius-sm);
+  border: 2px dashed #ddd;
+}
+.sort-item {
+  padding: 10px 18px; background: var(--primary); color: #fff; border-radius: var(--radius-sm);
+  font-weight: 700; cursor: grab; transition: all 0.3s ease; user-select: none;
+}
+.sort-item:active { cursor: grabbing; transform: scale(0.95); }
+.sort-buckets {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px;
+}
+.sort-bucket {
+  min-height: 120px; border: 3px dashed #ddd; border-radius: var(--radius-sm);
+  padding: 12px; text-align: center; transition: all 0.3s ease;
+}
+.sort-bucket h4 { font-size: 1rem; color: var(--text-light); margin-bottom: 8px; }
+.sort-bucket.drag-over { border-color: var(--primary); background: #f0edff; }
+
+/* Sentence Building */
+.sentence-builder {
+  max-width: 600px; margin: 0 auto;
+}
+.sentence-workspace {
+  min-height: 60px; border: 3px dashed #ddd; border-radius: var(--radius-sm);
+  padding: 12px; display: flex; flex-wrap: wrap; gap: 8px;
+  align-items: center; margin-bottom: 16px; background: #fafafa;
+}
+.sentence-wordbank {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-bottom: 16px;
+}
+.sb-word {
+  padding: 8px 16px; background: var(--primary-light); color: #fff; border-radius: 8px;
+  font-weight: 700; cursor: pointer; transition: all 0.3s ease; font-size: 0.95rem;
+}
+.sb-word:hover { transform: translateY(-2px); background: var(--primary); }
+.sb-word.used { opacity: 0.4; pointer-events: none; }
+.chk-sentence-btn {
+  padding: 10px 28px; background: var(--success); color: #fff; border: none;
+  border-radius: var(--radius-sm); font-family: 'Nunito', sans-serif;
+  font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.3s ease;
+}
+.chk-sentence-btn:hover { background: #00a381; transform: translateY(-2px); }
+
+/* ===== CHATBOT ===== */
+.chat-container {
+  max-width: 700px; margin: 0 auto; border: 2px solid #e8e8e8;
+  border-radius: var(--radius); overflow: hidden;
+}
+.chat-messages {
+  height: 350px; overflow-y: auto; padding: 16px; background: #fafafa;
+  display: flex; flex-direction: column; gap: 10px;
+}
+.chat-messages::-webkit-scrollbar { width: 6px; }
+.chat-messages::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+.chat-msg {
+  max-width: 80%; padding: 12px 16px; border-radius: var(--radius-sm);
+  font-size: 0.95rem; line-height: 1.5; animation: slideIn 0.3s ease;
+}
+.chat-msg.bot {
+  align-self: flex-start; background: #fff; border: 2px solid #e8e8e8;
+  border-top-left-radius: 4px;
+}
+.chat-msg.user {
+  align-self: flex-end; background: var(--primary); color: #fff;
+  border-top-right-radius: 4px;
+}
+.chat-msg .msg-label { font-size: 0.75rem; font-weight: 700; margin-bottom: 4px; opacity: 0.7; }
+.chat-input-area {
+  display: flex; border-top: 2px solid #e8e8e8;
+}
+.chat-input-area input {
+  flex: 1; padding: 14px 18px; border: none; font-size: 1rem;
+  font-family: 'Nunito', sans-serif; outline: none;
+}
+.chat-input-area button {
+  padding: 14px 24px; background: var(--primary); color: #fff; border: none;
+  font-family: 'Nunito', sans-serif; font-weight: 700; cursor: pointer;
+  font-size: 1rem; transition: background 0.3s ease;
+}
+.chat-input-area button:hover { background: #5b4bd1; }
+.chat-suggestions {
+  display: flex; gap: 8px; padding: 10px 16px; flex-wrap: wrap;
+  border-top: 1px solid #e8e8e8;
+}
+.chat-suggestion {
+  padding: 4px 14px; border: 1px solid #ddd; border-radius: 20px;
+  background: #fff; font-size: 0.85rem; cursor: pointer; transition: all 0.3s ease;
+  font-family: 'Nunito', sans-serif;
+}
+.chat-suggestion:hover { background: var(--primary-light); color: #fff; border-color: var(--primary-light); }
+
+/* Confetti */
+.confetti-piece {
+  position: fixed; width: 12px; height: 12px; top: -20px; z-index: 999;
+  animation: confettiFall 3s ease-in forwards; pointer-events: none;
+}
+.confetti-piece:nth-child(odd) { width: 8px; height: 8px; border-radius: 50%; }
+
+/* Stars effect */
+.star-burst {
+  position: fixed; pointer-events: none; font-size: 2rem; z-index: 998;
+  animation: starBurst 0.8s ease forwards;
+}
+
+/* Accessibility focus */
+button:focus-visible, .quiz-option:focus-visible, .match-item:focus-visible,
+.vocab-card:focus-visible, .sort-item:focus-visible, .sb-word:focus-visible,
+.chat-suggestion:focus-visible {
+  outline: 3px solid var(--primary); outline-offset: 2px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-header h1 { font-size: 1.5rem; }
+  .tab-btn { font-size: 0.8rem; padding: 8px 14px; }
+  .tab-btn span { display: none; }
+  .quiz-options { grid-template-columns: 1fr; }
+  .character-scene { width: 110px; height: 110px; }
+  .character-bg { width: 100px; height: 100px; }
+  .character-face { font-size: 3.2rem; }
+  .char-particle { font-size: 0.9rem; }
+  .vocab-grid { grid-template-columns: 1fr; max-height: 400px; }
+  .matching-grid { grid-template-columns: 1fr; }
+  .flashcard-container { max-width: 300px; height: 260px; }
+  .flashcard-front .big-word { font-size: 2rem; }
+  .section-card { padding: 16px; margin: 12px 8px; }
+  .sort-buckets { grid-template-columns: 1fr 1fr; }
+  .chat-msg { max-width: 90%; }
+}
+@media (max-width: 480px) {
+  .main-header h1 { font-size: 1.2rem; }
+  .quiz-dialogue { font-size: 1rem; }
+  .quiz-question-text { font-size: 1.1rem; }
+  .sort-buckets { grid-template-columns: 1fr; }
+}
+
+/* Text level adaptation */
+.text-level-controls {
+  display: flex; gap: 8px; align-items: center; margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.level-btn {
+  padding: 6px 16px; border: 2px solid #ddd; border-radius: var(--radius-sm);
+  background: #fff; font-weight: 700; font-family: 'Nunito', sans-serif;
+  font-size: 0.85rem; cursor: pointer; transition: all 0.3s ease;
+}
+.level-btn.active { border-color: var(--primary); background: var(--primary); color: #fff; }
+.level-btn:hover:not(.active) { border-color: var(--primary-light); }
+
+/* Word Wall */
+.word-wall {
+  display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+  padding: 16px; background: #f8f7ff; border-radius: var(--radius-sm);
+  min-height: 100px;
+}
+.word-wall-item {
+  padding: 8px 18px; background: var(--primary); color: #fff;
+  border-radius: 20px; font-weight: 700; font-size: 0.95rem;
+  cursor: pointer; transition: all 0.3s ease; animation: popIn 0.4s ease;
+}
+.word-wall-item:hover { transform: scale(1.1); background: #5b4bd1; }
+
+/* Discussion prompts */
+.discussion-card {
+  background: #f8f7ff; border-radius: var(--radius-sm); padding: 16px;
+  margin-bottom: 12px; border-left: 4px solid var(--accent);
+}
+.discussion-card h4 { color: var(--primary); font-size: 1.1rem; margin-bottom: 6px; }
+.discussion-card p { font-size: 0.95rem; color: var(--text-light); }
+
+/* Root word explorer */
+.root-explorer {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;
+}
+.root-card {
+  background: #fafafa; border: 2px solid #e8e8e8; border-radius: var(--radius-sm);
+  padding: 14px; text-align: center; transition: all 0.3s ease;
+}
+.root-card:hover { border-color: var(--primary-light); transform: translateY(-2px); }
+.root-card .root { font-size: 1.3rem; font-weight: 800; color: var(--primary); font-family: 'Baloo 2', cursive; }
+.root-card .root-meaning { font-size: 0.9rem; color: var(--text-light); margin: 4px 0; }
+.root-card .root-examples { font-size: 0.85rem; color: var(--text); }
+
+/* Progress tracker */
+.progress-stars {
+  display: flex; gap: 4px; justify-content: center; margin: 8px 0;
+}
+.progress-star { font-size: 1.5rem; color: #ddd; transition: all 0.3s ease; }
+.progress-star.active { color: var(--accent); animation: bounce 0.4s ease; }
+
+/* Encouraging messages */
+.encourage-banner {
+  position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+  background: #fff; padding: 30px 40px; border-radius: var(--radius);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2); z-index: 100;
+  text-align: center; display: none; animation: popIn 0.5s ease;
+}
+.encourage-banner.show { display: block; }
+.encourage-banner .big-icon { font-size: 4rem; margin-bottom: 10px; }
+.encourage-banner h3 { font-size: 1.5rem; color: var(--primary); }
+.encourage-banner p { color: var(--text-light); margin-top: 6px; }
+.encourage-overlay {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.3); z-index: 99; display: none;
+}
+.encourage-overlay.show { display: block; }
+</style>
+</head>
+<body>
+
+<a class="sr-only" href="#main-content">Skip to main content</a>
+
+<header class="main-header">
+  <div class="container">
+    <h1><i class="fas fa-graduation-cap"></i> English Adventure Zone</h1>
+    <p>Learn English with fun quizzes, words, and games!</p>
+  </div>
+</header>
+
+<nav class="tab-bar" role="tablist" aria-label="Learning sections">
+  <button class="tab-btn active" role="tab" aria-selected="true" data-tab="quiz" id="tab-quiz">
+    <i class="fas fa-question-circle"></i> <span>Quiz</span>
+  </button>
+  <button class="tab-btn" role="tab" aria-selected="false" data-tab="vocab" id="tab-vocab">
+    <i class="fas fa-book"></i> <span>Vocabulary</span>
+  </button>
+  <button class="tab-btn" role="tab" aria-selected="false" data-tab="flashcards" id="tab-flashcards">
+    <i class="fas fa-layer-group"></i> <span>Flashcards</span>
+  </button>
+  <button class="tab-btn" role="tab" aria-selected="false" data-tab="games" id="tab-games">
+    <i class="fas fa-gamepad"></i> <span>Games</span>
+  </button>
+  <button class="tab-btn" role="tab" aria-selected="false" data-tab="chatbot" id="tab-chatbot">
+    <i class="fas fa-robot"></i> <span>AI Tutor</span>
+  </button>
+</nav>
+
+<main id="main-content" class="container">
+
+<!-- ===== TAB 1: QUIZ ===== -->
+<section class="tab-content active" id="panel-quiz" role="tabpanel" aria-labelledby="tab-quiz">
+  <div class="section-card">
+    <h2 class="section-title"><i class="fas fa-pencil-alt"></i> Multiple Choice Quiz</h2>
+    <div id="quizApp">
+      <div class="quiz-header">
+        <div class="quiz-progress">
+          <span class="quiz-question-number" id="qNum">Question 1 of 10</span>
+          <div class="quiz-progress-bar">
+            <div class="quiz-progress-fill" id="qProgress" style="width:0%"></div>
+          </div>
+          <span class="quiz-score" id="qScore"><i class="fas fa-star"></i> 0</span>
+        </div>
+        <div class="progress-stars" id="progressStars"></div>
+      </div>
+      <div id="quizContent">
+        <div class="character-scene" id="charScene">
+          <div class="character-bg happy-bg" id="charBg"></div>
+          <div class="character-face happy-char" id="charFace">😊</div>
+          <div class="char-particle" id="charP1">⭐</div>
+          <div class="char-particle" id="charP2">✨</div>
+          <div class="char-particle" id="charP3">💫</div>
+          <div class="char-particle" id="charP4">🌈</div>
+          <div class="char-particle" id="charP5">🌟</div>
+        </div>
+        <div style="text-align:center;margin-bottom:6px;">
+          <button id="qAudioBtn" class="quiz-audio-btn" aria-label="Play question audio">
+            <i class="fas fa-volume-up"></i> Listen
+          </button>
+        </div>
+        <div class="quiz-dialogue" id="qDialogue"></div>
+        <div class="quiz-question-text" id="qQuestion"></div>
+        <div class="quiz-options" id="qOptions" role="group" aria-label="Answer choices"></div>
+        <div class="quiz-feedback" id="qFeedback" role="alert"></div>
+        <div id="sentencePrompt" class="sentence-prompt" style="display:none;">
+          <div class="sentence-prompt-inner">
+            <p><i class="fas fa-pen-fancy"></i> Can you make a sentence with "<strong id="sentWord"></strong>"?</p>
+            <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px;">
+              <button class="sentence-yes-btn" id="sentYesBtn"><i class="fas fa-check"></i> Yes, I can!</button>
+              <button class="sentence-show-btn" id="sentShowBtn"><i class="fas fa-lightbulb"></i> Show example</button>
+            </div>
+            <div id="sentExample" style="display:none;margin-top:8px;padding:8px 12px;background:#f0edff;border-radius:8px;font-size:0.95rem;color:var(--text-light);"></div>
+          </div>
+        </div>
+        <button class="quiz-next-btn" id="qNextBtn"><i class="fas fa-arrow-right"></i> Next Question ⭐</button>
+      </div>
+      <div class="quiz-results" id="qResults">
+        <div class="results-icon" id="resultsIcon">🏆</div>
+        <h2 id="resultsTitle">Great Job!</h2>
+        <div class="results-score" id="resultsScore">10/10</div>
+        <p id="resultsMsg">You are a superstar! Keep learning!</p>
+        <div class="progress-stars" id="resultsStars"></div>
+        <button class="quiz-restart-btn" id="restartBtn"><i class="fas fa-redo"></i> Play Again</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Text Level Adaptation -->
+  <div class="section-card">
+    <h3 class="section-title"><i class="fas fa-text-height"></i> Text Level</h3>
+    <div class="text-level-controls">
+      <span style="font-weight:700;color:var(--text-light);">Reading Level:</span>
+      <button class="level-btn active" data-level="1">⭐ Easy</button>
+      <button class="level-btn" data-level="2">⭐⭐ Medium</button>
+      <button class="level-btn" data-level="3">⭐⭐⭐ Hard</button>
+    </div>
+    <p id="levelSample" style="font-size:1rem;color:var(--text-light);line-height:1.7;">
+      Reading level adapted just for you! Questions and words will match your chosen level.
+    </p>
+  </div>
+
+  <!-- Discussion Prompts -->
+  <div class="section-card">
+    <h3 class="section-title"><i class="fas fa-comments"></i> Discussion Prompts</h3>
+    <div id="discussionPrompts">
+      <div class="discussion-card">
+        <h4>💬 Talk with a Partner</h4>
+        <p>"How are you feeling today? Use one of our feeling words: happy, sad, angry, hungry, thirsty, or mad."</p>
+      </div>
+      <div class="discussion-card">
+        <h4>💬 Share Your Story</h4>
+        <p>"Tell your partner about a time you felt really happy. What happened? How did your face look?"</p>
+      </div>
+      <div class="discussion-card">
+        <h4>💬 Ask a Friend</h4>
+        <p>"Ask your classmate: 'How old are you?' and 'How are you feeling?' Practice your conversation!"</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TAB 2: VOCABULARY ===== -->
+<section class="tab-content" id="panel-vocab" role="tabpanel" aria-labelledby="tab-vocab">
+  <div class="section-card">
+    <h2 class="section-title"><i class="fas fa-book-open"></i> My Vocabulary Journal</h2>
+    <div class="vocab-controls">
+      <input class="vocab-search" id="vocabSearch" type="search" placeholder="Search for a word..." aria-label="Search vocabulary">
+      <select class="vocab-filter" id="vocabFilter" aria-label="Filter by category">
+        <option value="all">All Words</option>
+        <option value="academic">Academic</option>
+        <option value="literary">Literary</option>
+        <option value="grammar">Grammar</option>
+        <option value="domain">Domain-Specific</option>
+      </select>
+      <button class="quiz-restart-btn" id="vocabShuffleBtn" style="padding:8px 18px;font-size:0.9rem;" aria-label="Shuffle words"><i class="fas fa-random"></i> Shuffle</button>
+    </div>
+    <div class="word-wall" id="wordWall"></div>
+    <div class="vocab-grid" id="vocabGrid" role="list"></div>
+  </div>
+
+  <!-- Root Word Explorer -->
+  <div class="section-card">
+    <h3 class="section-title"><i class="fas fa-tree"></i> Word Roots, Prefixes & Suffixes</h3>
+    <div class="text-level-controls">
+      <button class="level-btn active" data-root-type="roots">🌱 Roots</button>
+      <button class="level-btn" data-root-type="prefixes">🔤 Prefixes</button>
+      <button class="level-btn" data-root-type="suffixes">📎 Suffixes</button>
+    </div>
+    <div class="root-explorer" id="rootExplorer"></div>
+  </div>
+</section>
+
+<!-- ===== TAB 3: FLASHCARDS ===== -->
+<section class="tab-content" id="panel-flashcards" role="tabpanel" aria-labelledby="tab-flashcards">
+  <div class="section-card">
+    <h2 class="section-title"><i class="fas fa-layer-group"></i> Digital Flashcards</h2>
+    <p style="text-align:center;color:var(--text-light);margin-bottom:16px;">Tap or click the card to flip it and see the definition!</p>
+    <div class="flashcard-container" id="flashcard" role="button" tabindex="0" aria-label="Flashcard: tap to flip">
+      <div class="flashcard-inner">
+        <div class="flashcard-front">
+          <div class="big-word" id="fcWord">happy</div>
+          <div class="hint">👆 Tap to see meaning</div>
+        </div>
+        <div class="flashcard-back">
+          <div class="def" id="fcDef">feeling joy or pleasure</div>
+          <div class="example" id="fcExample">"I am happy to see my friends."</div>
+        </div>
+      </div>
+    </div>
+    <div class="flashcard-controls">
+      <button id="fcPrev" aria-label="Previous card"><i class="fas fa-chevron-left"></i></button>
+      <span class="fc-counter" id="fcCounter">1 / 20</span>
+      <button id="fcNext" aria-label="Next card"><i class="fas fa-chevron-right"></i></button>
+      <button class="flashcard-shuffle" id="fcShuffle" aria-label="Shuffle"><i class="fas fa-random"></i> Shuffle</button>
+      <button id="fcSpeak" aria-label="Hear pronunciation"><i class="fas fa-volume-up"></i></button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TAB 4: GAMES ===== -->
+<section class="tab-content" id="panel-games" role="tabpanel" aria-labelledby="tab-games">
+  <div class="section-card">
+    <h2 class="section-title"><i class="fas fa-gamepad"></i> Word Games & Activities</h2>
+    <div class="game-tabs">
+      <button class="game-tab active" data-game="matching">🎯 Matching</button>
+      <button class="game-tab" data-game="sorting">📦 Sorting</button>
+      <button class="game-tab" data-game="sentence">📝 Sentence Building</button>
+      <button class="game-tab" data-game="reading">📖 Reading Comprehension</button>
+    </div>
+    <div class="game-area" id="gameArea"></div>
+  </div>
+</section>
+
+<!-- ===== TAB 5: CHATBOT ===== -->
+<section class="tab-content" id="panel-chatbot" role="tabpanel" aria-labelledby="tab-chatbot">
+  <div class="section-card">
+    <h2 class="section-title"><i class="fas fa-robot"></i> AI Vocabulary Tutor</h2>
+    <p style="text-align:center;color:var(--text-light);margin-bottom:16px;">Ask me about words, definitions, sentences, or practice English!</p>
+    <div class="chat-container">
+      <div class="chat-messages" id="chatMessages" role="log" aria-live="polite">
+        <div class="chat-msg bot">
+          <div class="msg-label">🤖 Tutor Bot</div>
+          Hi there! I'm your English tutor. Ask me about any word, how to use it, or practice a conversation!
+        </div>
+      </div>
+      <div class="chat-suggestions" id="chatSuggestions"></div>
+      <div class="chat-input-area">
+        <input type="text" id="chatInput" placeholder="Type your question..." aria-label="Ask the tutor a question">
+        <button id="chatSend"><i class="fas fa-paper-plane"></i> Send</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Encouragement Banner -->
+<div class="encourage-overlay" id="encOverlay"></div>
+<div class="encourage-banner" id="encBanner" role="alert">
+  <div class="big-icon" id="encIcon">🎉</div>
+  <h3 id="encTitle">Amazing!</h3>
+  <p id="encMsg">You're doing great work!</p>
+</div>
+
+<script>
+// ============================================================
+// DATA
+// ============================================================
+const FEELINGS = ['angry','happy','sad','hungry','thirsty','mad'];
+const FEELING_EMOJIS = {
+  angry: '😠', happy: '😊', sad: '😢', hungry: '🍔', thirsty: '🥤', mad: '😤'
+};
+
+const QUIZ_QUESTIONS = [
+  { emoji: '😊', dialogue: 'A: "Hello! How are you?"<br>B: "I am ______!"<br>A: "That\'s wonderful!"', answer: 'happy', options: ['sad','happy','angry','hungry'] },
+  { emoji: '😢', dialogue: 'A: "Why are you crying?"<br>B: "I am ______ because my toy broke."<br>A: "Oh no! I am sorry."', answer: 'sad', options: ['happy','thirsty','sad','mad'] },
+  { emoji: '😠', dialogue: 'A: "What is wrong?"<br>B: "Someone took my pencil. I am very ______!"<br>A: "Let me help you find it."', answer: 'angry', options: ['angry','happy','hungry','thirsty'] },
+  { emoji: '🍔', dialogue: 'A: "Are you okay?"<br>B: "I am so ______! I did not eat lunch."<br>A: "Let\'s get some food!"', answer: 'hungry', options: ['thirsty','happy','hungry','sad'] },
+  { emoji: '🥤', dialogue: 'A: "You look tired."<br>B: "I am ______. I need some water."<br>A: "Here, have my water bottle."', answer: 'thirsty', options: ['hungry','thirsty','angry','happy'] },
+  { emoji: '😤', dialogue: 'A: "Why is your face like that?"<br>B: "I am so ______! The game is not fair!"<br>A: "It is okay. Let us try again."', answer: 'mad', options: ['happy','sad','mad','thirsty'] },
+  { emoji: '😊', dialogue: 'A: "How old are you?"<br>B: "I am ______ years old!"<br>A: "Me too! Let us be friends."', answer: 'seven', options: ['three','seven','twelve','one'] },
+  { emoji: '😠', dialogue: 'A: "Why are you frowning?"<br>B: "I am ______. My sister took my toy."<br>A: "Tell her how you feel."', answer: 'angry', options: ['angry','happy','thirsty','hungry'] },
+  { emoji: '😢', dialogue: 'A: "What happened?"<br>B: "My pet fish died. I am very ______."<br>A: "I am sorry. That is hard."', answer: 'sad', options: ['happy','sad','mad','hungry'] },
+  { emoji: '🍔', dialogue: 'A: "Is your tummy growling?"<br>B: "Yes! I am really ______!"<br>A: "Let\'s eat some pizza!"', answer: 'hungry', options: ['thirsty','sad','hungry','angry'] },
+  { emoji: '🥤', dialogue: 'A: "You drank lots of juice?"<br>B: "I was very ______ after playing."<br>A: "Drinking water is healthy!"', answer: 'thirsty', options: ['mad','thirsty','happy','sad'] },
+  { emoji: '😤', dialogue: 'A: "You look upset."<br>B: "I am ______! I lost my favorite eraser."<br>A: "Let\'s look for it together."', answer: 'mad', options: ['happy','hungry','mad','thirsty'] },
+  { emoji: '😊', dialogue: 'A: "You are smiling a lot!"<br>B: "I feel very ______ today!"<br>A: "Your smile is contagious!"', answer: 'happy', options: ['sad','angry','happy','thirsty'] },
+  { emoji: '😠', dialogue: 'A: "Why are you stomping your feet?"<br>B: "I am ______! The bus left without me."<br>A: "That is frustrating."', answer: 'mad', options: ['happy','thirsty','mad','hungry'] },
+  { emoji: '😢', dialogue: 'A: "You look down today."<br>B: "I am ______ because my friend moved away."<br>A: "You can still video call them!"', answer: 'sad', options: ['angry','sad','happy','thirsty'] },
+];
+
+// 200 Vocabulary Words
+const VOCAB_WORDS = [
+  // Academic (50)
+  { word: 'analyze', pronunciation: 'an-uh-lyze', definition: 'to look at something very carefully to understand it better', category: 'academic' },
+  { word: 'compare', pronunciation: 'kum-pair', definition: 'to look at how things are the same and different', category: 'academic' },
+  { word: 'contrast', pronunciation: 'kon-trast', definition: 'to see how things are different from each other', category: 'academic' },
+  { word: 'describe', pronunciation: 'dih-skrybe', definition: 'to tell what something looks like or is like', category: 'academic' },
+  { word: 'explain', pronunciation: 'ek-splahn', definition: 'to make something clear so others can understand', category: 'academic' },
+  { word: 'summarize', pronunciation: 'suh-muh-rize', definition: 'to tell the main points in a short way', category: 'academic' },
+  { word: 'predict', pronunciation: 'prih-dikt', definition: 'to guess what will happen next using clues', category: 'academic' },
+  { word: 'conclude', pronunciation: 'kun-kload', definition: 'to make a decision after thinking carefully', category: 'academic' },
+  { word: 'evidence', pronunciation: 'eh-vih-dense', definition: 'facts or clues that help prove something is true', category: 'academic' },
+  { word: 'infer', pronunciation: 'in-fur', definition: 'to figure something out using what you know and clues', category: 'academic' },
+  { word: 'opinion', pronunciation: 'uh-pin-yun', definition: 'what someone thinks or believes about something', category: 'academic' },
+  { word: 'fact', pronunciation: 'fakt', definition: 'something that is true and can be proven', category: 'academic' },
+  { word: 'main idea', pronunciation: 'maine eye-dee-uh', definition: 'the most important thing a text is about', category: 'academic' },
+  { word: 'detail', pronunciation: 'dee-tayl', definition: 'a small piece of information in a story or text', category: 'academic' },
+  { word: 'sequence', pronunciation: 'see-kwens', definition: 'the order in which events happen', category: 'academic' },
+  { word: 'cause', pronunciation: 'kahz', definition: 'the reason something happens', category: 'academic' },
+  { word: 'effect', pronunciation: 'eh-fekt', definition: 'what happens because of something else', category: 'academic' },
+  { word: 'problem', pronunciation: 'prob-lem', definition: 'something that needs to be fixed or solved', category: 'academic' },
+  { word: 'solution', pronunciation: 'suh-loo-shun', definition: 'the answer or way to fix a problem', category: 'academic' },
+  { word: 'similar', pronunciation: 'sim-uh-lar', definition: 'almost the same but not exactly', category: 'academic' },
+  { word: 'different', pronunciation: 'dif-er-ent', definition: 'not the same; unlike something else', category: 'academic' },
+  { word: 'category', pronunciation: 'kat-uh-go-ree', definition: 'a group of things that are alike in some way', category: 'academic' },
+  { word: 'classify', pronunciation: 'klas-ih-fy', definition: 'to put things into groups that are alike', category: 'academic' },
+  { word: 'determine', pronunciation: 'dee-ter-min', definition: 'to find out or decide about something', category: 'academic' },
+  { word: 'identify', pronunciation: 'eye-den-tih-fy', definition: 'to point out or name something', category: 'academic' },
+  { word: 'demonstrate', pronunciation: 'dem-un-strayt', definition: 'to show how to do something clearly', category: 'academic' },
+  { word: 'organize', pronunciation: 'or-guh-nyze', definition: 'to arrange things in a neat and orderly way', category: 'academic' },
+  { word: 'select', pronunciation: 'suh-lekt', definition: 'to choose something from a group', category: 'academic' },
+  { word: 'support', pronunciation: 'suh-port', definition: 'to help or give reasons for an idea', category: 'academic' },
+  { word: 'suggest', pronunciation: 'sug-jest', definition: 'to offer an idea or plan to think about', category: 'academic' },
+  { word: 'examine', pronunciation: 'eg-zam-in', definition: 'to look at something very closely', category: 'academic' },
+  { word: 'research', pronunciation: 'ree-surch', definition: 'to study and learn facts about a topic', category: 'academic' },
+  { word: 'source', pronunciation: 'sors', definition: 'a place where information comes from', category: 'academic' },
+  { word: 'topic', pronunciation: 'top-ik', definition: 'the subject of a text or discussion', category: 'academic' },
+  { word: 'statement', pronunciation: 'stayt-ment', definition: 'a sentence that tells a fact or idea', category: 'academic' },
+  { word: 'argument', pronunciation: 'ar-gyu-ment', definition: 'reasons given for or against an idea', category: 'academic' },
+  { word: 'point of view', pronunciation: 'point of vyoo', definition: 'the way someone sees or thinks about something', category: 'academic' },
+  { word: 'purpose', pronunciation: 'pur-pus', definition: 'the reason something is made or done', category: 'academic' },
+  { word: 'relationship', pronunciation: 'ree-lay-shun-ship', definition: 'how two or more things are connected', category: 'academic' },
+  { word: 'structure', pronunciation: 'struk-chur', definition: 'the way something is built or arranged', category: 'academic' },
+  { word: 'procedure', pronunciation: 'pro-see-jer', definition: 'steps to follow to do something', category: 'academic' },
+  { word: 'concept', pronunciation: 'kon-sept', definition: 'an idea about something', category: 'academic' },
+  { word: 'develop', pronunciation: 'dee-vel-up', definition: 'to grow or make something better', category: 'academic' },
+  { word: 'establish', pronunciation: 'eh-stab-lish', definition: 'to set up or start something', category: 'academic' },
+  { word: 'interpret', pronunciation: 'in-ter-pret', definition: 'to explain the meaning of something', category: 'academic' },
+  { word: 'involve', pronunciation: 'in-volv', definition: 'to include or be part of something', category: 'academic' },
+  { word: 'occupy', pronunciation: 'ah-kyoo-pie', definition: 'to fill or take up space or time', category: 'academic' },
+  { word: 'participate', pronunciation: 'par-tis-ih-payt', definition: 'to join in or take part in something', category: 'academic' },
+  { word: 'require', pronunciation: 'ree-kwire', definition: 'to need something', category: 'academic' },
+  { word: 'transfer', pronunciation: 'trans-fur', definition: 'to move something from one place to another', category: 'academic' },
+  // Literary (50)
+  { word: 'character', pronunciation: 'kair-ak-ter', definition: 'a person or animal in a story', category: 'literary' },
+  { word: 'setting', pronunciation: 'set-ing', definition: 'where and when a story happens', category: 'literary' },
+  { word: 'plot', pronunciation: 'plot', definition: 'what happens in a story from beginning to end', category: 'literary' },
+  { word: 'theme', pronunciation: 'theem', definition: 'the big idea or lesson in a story', category: 'literary' },
+  { word: 'conflict', pronunciation: 'kon-flikt', definition: 'a problem or struggle in a story', category: 'literary' },
+  { word: 'resolution', pronunciation: 'rez-uh-loo-shun', definition: 'how the problem in a story is solved', category: 'literary' },
+  { word: 'dialogue', pronunciation: 'dye-uh-log', definition: 'words spoken between characters in a story', category: 'literary' },
+  { word: 'narrator', pronunciation: 'nair-ay-ter', definition: 'the person telling the story', category: 'literary' },
+  { word: 'imagery', pronunciation: 'im-ij-ree', definition: 'words that create pictures in your mind', category: 'literary' },
+  { word: 'metaphor', pronunciation: 'met-uh-for', definition: 'comparing two things without using like or as', category: 'literary' },
+  { word: 'simile', pronunciation: 'sim-ih-lee', definition: 'comparing two things using like or as', category: 'literary' },
+  { word: 'rhyme', pronunciation: 'rime', definition: 'words that end with the same sound', category: 'literary' },
+  { word: 'rhythm', pronunciation: 'rith-um', definition: 'the beat or pattern of sounds in a poem', category: 'literary' },
+  { word: 'stanza', pronunciation: 'stan-zuh', definition: 'a group of lines in a poem', category: 'literary' },
+  { word: 'verse', pronunciation: 'verss', definition: 'a line or group of lines in a poem', category: 'literary' },
+  { word: 'fiction', pronunciation: 'fik-shun', definition: 'a story that is made up, not real', category: 'literary' },
+  { word: 'nonfiction', pronunciation: 'non-fik-shun', definition: 'a text about real people, events, or facts', category: 'literary' },
+  { word: 'fantasy', pronunciation: 'fan-tuh-see', definition: 'a story with magical or impossible things', category: 'literary' },
+  { word: 'mystery', pronunciation: 'mis-tuh-ree', definition: 'a story about solving a puzzle or crime', category: 'literary' },
+  { word: 'fable', pronunciation: 'fay-bul', definition: 'a short story with a lesson or moral', category: 'literary' },
+  { word: 'moral', pronunciation: 'mor-ul', definition: 'the lesson learned from a story', category: 'literary' },
+  { word: 'author', pronunciation: 'aw-thur', definition: 'the person who writes a book or story', category: 'literary' },
+  { word: 'illustrator', pronunciation: 'il-us-tray-ter', definition: 'the person who draws pictures in a book', category: 'literary' },
+  { word: 'chapter', pronunciation: 'chap-ter', definition: 'a section of a book', category: 'literary' },
+  { word: 'paragraph', pronunciation: 'pair-uh-graf', definition: 'a group of sentences about one idea', category: 'literary' },
+  { word: 'heading', pronunciation: 'hed-ing', definition: 'a title at the top of a section of text', category: 'literary' },
+  { word: 'caption', pronunciation: 'kap-shun', definition: 'words under a picture that tell about it', category: 'literary' },
+  { word: 'table of contents', pronunciation: 'tay-bul uv kon-tents', definition: 'a list at the start of a book showing chapters', category: 'literary' },
+  { word: 'glossary', pronunciation: 'glos-uh-ree', definition: 'a list of hard words and what they mean in a book', category: 'literary' },
+  { word: 'index', pronunciation: 'in-deks', definition: 'an alphabetical list in the back of a book', category: 'literary' },
+  { word: 'title', pronunciation: 'tye-tul', definition: 'the name of a book, story, or poem', category: 'literary' },
+  { word: 'author\'s purpose', pronunciation: 'aw-thurs pur-pus', definition: 'the reason an author wrote something', category: 'literary' },
+  { word: 'predict', pronunciation: 'prih-dikt', definition: 'to guess what will happen next in a story', category: 'literary' },
+  { word: 'connection', pronunciation: 'kuh-nek-shun', definition: 'how something in the story relates to your life', category: 'literary' },
+  { word: 'retell', pronunciation: 'ree-tell', definition: 'to tell a story again in your own words', category: 'literary' },
+  { word: 'event', pronunciation: 'ee-vent', definition: 'something that happens in a story', category: 'literary' },
+  { word: 'describe', pronunciation: 'dee-skrybe', definition: 'to tell what a character or place is like', category: 'literary' },
+  { word: 'feeling', pronunciation: 'fee-ling', definition: 'an emotion that a character has in a story', category: 'literary' },
+  { word: 'action', pronunciation: 'ak-shun', definition: 'something a character does in a story', category: 'literary' },
+  { word: 'dialogue', pronunciation: 'dye-uh-log', definition: 'conversation between characters in a story', category: 'literary' },
+  { word: 'climax', pronunciation: 'kly-maks', definition: 'the most exciting or important part of a story', category: 'literary' },
+  { word: 'suspense', pronunciation: 'sus-pens', definition: 'the feeling of waiting to find out what happens', category: 'literary' },
+  { word: 'trait', pronunciation: 'trayt', definition: 'a quality that makes a character special', category: 'literary' },
+  { word: 'motivation', pronunciation: 'mo-tih-vay-shun', definition: 'the reason a character does something', category: 'literary' },
+  { word: 'genre', pronunciation: 'zhahn-ruh', definition: 'a type or category of stories or books', category: 'literary' },
+  { word: 'prose', pronunciation: 'prohz', definition: 'writing that is not poetry, like stories', category: 'literary' },
+  { word: 'figurative', pronunciation: 'fig-yer-uh-tiv', definition: 'using words in a creative way, not exactly true', category: 'literary' },
+  { word: 'personify', pronunciation: 'per-son-ih-fy', definition: 'giving human qualities to nonhuman things', category: 'literary' },
+  { word: 'alliteration', pronunciation: 'uh-lit-uh-ray-shun', definition: 'words starting with the same sound in a row', category: 'literary' },
+  { word: 'onomatopoeia', pronunciation: 'on-uh-mat-uh-pee-uh', definition: 'words that sound like what they mean, like boom', category: 'literary' },
+  // Grammar (50)
+  { word: 'noun', pronunciation: 'nOWN', definition: 'a word that names a person, place, thing, or idea', category: 'grammar' },
+  { word: 'verb', pronunciation: 'vurb', definition: 'a word that shows action or being', category: 'grammar' },
+  { word: 'adjective', pronunciation: 'aj-ek-tiv', definition: 'a word that tells about a noun', category: 'grammar' },
+  { word: 'adverb', pronunciation: 'ad-vurb', definition: 'a word that tells how, when, or where something happens', category: 'grammar' },
+  { word: 'pronoun', pronunciation: 'pro-noun', definition: 'a word that takes the place of a noun, like he or she', category: 'grammar' },
+  { word: 'preposition', pronunciation: 'prep-uh-zish-un', definition: 'a word that shows location or time, like in, on, at', category: 'grammar' },
+  { word: 'conjunction', pronunciation: 'kun-junk-shun', definition: 'a word that joins words or sentences, like and, but', category: 'grammar' },
+  { word: 'interjection', pronunciation: 'in-ter-jek-shun', definition: 'a word that shows strong feeling, like wow or oops', category: 'grammar' },
+  { word: 'subject', pronunciation: 'sub-jekt', definition: 'the person or thing doing the action in a sentence', category: 'grammar' },
+  { word: 'predicate', pronunciation: 'pred-ih-kit', definition: 'the part of a sentence with the verb', category: 'grammar' },
+  { word: 'tense', pronunciation: 'tens', definition: 'the time of the action: past, present, or future', category: 'grammar' },
+  { word: 'plural', pronunciation: 'ploor-ul', definition: 'more than one person or thing', category: 'grammar' },
+  { word: 'singular', pronunciation: 'sing-gyoo-lar', definition: 'only one person or thing', category: 'grammar' },
+  { word: 'sentence', pronunciation: 'sen-tens', definition: 'a group of words that tells a complete thought', category: 'grammar' },
+  { word: 'phrase', pronunciation: 'frayz', definition: 'a small group of words that is not a full sentence', category: 'grammar' },
+  { word: 'clause', pronunciation: 'klahz', definition: 'part of a sentence with its own subject and verb', category: 'grammar' },
+  { word: 'question', pronunciation: 'kwes-chun', definition: 'a sentence that asks something', category: 'grammar' },
+  { word: 'statement', pronunciation: 'stayt-ment', definition: 'a sentence that tells something', category: 'grammar' },
+  { word: 'exclamation', pronunciation: 'ek-skluh-may-shun', definition: 'a sentence that shows strong feeling', category: 'grammar' },
+  { word: 'command', pronunciation: 'kuh-mand', definition: 'a sentence that tells someone to do something', category: 'grammar' },
+  { word: 'capitalize', pronunciation: 'kap-ih-tuh-lyze', definition: 'to make the first letter of a word uppercase', category: 'grammar' },
+  { word: 'punctuation', pronunciation: 'punk-choo-ay-shun', definition: 'marks like . ? ! that help show meaning', category: 'grammar' },
+  { word: 'period', pronunciation: 'peer-ee-ud', definition: 'a dot at the end of a telling sentence', category: 'grammar' },
+  { word: 'comma', pronunciation: 'kom-uh', definition: 'a mark that shows a short pause in a sentence', category: 'grammar' },
+  { word: 'apostrophe', pronunciation: 'uh-pos-truh-fee', definition: 'a mark that shows ownership or missing letters', category: 'grammar' },
+  { word: 'quotation marks', pronunciation: 'kwo-tay-shun marks', definition: 'marks before and after words someone says', category: 'grammar' },
+  { word: 'paragraph', pronunciation: 'pair-uh-graf', definition: 'a group of sentences about one main idea', category: 'grammar' },
+  { word: 'synonym', pronunciation: 'sin-uh-nim', definition: 'a word that means the same as another word', category: 'grammar' },
+  { word: 'antonym', pronunciation: 'an-tuh-nim', definition: 'a word that means the opposite of another word', category: 'grammar' },
+  { word: 'homophone', pronunciation: 'hom-uh-fone', definition: 'a word that sounds the same but has a different meaning', category: 'grammar' },
+  { word: 'prefix', pronunciation: 'pree-fiks', definition: 'letters added to the start of a word to change meaning', category: 'grammar' },
+  { word: 'suffix', pronunciation: 'suf-iks', definition: 'letters added to the end of a word to change meaning', category: 'grammar' },
+  { word: 'root word', pronunciation: 'root word', definition: 'the base part of a word that gives its main meaning', category: 'grammar' },
+  { word: 'compound word', pronunciation: 'kom-pound word', definition: 'a word made from two smaller words, like snowman', category: 'grammar' },
+  { word: 'contraction', pronunciation: 'kun-trak-shun', definition: 'a shorter way to say two words, like don\'t', category: 'grammar' },
+  { word: 'possessive', pronunciation: 'puh-zes-iv', definition: 'showing that something belongs to someone', category: 'grammar' },
+  { word: 'comparative', pronunciation: 'kum-pair-uh-tiv', definition: 'comparing two things with -er or more', category: 'grammar' },
+  { word: 'superlative', pronunciation: 'soo-pur-luh-tiv', definition: 'comparing three or more with -est or most', category: 'grammar' },
+  { word: 'irregular', pronunciation: 'ih-reg-yoo-lar', definition: 'not following the normal rule', category: 'grammar' },
+  { word: 'common noun', pronunciation: 'kom-un noun', definition: 'a general name for a person, place, or thing', category: 'grammar' },
+  { word: 'proper noun', pronunciation: 'prop-er noun', definition: 'the specific name of a person or place, capitalized', category: 'grammar' },
+  { word: 'collective noun', pronunciation: 'kuh-lek-tiv noun', definition: 'a word for a group, like team or family', category: 'grammar' },
+  { word: 'helping verb', pronunciation: 'help-ing verb', definition: 'a verb that helps the main verb, like is or have', category: 'grammar' },
+  { word: 'linking verb', pronunciation: 'link-ing verb', definition: 'a verb that connects the subject to a describing word', category: 'grammar' },
+  { word: 'article', pronunciation: 'ar-tih-kul', definition: 'words like a, an, the that come before nouns', category: 'grammar' },
+  { word: 'determiner', pronunciation: 'dee-ter-min-er', definition: 'a word that introduces a noun, like this or some', category: 'grammar' },
+  { word: 'modifier', pronunciation: 'mod-ih-fye-er', definition: 'a word or phrase that describes another word', category: 'grammar' },
+  { word: 'direct object', pronunciation: 'duh-rekt ob-jekt', definition: 'the person or thing that receives the action', category: 'grammar' },
+  { word: 'indirect object', pronunciation: 'in-duh-rekt ob-jekt', definition: 'the person who gets something from the action', category: 'grammar' },
+  { word: 'subject-verb agreement', pronunciation: 'sub-jekt verb uh-gree-ment', definition: 'making sure the subject and verb match in number', category: 'grammar' },
+  // Domain-Specific (50)
+  { word: 'temperature', pronunciation: 'tem-pur-uh-chur', definition: 'how hot or cold something is', category: 'domain' },
+  { word: 'measure', pronunciation: 'mezh-er', definition: 'to find out the size, length, or amount of something', category: 'domain' },
+  { word: 'graph', pronunciation: 'graf', definition: 'a drawing that shows information with bars or lines', category: 'domain' },
+  { word: 'experiment', pronunciation: 'ek-spair-ih-ment', definition: 'a test to see what happens and learn something', category: 'domain' },
+  { word: 'observation', pronunciation: 'ob-zur-vay-shun', definition: 'something you notice by watching carefully', category: 'domain' },
+  { word: 'habitat', pronunciation: 'hab-ih-tat', definition: 'the natural home of a plant or animal', category: 'domain' },
+  { word: 'life cycle', pronunciation: 'life sy-kul', definition: 'the stages a living thing goes through in its life', category: 'domain' },
+  { word: 'weather', pronunciation: 'weth-er', definition: 'what the air is like outside each day', category: 'domain' },
+  { word: 'climate', pronunciation: 'klye-mit', definition: 'the usual weather in a place over a long time', category: 'domain' },
+  { word: 'energy', pronunciation: 'en-er-jee', definition: 'the power to do work or make things move', category: 'domain' },
+  { word: 'force', pronunciation: 'forss', definition: 'a push or pull that makes something move', category: 'domain' },
+  { word: 'gravity', pronunciation: 'grav-ih-tee', definition: 'the force that pulls things toward the ground', category: 'domain' },
+  { word: 'magnet', pronunciation: 'mag-net', definition: 'a metal object that attracts iron or steel', category: 'domain' },
+  { word: 'solar system', pronunciation: 'so-lar sis-tem', definition: 'the sun and all the planets that go around it', category: 'domain' },
+  { word: 'planet', pronunciation: 'plan-et', definition: 'a large round body in space that goes around a star', category: 'domain' },
+  { word: 'continent', pronunciation: 'kon-tih-nent', definition: 'one of the seven large land areas on Earth', category: 'domain' },
+  { word: 'ocean', pronunciation: 'oh-shun', definition: 'a huge body of salt water on Earth', category: 'domain' },
+  { word: 'map', pronunciation: 'map', definition: 'a drawing of a place that shows where things are', category: 'domain' },
+  { word: 'compass rose', pronunciation: 'kum-pus rohz', definition: 'a drawing on a map that shows north, south, east, west', category: 'domain' },
+  { word: 'equator', pronunciation: 'ee-kway-ter', definition: 'an imaginary line around the middle of Earth', category: 'domain' },
+  { word: 'hemisphere', pronunciation: 'hem-ih-sfeer', definition: 'half of the Earth, like the northern half', category: 'domain' },
+  { word: 'economy', pronunciation: 'ee-kon-uh-mee', definition: 'the way people make, buy, and sell things', category: 'domain' },
+  { word: 'government', pronunciation: 'guv-ern-ment', definition: 'a group of people who make laws and lead a place', category: 'domain' },
+  { word: 'citizen', pronunciation: 'sit-ih-zen', definition: 'a person who lives in a country or city', category: 'domain' },
+  { word: 'community', pronunciation: 'kuh-myoo-nih-tee', definition: 'a group of people living in the same place', category: 'domain' },
+  { word: 'culture', pronunciation: 'kul-chur', definition: 'the way of life, food, music, and traditions of a group', category: 'domain' },
+  { word: 'tradition', pronunciation: 'truh-dish-un', definition: 'a custom or practice handed down over time', category: 'domain' },
+  { word: 'timeline', pronunciation: 'time-line', definition: 'a line showing events in the order they happened', category: 'domain' },
+  { word: 'past', pronunciation: 'past', definition: 'time that has already happened', category: 'domain' },
+  { word: 'present', pronunciation: 'prez-ent', definition: 'time happening right now', category: 'domain' },
+  { word: 'future', pronunciation: 'fyoo-chur', definition: 'time that has not happened yet', category: 'domain' },
+  { word: 'fraction', pronunciation: 'frak-shun', definition: 'a part of a whole, like 1/2 or 1/4', category: 'domain' },
+  { word: 'decimal', pronunciation: 'des-ih-mul', definition: 'a number with a dot that shows parts of a whole', category: 'domain' },
+  { word: 'multiply', pronunciation: 'mul-tih-ply', definition: 'to add the same number over and over', category: 'domain' },
+  { word: 'divide', pronunciation: 'dih-vide', definition: 'to split something into equal parts', category: 'domain' },
+  { word: 'estimate', pronunciation: 'es-tih-mate', definition: 'to make a careful guess about an amount', category: 'domain' },
+  { word: 'volume', pronunciation: 'vol-yoom', definition: 'the amount of space something takes up', category: 'domain' },
+  { word: 'area', pronunciation: 'air-ee-uh', definition: 'the amount of space inside a flat shape', category: 'domain' },
+  { word: 'perimeter', pronunciation: 'puh-rim-ih-ter', definition: 'the distance around the outside of a shape', category: 'domain' },
+  { word: 'geometry', pronunciation: 'jee-om-uh-tree', definition: 'the study of shapes, sizes, and space', category: 'domain' },
+  { word: 'data', pronunciation: 'day-tuh', definition: 'information collected to help answer questions', category: 'domain' },
+  { word: 'probability', pronunciation: 'prob-uh-bil-ih-tee', definition: 'how likely something is to happen', category: 'domain' },
+  { word: 'pattern', pronunciation: 'pat-ern', definition: 'something that repeats in a regular way', category: 'domain' },
+  { word: 'temperature', pronunciation: 'tem-pruh-chur', definition: 'how hot or cold something is measured', category: 'domain' },
+  { word: 'matter', pronunciation: 'mat-er', definition: 'everything that takes up space and has weight', category: 'domain' },
+  { word: 'solid', pronunciation: 'sol-id', definition: 'a state of matter with a firm shape', category: 'domain' },
+  { word: 'liquid', pronunciation: 'lik-wid', definition: 'a state of matter that flows and takes the shape of its container', category: 'domain' },
+  { word: 'gas', pronunciation: 'gas', definition: 'a state of matter that spreads out to fill its container', category: 'domain' },
+  { word: 'mixture', pronunciation: 'miks-chur', definition: 'two or more things mixed together but not changed', category: 'domain' },
+  { word: 'ecosystem', pronunciation: 'ee-ko-sis-tem', definition: 'all the living and nonliving things in a place', category: 'domain' },
+];
+
+// Roots, Prefixes, Suffixes
+const ROOTS = [
+  { root: 'port', meaning: 'to carry', examples: 'transport, portable, export', type: 'roots' },
+  { root: 'spect', meaning: 'to look', examples: 'inspect, respect, spectator', type: 'roots' },
+  { root: 'dict', meaning: 'to say', examples: 'dictation, predict, dictionary', type: 'roots' },
+  { root: 'rupt', meaning: 'to break', examples: 'erupt, interrupt, corrupt', type: 'roots' },
+  { root: 'graph', meaning: 'to write', examples: 'autograph, paragraph, photograph', type: 'roots' },
+  { root: 'struct', meaning: 'to build', examples: 'construct, instruct, structure', type: 'roots' },
+  { root: 'tract', meaning: 'to pull', examples: 'tractor, attract, subtract', type: 'roots' },
+  { root: 'aud', meaning: 'to hear', examples: 'audio, audience, audition', type: 'roots' },
+  { root: 'bio', meaning: 'life', examples: 'biology, biography, antibiotic', type: 'roots' },
+  { root: 'geo', meaning: 'earth', examples: 'geography, geology, geometry', type: 'roots' },
+  { root: 'un', meaning: 'not / opposite', examples: 'unhappy, unfinished, unkind', type: 'prefixes' },
+  { root: 're', meaning: 'again', examples: 'redo, replay, rewrite', type: 'prefixes' },
+  { root: 'pre', meaning: 'before', examples: 'preview, preheat, prepay', type: 'prefixes' },
+  { root: 'dis', meaning: 'not / opposite', examples: 'dislike, disagree, disappear', type: 'prefixes' },
+  { root: 'mis', meaning: 'wrong', examples: 'misspell, mistake, mislead', type: 'prefixes' },
+  { root: 'in', meaning: 'not / into', examples: 'invisible, incorrect, inside', type: 'prefixes' },
+  { root: 'non', meaning: 'not', examples: 'nonfiction, nonstop, nonsense', type: 'prefixes' },
+  { root: 'over', meaning: 'too much', examples: 'overload, overeat, overjoyed', type: 'prefixes' },
+  { root: 'sub', meaning: 'under', examples: 'submarine, subway, subtract', type: 'prefixes' },
+  { root: 'tri', meaning: 'three', examples: 'tricycle, triangle, triplet', type: 'prefixes' },
+  { root: 'ful', meaning: 'full of', examples: 'beautiful, joyful, thankful', type: 'suffixes' },
+  { root: 'less', meaning: 'without', examples: 'careless, homeless, fearless', type: 'suffixes' },
+  { root: 'er', meaning: 'one who', examples: 'teacher, singer, player', type: 'suffixes' },
+  { root: 'est', meaning: 'the most', examples: 'biggest, tallest, fastest', type: 'suffixes' },
+  { root: 'ly', meaning: 'in a way that', examples: 'slowly, happily, quickly', type: 'suffixes' },
+  { root: 'tion', meaning: 'act or state', examples: 'action, celebration, education', type: 'suffixes' },
+  { root: 'able', meaning: 'can be', examples: 'lovable, breakable, washable', type: 'suffixes' },
+  { root: 'ness', meaning: 'state of being', examples: 'happiness, sadness, kindness', type: 'suffixes' },
+  { root: 'ment', meaning: 'result / action', examples: 'enjoyment, movement, agreement', type: 'suffixes' },
+  { root: 'ous', meaning: 'full of', examples: 'dangerous, famous, curious', type: 'suffixes' },
+];
+
+const FLASHCARD_WORDS = VOCAB_WORDS.slice(0, 50);
+
+
+
+const MATCHING_PAIRS = [
+  { word: 'happy', def: 'feeling joy or pleasure' },
+  { word: 'sad', def: 'feeling unhappy or sorrowful' },
+  { word: 'angry', def: 'feeling mad or upset' },
+  { word: 'hungry', def: 'feeling like you need food' },
+  { word: 'thirsty', def: 'feeling like you need water' },
+  { word: 'brave', def: 'not afraid to do hard things' },
+  { word: 'kind', def: 'nice and caring to others' },
+  { word: 'proud', def: 'feeling good about what you did' },
+];
+
+const SORTING_WORDS = [
+  { word: 'happy', category: 'feeling' },
+  { word: 'sad', category: 'feeling' },
+  { word: 'angry', category: 'feeling' },
+  { word: 'hungry', category: 'feeling' },
+  { word: 'thirsty', category: 'feeling' },
+  { word: 'beautiful', category: 'describing word' },
+  { word: 'quickly', category: 'describing word' },
+  { word: 'carefully', category: 'describing word' },
+  { word: 'run', category: 'action word' },
+  { word: 'jump', category: 'action word' },
+  { word: 'write', category: 'action word' },
+  { word: 'read', category: 'action word' },
+  { word: 'apple', category: 'noun' },
+  { word: 'school', category: 'noun' },
+  { word: 'teacher', category: 'noun' },
+  { word: 'book', category: 'noun' },
+];
+
+const READING_PASSAGES = [
+  {
+    title: 'The Happy Birthday',
+    text: 'Today is Lily\'s birthday. She is seven years old. Her mom made a big cake. Her friends came to play. Lily feels very happy. She got a new book and a teddy bear. Everyone sang "Happy Birthday!" Lily smiled all day long.',
+    questions: [
+      { q: 'How old is Lily?', options: ['six', 'seven', 'eight', 'five'], answer: 'seven' },
+      { q: 'How does Lily feel?', options: ['sad', 'angry', 'happy', 'hungry'], answer: 'happy' },
+      { q: 'What did Lily get?', options: ['a bike', 'a book and a teddy bear', 'a phone', 'a game'], answer: 'a book and a teddy bear' },
+    ]
+  },
+  {
+    title: 'The Lost Kitten',
+    text: 'Tom found a small kitten in his yard. The kitten was cold and hungry. Tom felt sad for the kitten. He gave it milk and food. The kitten drank the milk because it was very thirsty. Tom\'s mom said they could keep it. Tom was so happy!',
+    questions: [
+      { q: 'Where did Tom find the kitten?', options: ['in the park', 'in his yard', 'at school', 'in a store'], answer: 'in his yard' },
+      { q: 'How did the kitten feel?', options: ['happy and warm', 'cold and hungry', 'mad and angry', 'tired and sleepy'], answer: 'cold and hungry' },
+      { q: 'Why did the kitten drink the milk?', options: ['it was happy', 'it was thirsty', 'it was mad', 'it was sad'], answer: 'it was thirsty' },
+    ]
+  },
+];
+
+const CHAT_SUGGESTIONS = [
+  'What does "happy" mean?', 'Use "angry" in a sentence',
+  'Teach me a new word', 'Give me a quiz question',
+  'What is the opposite of sad?', 'How do I spell "beautiful"?',
+  'Tell me a fun fact about words', 'Practice a conversation with me'
+];
+
+const ENCOURAGEMENTS = [
+  { icon: '🎉', title: 'Amazing!', msg: 'You are doing fantastic work!' },
+  { icon: '🌟', title: 'Super Star!', msg: 'Keep shining bright!' },
+  { icon: '🏆', title: 'Champion!', msg: 'You are on a winning streak!' },
+  { icon: '🎊', title: 'Wonderful!', msg: 'You are learning so much!' },
+  { icon: '💪', title: 'Great Effort!', msg: 'You are getting stronger every day!' },
+  { icon: '👏', title: 'Excellent!', msg: 'You should be very proud!' },
+];
+
+// ============================================================
+// UTILITY FUNCTIONS
+// ============================================================
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function speak(text, rate=0.9) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US'; u.rate = rate; u.pitch = 1.1;
+  window.speechSynthesis.speak(u);
+}
+
+function showEncouragement() {
+  const e = ENCOURAGEMENTS[Math.floor(Math.random() * ENCOURAGEMENTS.length)];
+  document.getElementById('encIcon').textContent = e.icon;
+  document.getElementById('encTitle').textContent = e.title;
+  document.getElementById('encMsg').textContent = e.msg;
+  document.getElementById('encBanner').classList.add('show');
+  document.getElementById('encOverlay').classList.add('show');
+  setTimeout(() => {
+    document.getElementById('encBanner').classList.remove('show');
+    document.getElementById('encOverlay').classList.remove('show');
+  }, 2000);
+}
+
+function spawnConfetti() {
+  const colors = ['#6c5ce7','#fd79a8','#fdcb6e','#00b894','#74b9ff','#e17055'];
+  for (let i = 0; i < 30; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.left = Math.random() * 100 + '%';
+    el.style.background = colors[Math.floor(Math.random() * colors.length)];
+    el.style.animationDuration = (2 + Math.random() * 2) + 's';
+    el.style.animationDelay = Math.random() * 0.5 + 's';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 5000);
+  }
+}
+
+function spawnStars() {
+  for (let i = 0; i < 6; i++) {
+    const el = document.createElement('div');
+    el.className = 'star-burst';
+    el.textContent = '⭐';
+    el.style.left = (20 + Math.random() * 60) + '%';
+    el.style.top = (20 + Math.random() * 60) + '%';
+    el.style.animationDelay = (i * 0.1) + 's';
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1000);
+  }
+}
+
+// ============================================================
+// TAB SYSTEM
+// ============================================================
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+    });
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ============================================================
+// QUIZ (ENHANCED)
+// ============================================================
+let quizQuestions = [];
+let quizIndex = 0;
+let quizScore = 0;
+let quizAnswered = false;
+
+const CHAR_EMOJIS = {
+  happy: '😊', sad: '😢', angry: '😠', hungry: '🍔', thirsty: '🥤', mad: '😤'
+};
+
+function initQuiz() {
+  quizQuestions = shuffle([...QUIZ_QUESTIONS]).slice(0, 10);
+  quizIndex = 0;
+  quizScore = 0;
+  quizAnswered = false;
+  document.getElementById('quizContent').style.display = 'block';
+  document.getElementById('qResults').classList.remove('show');
+  document.getElementById('qResults').style.display = 'none';
+  updateStars(0, 10);
+  renderQuizQuestion();
+}
+
+function renderCharacterScene(feeling, customEmoji) {
+  const feelingMap = {
+    happy: { emoji: '😊', particles: ['⭐','✨','🌟','🌈','🎉'], anim: 'happy-char', bg: 'happy-bg' },
+    sad: { emoji: '😢', particles: ['💧','🌧️','☔','💙','😢'], anim: 'sad-char', bg: 'sad-bg' },
+    angry: { emoji: '😠', particles: ['🔥','💢','⚡','🌋','💥'], anim: 'angry-char', bg: 'angry-bg' },
+    hungry: { emoji: '🍔', particles: ['🍕','🍔','🌮','🍪','🍎'], anim: 'hungry-char', bg: 'hungry-bg' },
+    thirsty: { emoji: '🥤', particles: ['💧','🥤','🧊','💦','🍹'], anim: 'thirsty-char', bg: 'thirsty-bg' },
+    mad: { emoji: '😤', particles: ['💢','🔥','⚡','💥','😤'], anim: 'mad-char', bg: 'mad-bg' },
+  };
+  const data = feelingMap[feeling] || { emoji: customEmoji || '😊', particles: ['⭐','✨','🌟','🌈','🎉'], anim: 'happy-char', bg: 'happy-bg' };
+  const bg = document.getElementById('charBg');
+  const face = document.getElementById('charFace');
+  bg.className = 'character-bg ' + data.bg;
+  face.className = 'character-face ' + data.anim;
+  face.textContent = data.emoji;
+  for (let i = 1; i <= 5; i++) {
+    const el = document.getElementById('charP' + i);
+    if (el) el.textContent = data.particles[i - 1] || '⭐';
+  }
+}
+
+function playSoundEffect(type) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    if (type === 'correct') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(523, ctx.currentTime);
+      osc.frequency.setValueAtTime(659, ctx.currentTime + 0.1);
+      osc.frequency.setValueAtTime(784, ctx.currentTime + 0.2);
+      gain.gain.setValueAtTime(0.25, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+      osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.4);
+    } else if (type === 'wrong') {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(200, ctx.currentTime);
+      osc.frequency.setValueAtTime(150, ctx.currentTime + 0.2);
+      gain.gain.setValueAtTime(0.15, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
+      osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.3);
+    } else if (type === 'click') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(600, ctx.currentTime);
+      gain.gain.setValueAtTime(0.12, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.08);
+      osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.08);
+    } else if (type === 'fanfare') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(523, ctx.currentTime);
+      osc.frequency.setValueAtTime(659, ctx.currentTime + 0.15);
+      osc.frequency.setValueAtTime(784, ctx.currentTime + 0.3);
+      osc.frequency.setValueAtTime(1047, ctx.currentTime + 0.45);
+      gain.gain.setValueAtTime(0.25, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.6);
+      osc.start(ctx.currentTime); osc.stop(ctx.currentTime + 0.6);
+    }
+  } catch (e) { /* audio not supported */ }
+}
+
+function renderQuizQuestion() {
+  const q = quizQuestions[quizIndex];
+  if (!q) return finishQuiz();
+  quizAnswered = false;
+  document.getElementById('qNum').textContent = `Question ${quizIndex + 1} of ${quizQuestions.length}`;
+  document.getElementById('qProgress').style.width = ((quizIndex) / quizQuestions.length * 100) + '%';
+  renderCharacterScene(q.answer, q.emoji);
+  document.getElementById('qDialogue').innerHTML = q.dialogue;
+  document.getElementById('qQuestion').textContent = 'What is the missing word?';
+  const container = document.getElementById('qOptions');
+  container.innerHTML = '';
+  const shuffled = shuffle([...q.options]);
+  const letters = ['A', 'B', 'C', 'D'];
+  shuffled.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-option';
+    btn.innerHTML = '<span class="opt-letter">' + letters[i] + '</span><span class="opt-text">' + opt + '</span>';
+    btn.dataset.value = opt;
+    btn.addEventListener('click', () => { playSoundEffect('click'); checkQuizAnswer(opt, q.answer, btn); });
+    container.appendChild(btn);
+  });
+  const fb = document.getElementById('qFeedback');
+  fb.classList.remove('show');
+  fb.className = 'quiz-feedback';
+  var qNext = document.getElementById('qNextBtn');
+  qNext.classList.remove('show');
+  qNext.style.display = '';
+  document.getElementById('sentencePrompt').style.display = 'none';
+  const audioBtn = document.getElementById('qAudioBtn');
+  audioBtn.innerHTML = '<i class="fas fa-volume-up"></i> Listen';
+  audioBtn.onclick = function () {
+    const plain = q.dialogue.replace(/<br>/g, '. ');
+    speak(plain);
+    this.innerHTML = '<i class="fas fa-volume-up"></i> Playing...';
+    setTimeout(() => { this.innerHTML = '<i class="fas fa-volume-up"></i> Listen'; }, 2000);
+  };
+  setTimeout(() => {
+    const plain = q.dialogue.replace(/<br>/g, '. ');
+    speak(plain);
+  }, 600);
+}
+
+function checkQuizAnswer(selected, correct, btn) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  const options = document.querySelectorAll('.quiz-option');
+  options.forEach(function (o) { o.classList.add('disabled'); });
+  const feedback = document.getElementById('qFeedback');
+  if (selected === correct) {
+    btn.classList.add('correct');
+    quizScore++;
+    document.getElementById('qScore').innerHTML = '<i class="fas fa-star"></i> ' + quizScore;
+    feedback.textContent = '🎉 Correct! Great job!';
+    feedback.className = 'quiz-feedback correct show';
+    playSoundEffect('correct');
+    spawnStars();
+    showEncouragement();
+    showSentencePrompt(correct);
+  } else {
+    btn.classList.add('wrong');
+    options.forEach(function (o) { if (o.dataset.value === correct) o.classList.add('correct'); });
+    feedback.textContent = '❌ Oops! The correct answer is "' + correct + '". Try again next time!';
+    feedback.className = 'quiz-feedback wrong show';
+    playSoundEffect('wrong');
+  }
+  updateStars(quizScore, quizQuestions.length);
+  var nextBtn = document.getElementById('qNextBtn');
+  nextBtn.style.display = 'block';
+  nextBtn.classList.add('show');
+  nextBtn.onclick = function () {
+    quizIndex++;
+    if (quizIndex >= quizQuestions.length) finishQuiz();
+    else renderQuizQuestion();
+  };
+}
+
+function showSentencePrompt(word) {
+  var prompt = document.getElementById('sentencePrompt');
+  document.getElementById('sentWord').textContent = word;
+  document.getElementById('sentExample').style.display = 'none';
+  prompt.style.display = 'block';
+  prompt.style.animation = 'slideDown 0.4s ease';
+  var examples = {
+    happy: '"I feel very happy when I play outside with my friends."',
+    sad: '"She is sad because her balloon popped."',
+    angry: '"He is angry when someone takes his toy."',
+    hungry: '"I am hungry. Let us eat lunch together!"',
+    thirsty: '"After running, I feel thirsty and need water."',
+    mad: '"Do not be mad. We can try again together."',
+  };
+  document.getElementById('sentYesBtn').onclick = function () {
+    document.getElementById('sentExample').textContent = '🌟 Awesome! You are learning to make sentences! Keep practicing!';
+    document.getElementById('sentExample').style.display = 'block';
+    playSoundEffect('correct');
+  };
+  document.getElementById('sentShowBtn').onclick = function () {
+    var ex = examples[word] || '"I am ' + word + ' today."';
+    document.getElementById('sentExample').innerHTML = '📖 Example: ' + ex + ' <button class="play-sound" style="background:none;border:none;color:var(--primary);font-size:1rem;cursor:pointer;" onclick="event.stopPropagation();speak(\'' + ex.replace(/["']/g, '') + '\')"><i class="fas fa-volume-up"></i></button>';
+    document.getElementById('sentExample').style.display = 'block';
+  };
+}
+
+function updateStars(score, total) {
+  var maxStars = Math.min(total, 10);
+  var active = Math.round((score / total) * maxStars);
+  var container = document.getElementById('progressStars');
+  container.innerHTML = '';
+  for (var i = 0; i < maxStars; i++) {
+    var s = document.createElement('span');
+    s.className = 'progress-star ' + (i < active ? 'active' : '');
+    s.textContent = '⭐';
+    s.style.animationDelay = (i * 0.1) + 's';
+    container.appendChild(s);
+  }
+}
+
+function finishQuiz() {
+  document.getElementById('quizContent').style.display = 'none';
+  var results = document.getElementById('qResults');
+  results.style.display = 'block';
+  results.className = 'quiz-results show';
+  var pct = Math.round((quizScore / quizQuestions.length) * 100);
+  document.getElementById('resultsScore').textContent = quizScore + ' / ' + quizQuestions.length;
+  playSoundEffect('fanfare');
+  if (pct === 100) {
+    document.getElementById('resultsIcon').textContent = '🏆';
+    document.getElementById('resultsTitle').textContent = 'Perfect Score! You are a Champion! 🏆';
+    document.getElementById('resultsMsg').textContent = 'You got every question right! Amazing! You are a super English learner!';
+    spawnConfetti();
+  } else if (pct >= 80) {
+    document.getElementById('resultsIcon').textContent = '🌟';
+    document.getElementById('resultsTitle').textContent = 'Great Job! Almost Perfect! 🌟';
+    document.getElementById('resultsMsg').textContent = 'You are doing so well! Just a little more practice for a perfect score!';
+    spawnConfetti();
+  } else if (pct >= 60) {
+    document.getElementById('resultsIcon').textContent = '👍';
+    document.getElementById('resultsTitle').textContent = 'Good Work! Keep Trying! 💪';
+    document.getElementById('resultsMsg').textContent = 'You are learning! Every time you practice, you get better!';
+  } else {
+    document.getElementById('resultsIcon').textContent = '💪';
+    document.getElementById('resultsTitle').textContent = 'Nice Try! Practice More! 🌱';
+    document.getElementById('resultsMsg').textContent = 'Every mistake helps you learn. Let us try again and do even better!';
+  }
+  var maxStars = quizQuestions.length;
+  var active = Math.round((quizScore / quizQuestions.length) * maxStars);
+  var starsContainer = document.getElementById('resultsStars');
+  starsContainer.innerHTML = '';
+  for (var i = 0; i < maxStars; i++) {
+    var s = document.createElement('span');
+    s.className = 'progress-star ' + (i < active ? 'active' : '');
+    s.textContent = '⭐';
+    starsContainer.appendChild(s);
+  }
+  document.getElementById('qProgress').style.width = '100%';
+}
+
+document.getElementById('restartBtn').addEventListener('click', function () {
+  document.getElementById('quizContent').style.display = 'block';
+  document.getElementById('qResults').style.display = 'none';
+  document.getElementById('qResults').classList.remove('show');
+  initQuiz();
+});
+
+// ============================================================
+// VOCABULARY
+// ============================================================
+let vocabDisplay = [];
+
+function shuffleVocab() {
+  vocabDisplay = shuffle([...VOCAB_WORDS]);
+  renderVocab();
+}
+
+function renderVocab() {
+  const search = document.getElementById('vocabSearch').value.toLowerCase();
+  const filter = document.getElementById('vocabFilter').value;
+  let filtered = vocabDisplay.filter(w => {
+    if (filter !== 'all' && w.category !== filter) return false;
+    if (search && !w.word.toLowerCase().includes(search) && !w.definition.toLowerCase().includes(search)) return false;
+    return true;
+  });
+
+  // Word Wall
+  const wall = document.getElementById('wordWall');
+  wall.innerHTML = '';
+  const shown = filtered.slice(0, 20);
+  shown.forEach(w => {
+    const el = document.createElement('span');
+    el.className = 'word-wall-item';
+    el.textContent = w.word;
+    el.addEventListener('click', () => { speak(w.word); });
+    wall.appendChild(el);
+  });
+
+  const grid = document.getElementById('vocabGrid');
+  grid.innerHTML = '';
+  filtered.forEach(w => {
+    const card = document.createElement('div');
+    card.className = 'vocab-card';
+    card.setAttribute('role', 'listitem');
+    card.setAttribute('tabindex', '0');
+    const tagClass = 'tag-' + w.category;
+    card.innerHTML = `
+      <div class="word">${w.word}</div>
+      <div class="pronounce">/${w.pronunciation}/</div>
+      <div class="definition">${w.definition}</div>
+      <span class="category-tag ${tagClass}">${w.category}</span>
+      <button class="play-sound" aria-label="Hear pronunciation of ${w.word}"><i class="fas fa-volume-up"></i></button>
+    `;
+    card.querySelector('.play-sound').addEventListener('click', (e) => {
+      e.stopPropagation(); speak(w.word);
+    });
+    card.addEventListener('click', () => {
+      speak(w.word);
+    });
+    grid.appendChild(card);
+  });
+}
+
+document.getElementById('vocabSearch').addEventListener('input', renderVocab);
+document.getElementById('vocabFilter').addEventListener('change', renderVocab);
+document.getElementById('vocabShuffleBtn').addEventListener('click', shuffleVocab);
+
+// ============================================================
+// ROOT WORD EXPLORER
+// ============================================================
+let rootType = 'roots';
+function renderRoots() {
+  const container = document.getElementById('rootExplorer');
+  container.innerHTML = '';
+  const items = ROOTS.filter(r => r.type === rootType);
+  items.forEach(r => {
+    const card = document.createElement('div');
+    card.className = 'root-card';
+    card.innerHTML = `
+      <div class="root">${r.root}</div>
+      <div class="root-meaning">${r.meaning}</div>
+      <div class="root-examples">📖 ${r.examples}</div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+document.querySelectorAll('[data-root-type]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('[data-root-type]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    rootType = btn.dataset.rootType;
+    renderRoots();
+  });
+});
+
+// ============================================================
+// FLASHCARDS
+// ============================================================
+let fcCards = [];
+let fcIndex = 0;
+
+function initFlashcards() {
+  fcCards = shuffle([...FLASHCARD_WORDS]);
+  fcIndex = 0;
+  showFlashcard();
+}
+
+function showFlashcard() {
+  if (!fcCards.length) return;
+  const w = fcCards[fcIndex];
+  document.getElementById('fcWord').textContent = w.word;
+  document.getElementById('fcDef').textContent = w.definition;
+  document.getElementById('fcExample').textContent = 'Example: Use "' + w.word + '" when you talk about ' + (w.category === 'grammar' ? 'language rules.' : w.category === 'academic' ? 'learning and school.' : w.category === 'literary' ? 'stories and books.' : 'specific topics.') ;
+  document.getElementById('fcCounter').textContent = `${fcIndex + 1} / ${fcCards.length}`;
+  document.getElementById('flashcard').classList.remove('flipped');
+}
+
+document.getElementById('flashcard').addEventListener('click', () => {
+  document.getElementById('flashcard').classList.toggle('flipped');
+});
+
+document.getElementById('flashcard').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); document.getElementById('flashcard').classList.toggle('flipped'); }
+});
+
+document.getElementById('fcPrev').addEventListener('click', () => {
+  fcIndex = (fcIndex - 1 + fcCards.length) % fcCards.length;
+  showFlashcard();
+});
+
+document.getElementById('fcNext').addEventListener('click', () => {
+  fcIndex = (fcIndex + 1) % fcCards.length;
+  showFlashcard();
+});
+
+document.getElementById('fcShuffle').addEventListener('click', () => {
+  fcCards = shuffle(fcCards);
+  fcIndex = 0;
+  showFlashcard();
+});
+
+document.getElementById('fcSpeak').addEventListener('click', () => {
+  if (fcCards.length) speak(fcCards[fcIndex].word);
+});
+
+// ============================================================
+// WORD GAMES
+// ============================================================
+function initMatchingGame() {
+  const area = document.getElementById('gameArea');
+  area.innerHTML = `
+    <h3 style="text-align:center;color:var(--primary);margin-bottom:12px;">🎯 Match the Word to Its Meaning</h3>
+    <p style="text-align:center;color:var(--text-light);margin-bottom:16px;">Click a word, then click its matching definition!</p>
+    <div class="matching-grid" id="matchingGrid">
+      <div class="match-col" id="matchWords"></div>
+      <div class="match-col" id="matchDefs"></div>
+    </div>
+    <div style="text-align:center;margin-top:12px;">
+      <span id="matchScore" style="font-weight:700;color:var(--primary);font-size:1.1rem;">✅ 0 / ${MATCHING_PAIRS.length}</span>
+      <button id="matchReset" style="margin-left:12px;padding:8px 18px;border:none;border-radius:var(--radius-sm);background:var(--primary);color:#fff;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;">🔄 Reset</button>
+    </div>
+  `;
+  let pairs = shuffle([...MATCHING_PAIRS]);
+  let matchSelected = null;
+  let matchScoreCount = 0;
+
+  const wordsCol = document.getElementById('matchWords');
+  const defsCol = document.getElementById('matchDefs');
+  const shuffledWords = shuffle([...pairs]);
+  const shuffledDefs = shuffle([...pairs]);
+
+  shuffledWords.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'match-item';
+    el.dataset.pairId = p.word;
+    el.textContent = p.word;
+    el.addEventListener('click', handleMatchClick);
+    wordsCol.appendChild(el);
+  });
+
+  shuffledDefs.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'match-item';
+    el.dataset.pairId = p.word;
+    el.textContent = p.def;
+    el.addEventListener('click', handleMatchClick);
+    defsCol.appendChild(el);
+  });
+
+  function handleMatchClick() {
+    if (this.classList.contains('matched') || this.classList.contains('disabled')) return;
+    const allItems = document.querySelectorAll('.match-item:not(.matched)');
+    if (matchSelected) {
+      // Second click
+      if (matchSelected === this) {
+        matchSelected.classList.remove('selected');
+        matchSelected = null;
+        return;
+      }
+      this.classList.add('selected');
+      const id1 = matchSelected.dataset.pairId;
+      const id2 = this.dataset.pairId;
+      const col1 = matchSelected.parentElement.id;
+      const col2 = this.parentElement.id;
+
+      if (id1 === id2 && col1 !== col2) {
+        // Correct match
+        matchSelected.classList.remove('selected');
+        matchSelected.classList.add('matched');
+        this.classList.remove('selected');
+        this.classList.add('matched');
+        matchScoreCount++;
+        document.getElementById('matchScore').textContent = `✅ ${matchScoreCount} / ${MATCHING_PAIRS.length}`;
+        speak('Correct match!');
+        if (matchScoreCount === MATCHING_PAIRS.length) {
+          setTimeout(() => {
+            spawnConfetti();
+            showEncouragement();
+          }, 300);
+        }
+      } else {
+        // Wrong match
+        matchSelected.classList.add('wrong');
+        this.classList.add('wrong');
+        setTimeout(() => {
+          matchSelected.classList.remove('selected', 'wrong');
+          this.classList.remove('selected', 'wrong');
+        }, 600);
+      }
+      matchSelected = null;
+      allItems.forEach(i => i.classList.remove('disabled'));
+    } else {
+      // First click
+      matchSelected = this;
+      this.classList.add('selected');
+      allItems.forEach(i => { if (i !== this) i.classList.add('disabled'); });
+    }
+  }
+
+  document.getElementById('matchReset').addEventListener('click', () => {
+    const area = document.getElementById('gameArea');
+    area.innerHTML = '';
+    initMatchingGame();
+  });
+}
+
+function initSortingGame() {
+  const area = document.getElementById('gameArea');
+  const categories = [...new Set(SORTING_WORDS.map(w => w.category))];
+  let words = shuffle([...SORTING_WORDS]);
+
+  area.innerHTML = `
+    <h3 style="text-align:center;color:var(--primary);margin-bottom:12px;">📦 Sort the Words!</h3>
+    <p style="text-align:center;color:var(--text-light);margin-bottom:16px;">Drag each word into the correct category bucket!</p>
+    <div class="sort-area" id="sortArea"></div>
+    <div class="sort-buckets" id="sortBuckets"></div>
+    <div style="text-align:center;margin-top:12px;">
+      <button id="sortReset" style="padding:8px 18px;border:none;border-radius:var(--radius-sm);background:var(--primary);color:#fff;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;">🔄 New Words</button>
+    </div>
+  `;
+
+  const sortArea = document.getElementById('sortArea');
+  const buckets = document.getElementById('sortBuckets');
+
+  words.forEach(w => {
+    const el = document.createElement('div');
+    el.className = 'sort-item';
+    el.textContent = w.word;
+    el.draggable = true;
+    el.dataset.category = w.category;
+    el.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', w.word);
+      e.dataTransfer.setData('category', w.category);
+      setTimeout(() => el.classList.add('dragging'), 0);
+    });
+    el.addEventListener('dragend', () => el.classList.remove('dragging'));
+    sortArea.appendChild(el);
+  });
+
+  categories.forEach(cat => {
+    const bucket = document.createElement('div');
+    bucket.className = 'sort-bucket';
+    bucket.dataset.category = cat;
+    bucket.innerHTML = `<h4>📁 ${cat}</h4>`;
+
+    bucket.addEventListener('dragover', (e) => { e.preventDefault(); bucket.classList.add('drag-over'); });
+    bucket.addEventListener('dragleave', () => bucket.classList.remove('drag-over'));
+    bucket.addEventListener('drop', (e) => {
+      e.preventDefault();
+      bucket.classList.remove('drag-over');
+      const word = e.dataTransfer.getData('text/plain');
+      const cat = e.dataTransfer.getData('category');
+      const el = document.querySelector(`.sort-item[data-category="${cat}"]:not(.sorted)`);
+      if (el && bucket.dataset.category === cat) {
+        el.classList.add('matched', 'sorted');
+        el.draggable = false;
+        const clone = el.cloneNode(true);
+        clone.style.background = 'var(--success)';
+        clone.style.cursor = 'default';
+        clone.draggable = false;
+        bucket.appendChild(clone);
+        el.style.display = 'none';
+        speak('Sorted!');
+        // Check if all sorted
+        const remaining = document.querySelectorAll('.sort-item:not(.sorted)');
+        if (remaining.length === 0) {
+          setTimeout(() => { spawnConfetti(); showEncouragement(); }, 300);
+        }
+      }
+    });
+    buckets.appendChild(bucket);
+  });
+
+  document.getElementById('sortReset').addEventListener('click', () => {
+    const area = document.getElementById('gameArea');
+    area.innerHTML = '';
+    initSortingGame();
+  });
+}
+
+function initSentenceGame() {
+  const area = document.getElementById('gameArea');
+  const sentences = [
+    { words: ['I', 'am', 'feeling', 'happy', 'today'], display: 'I am feeling happy today.' },
+    { words: ['She', 'is', 'very', 'sad', 'right', 'now'], display: 'She is very sad right now.' },
+    { words: ['They', 'are', 'hungry', 'and', 'thirsty'], display: 'They are hungry and thirsty.' },
+    { words: ['He', 'feels', 'angry', 'about', 'the', 'game'], display: 'He feels angry about the game.' },
+    { words: ['We', 'are', 'so', 'happy', 'to', 'see', 'you'], display: 'We are so happy to see you.' },
+  ];
+  let currentSent = shuffle(sentences)[0];
+  let remainingWords = shuffle([...currentSent.words]);
+
+  function renderSentence() {
+    area.innerHTML = `
+      <h3 style="text-align:center;color:var(--primary);margin-bottom:12px;">📝 Build the Sentence!</h3>
+      <p style="text-align:center;color:var(--text-light);margin-bottom:16px;">Click the words in the correct order to build the sentence.</p>
+      <div class="sentence-builder">
+        <div style="text-align:center;margin-bottom:8px;font-size:0.9rem;color:var(--text-light);">
+          🔊 Listen to the sentence: <button id="playHintSent" style="padding:4px 12px;border:none;border-radius:8px;background:var(--primary-light);color:#fff;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;"><i class="fas fa-volume-up"></i> Play</button>
+        </div>
+        <div class="sentence-workspace" id="sentenceWorkspace"></div>
+        <div class="sentence-wordbank" id="sentenceBank"></div>
+        <div style="text-align:center;">
+          <button class="chk-sentence-btn" id="chkSentence">✅ Check Sentence</button>
+          <button id="newSentenceBtn" style="margin-left:8px;padding:10px 20px;border:none;border-radius:var(--radius-sm);background:var(--primary);color:#fff;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;">🔄 New Sentence</button>
+        </div>
+        <div id="sentFeedback" style="text-align:center;margin-top:12px;font-weight:700;"></div>
+      </div>
+    `;
+
+    const bank = document.getElementById('sentenceBank');
+    remainingWords.forEach(w => {
+      const el = document.createElement('span');
+      el.className = 'sb-word';
+      el.textContent = w;
+      el.addEventListener('click', () => {
+        if (el.classList.contains('used')) return;
+        el.classList.add('used');
+        const ws = document.getElementById('sentenceWorkspace');
+        const placed = document.createElement('span');
+        placed.className = 'sb-word';
+        placed.style.background = 'var(--secondary)';
+        placed.textContent = w;
+        placed.addEventListener('click', () => {
+          placed.remove();
+          el.classList.remove('used');
+          el.classList.remove('wrong');
+        });
+        ws.appendChild(placed);
+      });
+      bank.appendChild(el);
+    });
+
+    document.getElementById('playHintSent').addEventListener('click', () => {
+      speak(currentSent.display);
+    });
+
+    document.getElementById('chkSentence').addEventListener('click', () => {
+      const ws = document.getElementById('sentenceWorkspace');
+      const built = [];
+      ws.querySelectorAll('.sb-word').forEach(el => built.push(el.textContent));
+      const userSent = built.join(' ');
+      if (userSent.toLowerCase() === currentSent.display.toLowerCase()) {
+        document.getElementById('sentFeedback').textContent = '🎉 Perfect! You built the sentence correctly!';
+        document.getElementById('sentFeedback').style.color = 'var(--success)';
+        spawnStars();
+        showEncouragement();
+      } else {
+        document.getElementById('sentFeedback').textContent = `❌ Not quite. The sentence was: "${currentSent.display}"`;
+        document.getElementById('sentFeedback').style.color = 'var(--danger)';
+        document.getElementById('sentenceWorkspace').querySelectorAll('.sb-word').forEach(el => {
+          el.style.background = 'var(--danger)';
+          el.style.color = '#fff';
+        });
+      }
+    });
+
+    document.getElementById('newSentenceBtn').addEventListener('click', () => {
+      currentSent = shuffle(sentences)[0];
+      remainingWords = shuffle([...currentSent.words]);
+      renderSentence();
+    });
+  }
+
+  renderSentence();
+}
+
+function initReadingComprehension() {
+  const area = document.getElementById('gameArea');
+  const passage = shuffle(READING_PASSAGES)[0];
+  let qIndex = 0;
+  let correctCount = 0;
+
+  function renderPassage() {
+    area.innerHTML = `
+      <h3 style="text-align:center;color:var(--primary);margin-bottom:12px;">📖 Reading Comprehension</h3>
+      <div style="background:#f8f7ff;border-radius:var(--radius-sm);padding:16px;margin-bottom:16px;border-left:4px solid var(--primary);">
+        <h4 style="color:var(--primary);font-size:1.1rem;">${passage.title}</h4>
+        <p style="font-size:0.95rem;line-height:1.7;color:var(--text);margin-top:8px;">${passage.text}</p>
+      </div>
+      <div id="readQuestions"></div>
+      <div style="text-align:center;margin-top:12px;">
+        <button id="readReset" style="padding:8px 18px;border:none;border-radius:var(--radius-sm);background:var(--primary);color:#fff;font-weight:700;cursor:pointer;font-family:'Nunito',sans-serif;">📖 New Passage</button>
+      </div>
+    `;
+
+    const container = document.getElementById('readQuestions');
+    passage.questions.forEach((q, idx) => {
+      const div = document.createElement('div');
+      div.style.cssText = 'margin-bottom:16px;padding:12px;background:#fafafa;border-radius:var(--radius-sm);';
+      div.innerHTML = `<p style="font-weight:700;margin-bottom:8px;">${idx + 1}. ${q.q}</p>`;
+      const optDiv = document.createElement('div');
+      optDiv.style.cssText = 'display:flex;gap:8px;flex-wrap:wrap;';
+      q.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-option';
+        btn.style.cssText = 'padding:8px 16px;border:2px solid #e8e8e8;border-radius:8px;background:#fff;font-weight:600;cursor:pointer;font-family:\'Nunito\',sans-serif;transition:all 0.3s ease;';
+        btn.textContent = opt;
+        btn.addEventListener('click', () => {
+          const allBtns = optDiv.querySelectorAll('button');
+          if (btn.dataset.answered) return;
+          allBtns.forEach(b => { b.style.opacity = '0.6'; b.style.pointerEvents = 'none'; });
+          btn.dataset.answered = 'true';
+          if (opt === q.answer) {
+            btn.style.borderColor = 'var(--success)';
+            btn.style.background = '#e6fff5';
+            correctCount++;
+            document.getElementById('readScore').textContent = `✅ ${correctCount} / ${passage.questions.length}`;
+            spawnStars();
+          } else {
+            btn.style.borderColor = 'var(--danger)';
+            btn.style.background = '#ffe8e0';
+            allBtns.forEach(b => { if (b.textContent === q.answer) { b.style.borderColor = 'var(--success)'; b.style.background = '#e6fff5'; }});
+          }
+          // Check if all answered
+          const allAnswered = [...container.querySelectorAll('button')].every(b => b.dataset.answered);
+          if (allAnswered) {
+            setTimeout(() => { if (correctCount === passage.questions.length) { spawnConfetti(); showEncouragement(); } }, 500);
+          }
+        });
+        optDiv.appendChild(btn);
+      });
+      div.appendChild(optDiv);
+      container.appendChild(div);
+    });
+
+    const scoreEl = document.createElement('div');
+    scoreEl.id = 'readScore';
+    scoreEl.style.cssText = 'text-align:center;font-weight:700;font-size:1.1rem;color:var(--primary);';
+    scoreEl.textContent = `✅ 0 / ${passage.questions.length}`;
+    container.prepend(scoreEl);
+
+    document.getElementById('readReset').addEventListener('click', () => {
+      initReadingComprehension();
+    });
+  }
+
+  renderPassage();
+}
+
+// Game tabs
+document.querySelectorAll('.game-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.game-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const game = btn.dataset.game;
+    switch (game) {
+      case 'matching': initMatchingGame(); break;
+      case 'sorting': initSortingGame(); break;
+      case 'sentence': initSentenceGame(); break;
+      case 'reading': initReadingComprehension(); break;
+    }
+  });
+});
+
+// ============================================================
+// CHATBOT
+// ============================================================
+let chatContext = [];
+
+function initChat() {
+  const input = document.getElementById('chatInput');
+  const sendBtn = document.getElementById('chatSend');
+  const suggestions = document.getElementById('chatSuggestions');
+
+  shuffle(CHAT_SUGGESTIONS).slice(0, 4).forEach(s => {
+    const el = document.createElement('button');
+    el.className = 'chat-suggestion';
+    el.textContent = s;
+    el.addEventListener('click', () => {
+      addChatMessage('user', s);
+      handleChatResponse(s);
+    });
+    suggestions.appendChild(el);
+  });
+
+  function addChatMessage(role, text) {
+    const container = document.getElementById('chatMessages');
+    const msg = document.createElement('div');
+    msg.className = `chat-msg ${role}`;
+    msg.innerHTML = `<div class="msg-label">${role === 'bot' ? '🤖 Tutor Bot' : '👤 You'}</div>${text}`;
+    container.appendChild(msg);
+    container.scrollTop = container.scrollHeight;
+    chatContext.push({ role, text });
+  }
+
+  function handleChatResponse(inputText) {
+    const lower = inputText.toLowerCase();
+    let response = '';
+
+    if (lower.includes('happy')) {
+      response = '"Happy" means feeling joy or pleasure! 😊 Example: "I am happy to play with my friends." Can you use "happy" in a sentence?';
+    } else if (lower.includes('sad')) {
+      response = '"Sad" means feeling unhappy or sorrowful. 😢 Example: "She felt sad when her balloon popped." Can you think of a time you felt sad?';
+    } else if (lower.includes('angry') || lower.includes('mad')) {
+      response = '"Angry" and "mad" both mean feeling upset or annoyed. 😠 Example: "He was angry because his tower fell." It\'s okay to feel angry sometimes!';
+    } else if (lower.includes('hungry')) {
+      response = '"Hungry" means you need to eat! 🍔 Example: "I am hungry for lunch." What is your favorite food when you are hungry?';
+    } else if (lower.includes('thirsty')) {
+      response = '"Thirsty" means you need something to drink! 🥤 Example: "After running, I was very thirsty." Always drink water!';
+    } else if (lower.includes('opposite') || lower.includes('antonym')) {
+      response = 'Great question! Here are some opposites: happy 😊 ↔ sad 😢, hot 🌞 ↔ cold ❄️, big ↔ small, fast ↔ slow. What word would you like to know the opposite of?';
+    } else if (lower.includes('synonym') || lower.includes('same')) {
+      response = 'Synonyms are words that mean the same thing! For example: happy = glad, joyful; sad = unhappy, gloomy; big = large, huge; pretty = beautiful, lovely. Try using a new synonym today!';
+    } else if (lower.includes('sentence') || lower.includes('use')) {
+      response = 'Let\'s practice! 🎯 Try this sentence frame: "I feel ______ when ______." For example: "I feel happy when I read a good book." Now you try! What word would you like to use?';
+    } else if (lower.includes('quiz') || lower.includes('question')) {
+      const word = shuffle(FEELINGS)[0];
+      response = `Quiz time! 🎯 Quick question: "How do you feel when you get a present?" Is it A) angry, B) happy, C) sad, D) thirsty? Type your answer!`;
+    } else if (lower.includes('spell')) {
+      const word = lower.replace('spell', '').trim() || 'beautiful';
+      response = `Let me help you spell! 🖊️ "${word}" is spelled: ${word.split('').join('-')}. Try writing it three times!`;
+    } else if (lower.includes('hello') || lower.includes('hi') || lower.includes('hey')) {
+      response = 'Hi there! 👋 I\'m your English tutor. I can help you learn new words, practice sentences, or answer questions. What would you like to learn today?';
+    } else if (lower.includes('new word') || lower.includes('teach')) {
+      const w = shuffle(VOCAB_WORDS)[0];
+      response = `Here is a new word for you! 📚 "${w.word}" - ${w.definition}. Try saying it: ${w.word}. Can you use it in a sentence?`;
+    } else if (lower.includes('conversation') || lower.includes('practice')) {
+      response = 'Let\'s practice a conversation! 🗣️ You start: say "Hello, how are you?" to me, and I\'ll reply!';
+    } else if (lower.includes('fact') || lower.includes('fun')) {
+      response = 'Fun word fact! 🎉 The word "alphabet" comes from the first two Greek letters: alpha and beta! Did you know that the English language has over 170,000 words?';
+    } else {
+      // Try to find a matching word
+      const matchedWord = VOCAB_WORDS.find(w => lower.includes(w.word));
+      if (matchedWord) {
+        response = `"${matchedWord.word}" (/${matchedWord.pronunciation}/) means: ${matchedWord.definition}. It is a ${matchedWord.category} word. Great question! 🤩`;
+      } else {
+        response = 'That\'s an interesting question! 🤔 Try asking me about a specific word like "happy" or "sad", or ask me to teach you a new word! You can also ask: "What is the opposite of happy?" or "Use angry in a sentence."';
+      }
+    }
+
+    setTimeout(() => {
+      addChatMessage('bot', response);
+      speak(response.replace(/<[^>]*>/g, ''), 0.85);
+    }, 500);
+  }
+
+  function sendMessage() {
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    addChatMessage('user', text);
+    handleChatResponse(text);
+  }
+
+  sendBtn.addEventListener('click', sendMessage);
+  input.addEventListener('keydown', (e) => { if (e.key === 'Enter') sendMessage(); });
+}
+
+// ============================================================
+// TEXT LEVEL ADAPTATION
+// ============================================================
+document.querySelectorAll('.level-btn[data-level]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.level-btn[data-level]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const level = parseInt(btn.dataset.level);
+    const sample = document.getElementById('levelSample');
+    if (level === 1) sample.textContent = '⭐ Easy Level: Simple words and short sentences. Perfect for beginners! Questions like: "How are you?" and basic feeling words.';
+    else if (level === 2) sample.textContent = '⭐⭐ Medium Level: Longer sentences with more details. Questions about feelings, age, and daily life with complete conversations.';
+    else sample.textContent = '⭐⭐⭐ Hard Level: Advanced sentences with descriptive words. Practice complex conversations and learn new vocabulary in context.';
+    speak(sample.textContent, 0.85);
+  });
+});
+
+// ============================================================
+// INIT
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  shuffleVocab();
+  renderRoots();
+  initFlashcards();
+  initQuiz();
+  initMatchingGame();
+  initChat();
+
+  // Close encouragement
+  document.getElementById('encOverlay').addEventListener('click', () => {
+    document.getElementById('encBanner').classList.remove('show');
+    document.getElementById('encOverlay').classList.remove('show');
+  });
+});
+</script>
+</body>
+</html>
