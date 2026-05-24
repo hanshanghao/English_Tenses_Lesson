@@ -115,6 +115,17 @@
   .next-btn:hover{transform:translateY(-3px) scale(1.05)}
   .next-btn.visible{display:inline-block}
 
+  /* ── MCQ SPECIFIC ── */
+  .mcq-animated-frame{width:320px;height:220px;margin:0 auto 18px;border-radius:18px;overflow:hidden;box-shadow:0 8px 28px rgba(0,0,0,0.16);border:4px solid rgba(231,76,60,0.3);background:#fff5f5;display:flex;align-items:center;justify-content:center;animation:popIn .5s cubic-bezier(.4,0,.2,1)}
+  .mcq-animated-frame .mcq-emoji{font-size:8rem;display:flex;align-items:center;justify-content:center;width:100%;height:100%;animation:bounceEmoji 1.5s ease-in-out infinite}
+  @keyframes bounceEmoji{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-15px) scale(1.1)}}
+  .mcq-animated-frame .anim-sad{animation:shakeEmoji 2s ease-in-out infinite}
+  @keyframes shakeEmoji{0%,100%{transform:rotate(0deg)}25%{transform:rotate(-5deg)}75%{transform:rotate(5deg)}}
+  .mcq-animated-frame .anim-mad{animation:rageEmoji 0.8s ease-in-out infinite}
+  @keyframes rageEmoji{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+  .mcq-animated-frame .anim-happy{animation:happyBounce 1s ease-in-out infinite}
+  @keyframes happyBounce{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-20px) rotate(10deg)}}
+
   /* ── START / RESULT SCREENS ── */
   .start-screen,.result-screen{text-align:center}
   .result-screen{display:none}
@@ -402,6 +413,7 @@
     <button class="tab-btn" onclick="switchTab('tab-match',this)">🎯 Choose the Correct Match</button>
     <button class="tab-btn" onclick="switchTab('tab-mes',this)">✍️ Make Easy Sentences</button>
     <button class="tab-btn" onclick="switchTab('tab-wmq',this)">📖 Word Meanings Quiz</button>
+    <button class="tab-btn" onclick="switchTab('tab-mcq',this)">📝 Multiple Choice Quiz</button>
   </div>
 
   <!-- ============================================================
@@ -884,6 +896,82 @@
 
   </div><!-- /tab-wmq -->
 
+  <!-- ============================================================
+       TAB 7 : MULTIPLE CHOICE QUIZ
+  ============================================================ -->
+  <div class="tab-panel" id="tab-mcq">
+
+    <!-- START SCREEN -->
+    <div class="start-screen" id="mcq-start">
+      <div class="screen-card">
+        <div style="font-size:3.6rem;margin-bottom:12px">📝</div>
+        <h2 style="color:#e74c3c">Multiple Choice Quiz!</h2>
+        <p>🎬 Watch the animated dialogue<br>🤔 Choose the correct feeling<br>🔊 Listen in British English<br>💭 Practice: angry, happy, sad, hungry, thirsty, mad!</p>
+        <div style="display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin:16px 0 22px">
+          <span style="background:rgba(231,76,60,.12);border:2px solid rgba(231,76,60,.3);border-radius:50px;padding:5px 14px;font-size:.82rem;font-weight:800;color:#c0392b">😠 Angry</span>
+          <span style="background:rgba(241,196,15,.12);border:2px solid rgba(241,196,15,.3);border-radius:50px;padding:5px 14px;font-size:.82rem;font-weight:800;color:#d4ac0d">😊 Happy</span>
+          <span style="background:rgba(52,152,219,.12);border:2px solid rgba(52,152,219,.3);border-radius:50px;padding:5px 14px;font-size:.82rem;font-weight:800;color:#2980b9">😢 Sad</span>
+          <span style="background:rgba(230,126,34,.12);border:2px solid rgba(230,126,34,.3);border-radius:50px;padding:5px 14px;font-size:.82rem;font-weight:800;color:#d35400">🍔 Hungry</span>
+          <span style="background:rgba(26,188,156,.12);border:2px solid rgba(26,188,156,.3);border-radius:50px;padding:5px 14px;font-size:.82rem;font-weight:800;color:#16a085">🥤 Thirsty</span>
+          <span style="background:rgba(155,89,182,.12);border:2px solid rgba(155,89,182,.3);border-radius:50px;padding:5px 14px;font-size:.82rem;font-weight:800;color:#8e44ad">😤 Mad</span>
+        </div>
+        <button class="start-btn" style="background:linear-gradient(135deg,#e74c3c,#c0392b);color:#fff" onclick="mcqStart()">▶ Start Quiz!</button>
+      </div>
+    </div>
+
+    <!-- QUIZ SCREEN -->
+    <div id="mcq-quiz" style="display:none">
+      <div class="progress-label" id="mcq-pl">Question 1 / 8</div>
+      <div class="progress-wrap"><div class="progress-bar" id="mcq-pb" style="width:0%"></div></div>
+      <div class="score-strip">
+        <div class="score-badge">✅ Correct <span class="num" id="mcq-sc">0</span></div>
+        <div class="score-badge">❌ Wrong <span class="num" id="mcq-sw">0</span></div>
+        <div class="score-badge">⭐ Stars <span class="num" id="mcq-ss">0</span></div>
+      </div>
+
+      <div class="voice-panel">
+        <label>🔊 Pronunciation:</label>
+        <label class="voice-toggle">
+          <input type="checkbox" id="mcq-voiceOn" onchange="mcqVoiceToggle(this)">
+          <span class="toggle-track"></span>
+          <span class="toggle-label" id="mcq-voiceLabel">OFF</span>
+        </label>
+        <button class="listen-btn-top" id="mcq-listenBtn" onclick="mcqSpeak()" disabled>🎧 Listen</button>
+      </div>
+
+      <div class="quiz-card" id="mcq-card">
+        <div style="text-align:center;margin-bottom:12px">
+          <span class="letter-badge" id="mcq-cat-badge">🎭 Feelings</span>
+        </div>
+
+        <div class="mcq-animated-frame" id="mcq-animated-frame">
+          <span class="mcq-emoji">😊</span>
+        </div>
+
+        <div id="mcq-dialogue" style="background:rgba(108,99,255,.08);border-radius:14px;padding:14px 16px;margin-bottom:16px;font-size:.95rem;font-weight:700;color:#555;line-height:1.8;text-align:center;border:2px dashed rgba(108,99,255,.3)"></div>
+
+        <div class="question-text" id="mcq-qt">How does the person feel?</div>
+
+        <div class="options-grid" id="mcq-grid" style="grid-template-columns:repeat(3,1fr)"></div>
+
+        <div class="feedback" id="mcq-fb"></div>
+        <button class="next-btn" id="mcq-next" onclick="mcqNext()">Next ➡</button>
+      </div>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div class="result-screen" id="mcq-result">
+      <div class="screen-card">
+        <div class="result-trophy" id="mcq-rt">🏆</div>
+        <div class="result-title" id="mcq-rtt">Great Job!</div>
+        <div class="stars-row" id="mcq-rs">⭐⭐⭐</div>
+        <div class="result-score-txt" id="mcq-rsc"></div>
+        <button class="restart-btn" style="background:linear-gradient(135deg,#e74c3c,#c0392b)" onclick="mcqRestart()">🔄 Play Again</button>
+      </div>
+    </div>
+
+  </div><!-- /tab-mcq -->
+
 </div><!-- /container -->
 
 <script>
@@ -993,7 +1081,8 @@ function switchTab(id,btn){
     'tab-vq':['#f7971e','#ffd200'],
     'tab-match':['#11998e','#38ef7d'],
     'tab-mes':['#6c63ff','#a18cd1'],
-    'tab-wmq':['#e67e22','#f39c12']
+    'tab-wmq':['#e67e22','#f39c12'],
+    'tab-mcq':['#e74c3c','#c0392b']
   };
   const [c1,c2]=bgs[id]||['#ff9a9e','#fecfef'];
   setBg(c1,c2);
@@ -1364,6 +1453,7 @@ function clsToggleHint(){
 function show(id){const el=document.getElementById(id);if(el)el.style.display='block';}
 function hide(id){const el=document.getElementById(id);if(el)el.style.display='none';}
 function setText(id,v){const el=document.getElementById(id);if(el)el.textContent=v;}
+function setProp(id,prop,v){const el=document.getElementById(id);if(el)el[prop]=v;}
 function setWidth(id,pct){const el=document.getElementById(id);if(el)el.style.width=pct+'%';}
 // setBg: tints the bg-overlay element instead of stopping the pulse animation
 function setBg(c1,c2){
@@ -2710,6 +2800,87 @@ function wmqRestart(){ hide('wmq-result'); show('wmq-start'); }
 function wmqSpeak(){
   if(wmqCurrent && wmqVoiceOn)
     speak(wmqCurrent.sentence.replace('____', wmqCurrent.answer), wmqRate);
+}
+
+/* ======================================================
+   MULTIPLE CHOICE QUIZ (Age & Feelings)
+====================================================== */
+const MCQ_DATA=[
+  {emoji:'😢',animClass:'anim-sad',dialogue:'A: How are you today?\nB: I feel ____ because I lost my toy.',answer:'sad',options:['happy','sad','angry']},
+  {emoji:'😤',animClass:'anim-mad',dialogue:'A: Why are you crying?\nB: I am ____! I want some cake!',answer:'mad',options:['happy','mad','thirsty']},
+  {emoji:'😊',animClass:'anim-happy',dialogue:'A: You are smiling!\nB: Yes! I am ____! I got a gift!',answer:'happy',options:['sad','happy','hungry']},
+  {emoji:'🥤',animClass:'anim-thirsty',dialogue:'A: Do you want some water?\nB: Yes, I am very ____!',answer:'thirsty',options:['thirsty','sad','angry']},
+  {emoji:'🍔',animClass:'anim-hungry',dialogue:'A: Lunch is ready!\nB: Wow! I am so ____!',answer:'hungry',options:['hungry','happy','thirsty']},
+  {emoji:'😠',animClass:'anim-angry',dialogue:'A: Why is he shouting?\nB: He is ____! Someone took his book!',answer:'angry',options:['angry','happy','sad']},
+  {emoji:'😄',animClass:'anim-happy',dialogue:'A: How do you feel now?\nB: I feel much better! I am ____ again!',answer:'happy',options:['sad','hungry','happy']},
+  {emoji:'😭',animClass:'anim-sad',dialogue:'A: She is crying.\nB: Yes, she is ____ because her dog is sick.',answer:'sad',options:['happy','angry','sad']}
+];
+
+let mcqQ=[], mcqI=0, mcqCor=0, mcqWr=0, mcqSt=0, mcqVoiceOn=false, mcqCurrent=null, mcqRate=0.8;
+
+function mcqStart(){
+  mcqQ=shuffle([...MCQ_DATA]);
+  mcqI=0; mcqCor=0; mcqWr=0; mcqSt=0;
+  hide('mcq-start'); show('mcq-quiz');
+  mcqUpdateScore(); mcqRender();
+}
+function mcqRender(){
+  const q=mcqQ[mcqI]; mcqCurrent=q;
+  setText('mcq-pl',`Question ${mcqI+1} / ${mcqQ.length}`);
+  setProp('mcq-pb','style.width',(mcqI/mcqQ.length*100)+'%');
+  const frame=document.getElementById('mcq-animated-frame');
+  frame.innerHTML=`<span class="mcq-emoji ${q.animClass}">${q.emoji}</span>`;
+  document.getElementById('mcq-dialogue').innerHTML=q.dialogue.replace(/\n/g,'<br>');
+  document.getElementById('mcq-listenBtn').disabled=!mcqVoiceOn;
+  const grid=document.getElementById('mcq-grid');
+  grid.innerHTML=shuffle(q.options).map(o=>
+    `<button class="option-btn" data-a="${o}" onclick="mcqCheck(this,'${o}')">${o}</button>`
+  ).join('');
+  hide('mcq-fb'); hide('mcq-next');
+}
+function mcqCheck(el,sel){
+  const q=mcqQ[mcqI];
+  document.querySelectorAll('#mcq-grid .option-btn').forEach(b=>b.disabled=true);
+  if(sel===q.answer){
+    mcqCor++; mcqSt++;
+    el.classList.add('correct');
+    showFb('mcq-fb','correct',`🎉 Correct! The feeling is <strong>"${q.answer}"</strong>!`);
+    if(mcqVoiceOn) speak('Correct! '+q.answer+'! Well done!', mcqRate);
+    confetti(el);
+  } else {
+    mcqWr++;
+    el.classList.add('wrong');
+    document.querySelectorAll('#mcq-grid .option-btn').forEach(b=>{ if(b.dataset.a===q.answer) b.classList.add('reveal'); });
+    showFb('mcq-fb','wrong',`😔 Not quite! The correct answer is <strong>"${q.answer}"</strong>`);
+    if(mcqVoiceOn) speak('The answer is '+q.answer, mcqRate*0.85);
+  }
+  mcqUpdateScore(); showNext('mcq-next');
+}
+function mcqNext(){
+  mcqI++;
+  if(mcqI>=mcqQ.length) mcqResult();
+  else mcqRender();
+}
+function mcqUpdateScore(){
+  setText('mcq-sc',mcqCor); setText('mcq-sw',mcqWr); setText('mcq-ss',mcqSt);
+}
+function mcqResult(){
+  hide('mcq-quiz'); show('mcq-result');
+  const[t,ti,s]=grade(mcqCor,mcqQ.length);
+  setText('mcq-rt',t); setText('mcq-rtt',ti); setText('mcq-rs',s);
+  setText('mcq-rsc',`You got ${mcqCor} out of ${mcqQ.length} correct! (${Math.round(mcqCor/mcqQ.length*100)}%)`);
+  setBg('#e74c3c','#c0392b');
+  if(mcqVoiceOn) speak(ti+'! You got '+mcqCor+' out of '+mcqQ.length+' correct!', 0.9);
+}
+function mcqRestart(){ hide('mcq-result'); show('mcq-start'); }
+function mcqVoiceToggle(cb){
+  mcqVoiceOn=cb.checked;
+  document.getElementById('mcq-voiceLabel').textContent=mcqVoiceOn?'ON':'OFF';
+  document.getElementById('mcq-listenBtn').disabled=!mcqVoiceOn;
+  if(!mcqVoiceOn) speechSynthesis.cancel();
+}
+function mcqSpeak(){
+  if(mcqCurrent && mcqVoiceOn) speak(mcqCurrent.dialogue.replace(/\n/g,' '), mcqRate);
 }
 
 </script>
