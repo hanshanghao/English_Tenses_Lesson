@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shadow Gestures Game</title>
+<title>WildLearn - Animals, Birds &amp; Insects</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap');
@@ -59,407 +59,604 @@ body{
   0%,100%{transform:translate(-50%,-50%) scale(1);opacity:0.15}
   50%{transform:translate(-50%,-50%) scale(1.3);opacity:0.25}
 }
-.game-container{
+
+/* ===== SCREENS ===== */
+.screen{
+  display:none;
   position:relative;
   z-index:1;
   width:100%;
   max-width:520px;
   padding:20px;
   margin:20px;
+  animation:screenIn 0.5s cubic-bezier(0.34,1.56,0.64,1);
 }
-.header{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:16px;
-  flex-wrap:wrap;
-  gap:10px;
+.screen.active{display:block}
+@keyframes screenIn{
+  from{opacity:0;transform:translateY(24px) scale(0.96)}
+  to{opacity:1;transform:translateY(0) scale(1)}
 }
-.header h1{
+
+/* ===== CATEGORY SELECTION ===== */
+.cat-header{
+  text-align:center;
+  margin-bottom:32px;
+}
+.cat-header h1{
   font-family:'Fredoka One',cursive;
-  font-size:24px;
+  font-size:32px;
   background:linear-gradient(135deg,#6c5ce7,#fd79a8,#00cec9);
   -webkit-background-clip:text;
   -webkit-text-fill-color:transparent;
   letter-spacing:1px;
+  margin-bottom:8px;
 }
-.score-box{
-  background:rgba(255,255,255,0.08);
-  backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,0.12);
-  border-radius:16px;
-  padding:8px 18px;
+.cat-header p{
+  color:rgba(255,255,255,0.5);
+  font-size:15px;
+  font-weight:600;
+}
+.cat-grid{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.cat-card{
+  position:relative;
+  border-radius:24px;
+  padding:28px 24px;
+  cursor:pointer;
+  overflow:hidden;
+  transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  border:1px solid rgba(255,255,255,0.08);
   display:flex;
   align-items:center;
-  gap:8px;
-  font-weight:700;
-  font-size:16px;
+  gap:20px;
 }
-.score-box .num{
-  color:#fdcb6e;
-  font-size:22px;
+.cat-card:hover{
+  transform:translateY(-4px) scale(1.01);
+  box-shadow:0 16px 48px rgba(0,0,0,0.3);
 }
-.progress-bar-wrap{
-  width:100%;
-  height:6px;
-  background:rgba(255,255,255,0.1);
-  border-radius:3px;
-  margin-bottom:20px;
-  overflow:hidden;
+.cat-card:active{transform:translateY(-1px) scale(0.99)}
+.cat-card.animals{
+  background:linear-gradient(135deg,rgba(108,92,231,0.15),rgba(108,92,231,0.05));
+  border-color:rgba(108,92,231,0.25);
 }
-.progress-bar{
-  height:100%;
-  background:linear-gradient(90deg,#6c5ce7,#fd79a8);
-  border-radius:3px;
-  transition:width 0.6s cubic-bezier(0.34,1.56,0.64,1);
-  width:0%;
+.cat-card.birds{
+  background:linear-gradient(135deg,rgba(0,206,201,0.15),rgba(0,206,201,0.05));
+  border-color:rgba(0,206,201,0.25);
 }
-.shadow-card{
-  background:rgba(255,255,255,0.06);
-  backdrop-filter:blur(20px);
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:28px;
-  padding:28px 22px 22px;
-  position:relative;
-  overflow:hidden;
+.cat-card.insects{
+  background:linear-gradient(135deg,rgba(253,203,110,0.15),rgba(253,203,110,0.05));
+  border-color:rgba(253,203,110,0.25);
+}
+.cat-icon{
+  font-size:48px;
+  flex-shrink:0;
+  width:72px;height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:18px;
+  background:rgba(255,255,255,0.05);
   transition:transform 0.3s;
 }
-.shadow-card::before{
+.cat-card:hover .cat-icon{transform:scale(1.08) rotate(-4deg)}
+.cat-info{flex:1}
+.cat-info h2{
+  font-family:'Fredoka One',cursive;
+  font-size:22px;
+  margin-bottom:3px;
+}
+.cat-card.animals .cat-info h2{color:#a29bfe}
+.cat-card.birds .cat-info h2{color:#55efc4}
+.cat-card.insects .cat-info h2{color:#fdcb6e}
+.cat-card.vocab{
+  margin-top:8px;
+  background:linear-gradient(135deg,rgba(255,118,117,0.12),rgba(255,118,117,0.04));
+  border-color:rgba(255,118,117,0.2);
+}
+.cat-card.vocab .cat-info h2{color:#ff7675}
+.cat-card.sentences{
+  margin-top:8px;
+  background:linear-gradient(135deg,rgba(253,203,110,0.12),rgba(253,203,110,0.04));
+  border-color:rgba(253,203,110,0.2);
+}
+.cat-card.sentences .cat-info h2{color:#fdcb6e}
+.cat-info p{
+  font-size:13px;
+  color:rgba(255,255,255,0.45);
+  font-weight:600;
+}
+.cat-arrow{
+  font-size:20px;
+  color:rgba(255,255,255,0.2);
+  transition:all 0.3s;
+  flex-shrink:0;
+}
+.cat-card:hover .cat-arrow{
+  color:rgba(255,255,255,0.6);
+  transform:translateX(4px);
+}
+
+/* ===== LEARN SCREEN ===== */
+.learn-header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+}
+.back-btn{
+  width:42px;height:42px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.04);
+  color:rgba(255,255,255,0.5);
+  cursor:pointer;
+  font-size:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:all 0.3s;
+  flex-shrink:0;
+}
+.back-btn:hover{
+  background:rgba(255,255,255,0.08);
+  color:#fff;
+  border-color:rgba(255,255,255,0.2);
+}
+.learn-title-area{flex:1}
+.learn-title-area h1{
+  font-family:'Fredoka One',cursive;
+  font-size:20px;
+  background:linear-gradient(135deg,#6c5ce7,#fd79a8,#00cec9);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  line-height:1.2;
+}
+.cat-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-size:11px;
+  font-weight:800;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  padding:3px 10px;
+  border-radius:20px;
+  margin-top:2px;
+}
+.cat-badge.animals{background:rgba(108,92,231,0.2);color:#a29bfe}
+.cat-badge.birds{background:rgba(0,206,201,0.2);color:#55efc4}
+.cat-badge.insects{background:rgba(253,203,110,0.2);color:#fdcb6e}
+
+.learn-card{
+  background:rgba(255,255,255,0.04);
+  backdrop-filter:blur(20px);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:24px;
+  padding:24px 20px 20px;
+  position:relative;
+  overflow:hidden;
+}
+.learn-card::before{
   content:'';
   position:absolute;
   inset:0;
-  border-radius:28px;
+  border-radius:24px;
   padding:1px;
-  background:linear-gradient(135deg,rgba(108,92,231,0.3),rgba(0,206,201,0.15),rgba(253,121,168,0.3));
+  background:linear-gradient(135deg,rgba(108,92,231,0.2),rgba(0,206,201,0.1),rgba(253,121,168,0.2));
   -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
   -webkit-mask-composite:xor;
   mask-composite:exclude;
   pointer-events:none;
 }
-.shadow-stage{
-  background:radial-gradient(ellipse at center,rgba(108,92,231,0.12) 0%,rgba(0,0,0,0.3) 100%);
-  border-radius:20px;
-  padding:20px;
+.visual-area{
   display:flex;
-  align-items:center;
-  justify-content:center;
-  min-height:280px;
-  position:relative;
-  cursor:pointer;
-}
-.shadow-stage svg{
-  width:100%;
-  max-height:260px;
-  filter:drop-shadow(0 0 30px rgba(108,92,231,0.3));
-  transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1);
-}
-.shadow-stage:hover svg{
-  transform:scale(1.03);
-}
-.shadow-hint{
-  position:absolute;
-  bottom:12px;
-  left:50%;
-  transform:translateX(-50%);
-  font-size:12px;
-  color:rgba(255,255,255,0.3);
-  letter-spacing:2px;
-  text-transform:uppercase;
-  animation:blink 2s ease-in-out infinite;
-}
-@keyframes blink{
-  0%,100%{opacity:0.3}
-  50%{opacity:0.7}
-}
-.question-number{
-  text-align:center;
-  margin-top:12px;
-  font-size:13px;
-  color:rgba(255,255,255,0.5);
-  font-weight:600;
-  letter-spacing:1px;
-}
-.question-number span{color:#fdcb6e;font-size:16px}
-.word-bank{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-  margin-top:20px;
-}
-.word-btn{
-  position:relative;
-  padding:14px 10px;
-  border:2px solid rgba(255,255,255,0.12);
-  border-radius:16px;
-  background:rgba(255,255,255,0.04);
-  color:#fff;
-  font-size:16px;
-  font-weight:700;
-  font-family:'Nunito',sans-serif;
-  cursor:pointer;
-  transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
-  overflow:hidden;
-  letter-spacing:0.5px;
-  text-transform:capitalize;
-}
-.word-btn::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  border-radius:14px;
-  background:linear-gradient(135deg,rgba(108,92,231,0.15),rgba(0,206,201,0.08));
-  opacity:0;
-  transition:opacity 0.3s;
-}
-.word-btn:hover:not(:disabled){
-  transform:translateY(-3px) scale(1.02);
-  border-color:rgba(108,92,231,0.4);
-  box-shadow:0 8px 30px rgba(108,92,231,0.2);
-}
-.word-btn:hover:not(:disabled)::before{opacity:1}
-.word-btn:active:not(:disabled){transform:translateY(-1px) scale(0.98)}
-.word-btn:disabled{cursor:not-allowed;opacity:0.6}
-.word-btn.correct{
-  border-color:#00cec9 !important;
-  background:rgba(0,206,201,0.2) !important;
-  box-shadow:0 0 30px rgba(0,206,201,0.2);
-  animation:correctPop 0.5s cubic-bezier(0.34,1.56,0.64,1);
-}
-.word-btn.wrong{
-  border-color:#ff7675 !important;
-  background:rgba(255,118,117,0.15) !important;
-  animation:shake 0.5s;
-}
-@keyframes correctPop{
-  0%{transform:scale(1)}
-  40%{transform:scale(1.12)}
-  100%{transform:scale(1)}
-}
-@keyframes shake{
-  0%,100%{transform:translateX(0)}
-  20%{transform:translateX(-8px)}
-  40%{transform:translateX(8px)}
-  60%{transform:translateX(-5px)}
-  80%{transform:translateX(5px)}
-}
-.fact-box{
-  margin-top:14px;
-  padding:14px 18px;
-  background:rgba(253,203,110,0.08);
-  border:1px solid rgba(253,203,110,0.2);
-  border-radius:14px;
-  font-size:14px;
-  color:rgba(255,255,255,0.8);
-  display:none;
-  animation:fadeUp 0.5s ease;
-  line-height:1.6;
-}
-.fact-box.show{display:block}
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(12px)}
-  to{opacity:1;transform:translateY(0)}
-}
-.next-btn{
-  display:none;
-  width:100%;
-  margin-top:14px;
-  padding:14px;
-  border:none;
-  border-radius:16px;
-  background:linear-gradient(135deg,#6c5ce7,#a29bfe);
-  color:#fff;
-  font-size:16px;
-  font-weight:800;
-  font-family:'Nunito',sans-serif;
-  cursor:pointer;
-  transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
-  letter-spacing:1px;
-  text-transform:uppercase;
-}
-.next-btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(108,92,231,0.4)}
-.next-btn.show{display:block;animation:fadeUp 0.4s ease}
-.speak-btn{
-  position:absolute;
-  top:14px;right:14px;
-  width:42px;height:42px;
-  border-radius:50%;
-  border:1px solid rgba(255,255,255,0.15);
-  background:rgba(255,255,255,0.06);
-  color:rgba(255,255,255,0.6);
-  cursor:pointer;
-  font-size:18px;
-  transition:all 0.3s;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  backdrop-filter:blur(8px);
-  z-index:5;
-}
-.speak-btn:hover{
-  background:rgba(108,92,231,0.2);
-  border-color:rgba(108,92,231,0.4);
-  color:#fff;
-  transform:scale(1.1);
-}
-.speak-btn.speaking{
-  background:rgba(0,206,201,0.25);
-  border-color:#00cec9;
-  color:#00cec9;
-  animation:speakPulse 0.8s ease-in-out infinite;
-}
-@keyframes speakPulse{
-  0%,100%{box-shadow:0 0 0 0 rgba(0,206,201,0.3)}
-  50%{box-shadow:0 0 0 12px rgba(0,206,201,0)}
-}
-.footer-actions{
-  display:flex;
-  gap:10px;
-  margin-top:16px;
-}
-.restart-btn,.sound-toggle{
-  flex:1;
-  padding:12px;
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:14px;
-  background:rgba(255,255,255,0.04);
-  color:rgba(255,255,255,0.6);
-  font-size:13px;
-  font-weight:700;
-  font-family:'Nunito',sans-serif;
-  cursor:pointer;
-  transition:all 0.3s;
-  letter-spacing:0.5px;
-  text-transform:uppercase;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:6px;
-}
-.restart-btn:hover,.sound-toggle:hover{
-  background:rgba(255,255,255,0.08);
-  color:#fff;
-  border-color:rgba(255,255,255,0.2);
-}
-.confetti-container{
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  z-index:100;
-  overflow:hidden;
-}
-.confetti-piece{
-  position:absolute;
-  width:10px;height:10px;
-  animation:confettiFall linear forwards;
-}
-@keyframes confettiFall{
-  0%{transform:translateY(-10px) rotate(0deg);opacity:1}
-  100%{transform:translateY(110vh) rotate(720deg);opacity:0}
-}
-.completion-screen{
-  display:none;
   flex-direction:column;
   align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:30px 20px;
-  animation:fadeUp 0.6s ease;
+  padding:20px;
+  position:relative;
 }
-.completion-screen.show{display:flex}
-.trophy{font-size:72px;margin-bottom:12px;animation:bounce 1s ease infinite}
-@keyframes bounce{
-  0%,100%{transform:translateY(0)}
-  50%{transform:translateY(-12px)}
+.emoji-display{
+  font-size:100px;
+  line-height:1;
+  margin-bottom:12px;
+  position:relative;
+  z-index:2;
+  filter:drop-shadow(0 8px 24px rgba(0,0,0,0.3));
 }
-.completion-screen h2{
-  font-family:'Fredoka One',cursive;
-  font-size:28px;
-  background:linear-gradient(135deg,#fdcb6e,#e17055);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  margin-bottom:6px;
-}
-.completion-screen p{color:rgba(255,255,255,0.6);font-size:16px;margin-bottom:4px}
-.completion-screen .final-score{font-size:52px;font-weight:800;color:#fdcb6e;margin:10px 0}
-.stars-row{display:flex;gap:8px;margin:10px 0 16px}
-.stars-row .star{font-size:36px;opacity:0.2;transition:all 0.4s}
-.stars-row .star.active{opacity:1;animation:starPop 0.4s ease}
-@keyframes starPop{
-  0%{transform:scale(0)}
-  50%{transform:scale(1.3)}
-  100%{transform:scale(1)}
-}
-.play-again-btn{
-  padding:16px 40px;
-  border:none;
-  border-radius:18px;
-  background:linear-gradient(135deg,#6c5ce7,#fd79a8);
-  color:#fff;
-  font-size:18px;
-  font-weight:800;
-  font-family:'Nunito',sans-serif;
-  cursor:pointer;
-  transition:all 0.3s;
-  letter-spacing:1px;
-  text-transform:uppercase;
-  margin-top:8px;
-}
-.play-again-btn:hover{
-  transform:translateY(-3px);
-  box-shadow:0 12px 40px rgba(108,92,231,0.4);
-}
-.game-content{display:block}
-.game-content.hide{display:none}
-.ripple{
+.svg-deco{
   position:absolute;
-  border-radius:50%;
-  background:rgba(255,255,255,0.15);
-  transform:scale(0);
-  animation:rippleAnim 0.6s ease-out;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0.06;
   pointer-events:none;
 }
-@keyframes rippleAnim{
-  to{transform:scale(4);opacity:0}
+.svg-deco svg{
+  width:80%;
+  max-height:180px;
 }
-.streak-badge{
-  display:none;
-  position:absolute;
-  top:-10px;right:-8px;
-  background:linear-gradient(135deg,#fdcb6e,#e17055);
-  color:#0a0a1a;
-  font-size:11px;
-  font-weight:800;
-  padding:3px 10px;
+.name-display{
+  text-align:center;
+  margin-bottom:16px;
+}
+.name-display h2{
+  font-family:'Fredoka One',cursive;
+  font-size:32px;
+  margin-bottom:2px;
+}
+.name-display .cat-label{
+  font-size:12px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  opacity:0.4;
+}
+.fact-display{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:16px;
+  padding:16px 20px;
+  margin-bottom:12px;
+  font-size:15px;
+  line-height:1.7;
+  color:rgba(255,255,255,0.8);
+}
+.info-card{
+  display:flex;
+  gap:10px;
+  margin-bottom:18px;
+}
+.info-pill{
+  flex:1;
+  padding:12px 14px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.06);
+  background:rgba(255,255,255,0.03);
+  text-align:center;
+}
+.info-pill .label{
+  font-size:10px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:rgba(255,255,255,0.3);
+  margin-bottom:3px;
+}
+.info-pill .value{
+  font-size:14px;
+  font-weight:700;
+  color:rgba(255,255,255,0.75);
+}
+.vocab-mini{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-bottom:18px;
+  justify-content:center;
+}
+.vocab-mini .tag{
+  padding:5px 12px;
   border-radius:20px;
-  animation:bounce 0.5s ease;
-  z-index:5;
-  box-shadow:0 4px 15px rgba(253,203,110,0.3);
+  font-size:12px;
+  font-weight:700;
+  background:rgba(108,92,231,0.12);
+  border:1px solid rgba(108,92,231,0.2);
+  color:rgba(255,255,255,0.7);
+  letter-spacing:0.3px;
 }
-.streak-badge.show{display:block}
-.timer-wrap{
-  width:100%;
-  height:3px;
-  background:rgba(255,255,255,0.06);
-  border-radius:2px;
-  margin-top:10px;
-  overflow:hidden;
+.vocab-screen-title{
+  text-align:center;
+  margin-bottom:24px;
 }
-.timer-bar{
-  height:100%;
-  background:linear-gradient(90deg,#00cec9,#fdcb6e);
-  border-radius:2px;
-  transition:width 0.1s linear;
-  width:100%;
+.vocab-screen-title h2{
+  font-family:'Fredoka One',cursive;
+  font-size:26px;
+  background:linear-gradient(135deg,#ff7675,#fdcb6e);
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  margin-bottom:4px;
 }
+.vocab-screen-title p{
+  font-size:13px;
+  color:rgba(255,255,255,0.4);
+  font-weight:600;
+}
+.vocab-list{
+  max-height:calc(100vh - 200px);
+  overflow-y:auto;
+  padding-right:4px;
+}
+.vocab-list::-webkit-scrollbar{width:4px}
+.vocab-list::-webkit-scrollbar-track{background:rgba(255,255,255,0.03);border-radius:2px}
+.vocab-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:2px}
+.vocab-group{
+  margin-bottom:20px;
+}
+.vocab-group-header{
+  font-family:'Fredoka One',cursive;
+  font-size:16px;
+  margin-bottom:10px;
+  padding-bottom:6px;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.vocab-group-header.animals{color:#a29bfe}
+.vocab-group-header.birds{color:#55efc4}
+.vocab-group-header.insects{color:#fdcb6e}
+.vocab-row{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:10px 14px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.04);
+  background:rgba(255,255,255,0.02);
+  margin-bottom:6px;
+  transition:background 0.2s;
+}
+.vocab-row:hover{background:rgba(255,255,255,0.04)}
+.vocab-row-emoji{
+  font-size:28px;
+  flex-shrink:0;
+  width:40px;
+  text-align:center;
+}
+.vocab-row-name{
+  font-size:14px;
+  font-weight:700;
+  color:rgba(255,255,255,0.7);
+  min-width:80px;
+  flex-shrink:0;
+}
+.vocab-row-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+}
+.vocab-row-tags .vt{
+  padding:3px 10px;
+  border-radius:12px;
+  font-size:12px;
+  font-weight:600;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.06);
+  color:rgba(255,255,255,0.55);
+}
+.nav-section{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+}
+.nav-btn{
+  padding:12px 20px;
+  border:1.5px solid rgba(255,255,255,0.08);
+  border-radius:14px;
+  background:rgba(255,255,255,0.03);
+  color:#fff;
+  font-size:14px;
+  font-weight:700;
+  font-family:'Nunito',sans-serif;
+  cursor:pointer;
+  transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.nav-btn:hover:not(:disabled){
+  transform:translateY(-2px);
+  border-color:rgba(108,92,231,0.3);
+  background:rgba(108,92,231,0.06);
+}
+.nav-btn:disabled{opacity:0.25;cursor:default}
+.nav-btn.prev{padding-right:16px}
+.nav-btn.next{padding-left:16px}
+.progress-dots{
+  display:flex;
+  gap:5px;
+  align-items:center;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+.dot{
+  width:7px;height:7px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.12);
+  transition:all 0.3s;
+}
+.dot.active{
+  width:20px;
+  border-radius:4px;
+}
+.dot.active.animals{background:#a29bfe}
+.dot.active.birds{background:#55efc4}
+.dot.active.insects{background:#fdcb6e}
+.counter{
+  text-align:center;
+  font-size:13px;
+  font-weight:700;
+  color:rgba(255,255,255,0.3);
+  margin-top:8px;
+}
+
 @media(max-width:480px){
-  .game-container{padding:12px;margin:8px}
-  .shadow-card{padding:20px 14px 16px;border-radius:22px}
-  .shadow-stage{min-height:220px;padding:14px}
-  .word-btn{font-size:14px;padding:12px 8px}
-  .header h1{font-size:20px}
-  .score-box{font-size:14px;padding:6px 14px}
-  .word-bank{gap:8px}
+  .screen{padding:14px;margin:8px}
+  .cat-header h1{font-size:26px}
+  .cat-card{padding:20px 18px;border-radius:20px}
+  .cat-icon{font-size:38px;width:58px;height:58px}
+  .cat-info h2{font-size:18px}
+  .learn-card{padding:18px 14px 16px;border-radius:20px}
+  .emoji-display{font-size:72px}
+  .name-display h2{font-size:26px}
+  .fact-display{font-size:14px;padding:14px 16px}
+  .info-card{flex-direction:column;gap:8px}
+  .info-pill{padding:10px 12px}
+  .nav-btn{font-size:13px;padding:10px 14px}
+  .learn-title-area h1{font-size:17px}
+  .back-btn{width:36px;height:36px;font-size:16px}
+  .vocab-row{padding:8px 10px;gap:8px}
+  .vocab-row-emoji{font-size:22px;width:32px}
+  .vocab-row-name{font-size:12px;min-width:60px}
+  .vocab-row-tags .vt{font-size:11px;padding:2px 8px}
+  .voice-toggle{bottom:16px;right:16px;width:46px;height:46px;font-size:18px}
+  .sent-card{padding:18px 14px 16px;border-radius:20px}
+  .sent-question{font-size:15px;padding:14px}
+  .sent-bank{grid-template-columns:1fr 1fr}
+  .sent-btn{font-size:13px;padding:10px}
 }
+.sent-card{
+  max-width:540px;
+  margin:0 auto;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:24px;
+  padding:28px 24px 20px;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.sent-progress{
+  text-align:center;
+  font-size:13px;
+  font-weight:700;
+  color:rgba(255,255,255,0.3);
+  margin-bottom:16px;
+}
+.sent-question{
+  font-family:'Fredoka One',cursive;
+  font-size:18px;
+  color:rgba(255,255,255,0.9);
+  text-align:center;
+  padding:18px 20px;
+  border-radius:16px;
+  background:rgba(255,255,255,0.03);
+  border:1px solid rgba(255,255,255,0.06);
+  margin-bottom:20px;
+  line-height:1.5;
+}
+.sent-bank{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:10px;
+  margin-bottom:20px;
+}
+.sent-btn{
+  font-family:'Nunito',sans-serif;
+  font-size:14px;
+  font-weight:700;
+  padding:12px 10px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,0.08);
+  background:rgba(255,255,255,0.03);
+  color:rgba(255,255,255,0.7);
+  cursor:pointer;
+  transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  text-align:center;
+}
+.sent-btn:hover{
+  background:rgba(108,92,231,0.15);
+  border-color:rgba(108,92,231,0.3);
+  color:#fff;
+  transform:scale(1.04);
+}
+.sent-btn.correct{
+  background:rgba(0,206,201,0.2);
+  border-color:#00cec9;
+  color:#00cec9;
+  transform:scale(1.04);
+}
+.sent-btn.wrong{
+  background:rgba(255,118,117,0.15);
+  border-color:#ff7675;
+  color:#ff7675;
+}
+.sent-btn.disabled{
+  pointer-events:none;
+  opacity:0.5;
+}
+.sent-btn.reveal{
+  border-color:rgba(0,206,201,0.3);
+  color:#00cec9;
+}
+.sent-feedback{
+  text-align:center;
+  font-size:14px;
+  font-weight:700;
+  min-height:28px;
+  margin-bottom:12px;
+  transition:opacity 0.3s;
+}
+.sent-feedback.correct{color:#00cec9}
+.sent-feedback.wrong{color:#ff7675}
+.sent-photo{
+  text-align:center;
+  margin-bottom:12px;
+  min-height:60px;
+}
+.sent-photo img{
+  width:120px;height:120px;
+  object-fit:cover;
+  border-radius:20px;
+  border:2px solid rgba(255,255,255,0.08);
+  animation:photoIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+.sent-photo .emoji-only{
+  font-size:64px;
+  display:block;
+  animation:photoIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes photoIn{
+  0%{transform:scale(0.3) rotate(-8deg);opacity:0}
+  100%{transform:scale(1) rotate(0deg);opacity:1}
+}
+.bird-photo{
+  width:100%;height:100%;
+  object-fit:cover;
+  border-radius:18px;
+}
+.emoji-display img{
+  width:100%;height:100%;
+  object-fit:cover;
+  border-radius:18px;
+}
+.vocab-row-emoji img{
+  width:32px;height:32px;
+  object-fit:cover;
+  border-radius:8px;
+  vertical-align:middle;
+}
+.voice-toggle{
+  position:fixed;
+  bottom:24px;right:24px;
+  z-index:50;
+  width:52px;height:52px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,0.1);
+  background:rgba(20,20,40,0.7);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  color:#fff;
+  font-size:22px;
+  cursor:pointer;
+  transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:0 4px 24px rgba(0,0,0,0.4);
+}
+.voice-toggle:hover{
+  background:rgba(108,92,231,0.25);
+  border-color:rgba(108,92,231,0.4);
+  transform:scale(1.1);
+  box-shadow:0 6px 32px rgba(108,92,231,0.2);
+}
+.voice-toggle.muted{color:rgba(255,255,255,0.3);border-color:rgba(255,255,255,0.05)}
+.voice-toggle.muted:hover{border-color:rgba(255,118,117,0.3);background:rgba(255,118,117,0.15)}
+.sp{cursor:pointer;transition:color 0.2s}
+.voice-active .sp:hover{color:#a29bfe;text-shadow:0 0 12px rgba(108,92,231,0.2)}
+.voice-active .sp.speaking{color:#00cec9;text-shadow:0 0 16px rgba(0,206,201,0.3)}
 </style>
 </head>
 <body>
@@ -468,60 +665,137 @@ body{
 <div class="glow-orb orb2"></div>
 <div class="glow-orb orb3"></div>
 
-<div class="game-container">
-  <div class="header">
-    <h1>✦ Shadow Game</h1>
-    <div class="score-box">
-      <span>🏆</span>
-      <span class="num" id="scoreDisplay">0</span>
-    </div>
+<!-- ===== CATEGORY SELECTION ===== -->
+<div class="screen active" id="categoryScreen">
+  <div class="cat-header">
+    <h1>✦ WildLearn</h1>
+    <p>Explore amazing creatures from around the world!</p>
   </div>
-  <div class="progress-bar-wrap">
-    <div class="progress-bar" id="progressBar"></div>
-  </div>
-
-  <div class="game-content" id="gameContent">
-    <div class="shadow-card">
-      <button class="speak-btn" id="speakBtn" title="Pronounce word">🔊</button>
-      <div class="streak-badge" id="streakBadge">🔥 STREAK</div>
-      <div class="shadow-stage" id="shadowStage">
-        <svg id="shadowSvg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"></svg>
-        <div class="shadow-hint">⟐ guess the shadow ⟐</div>
+  <div class="cat-grid">
+    <div class="cat-card animals" data-cat="animals">
+      <div class="cat-icon">🐾</div>
+      <div class="cat-info">
+        <h2 class="sp">Animals</h2>
+        <p>Mammals, reptiles &amp; more · <span id="animalsCount">0</span> species</p>
       </div>
-      <div class="question-number">Question <span id="qNum">1</span> of <span id="qTotal">20</span></div>
-      <div class="timer-wrap">
-        <div class="timer-bar" id="timerBar"></div>
+      <div class="cat-arrow">→</div>
+    </div>
+    <div class="cat-card birds" data-cat="birds">
+      <div class="cat-icon">🦅</div>
+      <div class="cat-info">
+        <h2 class="sp">Birds</h2>
+        <p>Feathered friends · <span id="birdsCount">0</span> species</p>
       </div>
-      <div class="word-bank" id="wordBank"></div>
-      <div class="fact-box" id="factBox"></div>
-      <button class="next-btn" id="nextBtn">Next →</button>
+      <div class="cat-arrow">→</div>
     </div>
-    <div class="footer-actions">
-      <button class="restart-btn" id="restartBtn">⟳ Restart</button>
-      <button class="sound-toggle" id="soundToggle">🔊 Sound</button>
+    <div class="cat-card insects" data-cat="insects">
+      <div class="cat-icon">🦋</div>
+      <div class="cat-info">
+        <h2 class="sp">Insects</h2>
+        <p>Bugs &amp; crawlers · <span id="insectsCount">0</span> species</p>
+      </div>
+      <div class="cat-arrow">→</div>
     </div>
-  </div>
-
-  <div class="completion-screen" id="completionScreen">
-    <div class="trophy">🏆</div>
-    <h2>Amazing!</h2>
-    <p>You completed the shadow challenge</p>
-    <div class="final-score" id="finalScore">0/20</div>
-    <div class="stars-row" id="starsRow">
-      <span class="star" data-i="0">⭐</span>
-      <span class="star" data-i="1">⭐</span>
-      <span class="star" data-i="2">⭐</span>
+    <div class="cat-card vocab" data-cat="vocab">
+      <div class="cat-icon">📖</div>
+      <div class="cat-info">
+        <h2 class="sp">Vocabulary</h2>
+        <p>Important words from all creatures</p>
+      </div>
+      <div class="cat-arrow">→</div>
     </div>
-    <p id="completionMsg" style="color:rgba(255,255,255,0.5);font-size:14px"></p>
-    <button class="play-again-btn" id="playAgainBtn">Play Again</button>
+    <div class="cat-card sentences" data-cat="sentences">
+      <div class="cat-icon">✏️</div>
+      <div class="cat-info">
+        <h2 class="sp">Sentences</h2>
+        <p>Fill in the blanks with the right creature</p>
+      </div>
+      <div class="cat-arrow">→</div>
+    </div>
   </div>
 </div>
-<div class="confetti-container" id="confettiContainer"></div>
+
+<!-- ===== LEARN SCREEN ===== -->
+<div class="screen" id="learnScreen">
+  <div class="learn-header">
+    <button class="back-btn" id="backBtn" title="Back to categories">←</button>
+    <div class="learn-title-area">
+      <h1>✦ WildLearn</h1>
+      <div class="cat-badge" id="catBadge"></div>
+    </div>
+  </div>
+  <div class="learn-card">
+    <div class="visual-area">
+      <div class="emoji-display" id="emojiDisplay">🐘</div>
+      <div class="svg-deco" id="svgDeco"><svg viewBox="0 0 200 200"></svg></div>
+    </div>
+    <div class="name-display">
+      <h2 class="sp" id="nameDisplay">Elephant</h2>
+      <div class="cat-label" id="catLabel">Animal</div>
+    </div>
+    <div class="fact-display sp" id="factDisplay">Elephants are the biggest land animals. Their trunks have over 40,000 muscles!</div>
+    <div class="info-card" id="infoCard">
+      <div class="info-pill">
+        <div class="label">🏷️ Type</div>
+        <div class="value sp" id="typeDisplay">Mammal</div>
+      </div>
+      <div class="info-pill">
+        <div class="label">🌍 Habitat</div>
+        <div class="value sp" id="habitatDisplay">Grasslands &amp; forests</div>
+      </div>
+    </div>
+    <div class="vocab-mini" id="vocabMini"></div>
+    <div class="nav-section">
+      <button class="nav-btn prev" id="prevBtn">← Prev</button>
+      <div class="progress-dots" id="dotsContainer"></div>
+      <button class="nav-btn next" id="nextBtn">Next →</button>
+    </div>
+    <div class="counter" id="counter">1 of 10</div>
+  </div>
+</div>
+
+<!-- ===== VOCABULARY SCREEN ===== -->
+<div class="screen" id="vocabScreen">
+  <div class="learn-header">
+    <button class="back-btn" id="vocabBackBtn">←</button>
+    <div class="learn-title-area">
+      <h1>✦ WildLearn</h1>
+      <div class="cat-badge" style="background:rgba(255,118,117,0.2);color:#ff7675">📖 Vocabulary</div>
+    </div>
+  </div>
+  <div class="vocab-screen-title">
+    <h2 class="sp">📖 Vocabulary Words</h2>
+    <p>Important words from every creature we learned about</p>
+  </div>
+  <div class="vocab-list" id="vocabList"></div>
+</div>
+
+<!-- ===== SENTENCES SCREEN ===== -->
+<div class="screen" id="sentencesScreen">
+  <div class="learn-header">
+    <button class="back-btn" id="sentBackBtn">←</button>
+    <div class="learn-title-area">
+      <h1>✦ WildLearn</h1>
+      <div class="cat-badge" style="background:rgba(253,203,110,0.2);color:#fdcb6e">✏️ Sentences</div>
+    </div>
+  </div>
+  <div class="sent-card">
+    <div class="sent-progress" id="sentProgress">1 of 10</div>
+    <div class="sent-question sp" id="sentQuestion">Which animal has a trunk with 40,000 muscles?</div>
+    <div class="sent-bank" id="sentBank"></div>
+    <div class="sent-feedback" id="sentFeedback"></div>
+    <div class="sent-photo" id="sentPhoto"></div>
+    <div class="nav-section">
+      <button class="nav-btn prev" id="sentPrevBtn">← Prev</button>
+      <button class="nav-btn next" id="sentNextBtn">Next →</button>
+    </div>
+  </div>
+</div>
+
+<button class="voice-toggle" id="voiceToggle" title="Click to toggle voice pronunciation">🔊</button>
 
 <script>
-// ===== SHAPE-BASED ANIMAL SILHOUETTES =====
-// Each animal has a 'shapes' array of SVG shape descriptors.
-// Types: ellipse(cx,cy,rx,ry), rect(x,y,w,h,rx?), circle(cx,cy,r), path(d)
+// ===== ANIMAL DATA (unchanged) =====
 const ANIMALS = [
   { name:'Elephant', fact:'Elephants are the biggest land animals. Their trunks have over 40,000 muscles!',
     shapes:[
@@ -542,44 +816,6 @@ const ANIMALS = [
       {type:'rect',x:104,y:92,w:6,h:48,rx:2},{type:'rect',x:116,y:94,w:6,h:46,rx:2},
       {type:'path',d:'M116 46 L130 40 Q136 38 138 42 L136 48 L126 52'}
     ]},
-  { name:'Eagle', fact:'Eagles can spot a rabbit from 2 miles away! Their eyes are 4x sharper than ours.',
-    shapes:[
-      {type:'ellipse',cx:100,cy:58,rx:26,ry:20},
-      {type:'ellipse',cx:100,cy:36,rx:14,ry:12},
-      {type:'path',d:'M92 52 L64 32 Q54 24 48 28 L44 36 Q50 44 62 50 L80 56 L86 60'},
-      {type:'path',d:'M108 52 L136 32 Q146 24 152 28 L156 36 Q150 44 138 50 L120 56 L114 60'},
-      {type:'path',d:'M92 60 L88 84 Q86 96 82 104 L78 108 Q74 108 76 102 Q80 90 84 76 L88 62'},
-      {type:'path',d:'M108 60 L112 84 Q114 96 118 104 L122 108 Q126 108 124 102 Q120 90 116 76 L112 62'},
-      {type:'path',d:'M104 52 L106 120 Q108 128 112 132 L108 136 Q100 132 98 122 L96 56'}
-    ]},
-  { name:'Owl', fact:'Owls can turn their heads almost all the way around — up to 270 degrees!',
-    shapes:[
-      {type:'ellipse',cx:100,cy:80,rx:40,ry:48},
-      {type:'polygon',points:'68,40 76,20 84,44'},
-      {type:'polygon',points:'132,40 124,20 116,44'},
-      {type:'circle',cx:84,cy:66,r:16},{type:'circle',cx:116,cy:66,r:16},
-      {type:'circle',cx:84,cy:66,r:8,fill:'#0a0a1a'},
-      {type:'circle',cx:116,cy:66,r:8,fill:'#0a0a1a'},
-      {type:'polygon',points:'90,98 100,108 110,98'}
-    ]},
-  { name:'Butterfly', fact:'Butterflies taste with their feet! Their feet have special sensors.',
-    shapes:[
-      {type:'ellipse',cx:70,cy:78,rx:28,ry:22,transform:'rotate(-20 70 78)'},
-      {type:'ellipse',cx:130,cy:78,rx:28,ry:22,transform:'rotate(20 130 78)'},
-      {type:'ellipse',cx:70,cy:112,rx:24,ry:18,transform:'rotate(15 70 112)'},
-      {type:'ellipse',cx:130,cy:112,rx:24,ry:18,transform:'rotate(-15 130 112)'},
-      {type:'rect',x:96,y:60,w:8,h:70,rx:3},
-      {type:'path',d:'M96 60 Q92 52 88 50 L86 54 Q90 58 94 62'},
-      {type:'path',d:'M104 60 Q108 52 112 50 L114 54 Q110 58 106 62'}
-    ]},
-  { name:'Swan', fact:'Swans have up to 25,000 feathers and mate for life with the same partner.',
-    shapes:[
-      {type:'ellipse',cx:110,cy:100,rx:38,ry:22},
-      {type:'path',d:'M110 80 Q108 60 114 44 Q118 34 126 28 L132 26 Q136 28 134 34 L126 42 L118 56 Q116 66 118 76'},
-      {type:'ellipse',cx:128,cy:30,rx:8,ry:6},
-      {type:'path',d:'M80 94 Q70 110 64 122 L58 132 Q54 142 58 148 L64 148 Q68 142 74 132 L82 118 Q90 104 94 94'},
-      {type:'polygon',points:'140,94 152,88 156,92 150,98'}
-    ]},
   { name:'Kangaroo', fact:'A kangaroo\'s tail works like a fifth leg — it helps them balance while hopping!',
     shapes:[
       {type:'ellipse',cx:104,cy:64,rx:24,ry:20},
@@ -596,19 +832,6 @@ const ANIMALS = [
       {type:'path',d:'M40 90 Q36 74 48 62 Q60 50 80 48 Q100 46 120 52 Q140 58 154 70 Q164 80 166 92 L162 100 Q156 104 148 102 L142 96 L136 88 Q128 82 118 80 Q108 78 100 82 Q94 88 92 96 Q88 106 78 112 Q66 118 56 114 Q44 108 40 100 Z'},
       {type:'polygon',points:'154,70 168,62 174,64 172,72 162,76'},
       {type:'polygon',points:'82,100 Q78,108 74,114 L68,118 Q64,116 66,110 Q72,102 78,96'}
-    ]},
-  { name:'Peacock', fact:'A peacock\'s beautiful tail feathers are called a "train" and can be 6 feet long!',
-    shapes:[
-      {type:'ellipse',cx:100,cy:100,rx:18,ry:24},
-      {type:'ellipse',cx:100,cy:74,rx:12,ry:10},
-      {type:'path',d:'M86 84 L56 70 Q44 64 40 68 L42 76 Q48 82 60 84 L80 88'},
-      {type:'path',d:'M114 84 L144 70 Q156 64 160 68 L158 76 Q152 82 140 84 L120 88'},
-      {type:'path',d:'M90 88 L72 62 Q64 48 58 42 L52 40 L56 46 Q64 58 76 72 L88 84'},
-      {type:'path',d:'M110 88 L128 62 Q136 48 142 42 L148 40 L144 46 Q136 58 124 72 L112 84'},
-      {type:'path',d:'M96 88 L92 64 Q90 48 88 38 L84 28 L88 26 Q92 36 96 50 L100 68'},
-      {type:'path',d:'M104 88 L108 64 Q110 48 112 38 L116 28 L112 26 Q108 36 104 50 L100 68'},
-      {type:'path',d:'M94 100 Q80 122 72 140 L68 150 Q66 156 70 158 L76 156 Q80 148 86 136 L94 118'},
-      {type:'path',d:'M106 100 Q120 122 128 140 L132 150 Q134 156 130 158 L124 156 Q120 148 114 136 L106 118'}
     ]},
   { name:'Rabbit', fact:'A rabbit\'s teeth never stop growing! They wear them down by chewing on grass.',
     shapes:[
@@ -627,27 +850,6 @@ const ANIMALS = [
       {type:'path',d:'M90 58 L66 42 Q54 34 44 30 L36 30 L34 36 Q40 44 54 50 L72 58 L80 66 L82 78 L78 88 L70 96 L58 102 Q48 106 42 110 L38 116 L46 118 Q54 114 64 108 L76 98 L84 86 Z'},
       {type:'path',d:'M110 58 L134 42 Q146 34 156 30 L164 30 L166 36 Q160 44 146 50 L128 58 L120 66 L118 78 L122 88 L130 96 L142 102 Q152 106 158 110 L162 116 L154 118 Q146 114 136 108 L124 98 L116 86 Z'},
       {type:'path',d:'M96 72 L94 88 L92 100 Q90 110 92 118 L96 124 L100 122 Q98 114 98 106 L100 90 Z'}
-    ]},
-  { name:'Penguin', fact:'Emperor penguins can dive 1,800 feet deep and hold their breath for 20 minutes!',
-    shapes:[
-      {type:'ellipse',cx:100,cy:80,rx:28,ry:44},
-      {type:'ellipse',cx:100,cy:40,rx:18,ry:16},
-      {type:'ellipse',cx:100,cy:118,rx:20,ry:14},
-      {type:'ellipse',cx:82,cy:68,rx:8,ry:10},
-      {type:'ellipse',cx:118,cy:68,rx:8,ry:10},
-      {type:'circle',cx:82,cy:68,r:4,fill:'#0a0a1a'},
-      {type:'circle',cx:118,cy:68,r:4,fill:'#0a0a1a'},
-      {type:'polygon',points:'88,98 100,112 112,98'},
-      {type:'rect',x:82,y:120,w:8,h:18,rx:3},{type:'rect',x:110,y:120,w:8,h:18,rx:3}
-    ]},
-  { name:'Flamingo', fact:'Flamingos are pink because of the shrimp they eat. Without it, they would be white!',
-    shapes:[
-      {type:'ellipse',cx:110,cy:76,rx:20,ry:18},
-      {type:'path',d:'M110 62 Q108 46 114 34 Q118 26 126 22 L132 24 Q130 30 124 38 L118 50 Q116 56 118 62'},
-      {type:'ellipse',cx:128,cy:28,rx:8,ry:6},
-      {type:'path',d:'M114 64 L108 56 L100 50 Q92 46 88 48 L86 54 Q90 58 98 60 L106 64'},
-      {type:'path',d:'M98 82 L82 98 L72 112 L66 126 L62 138 Q60 148 64 154 L70 156 Q74 150 76 142 L82 128 L92 112 L102 96'},
-      {type:'path',d:'M120 88 L134 102 L144 116 L150 130 L154 142 Q156 152 152 158 L146 160 Q142 154 140 146 L134 132 L124 116 L114 100'}
     ]},
   { name:'Horse', fact:'Horses can sleep standing up! They have the biggest eyes of any land mammal.',
     shapes:[
@@ -684,48 +886,6 @@ const ANIMALS = [
       {type:'path',d:'M126 86 L140 96 Q146 102 148 108 L144 112 Q140 106 134 100 L122 90'},
       {type:'polygon',points:'88,88 100,104 112,88'}
     ]},
-  { name:'Parrot', fact:'Some parrots live over 80 years! They can learn to say hundreds of words.',
-    shapes:[
-      {type:'ellipse',cx:110,cy:70,rx:20,ry:26},
-      {type:'ellipse',cx:110,cy:42,rx:14,ry:12},
-      {type:'path',d:'M102 44 L88 44 L78 48 Q72 52 70 58 L74 64 L80 62 L88 56 L96 50'},
-      {type:'path',d:'M100 36 Q96 28 98 22 L104 18 Q108 20 108 26 Z'},
-      {type:'path',d:'M118 44 L128 48 L136 52 Q142 56 144 62 L140 66 L134 62 L126 56 L118 50'},
-      {type:'path',d:'M106 78 L104 98 Q102 110 100 118 L98 124 Q96 128 100 130 L104 128 Q106 122 108 114 L110 98 L112 80'},
-      {type:'path',d:'M116 86 L122 102 Q126 114 128 122 L130 128 Q132 132 128 134 L124 132 Q122 126 120 118 L116 104 L112 90'}
-    ]},
-  { name:'Snake', fact:'Snakes smell with their tongues! They flick them to collect scents from the air.',
-    shapes:[
-      {type:'path',d:'M36 94 Q30 80 36 68 Q44 56 60 56 Q76 58 88 66 Q100 74 108 84 Q116 94 122 106 Q128 118 134 124 Q140 130 148 128 Q156 126 160 118 Q162 110 158 104'},
-      {type:'circle',cx:54,cy:62,r:8},{type:'circle',cx:54,cy:62,r:3,fill:'#0a0a1a'},
-      {type:'path',d:'M38 100 L30 104 L26 108 Q24 112 28 114 L34 110 Z'},
-      {type:'path',d:'M162 108 L170 104 Q174 100 176 102 L174 108 Q168 112 162 112 Z'}
-    ]},
-  { name:'Turtle', fact:'Sea turtles have been on Earth since the time of dinosaurs — over 200 million years!',
-    shapes:[
-      {type:'ellipse',cx:100,cy:78,rx:34,ry:28},
-      {type:'ellipse',cx:100,cy:68,rx:28,ry:22},
-      {type:'ellipse',cx:100,cy:48,rx:14,ry:11},
-      {type:'circle',cx:86,cy:52,r:4},{type:'circle',cx:114,cy:52,r:4},
-      {type:'rect',x:72,y:100,w:8,h:14,rx:3},{type:'rect',x:120,y:100,w:8,h:14,rx:3},
-      {type:'rect',x:88,y:102,w:8,h:12,rx:3},{type:'rect',x:104,y:102,w:8,h:12,rx:3},
-      {type:'path',d:'M144 74 L156 72 Q162 70 164 74 L162 80 L152 80 Z'},
-      {type:'path',d:'M56 74 L44 72 Q38 70 36 74 L38 80 L48 80 Z'}
-    ]},
-  { name:'Lion', fact:'A lion\'s roar can be heard from 5 miles away. They are the kings of the jungle!',
-    shapes:[
-      {type:'ellipse',cx:100,cy:82,rx:36,ry:28},
-      {type:'ellipse',cx:100,cy:52,rx:22,ry:20},
-      {type:'path',d:'M78 44 Q70 22 60 16 L56 22 Q62 30 70 40'},
-      {type:'path',d:'M122 44 Q130 22 140 16 L144 22 Q138 30 130 40'},
-      {type:'path',d:'M100 28 L100 12 Q100 6 104 4 L108 6 L106 16 Z'},
-      {type:'path',d:'M90 22 Q84 14 80 10 L76 6 Q72 4 74 10 Q78 18 84 24 Z'},
-      {type:'path',d:'M110 22 Q116 14 120 10 L124 6 Q128 4 126 10 Q122 18 116 24 Z'},
-      {type:'circle',cx:90,cy:54,r:5},{type:'circle',cx:110,cy:54,r:5},
-      {type:'circle',cx:90,cy:54,r:2.5,fill:'#0a0a1a'},{type:'circle',cx:110,cy:54,r:2.5,fill:'#0a0a1a'},
-      {type:'ellipse',cx:100,cy:62,rx:4,ry:3},
-      {type:'rect',x:78,y:106,w:10,h:28,rx:3},{type:'rect',x:112,y:106,w:10,h:28,rx:3}
-    ]},
   { name:'Fox', fact:'Foxes can use the Earth\'s magnetic field to hunt! They sense it to find their prey.',
     shapes:[
       {type:'ellipse',cx:100,cy:72,rx:24,ry:18},
@@ -736,6 +896,20 @@ const ANIMALS = [
       {type:'path',d:'M78 76 L62 88 L52 100 L46 110 Q44 118 48 122 L54 122 Q56 116 62 108 L72 96 L82 84'},
       {type:'path',d:'M122 76 L138 88 L148 100 L154 110 Q156 118 152 122 L146 122 Q144 116 138 108 L128 96 L118 84'},
       {type:'rect',x:84,y:90,w:7,h:28,rx:2},{type:'rect',x:109,y:90,w:7,h:28,rx:2}
+    ]},
+  { name:'Lion', fact:'A lion\'s roar can be heard from 5 miles away. They are the kings of the jungle!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:86,rx:38,ry:26},
+      {type:'circle',cx:100,cy:46,r:32},
+      {type:'ellipse',cx:100,cy:46,rx:20,ry:18},
+      {type:'circle',cx:84,cy:34,r:5},{type:'circle',cx:116,cy:34,r:5},
+      {type:'circle',cx:90,cy:46,r:4.5},{type:'circle',cx:110,cy:46,r:4.5},
+      {type:'circle',cx:90,cy:46,r:2.2,fill:'#0a0a1a'},{type:'circle',cx:110,cy:46,r:2.2,fill:'#0a0a1a'},
+      {type:'ellipse',cx:100,cy:54,rx:5,ry:3.5},
+      {type:'path',d:'M96 58 Q100 62 104 58'},
+      {type:'rect',x:74,y:108,w:10,h:30,rx:3},{type:'rect',x:116,y:108,w:10,h:30,rx:3},
+      {type:'path',d:'M140 82 Q156 76 164 68 Q170 60 174 64 L170 72 Q162 82 150 88'},
+      {type:'circle',cx:173,cy:66,r:5}
     ]},
   { name:'Whale', fact:'The blue whale is the biggest animal that has ever lived — bigger than any dinosaur!',
     shapes:[
@@ -784,50 +958,6 @@ const ANIMALS = [
       {type:'rect',x:76,y:106,w:10,h:30,rx:3},{type:'rect',x:112,y:106,w:10,h:30,rx:3},
       {type:'path',d:'M70 70 L56 68 Q48 68 44 72 L46 78 Q52 80 62 78 L72 74'},
       {type:'path',d:'M130 70 L144 68 Q152 68 156 72 L154 78 Q148 80 138 78 L128 74'}
-    ]},
-  { name:'Crocodile', fact:'Crocodiles have been on Earth for over 200 million years — they outlived the dinosaurs!',
-    shapes:[
-      {type:'ellipse',cx:90,cy:78,rx:50,ry:18},
-      {type:'path',d:'M52 70 L20 68 Q12 66 8 70 L10 78 Q16 82 26 80 L48 76'},
-      {type:'ellipse',cx:28,cy:74,rx:8,ry:6},
-      {type:'circle',cx:24,cy:74,r:3},{type:'circle',cx:24,cy:74,r:1.5,fill:'#0a0a1a'},
-      {type:'path',d:'M136 74 L150 68 Q156 64 162 66 L160 72 Q154 76 146 80 L136 80'},
-      {type:'path',d:'M50 88 L44 100 Q40 108 36 114 L32 116 Q28 114 32 108 L38 96 L46 84'},
-      {type:'path',d:'M110 88 L116 100 Q120 108 124 114 L128 116 Q132 114 128 108 L122 96 L114 84'},
-      {type:'rect',x:68,y:92,w:7,h:16,rx:2},{type:'rect',x:88,y:92,w:7,h:16,rx:2},
-      {type:'rect',x:108,y:92,w:7,h:16,rx:2}
-    ]},
-  { name:'Zebra', fact:'Every zebra has a unique stripe pattern — no two zebras look exactly alike!',
-    shapes:[
-      {type:'ellipse',cx:100,cy:72,rx:32,ry:22},
-      {type:'path',d:'M84 62 Q80 48 82 38 Q86 28 96 26 Q106 28 108 38 L106 48 L102 56'},
-      {type:'ellipse',cx:100,cy:30,rx:12,ry:10},
-      {type:'rect',x:74,y:90,w:7,h:38,rx:2},{type:'rect',x:90,y:92,w:7,h:36,rx:2},
-      {type:'rect',x:112,y:90,w:7,h:38,rx:2},{type:'rect',x:128,y:92,w:7,h:36,rx:2},
-      {type:'path',d:'M130 82 L144 90 Q152 96 154 102 L150 106 Q146 100 138 96 L126 88'},
-      {type:'path',d:'M110 64 Q118 68 124 74 L128 80'},
-      {type:'path',d:'M78 48 Q84 48 90 48','stroke':'#0a0a1a','stroke-width':1.5},
-      {type:'path',d:'M82 56 Q88 56 94 56','stroke':'#0a0a1a','stroke-width':1.5},
-      {type:'path',d:'M72 64 Q80 64 88 64','stroke':'#0a0a1a','stroke-width':1.5},
-      {type:'path',d:'M114 48 Q120 48 126 48','stroke':'#0a0a1a','stroke-width':1.5},
-      {type:'path',d:'M110 56 Q116 56 122 56','stroke':'#0a0a1a','stroke-width':1.5},
-      {type:'path',d:'M118 64 Q126 64 134 64','stroke':'#0a0a1a','stroke-width':1.5}
-    ]},
-  { name:'Tiger', fact:'Every tiger has its own unique stripe pattern, just like human fingerprints!',
-    shapes:[
-      {type:'ellipse',cx:100,cy:78,rx:30,ry:24},
-      {type:'ellipse',cx:100,cy:48,rx:18,ry:16},
-      {type:'polygon',points:'84,36 80,18 96,34'},{type:'polygon',points:'116,36 120,18 104,34'},
-      {type:'circle',cx:90,cy:50,r:5},{type:'circle',cx:110,cy:50,r:5},
-      {type:'circle',cx:90,cy:50,r:2.5,fill:'#0a0a1a'},{type:'circle',cx:110,cy:50,r:2.5,fill:'#0a0a1a'},
-      {type:'ellipse',cx:100,cy:58,rx:5,ry:3},
-      {type:'rect',x:78,y:100,w:8,h:28,rx:3},{type:'rect',x:114,y:100,w:8,h:28,rx:3},
-      {type:'path',d:'M126 86 L140 94 Q148 100 150 106 L146 110 Q140 104 132 98 L122 90'},
-      {type:'path',d:'M74 86 L60 94 Q52 100 50 106 L54 110 Q60 104 68 98 L78 90'},
-      {type:'path',d:'M78 44 Q86 44 92 44','stroke':'#0a0a1a','stroke-width':1.5},
-      {type:'path',d:'M80 52 Q88 52 94 52','stroke':'#0a0a1a','stroke-width':1.5},
-      {type:'path',d:'M108 44 Q114 44 122 44','stroke':'#0a0a1a','stroke-width':1.5},
-      {type:'path',d:'M106 52 Q112 52 120 52','stroke':'#0a0a1a','stroke-width':1.5}
     ]},
   { name:'Panda', fact:'Pandas spend around 12 hours a day eating bamboo. They eat up to 40 pounds daily!',
     shapes:[
@@ -927,41 +1057,138 @@ const ANIMALS = [
       {type:'rect',x:108,y:88,w:7,h:30,rx:2},{type:'rect',x:122,y:90,w:7,h:28,rx:2},
       {type:'path',d:'M126 78 L136 82 Q142 86 142 92 L138 94 L132 88 L124 82'}
     ]},
-  { name:'Hen', fact:'A hen can lay over 300 eggs per year! She clucks to talk to her chicks.',
+  { name:'Camel', fact:'Camels can go weeks without water! Their humps store fat, not water.',
     shapes:[
-      {type:'ellipse',cx:100,cy:74,rx:28,ry:22},
-      {type:'ellipse',cx:100,cy:48,rx:16,ry:14},
-      {type:'polygon',points:'94,36 96,24 100,36'},{type:'polygon',points:'106,36 104,24 100,36'},
-      {type:'polygon',points:'88,44 72,44 L80,50'},{type:'polygon',points:'112,44 128,44 L120,50'},
-      {type:'circle',cx:94,cy:50,r:3.5},{type:'circle',cx:94,cy:50,r:1.8,fill:'#0a0a1a'},
-      {type:'polygon',points:'86,54 74,58 84,60'},
-      {type:'rect',x:86,y:94,w:7,h:20,rx:2},{type:'rect',x:108,y:94,w:7,h:20,rx:2},
-      {type:'path',d:'M128 78 L140 82 Q146 86 146 92 L142 94 L136 88 L126 82'}
+      {type:'ellipse',cx:100,cy:80,rx:30,ry:22},
+      {type:'path',d:'M84 68 Q80 40 76 28 Q74 20 80 18 Q86 20 88 28 L90 40'},
+      {type:'ellipse',cx:84,cy:22,rx:10,ry:8},
+      {type:'ellipse',cx:100,cy:36,rx:16,ry:12},
+      {type:'ellipse',cx:100,cy:56,rx:18,ry:12},
+      {type:'rect',x:72,y:100,w:7,h:34,rx:2},{type:'rect',x:86,y:102,w:7,h:32,rx:2},
+      {type:'rect',x:110,y:100,w:7,h:34,rx:2},{type:'rect',x:124,y:102,w:7,h:32,rx:2},
+      {type:'ellipse',cx:80,cy:24,rx:4,ry:3},{type:'circle',cx:80,cy:24,r:2,fill:'#0a0a1a'}
     ]},
-  { name:'Rooster', fact:'A rooster crows at sunrise to tell the farm that a new day has begun!',
+  { name:'Rhino', fact:'A rhino\'s horn is made of the same stuff as your hair and fingernails — keratin!',
     shapes:[
-      {type:'ellipse',cx:100,cy:74,rx:26,ry:22},
-      {type:'ellipse',cx:100,cy:48,rx:16,ry:14},
-      {type:'polygon',points:'94,36 96,20 98,36'},{type:'polygon',points:'106,36 104,20 102,36'},
-      {type:'path',d:'M86,40 Q72,30 68,20 L72,18 Q76,26 88,36'},
-      {type:'path',d:'M100,34 Q96,18 100,6 Q104,18 100,34'},
-      {type:'circle',cx:94,cy:50,r:3.5},{type:'circle',cx:94,cy:50,r:1.8,fill:'#0a0a1a'},
-      {type:'polygon',points:'86,54 72,56 84,60'},
-      {type:'path',d:'M112 80 L120 100 L128 116 Q132 124 130 128 L126 126 L122 118 L116 104 L110 88'},
-      {type:'path',d:'M104 82 L108 98 L112 110 Q114 118 112 122 L108 120 L106 112 L102 100 L100 86'},
-      {type:'path',d:'M120 84 L132 102 L140 116 Q144 124 142 128 L138 126 L134 118 L128 104 L118 88'},
-      {type:'rect',x:88,y:94,w:6,h:20,rx:2},{type:'rect',x:106,y:94,w:6,h:20,rx:2},
-      {type:'path',d:'M128 78 L138 82 Q144 86 144 92 L140 94 L134 88 L126 82'}
+      {type:'ellipse',cx:100,cy:80,rx:40,ry:28},
+      {type:'ellipse',cx:64,cy:70,rx:20,ry:18},
+      {type:'polygon',points:'48,58 40,30 52,56'},
+      {type:'polygon',points:'54,56 44,40 56,54'},
+      {type:'circle',cx:58,cy:72,r:4.5},{type:'circle',cx:58,cy:72,r:2.2,fill:'#0a0a1a'},
+      {type:'ellipse',cx:100,cy:52,rx:14,ry:10},
+      {type:'rect',x:72,y:106,w:10,h:30,rx:3},{type:'rect',x:88,y:108,w:10,h:28,rx:3},
+      {type:'rect',x:114,y:106,w:10,h:30,rx:3},{type:'rect',x:130,y:108,w:10,h:28,rx:3},
+      {type:'path',d:'M138 72 L150 70 L156 74 L152 80 L142 78'}
     ]},
-  { name:'Duck', fact:'Ducks have waterproof feathers! They spread oil from a special gland to stay dry.',
+  { name:'Hippo', fact:'Hippos spend most of the day in water to keep cool. They can hold their breath for 5 minutes!',
     shapes:[
-      {type:'ellipse',cx:100,cy:74,rx:30,ry:20},
-      {type:'ellipse',cx:100,cy:50,rx:16,ry:14},
-      {type:'ellipse',cx:84,cy:52,rx:10,ry:6},
-      {type:'circle',cx:92,cy:52,r:3.5},{type:'circle',cx:92,cy:52,r:1.8,fill:'#0a0a1a'},
-      {type:'path',d:'M126 56 Q140 60 146 66 L142 72 L134 68 L124 64'},
-      {type:'path',d:'M72 64 L60 66 Q54 68 52 72 L56 76 Q62 74 70 70'},
-      {type:'rect',x:86,y:92,w:8,h:18,rx:2},{type:'rect',x:108,y:92,w:8,h:18,rx:2}
+      {type:'ellipse',cx:100,cy:80,rx:42,ry:32},
+      {type:'ellipse',cx:70,cy:68,rx:24,ry:22},
+      {type:'ellipse',cx:58,cy:72,rx:14,ry:12},
+      {type:'circle',cx:60,cy:70,r:4.5},{type:'circle',cx:60,cy:70,r:2.2,fill:'#0a0a1a'},
+      {type:'ellipse',cx:66,cy:66,rx:6,ry:4},
+      {type:'ellipse',cx:100,cy:52,rx:16,ry:12},
+      {type:'rect',x:76,y:110,w:10,h:26,rx:3},{type:'rect',x:94,y:112,w:10,h:24,rx:3},
+      {type:'rect',x:114,y:110,w:10,h:26,rx:3},{type:'rect',x:132,y:112,w:10,h:24,rx:3},
+      {type:'path',d:'M140 76 L154 74 L160 78 L156 84 L144 82'}
+    ]},
+  { name:'Zebra', fact:'Every zebra has a unique stripe pattern — no two zebras look exactly alike!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:72,rx:32,ry:22},
+      {type:'path',d:'M84 62 Q80 48 82 38 Q86 28 96 26 Q106 28 108 38 L106 48 L102 56'},
+      {type:'ellipse',cx:100,cy:30,rx:12,ry:10},
+      {type:'rect',x:74,y:90,w:7,h:38,rx:2},{type:'rect',x:90,y:92,w:7,h:36,rx:2},
+      {type:'rect',x:112,y:90,w:7,h:38,rx:2},{type:'rect',x:128,y:92,w:7,h:36,rx:2},
+      {type:'path',d:'M130 82 L144 90 Q152 96 154 102 L150 106 Q146 100 138 96 L126 88'},
+      {type:'path',d:'M110 64 Q118 68 124 74 L128 80'}
+    ]},
+  { name:'Tiger', fact:'Every tiger has its own unique stripe pattern, just like human fingerprints!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:78,rx:30,ry:24},
+      {type:'ellipse',cx:100,cy:48,rx:18,ry:16},
+      {type:'polygon',points:'84,36 80,18 96,34'},{type:'polygon',points:'116,36 120,18 104,34'},
+      {type:'circle',cx:90,cy:50,r:5},{type:'circle',cx:110,cy:50,r:5},
+      {type:'circle',cx:90,cy:50,r:2.5,fill:'#0a0a1a'},{type:'circle',cx:110,cy:50,r:2.5,fill:'#0a0a1a'},
+      {type:'ellipse',cx:100,cy:58,rx:5,ry:3},
+      {type:'rect',x:78,y:100,w:8,h:28,rx:3},{type:'rect',x:114,y:100,w:8,h:28,rx:3},
+      {type:'path',d:'M126 86 L140 94 Q148 100 150 106 L146 110 Q140 104 132 98 L122 90'},
+      {type:'path',d:'M74 86 L60 94 Q52 100 50 106 L54 110 Q60 104 68 98 L78 90'}
+    ]},
+  { name:'Squirrel', fact:'Squirrels bury thousands of nuts each fall. They find them again using their amazing memory!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:68,rx:22,ry:20},
+      {type:'ellipse',cx:100,cy:42,rx:14,ry:12},
+      {type:'polygon',points:'90,34 88,16 96,32'},{type:'polygon',points:'110,34 112,16 104,32'},
+      {type:'circle',cx:94,cy:44,r:3.5},{type:'circle',cx:106,cy:44,r:3.5},
+      {type:'circle',cx:94,cy:44,r:1.8,fill:'#0a0a1a'},{type:'circle',cx:106,cy:44,r:1.8,fill:'#0a0a1a'},
+      {type:'path',d:'M76 72 L56 76 Q46 78 40 84 L44 92 L54 88 L68 80 L80 74'},
+      {type:'path',d:'M120 64 L136 58 Q148 54 156 56 L158 62 Q154 68 146 70 L132 72 L124 72'},
+      {type:'path',d:'M156 56 L170 48 Q176 44 178 48 L176 54 L168 58 Z'},
+      {type:'rect',x:86,y:86,w:6,h:24,rx:2},{type:'rect',x:106,y:86,w:6,h:24,rx:2},
+      {type:'path',d:'M94 96 L92 108 Q90 116 92 120 L98 118 Q96 112 98 104 L100 96'}
+    ]},
+  { name:'Mouse', fact:'Mice are tiny and can squeeze through holes as small as a pencil! They are very fast runners.',
+    shapes:[
+      {type:'ellipse',cx:100,cy:72,rx:24,ry:18},
+      {type:'ellipse',cx:100,cy:44,rx:16,ry:14},
+      {type:'circle',cx:84,cy:36,r:10},{type:'circle',cx:116,cy:36,r:10},
+      {type:'circle',cx:94,cy:46,r:3.5},{type:'circle',cx:106,cy:46,r:3.5},
+      {type:'circle',cx:94,cy:46,r:1.8,fill:'#0a0a1a'},{type:'circle',cx:106,cy:46,r:1.8,fill:'#0a0a1a'},
+      {type:'circle',cx:100,cy:52,r:3},
+      {type:'path',d:'M78 78 L64 82 Q56 84 52 88 L56 94 Q62 92 72 86 L82 80'},
+      {type:'path',d:'M122 78 L136 82 Q144 84 148 88 L144 94 Q138 92 128 86 L118 80'},
+      {type:'path',d:'M100 88 L104 100 L106 112 Q106 120 104 126 L100 130 Q96 128 98 122 L100 114 L100 102 L98 90'}
+    ]},
+  { name:'Snake', fact:'Snakes smell with their tongues! They flick them to collect scents from the air.',
+    shapes:[
+      {type:'path',d:'M36 94 Q30 80 36 68 Q44 56 60 56 Q76 58 88 66 Q100 74 108 84 Q116 94 122 106 Q128 118 134 124 Q140 130 148 128 Q156 126 160 118 Q162 110 158 104'},
+      {type:'circle',cx:54,cy:62,r:8},{type:'circle',cx:54,cy:62,r:3,fill:'#0a0a1a'},
+      {type:'path',d:'M38 100 L30 104 L26 108 Q24 112 28 114 L34 110 Z'},
+      {type:'path',d:'M162 108 L170 104 Q174 100 176 102 L174 108 Q168 112 162 112 Z'}
+    ]},
+  { name:'Turtle', fact:'Sea turtles have been on Earth since the time of dinosaurs — over 200 million years!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:78,rx:34,ry:28},
+      {type:'ellipse',cx:100,cy:68,rx:28,ry:22},
+      {type:'ellipse',cx:100,cy:48,rx:14,ry:11},
+      {type:'circle',cx:86,cy:52,r:4},{type:'circle',cx:114,cy:52,r:4},
+      {type:'rect',x:72,y:100,w:8,h:14,rx:3},{type:'rect',x:120,y:100,w:8,h:14,rx:3},
+      {type:'rect',x:88,y:102,w:8,h:12,rx:3},{type:'rect',x:104,y:102,w:8,h:12,rx:3},
+      {type:'path',d:'M144 74 L156 72 Q162 70 164 74 L162 80 L152 80 Z'},
+      {type:'path',d:'M56 74 L44 72 Q38 70 36 74 L38 80 L48 80 Z'}
+    ]},
+  { name:'Crocodile', fact:'Crocodiles have been on Earth for over 200 million years — they outlived the dinosaurs!',
+    shapes:[
+      {type:'ellipse',cx:90,cy:78,rx:50,ry:18},
+      {type:'path',d:'M52 70 L20 68 Q12 66 8 70 L10 78 Q16 82 26 80 L48 76'},
+      {type:'ellipse',cx:28,cy:74,rx:8,ry:6},
+      {type:'circle',cx:24,cy:74,r:3},{type:'circle',cx:24,cy:74,r:1.5,fill:'#0a0a1a'},
+      {type:'path',d:'M136 74 L150 68 Q156 64 162 66 L160 72 Q154 76 146 80 L136 80'},
+      {type:'path',d:'M50 88 L44 100 Q40 108 36 114 L32 116 Q28 114 32 108 L38 96 L46 84'},
+      {type:'path',d:'M110 88 L116 100 Q120 108 124 114 L128 116 Q132 114 128 108 L122 96 L114 84'},
+      {type:'rect',x:68,y:92,w:7,h:16,rx:2},{type:'rect',x:88,y:92,w:7,h:16,rx:2},
+      {type:'rect',x:108,y:92,w:7,h:16,rx:2}
+    ]},
+  { name:'Lizard', fact:'Some lizards can regrow their tail if they lose it! It takes a few weeks to grow back.',
+    shapes:[
+      {type:'ellipse',cx:94,cy:72,rx:30,ry:14},
+      {type:'ellipse',cx:60,cy:72,rx:14,ry:12},
+      {type:'circle',cx:52,cy:72,r:5},{type:'circle',cx:52,cy:72,r:2.5,fill:'#0a0a1a'},
+      {type:'path',d:'M120 72 L140 68 L156 64 Q166 60 170 56 L168 52 Q160 56 150 60 L134 66 L124 70'},
+      {type:'rect',x:78,y:86,w:5,h:20,rx:2},{type:'rect',x:96,y:86,w:5,h:20,rx:2},
+      {type:'rect',x:112,y:84,w:5,h:18,rx:2}
+    ]},
+  { name:'Frog', fact:'Frogs can jump up to 20 times their own body length in a single leap!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:80,rx:28,ry:22},
+      {type:'ellipse',cx:100,cy:48,rx:20,ry:18},
+      {type:'circle',cx:88,cy:44,r:8},{type:'circle',cx:112,cy:44,r:8},
+      {type:'circle',cx:88,cy:44,r:4,fill:'#0a0a1a'},{type:'circle',cx:112,cy:44,r:4,fill:'#0a0a1a'},
+      {type:'ellipse',cx:100,cy:56,rx:6,ry:4},
+      {type:'path',d:'M74 68 L58 68 Q50 70 46 76 L50 82 L60 78 L72 74'},
+      {type:'path',d:'M126 68 L142 68 Q150 70 154 76 L150 82 L140 78 L128 74'},
+      {type:'path',d:'M80 98 L74 110 L68 118 L72 120 L80 112 L86 100'},
+      {type:'path',d:'M120 98 L126 110 L132 118 L128 120 L120 112 L114 100'}
     ]},
   { name:'Fish', fact:'Fish have been on Earth for over 500 million years — they were here before dinosaurs!',
     shapes:[
@@ -1004,355 +1231,907 @@ const ANIMALS = [
       {type:'path',d:'M92 76 L92 88 L90 98 L92 102 Q94 100 96 96 L96 86 L98 76'},
       {type:'path',d:'M108 76 L108 88 L110 98 L108 102 Q106 100 104 96 L104 86 L102 76'}
     ]},
-  { name:'Frog', fact:'Frogs can jump up to 20 times their own body length in a single leap!',
+  { name:'Eagle', fact:'Eagles can spot a rabbit from 2 miles away! Their eyes are 4x sharper than ours.',
     shapes:[
-      {type:'ellipse',cx:100,cy:80,rx:28,ry:22},
-      {type:'ellipse',cx:100,cy:48,rx:20,ry:18},
-      {type:'circle',cx:88,cy:44,r:8},{type:'circle',cx:112,cy:44,r:8},
-      {type:'circle',cx:88,cy:44,r:4,fill:'#0a0a1a'},{type:'circle',cx:112,cy:44,r:4,fill:'#0a0a1a'},
-      {type:'ellipse',cx:100,cy:56,rx:6,ry:4},
-      {type:'path',d:'M74 68 L58 68 Q50 70 46 76 L50 82 L60 78 L72 74'},
-      {type:'path',d:'M126 68 L142 68 Q150 70 154 76 L150 82 L140 78 L128 74'},
-      {type:'path',d:'M80 98 L74 110 L68 118 L72 120 L80 112 L86 100'},
-      {type:'path',d:'M120 98 L126 110 L132 118 L128 120 L120 112 L114 100'}
+      {type:'ellipse',cx:100,cy:58,rx:26,ry:20},
+      {type:'ellipse',cx:100,cy:36,rx:14,ry:12},
+      {type:'path',d:'M92 52 L64 32 Q54 24 48 28 L44 36 Q50 44 62 50 L80 56 L86 60'},
+      {type:'path',d:'M108 52 L136 32 Q146 24 152 28 L156 36 Q150 44 138 50 L120 56 L114 60'},
+      {type:'path',d:'M92 60 L88 84 Q86 96 82 104 L78 108 Q74 108 76 102 Q80 90 84 76 L88 62'},
+      {type:'path',d:'M108 60 L112 84 Q114 96 118 104 L122 108 Q126 108 124 102 Q120 90 116 76 L112 62'},
+      {type:'path',d:'M104 52 L106 120 Q108 128 112 132 L108 136 Q100 132 98 122 L96 56'}
     ]},
-  { name:'Lizard', fact:'Some lizards can regrow their tail if they lose it! It takes a few weeks to grow back.',
+  { name:'Owl', fact:'Owls can turn their heads almost all the way around — up to 270 degrees!',
     shapes:[
-      {type:'ellipse',cx:94,cy:72,rx:30,ry:14},
-      {type:'ellipse',cx:60,cy:72,rx:14,ry:12},
-      {type:'circle',cx:52,cy:72,r:5},{type:'circle',cx:52,cy:72,r:2.5,fill:'#0a0a1a'},
-      {type:'path',d:'M120 72 L140 68 L156 64 Q166 60 170 56 L168 52 Q160 56 150 60 L134 66 L124 70'},
-      {type:'rect',x:78,y:86,w:5,h:20,rx:2},{type:'rect',x:96,y:86,w:5,h:20,rx:2},
-      {type:'rect',x:112,y:84,w:5,h:18,rx:2}
+      {type:'ellipse',cx:100,cy:80,rx:40,ry:48},
+      {type:'polygon',points:'68,40 76,20 84,44'},
+      {type:'polygon',points:'132,40 124,20 116,44'},
+      {type:'circle',cx:84,cy:66,r:16},{type:'circle',cx:116,cy:66,r:16},
+      {type:'circle',cx:84,cy:66,r:8,fill:'#0a0a1a'},
+      {type:'circle',cx:116,cy:66,r:8,fill:'#0a0a1a'},
+      {type:'polygon',points:'90,98 100,108 110,98'}
     ]},
-  { name:'Mouse', fact:'Mice are tiny and can squeeze through holes as small as a pencil! They are very fast runners.',
+  { name:'Swan', fact:'Swans have up to 25,000 feathers and mate for life with the same partner.',
     shapes:[
-      {type:'ellipse',cx:100,cy:72,rx:24,ry:18},
-      {type:'ellipse',cx:100,cy:44,rx:16,ry:14},
-      {type:'circle',cx:84,cy:36,r:10},{type:'circle',cx:116,cy:36,r:10},
-      {type:'circle',cx:94,cy:46,r:3.5},{type:'circle',cx:106,cy:46,r:3.5},
-      {type:'circle',cx:94,cy:46,r:1.8,fill:'#0a0a1a'},{type:'circle',cx:106,cy:46,r:1.8,fill:'#0a0a1a'},
-      {type:'circle',cx:100,cy:52,r:3},
-      {type:'path',d:'M78 78 L64 82 Q56 84 52 88 L56 94 Q62 92 72 86 L82 80'},
-      {type:'path',d:'M122 78 L136 82 Q144 84 148 88 L144 94 Q138 92 128 86 L118 80'},
-      {type:'path',d:'M100 88 L104 100 L106 112 Q106 120 104 126 L100 130 Q96 128 98 122 L100 114 L100 102 L98 90'}
+      {type:'ellipse',cx:110,cy:100,rx:38,ry:22},
+      {type:'path',d:'M110 80 Q108 60 114 44 Q118 34 126 28 L132 26 Q136 28 134 34 L126 42 L118 56 Q116 66 118 76'},
+      {type:'ellipse',cx:128,cy:30,rx:8,ry:6},
+      {type:'path',d:'M80 94 Q70 110 64 122 L58 132 Q54 142 58 148 L64 148 Q68 142 74 132 L82 118 Q90 104 94 94'},
+      {type:'polygon',points:'140,94 152,88 156,92 150,98'}
     ]},
-  { name:'Squirrel', fact:'Squirrels bury thousands of nuts each fall. They find them again using their amazing memory!',
+  { name:'Peacock', fact:'A peacock\'s beautiful tail feathers are called a "train" and can be 6 feet long!',
     shapes:[
-      {type:'ellipse',cx:100,cy:68,rx:22,ry:20},
-      {type:'ellipse',cx:100,cy:42,rx:14,ry:12},
-      {type:'polygon',points:'90,34 88,16 96,32'},{type:'polygon',points:'110,34 112,16 104,32'},
-      {type:'circle',cx:94,cy:44,r:3.5},{type:'circle',cx:106,cy:44,r:3.5},
-      {type:'circle',cx:94,cy:44,r:1.8,fill:'#0a0a1a'},{type:'circle',cx:106,cy:44,r:1.8,fill:'#0a0a1a'},
-      {type:'path',d:'M76 72 L56 76 Q46 78 40 84 L44 92 L54 88 L68 80 L80 74'},
-      {type:'path',d:'M120 64 L136 58 Q148 54 156 56 L158 62 Q154 68 146 70 L132 72 L124 72'},
-      {type:'path',d:'M156 56 L170 48 Q176 44 178 48 L176 54 L168 58 Z'},
-      {type:'rect',x:86,y:86,w:6,h:24,rx:2},{type:'rect',x:106,y:86,w:6,h:24,rx:2},
-      {type:'path',d:'M94 96 L92 108 Q90 116 92 120 L98 118 Q96 112 98 104 L100 96'}
+      {type:'ellipse',cx:100,cy:100,rx:18,ry:24},
+      {type:'ellipse',cx:100,cy:74,rx:12,ry:10},
+      {type:'path',d:'M86 84 L56 70 Q44 64 40 68 L42 76 Q48 82 60 84 L80 88'},
+      {type:'path',d:'M114 84 L144 70 Q156 64 160 68 L158 76 Q152 82 140 84 L120 88'},
+      {type:'path',d:'M90 88 L72 62 Q64 48 58 42 L52 40 L56 46 Q64 58 76 72 L88 84'},
+      {type:'path',d:'M110 88 L128 62 Q136 48 142 42 L148 40 L144 46 Q136 58 124 72 L112 84'},
+      {type:'path',d:'M96 88 L92 64 Q90 48 88 38 L84 28 L88 26 Q92 36 96 50 L100 68'},
+      {type:'path',d:'M104 88 L108 64 Q110 48 112 38 L116 28 L112 26 Q108 36 104 50 L100 68'},
+      {type:'path',d:'M94 100 Q80 122 72 140 L68 150 Q66 156 70 158 L76 156 Q80 148 86 136 L94 118'},
+      {type:'path',d:'M106 100 Q120 122 128 140 L132 150 Q134 156 130 158 L124 156 Q120 148 114 136 L106 118'}
     ]},
-  { name:'Camel', fact:'Camels can go weeks without water! Their humps store fat, not water.',
+  { name:'Penguin', fact:'Emperor penguins can dive 1,800 feet deep and hold their breath for 20 minutes!',
     shapes:[
-      {type:'ellipse',cx:100,cy:80,rx:30,ry:22},
-      {type:'path',d:'M84 68 Q80 40 76 28 Q74 20 80 18 Q86 20 88 28 L90 40'},
-      {type:'ellipse',cx:84,cy:22,rx:10,ry:8},
-      {type:'ellipse',cx:100,cy:36,rx:16,ry:12},
-      {type:'ellipse',cx:100,cy:56,rx:18,ry:12},
-      {type:'rect',x:72,y:100,w:7,h:34,rx:2},{type:'rect',x:86,y:102,w:7,h:32,rx:2},
-      {type:'rect',x:110,y:100,w:7,h:34,rx:2},{type:'rect',x:124,y:102,w:7,h:32,rx:2},
-      {type:'ellipse',cx:80,cy:24,rx:4,ry:3},{type:'circle',cx:80,cy:24,r:2,fill:'#0a0a1a'}
+      {type:'ellipse',cx:100,cy:80,rx:28,ry:44},
+      {type:'ellipse',cx:100,cy:40,rx:18,ry:16},
+      {type:'ellipse',cx:100,cy:118,rx:20,ry:14},
+      {type:'ellipse',cx:82,cy:68,rx:8,ry:10},
+      {type:'ellipse',cx:118,cy:68,rx:8,ry:10},
+      {type:'circle',cx:82,cy:68,r:4,fill:'#0a0a1a'},
+      {type:'circle',cx:118,cy:68,r:4,fill:'#0a0a1a'},
+      {type:'polygon',points:'88,98 100,112 112,98'},
+      {type:'rect',x:82,y:120,w:8,h:18,rx:3},{type:'rect',x:110,y:120,w:8,h:18,rx:3}
     ]},
-  { name:'Rhino', fact:'A rhino\'s horn is made of the same stuff as your hair and fingernails — keratin!',
+  { name:'Flamingo', fact:'Flamingos are pink because of the shrimp they eat. Without it, they would be white!',
     shapes:[
-      {type:'ellipse',cx:100,cy:80,rx:40,ry:28},
-      {type:'ellipse',cx:64,cy:70,rx:20,ry:18},
-      {type:'polygon',points:'48,58 40,30 52,56'},
-      {type:'polygon',points:'54,56 44,40 56,54'},
-      {type:'circle',cx:58,cy:72,r:4.5},{type:'circle',cx:58,cy:72,r:2.2,fill:'#0a0a1a'},
-      {type:'ellipse',cx:100,cy:52,rx:14,ry:10},
-      {type:'rect',x:72,y:106,w:10,h:30,rx:3},{type:'rect',x:88,y:108,w:10,h:28,rx:3},
-      {type:'rect',x:114,y:106,w:10,h:30,rx:3},{type:'rect',x:130,y:108,w:10,h:28,rx:3},
-      {type:'path',d:'M138 72 L150 70 L156 74 L152 80 L142 78'}
+      {type:'ellipse',cx:110,cy:76,rx:20,ry:18},
+      {type:'path',d:'M110 62 Q108 46 114 34 Q118 26 126 22 L132 24 Q130 30 124 38 L118 50 Q116 56 118 62'},
+      {type:'ellipse',cx:128,cy:28,rx:8,ry:6},
+      {type:'path',d:'M114 64 L108 56 L100 50 Q92 46 88 48 L86 54 Q90 58 98 60 L106 64'},
+      {type:'path',d:'M98 82 L82 98 L72 112 L66 126 L62 138 Q60 148 64 154 L70 156 Q74 150 76 142 L82 128 L92 112 L102 96'},
+      {type:'path',d:'M120 88 L134 102 L144 116 L150 130 L154 142 Q156 152 152 158 L146 160 Q142 154 140 146 L134 132 L124 116 L114 100'}
     ]},
-  { name:'Hippo', fact:'Hippos spend most of the day in water to keep cool. They can hold their breath for 5 minutes!',
+  { name:'Parrot', fact:'Some parrots live over 80 years! They can learn to say hundreds of words.',
     shapes:[
-      {type:'ellipse',cx:100,cy:80,rx:42,ry:32},
-      {type:'ellipse',cx:70,cy:68,rx:24,ry:22},
-      {type:'ellipse',cx:58,cy:72,rx:14,ry:12},
-      {type:'circle',cx:60,cy:70,r:4.5},{type:'circle',cx:60,cy:70,r:2.2,fill:'#0a0a1a'},
-      {type:'ellipse',cx:66,cy:66,rx:6,ry:4},
-      {type:'ellipse',cx:100,cy:52,rx:16,ry:12},
-      {type:'rect',x:76,y:110,w:10,h:26,rx:3},{type:'rect',x:94,y:112,w:10,h:24,rx:3},
-      {type:'rect',x:114,y:110,w:10,h:26,rx:3},{type:'rect',x:132,y:112,w:10,h:24,rx:3},
-      {type:'path',d:'M140 76 L154 74 L160 78 L156 84 L144 82'}
+      {type:'ellipse',cx:110,cy:70,rx:20,ry:26},
+      {type:'ellipse',cx:110,cy:42,rx:14,ry:12},
+      {type:'path',d:'M102 44 L88 44 L78 48 Q72 52 70 58 L74 64 L80 62 L88 56 L96 50'},
+      {type:'path',d:'M100 36 Q96 28 98 22 L104 18 Q108 20 108 26 Z'},
+      {type:'path',d:'M118 44 L128 48 L136 52 Q142 56 144 62 L140 66 L134 62 L126 56 L118 50'},
+      {type:'path',d:'M106 78 L104 98 Q102 110 100 118 L98 124 Q96 128 100 130 L104 128 Q106 122 108 114 L110 98 L112 80'},
+      {type:'path',d:'M116 86 L122 102 Q126 114 128 122 L130 128 Q132 132 128 134 L124 132 Q122 126 120 118 L116 104 L112 90'}
     ]},
+  { name:'Hen', fact:'A hen can lay over 300 eggs per year! She clucks to talk to her chicks.',
+    shapes:[
+      {type:'ellipse',cx:100,cy:74,rx:28,ry:22},
+      {type:'ellipse',cx:100,cy:48,rx:16,ry:14},
+      {type:'polygon',points:'94,36 96,24 100,36'},{type:'polygon',points:'106,36 104,24 100,36'},
+      {type:'polygon',points:'88,44 72,44 L80,50'},{type:'polygon',points:'112,44 128,44 L120,50'},
+      {type:'circle',cx:94,cy:50,r:3.5},{type:'circle',cx:94,cy:50,r:1.8,fill:'#0a0a1a'},
+      {type:'polygon',points:'86,54 74,58 84,60'},
+      {type:'rect',x:86,y:94,w:7,h:20,rx:2},{type:'rect',x:108,y:94,w:7,h:20,rx:2},
+      {type:'path',d:'M128 78 L140 82 Q146 86 146 92 L142 94 L136 88 L126 82'}
+    ]},
+  { name:'Rooster', fact:'A rooster crows at sunrise to tell the farm that a new day has begun!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:74,rx:26,ry:22},
+      {type:'ellipse',cx:100,cy:48,rx:16,ry:14},
+      {type:'polygon',points:'94,36 96,20 98,36'},{type:'polygon',points:'106,36 104,20 102,36'},
+      {type:'path',d:'M86,40 Q72,30 68,20 L72,18 Q76,26 88,36'},
+      {type:'path',d:'M100,34 Q96,18 100,6 Q104,18 100,34'},
+      {type:'circle',cx:94,cy:50,r:3.5},{type:'circle',cx:94,cy:50,r:1.8,fill:'#0a0a1a'},
+      {type:'polygon',points:'86,54 72,56 84,60'},
+      {type:'path',d:'M112 80 L120 100 L128 116 Q132 124 130 128 L126 126 L122 118 L116 104 L110 88'},
+      {type:'path',d:'M104 82 L108 98 L112 110 Q114 118 112 122 L108 120 L106 112 L102 100 L100 86'},
+      {type:'path',d:'M120 84 L132 102 L140 116 Q144 124 142 128 L138 126 L134 118 L128 104 L118 88'},
+      {type:'rect',x:88,y:94,w:6,h:20,rx:2},{type:'rect',x:106,y:94,w:6,h:20,rx:2},
+      {type:'path',d:'M128 78 L138 82 Q144 86 144 92 L140 94 L134 88 L126 82'}
+    ]},
+  { name:'Duck', fact:'Ducks have waterproof feathers! They spread oil from a special gland to stay dry.',
+    shapes:[
+      {type:'ellipse',cx:100,cy:74,rx:30,ry:20},
+      {type:'ellipse',cx:100,cy:50,rx:16,ry:14},
+      {type:'ellipse',cx:84,cy:52,rx:10,ry:6},
+      {type:'circle',cx:92,cy:52,r:3.5},{type:'circle',cx:92,cy:52,r:1.8,fill:'#0a0a1a'},
+      {type:'path',d:'M126 56 Q140 60 146 66 L142 72 L134 68 L124 64'},
+      {type:'path',d:'M72 64 L60 66 Q54 68 52 72 L56 76 Q62 74 70 70'},
+      {type:'rect',x:86,y:92,w:8,h:18,rx:2},{type:'rect',x:108,y:92,w:8,h:18,rx:2}
+    ]},
+  { name:'Toucan', fact:'Toucans have a huge colorful beak that can be 7.5 inches long — that\'s 1/3 of its body!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:80,rx:24,ry:20},{type:'circle',cx:84,cy:56,r:14},
+      {type:'ellipse',cx:70,cy:58,rx:16,ry:7},{type:'ellipse',cx:60,cy:60,rx:8,ry:6},
+      {type:'path',d:'M84 48 L82 38 L78 34 L76 38 L80 46'},{type:'path',d:'M66 58 Q56 54 48 52 L44 50 L46 48 Q54 50 62 54'},
+      {type:'path',d:'M90 76 L86 92 L82 100 L78 104 L74 102 L78 96 L84 82'},{type:'rect',x:88,y:98,w:5,h:16,rx:2},{type:'rect',x:108,y:98,w:5,h:16,rx:2}
+    ]},
+  { name:'Hummingbird', fact:'Hummingbirds can fly backward and beat their wings 80 times per second!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:68,rx:18,ry:16},{type:'circle',cx:72,cy:50,r:10},
+      {type:'path',d:'M62 48 Q52 44 46 42 L40 44 L42 48 L50 46 L58 48'},{type:'ellipse',cx:60,cy:54,rx:12,ry:5},
+      {type:'path',d:'M84 72 L72 104 L68 110 L64 108 L70 98 L80 74'},{type:'rect',x:92,y:86,w:4,h:14,rx:2},{type:'rect',x:106,y:86,w:4,h:14,rx:2}
+    ]},
+  { name:'Woodpecker', fact:'Woodpeckers peck up to 20 times per second — their skull is built like a helmet!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:66,rx:22,ry:18},{type:'circle',cx:80,cy:44,r:12},
+      {type:'path',d:'M70 42 L56 34 L50 30 L48 34 L54 38 L66 44'},{type:'ellipse',cx:78,cy:52,rx:14,ry:6},
+      {type:'path',d:'M100 52 L98 38 Q96 30 94 26 L98 24 Q100 30 102 38 L104 52'},
+      {type:'path',d:'M112 58 L124 72 L130 80 L128 84 L122 78 L114 66'},{type:'path',d:'M92 62 L88 78 L86 86 L82 90 L78 88 L82 82 L86 72'},
+      {type:'rect',x:90,y:76,w:5,h:18,rx:2},{type:'rect',x:108,y:76,w:5,h:18,rx:2}
+    ]},
+  { name:'Kingfisher', fact:'Kingfishers have a dagger-like beak and can dive into water at 25 miles per hour!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:62,rx:20,ry:16},{type:'circle',cx:76,cy:44,r:11},
+      {type:'path',d:'M64 42 L46 36 L38 32 L36 36 L44 40 L60 46'},{type:'ellipse',cx:74,cy:52,rx:14,ry:6},
+      {type:'path',d:'M86 68 L76 94 L72 100 L68 98 L74 90 L82 72'},{type:'path',d:'M110 58 L124 70 L132 76 L130 80 L124 76 L116 66'},
+      {type:'rect',x:88,y:78,w:5,h:16,rx:2},{type:'rect',x:108,y:78,w:5,h:16,rx:2}
+    ]},
+  { name:'Crow', fact:'Crows are so smart they can recognize human faces and use sticks as tools!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:72,rx:24,ry:20},{type:'circle',cx:78,cy:50,r:12},
+      {type:'path',d:'M68 48 L56 40 L50 36 L48 40 L54 44 L64 50'},{type:'ellipse',cx:76,cy:58,rx:14,ry:6},
+      {type:'path',d:'M102 58 L98 44 Q96 36 94 30 L98 28 Q100 36 102 44 L104 58'},
+      {type:'path',d:'M112 68 L128 80 L136 86 L134 90 L126 84 L116 76'},{type:'rect',x:90,y:88,w:5,h:18,rx:2},{type:'rect',x:108,y:88,w:5,h:18,rx:2}
+    ]},
+  { name:'Raven', fact:'Ravens can mimic human speech and solve puzzles better than some 5-year-olds!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:72,rx:26,ry:20},{type:'circle',cx:76,cy:48,r:13},
+      {type:'path',d:'M64 46 L50 36 L44 32 L42 36 L48 40 L60 48'},{type:'ellipse',cx:74,cy:56,rx:14,ry:6},
+      {type:'path',d:'M104 58 L100 42 Q98 34 96 28 L100 26 Q102 34 104 42 L106 58'},
+      {type:'path',d:'M114 68 L132 82 L140 88 L138 92 L130 86 L118 76'},{type:'rect',x:88,y:88,w:5,h:18,rx:2},{type:'rect',x:108,y:88,w:5,h:18,rx:2}
+    ]},
+  { name:'Pigeon', fact:'Pigeons can find their way home from 1,000 miles away using Earth\'s magnetic field!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:72,rx:24,ry:20},{type:'circle',cx:80,cy:50,r:12},
+      {type:'ellipse',cx:78,cy:58,rx:14,ry:6},{type:'path',d:'M68 48 L58 42 L52 38 L50 42 L56 46 L64 50'},
+      {type:'path',d:'M94 56 L92 44 Q90 38 88 34 L92 32 Q94 38 96 44 L98 56'},
+      {type:'path',d:'M110 72 L124 86 L130 92 L128 96 L122 90 L114 80'},{type:'rect',x:88,y:88,w:5,h:18,rx:2},{type:'rect',x:108,y:88,w:5,h:18,rx:2}
+    ]},
+  { name:'Sparrow', fact:'Sparrows flap their wings so fast it creates a buzzing sound — that\'s why some call them "buzz birds"!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:66,rx:20,ry:18},{type:'circle',cx:80,cy:44,r:11},
+      {type:'ellipse',cx:78,cy:52,rx:12,ry:5},{type:'path',d:'M70 42 L60 36 L54 32 L52 36 L58 40 L66 44'},
+      {type:'path',d:'M94 54 L92 42 Q90 36 88 32 L92 30 Q94 36 96 42 L98 54'},
+      {type:'path',d:'M108 60 L116 72 L122 78 L120 82 L116 76 L110 68'},{type:'rect',x:90,y:80,w:4,h:16,rx:2},{type:'rect',x:106,y:80,w:4,h:16,rx:2}
+    ]},
+  { name:'Robin', fact:'Robins tilt their heads to listen for worms underground. They can hear a worm move!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:68,rx:22,ry:18},{type:'circle',cx:78,cy:46,r:12},
+      {type:'path',d:'M66 44 L54 38 L48 34 L46 38 L52 42 L62 46'},{type:'ellipse',cx:76,cy:54,rx:14,ry:6},
+      {type:'path',d:'M92 54 L90 42 Q88 36 86 32 L90 30 Q92 36 94 42 L96 54'},
+      {type:'path',d:'M108 62 L120 76 L126 82 L124 86 L118 80 L112 70'},{type:'rect',x:90,y:82,w:5,h:16,rx:2},{type:'rect',x:108,y:82,w:5,h:16,rx:2}
+    ]},
+  { name:'Blue Jay', fact:'Blue jays can mimic hawk calls to scare other birds away from food!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:68,rx:22,ry:18},{type:'circle',cx:78,cy:46,r:12},
+      {type:'path',d:'M66 44 L54 38 L48 34 L46 38 L52 42 L62 46'},{type:'ellipse',cx:76,cy:54,rx:14,ry:6},
+      {type:'path',d:'M94 54 L92 40 Q90 34 88 30 L92 28 Q94 34 96 40 L98 54'},
+      {type:'path',d:'M112 62 L126 74 L134 80 L132 84 L124 78 L116 70'},{type:'rect',x:88,y:82,w:5,h:16,rx:2},{type:'rect',x:108,y:82,w:5,h:16,rx:2}
+    ]},
+  { name:'Cardinal', fact:'Male cardinals feed their female mates beak-to-beak as part of their courtship!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:66,rx:22,ry:18},{type:'circle',cx:78,cy:44,r:12},
+      {type:'path',d:'M66 42 L54 36 L48 32 L46 36 L52 40 L62 44'},{type:'ellipse',cx:76,cy:52,rx:14,ry:6},
+      {type:'path',d:'M94 52 L90 38 L88 32 L86 30 L90 28 L92 34 L96 46 L100 54'},
+      {type:'path',d:'M108 60 L118 74 L124 80 L122 84 L116 78 L110 68'},{type:'rect',x:88,y:80,w:5,h:16,rx:2},{type:'rect',x:108,y:80,w:5,h:16,rx:2}
+    ]},
+  { name:'Canary', fact:'Canaries were once used in coal mines to detect dangerous gases!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:66,rx:20,ry:16},{type:'circle',cx:80,cy:44,r:10},
+      {type:'path',d:'M70 42 L60 36 L54 32 L52 36 L58 40 L66 44'},{type:'ellipse',cx:78,cy:52,rx:12,ry:5},
+      {type:'path',d:'M94 54 L92 42 Q90 36 88 32 L92 30 Q94 36 96 42 L98 54'},
+      {type:'path',d:'M108 62 L118 74 L124 80 L122 84 L116 78 L110 70'},{type:'rect',x:90,y:78,w:4,h:14,rx:2},{type:'rect',x:106,y:78,w:4,h:14,rx:2}
+    ]},
+  { name:'Macaw', fact:'Macaws have beaks so strong they can crack open hard nuts that a human needs a hammer for!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:74,rx:24,ry:20},{type:'circle',cx:80,cy:50,r:13},
+      {type:'path',d:'M68 48 L56 40 L50 36 L48 40 L54 44 L64 50'},{type:'ellipse',cx:78,cy:58,rx:14,ry:6},
+      {type:'path',d:'M80 44 Q74 30 72 24 L76 22 Q80 30 82 38 L84 46'},
+      {type:'path',d:'M112 68 L130 84 L138 90 L136 94 L128 88 L116 76'},{type:'path',d:'M90 78 L86 96 L82 104 L78 106 L74 104 L78 96 L84 84'},
+      {type:'rect',x:88,y:92,w:5,h:18,rx:2},{type:'rect',x:108,y:92,w:5,h:18,rx:2}
+    ]},
+  { name:'Ostrich', fact:'Ostriches are the tallest birds — they can be 9 feet tall and run 45 miles per hour!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:56,rx:30,ry:24},{type:'circle',cx:76,cy:32,r:14},
+      {type:'path',d:'M66 30 L52 22 L46 18 L44 22 L50 26 L62 32'},{type:'ellipse',cx:74,cy:40,rx:16,ry:7},
+      {type:'path',d:'M106 46 L100 28 Q98 20 96 16 L100 14 Q102 20 104 28 L108 46'},
+      {type:'path',d:'M126 52 L144 58 L156 62 L154 68 L144 64 L132 60'},
+      {type:'rect',x:84,y:76,w:8,h:36,rx:3},{type:'rect',x:108,y:76,w:8,h:36,rx:3},
+      {type:'ellipse',cx:88,cy:114,rx:10,ry:6},{type:'ellipse',cx:112,cy:114,rx:10,ry:6}
+    ]},
+  { name:'Pelican', fact:'Pelicans have a throat pouch that can hold up to 3 gallons of water and fish!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:68,rx:28,ry:22},{type:'circle',cx:76,cy:46,r:13},
+      {type:'path',d:'M64 44 L48 36 L42 32 L40 36 L46 40 L60 46'},{type:'ellipse',cx:74,cy:54,rx:16,ry:7},
+      {type:'path',d:'M62 50 Q50 60 44 70 L48 72 Q54 62 66 56'},{type:'path',d:'M102 52 L98 38 Q96 30 94 26 L98 24 Q100 30 102 38 L104 52'},
+      {type:'path',d:'M116 66 L132 78 L140 84 L138 88 L130 82 L120 74'},{type:'rect',x:86,y:88,w:5,h:18,rx:2},{type:'rect',x:108,y:88,w:5,h:18,rx:2}
+    ]},
+  { name:'Seagull', fact:'Seagulls can drink both fresh and salt water — they have special glands that filter salt!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:64,rx:26,ry:18},{type:'circle',cx:76,cy:44,r:12},
+      {type:'path',d:'M64 42 L50 34 L44 30 L42 34 L48 38 L60 44'},{type:'ellipse',cx:74,cy:52,rx:14,ry:6},
+      {type:'path',d:'M104 52 L100 38 Q98 30 96 26 L100 24 Q102 30 104 38 L106 52'},
+      {type:'path',d:'M116 60 L134 70 L144 76 L142 80 L132 74 L120 68'},{type:'path',d:'M92 64 L88 80 L84 88 L80 90 L76 88 L80 82 L84 72'},
+      {type:'rect',x:90,y:78,w:5,h:16,rx:2},{type:'rect',x:108,y:78,w:5,h:16,rx:2}
+    ]},
+  { name:'Heron', fact:'Herons stand completely still for hours, waiting for a fish to swim by before striking!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:64,rx:28,ry:22},{type:'circle',cx:74,cy:40,r:13},
+      {type:'path',d:'M62 38 L46 28 L40 24 L38 28 L44 32 L58 40'},{type:'ellipse',cx:72,cy:48,rx:16,ry:7},
+      {type:'path',d:'M104 48 L100 34 Q98 26 96 22 L100 20 Q102 26 104 34 L106 48'},
+      {type:'path',d:'M118 58 L136 66 L146 70 L144 76 L134 70 L122 66'},{type:'path',d:'M88 66 L82 86 L78 96 L74 100 L70 98 L74 92 L80 78'},
+      {type:'rect',x:86,y:82,w:5,h:28,rx:2},{type:'rect',x:108,y:82,w:5,h:28,rx:2}
+    ]},
+  { name:'Kiwi', fact:'Kiwis have nostrils at the tip of their beak — the only bird that can smell its food!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:72,rx:24,ry:22},{type:'circle',cx:74,cy:52,r:13},
+      {type:'path',d:'M64 50 L50 44 L44 40 L42 44 L48 48 L60 52'},{type:'ellipse',cx:72,cy:58,rx:14,ry:6},
+      {type:'path',d:'M100 58 L98 44 Q96 36 94 32 L98 30 Q100 36 102 44 L104 58'},
+      {type:'rect',x:90,y:90,w:6,h:18,rx:3},{type:'rect',x:106,y:90,w:6,h:18,rx:3}
+    ]},
+  { name:'Butterfly', fact:'Butterflies taste with their feet! Their feet have special sensors.',
+    shapes:[
+      {type:'ellipse',cx:70,cy:78,rx:28,ry:22,transform:'rotate(-20 70 78)'},
+      {type:'ellipse',cx:130,cy:78,rx:28,ry:22,transform:'rotate(20 130 78)'},
+      {type:'ellipse',cx:70,cy:112,rx:24,ry:18,transform:'rotate(15 70 112)'},
+      {type:'ellipse',cx:130,cy:112,rx:24,ry:18,transform:'rotate(-15 130 112)'},
+      {type:'rect',x:96,y:60,w:8,h:70,rx:3},
+      {type:'path',d:'M96 60 Q92 52 88 50 L86 54 Q90 58 94 62'},
+      {type:'path',d:'M104 60 Q108 52 112 50 L114 54 Q110 58 106 62'}
+    ]},
+  { name:'Bee', fact:'Bees can only sting once because their stinger gets stuck. They die after stinging!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:72,rx:22,ry:17},
+      {type:'ellipse',cx:100,cy:46,rx:13,ry:12},
+      {type:'ellipse',cx:76,cy:58,rx:16,ry:7,transform:'rotate(-25 76 58)'},
+      {type:'ellipse',cx:124,cy:58,rx:16,ry:7,transform:'rotate(25 124 58)'},
+      {type:'path',d:'M90 38 Q88 30 90 26 L94 28 Q92 34 94 38'},
+      {type:'path',d:'M110 38 Q112 30 110 26 L106 28 Q108 34 106 38'}
+    ]},
+  { name:'Ladybug', fact:'Ladybugs release a yellow liquid that smells bad to scare away enemies!',
+    shapes:[
+      {type:'circle',cx:100,cy:66,r:24},
+      {type:'ellipse',cx:100,cy:38,rx:12,ry:10},
+      {type:'path',d:'M92 32 Q88 24 92 20 L96 24 Q94 28 96 32'},
+      {type:'path',d:'M108 32 Q112 24 108 20 L104 24 Q106 28 104 32'}
+    ]},
+  { name:'Ant', fact:'Ants can carry things 50 times their own body weight — like you carrying a car!',
+    shapes:[
+      {type:'circle',cx:100,cy:36,r:10},
+      {type:'ellipse',cx:100,cy:58,rx:8,ry:12},
+      {type:'ellipse',cx:100,cy:82,rx:12,ry:16},
+      {type:'path',d:'M90 32 L80 26 L76 30 L84 34'},
+      {type:'path',d:'M110 32 L120 26 L124 30 L116 34'},
+      {type:'path',d:'M86 50 L72 46 L68 50 L78 52'},
+      {type:'path',d:'M114 50 L128 46 L132 50 L122 52'},
+      {type:'path',d:'M84 62 L68 66 L64 70 L76 66'},
+      {type:'path',d:'M116 62 L132 66 L136 70 L124 66'},
+      {type:'path',d:'M84 76 L68 84 L64 88 L76 84'},
+      {type:'path',d:'M116 76 L132 84 L136 88 L124 84'}
+    ]},
+  { name:'Dragonfly', fact:'Dragonflies have been on Earth for 300 million years — even before dinosaurs!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:64,rx:6,ry:30},
+      {type:'circle',cx:100,cy:28,r:8},
+      {type:'ellipse',cx:68,cy:48,rx:20,ry:6,transform:'rotate(-15 68 48)'},
+      {type:'ellipse',cx:68,cy:80,rx:18,ry:5,transform:'rotate(15 68 80)'},
+      {type:'ellipse',cx:132,cy:48,rx:20,ry:6,transform:'rotate(15 132 48)'},
+      {type:'ellipse',cx:132,cy:80,rx:18,ry:5,transform:'rotate(-15 132 80)'}
+    ]},
+  { name:'Caterpillar', fact:'Caterpillars grow so fast they shed their skin 5 times before becoming butterflies!',
+    shapes:[
+      {type:'circle',cx:64,cy:60,r:12},
+      {type:'circle',cx:84,cy:66,r:13},
+      {type:'circle',cx:106,cy:68,r:14},
+      {type:'circle',cx:128,cy:66,r:13},
+      {type:'circle',cx:146,cy:60,r:12},
+      {type:'circle',cx:52,cy:52,r:8},
+      {type:'path',d:'M48 48 L42 40 L46 38 L50 44'},
+      {type:'path',d:'M56 48 L54 38 L58 36 L58 44'}
+    ]},
+  { name:'Spider', fact:'Spiders have 8 eyes, but most can\'t see well. They use vibrations to sense the world!',
+    shapes:[
+      {type:'circle',cx:100,cy:56,r:16},
+      {type:'ellipse',cx:100,cy:86,rx:18,ry:20},
+      {type:'path',d:'M88 52 L62 36 L58 40 L76 52'},
+      {type:'path',d:'M112 52 L138 36 L142 40 L124 52'},
+      {type:'path',d:'M84 60 L56 60 L52 64 L72 62'},
+      {type:'path',d:'M116 60 L144 60 L148 64 L128 62'},
+      {type:'path',d:'M84 72 L58 80 L54 84 L74 78'},
+      {type:'path',d:'M116 72 L142 80 L146 84 L126 78'},
+      {type:'path',d:'M88 82 L68 100 L64 104 L80 90'},
+      {type:'path',d:'M112 82 L132 100 L136 104 L120 90'}
+    ]},
+  { name:'Cricket', fact:'Male crickets chirp by rubbing their wings. The warmer it is, the faster they chirp!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:68,rx:18,ry:14},
+      {type:'ellipse',cx:100,cy:44,rx:10,ry:9},
+      {type:'ellipse',cx:100,cy:84,rx:8,ry:6},
+      {type:'path',d:'M92 38 Q88 30 90 26 L94 28 Q92 34 94 38'},
+      {type:'path',d:'M108 38 Q112 30 110 26 L106 28 Q108 34 106 38'},
+      {type:'path',d:'M82 62 L66 58 L62 62 L74 64'},
+      {type:'path',d:'M118 62 L134 58 L138 62 L126 64'},
+      {type:'path',d:'M80 76 L72 90 L66 96 L62 94 L70 86 L78 78'},
+      {type:'path',d:'M120 76 L128 90 L134 96 L138 94 L130 86 L122 78'}
+    ]},
+  { name:'Firefly', fact:'Fireflies light up their bottoms to talk! Each species has a special blinking pattern.',
+    shapes:[
+      {type:'ellipse',cx:100,cy:74,rx:18,ry:22},
+      {type:'ellipse',cx:100,cy:44,rx:12,ry:11},
+      {type:'ellipse',cx:76,cy:58,rx:16,ry:6,transform:'rotate(-20 76 58)'},
+      {type:'ellipse',cx:124,cy:58,rx:16,ry:6,transform:'rotate(20 124 58)'},
+      {type:'path',d:'M92 36 Q88 28 90 24 L94 26 Q92 32 94 36'},
+      {type:'path',d:'M108 36 Q112 28 110 24 L106 26 Q108 32 106 36'}
+    ]},
+  { name:'Grasshopper', fact:'Grasshoppers can jump 20 times their own body length — that\'s like you jumping a football field!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:56,rx:18,ry:14},{type:'circle',cx:72,cy:42,r:8},
+      {type:'ellipse',cx:100,cy:78,rx:14,ry:10},{type:'ellipse',cx:92,cy:92,rx:8,ry:6},
+      {type:'path',d:'M64 38 L56 30 L52 28 L50 32 L56 36 L62 40'},{type:'path',d:'M80 38 L78 28 L76 24 L80 22 L82 28 L84 38'},
+      {type:'path',d:'M110 52 L128 48 L138 44 L140 48 L130 52 L116 56'},{type:'path',d:'M112 60 L132 64 L142 70 L140 74 L130 68 L116 64'},
+      {type:'path',d:'M84 72 L76 86 L72 94 L68 96 L70 92 L76 84 L80 76'},{type:'path',d:'M116 72 L124 86 L128 94 L132 96 L130 92 L124 84 L120 76'}
+    ]},
+  { name:'Mosquito', fact:'Only female mosquitoes bite — they need the blood to make eggs. Males eat nectar!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:60,rx:6,ry:22},{type:'circle',cx:100,cy:32,r:7},
+      {type:'path',d:'M92 28 L84 22 L80 20 L78 24 L84 28 L90 30'},{type:'path',d:'M108 28 L116 22 L120 20 L122 24 L116 28 L110 30'},
+      {type:'path',d:'M96 36 L88 44 L82 48 L80 46 L86 42 L94 38'},{type:'path',d:'M104 36 L112 44 L118 48 L120 46 L114 42 L106 38'},
+      {type:'path',d:'M94 50 L82 60 L76 66 L74 64 L80 58 L90 52'},{type:'path',d:'M106 50 L118 60 L124 66 L126 64 L120 58 L110 52'},
+      {type:'path',d:'M96 70 L90 82 L86 88 L82 90 L80 86 L86 78 L92 72'},{type:'path',d:'M104 70 L110 82 L114 88 L118 90 L120 86 L114 78 L108 72'}
+    ]},
+  { name:'Moth', fact:'Moths use the Moon to navigate, so they fly toward lights at night because they\'re confused!',
+    shapes:[
+      {type:'ellipse',cx:70,cy:72,rx:24,ry:20},{type:'ellipse',cx:130,cy:72,rx:24,ry:20},
+      {type:'ellipse',cx:70,cy:104,rx:20,ry:16},{type:'ellipse',cx:130,cy:104,rx:20,ry:16},
+      {type:'rect',x:96,y:56,w:8,h:58,rx:3},{type:'circle',cx:100,cy:48,r:8},
+      {type:'path',d:'M94 54 L88 48 L84 44 L82 48 L88 52'},{type:'path',d:'M106 54 L112 48 L116 44 L118 48 L112 52'},
+      {type:'path',d:'M94 62 L86 60 L80 58 L78 62 L84 64'},{type:'path',d:'M106 62 L114 60 L120 58 L122 62 L116 64'}
+    ]},
+  { name:'Mantis', fact:'Praying mantises can turn their heads all the way to look behind them — the only insect that can!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:66,rx:18,ry:24},{type:'circle',cx:100,cy:34,r:12},
+      {type:'path',d:'M84 56 L66 46 L58 42 L56 46 L64 50 L78 56'},{type:'path',d:'M116 56 L134 46 L142 42 L144 46 L136 50 L122 56'},
+      {type:'path',d:'M82 74 L68 82 L60 86 L58 82 L66 78 L76 74'},{type:'path',d:'M118 74 L132 82 L140 86 L142 82 L134 78 L124 74'},
+      {type:'path',d:'M92 84 L86 100 L82 108 L78 110 L76 106 L82 98 L88 86'},{type:'path',d:'M108 84 L114 100 L118 108 L122 110 L124 106 L118 98 L112 86'},
+      {type:'path',d:'M98 70 L96 114 L94 122 L92 126 L96 128 L98 124 L100 116 L102 72'}
+    ]},
+  { name:'Cockroach', fact:'Cockroaches can live for a week without their head and can hold their breath for 40 minutes!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:60,rx:20,ry:16},{type:'ellipse',cx:94,cy:46,rx:16,ry:10},
+      {type:'ellipse',cx:100,cy:80,rx:14,ry:10},{type:'circle',cx:80,cy:42,r:6},
+      {type:'path',d:'M72 38 L66 30 L62 28 L60 32 L64 36 L70 40'},{type:'path',d:'M80 44 L76 50 L72 54 L68 56 L66 52 L72 48 L76 44'},
+      {type:'path',d:'M80 34 L76 26 L72 22 L70 26 L74 30 L78 36'},{type:'path',d:'M82 62 L70 70 L64 76 L62 74 L68 68 L78 64'},
+      {type:'path',d:'M118 62 L130 70 L136 76 L138 74 L132 68 L122 64'},{type:'path',d:'M100 72 L98 82 L96 88 L92 92 L90 88 L94 82 L96 76'},
+      {type:'path',d:'M110 72 L112 82 L114 88 L118 92 L120 88 L116 82 L114 76'}
+    ]},
+  { name:'Scorpion', fact:'Scorpions glow in the dark under UV light! Their exoskeleton contains a special fluorescent chemical.',
+    shapes:[
+      {type:'ellipse',cx:100,cy:60,rx:14,ry:22},{type:'circle',cx:84,cy:38,r:8},
+      {type:'circle',cx:76,cy:32,r:5},{type:'path',d:'M72 28 L66 22 L62 20 L60 24 L64 28 L70 30'},
+      {type:'path',d:'M80 32 L76 24 L72 20 L70 24 L74 28 L78 34'},
+      {type:'path',d:'M88 42 L84 52 L80 58 L76 60 L74 56 L78 52 L82 44'},
+      {type:'path',d:'M112 42 L116 52 L120 58 L124 60 L126 56 L122 52 L118 44'},
+      {type:'path',d:'M106 74 L112 88 L116 96 Q118 102 122 104 Q126 106 130 104 L132 108 Q126 112 120 108 Q114 104 110 94 L104 78'},
+      {type:'path',d:'M130 104 L136 100 L140 98 L142 102 L136 106 L132 108'},
+      {type:'rect',x:90,y:78,w:6,h:16,rx:3},{type:'rect',x:104,y:78,w:6,h:16,rx:3}
+    ]},
+  { name:'Snail', fact:'Snails have thousands of tiny teeth on their tongue — it\'s called a radula!',
+    shapes:[
+      {type:'circle',cx:92,cy:70,r:18},{type:'ellipse',cx:120,cy:74,rx:16,ry:12},
+      {type:'ellipse',cx:92,cy:70,r:24,ry:16},
+      {type:'path',d:'M136 72 L144 68 L148 64 L150 68 L146 72 L140 76'},
+      {type:'path',d:'M130 80 L142 84 L148 88 L146 92 L140 88 L132 84'},
+      {type:'ellipse',cx:60,cy:72,rx:18,ry:8}
+    ]},
+  { name:'Centipede', fact:'Centipedes can have between 30 and 382 legs — no centipede has exactly 100 legs!',
+    shapes:[
+      {type:'ellipse',cx:58,cy:64,rx:12,ry:10},{type:'ellipse',cx:82,cy:64,rx:13,ry:10},
+      {type:'ellipse',cx:106,cy:64,rx:13,ry:10},{type:'ellipse',cx:130,cy:64,rx:13,ry:10},
+      {type:'ellipse',cx:148,cy:64,rx:12,ry:10},{type:'circle',cx:42,cy:62,r:8},
+      {type:'path',d:'M36 58 L28 52 L24 50 L22 54 L26 56 L32 60'},{type:'path',d:'M46 58 L44 48 L42 44 L46 42 L48 48 L50 56'},
+      {type:'path',d:'M62 72 L58 82 L54 88 L50 90 L48 86 L54 80 L58 74'},{type:'path',d:'M86 72 L82 82 L78 88 L74 90 L72 86 L78 80 L82 74'},
+      {type:'path',d:'M110 72 L106 82 L102 88 L98 90 L96 86 L102 80 L106 74'},
+      {type:'path',d:'M134 72 L130 82 L126 88 L122 90 L120 86 L126 80 L130 74'},
+      {type:'path',d:'M152 68 L156 80 L158 86 L154 88 L152 84 L150 76 L148 70'}
+    ]},
+  { name:'Worm', fact:'Earthworms have 5 hearts and breathe through their skin. If cut, they can regrow their tail!',
+    shapes:[
+      {type:'ellipse',cx:58,cy:64,rx:14,ry:8},{type:'ellipse',cx:78,cy:64,rx:14,ry:8},
+      {type:'ellipse',cx:98,cy:64,rx:14,ry:8},{type:'ellipse',cx:118,cy:64,rx:14,ry:8},
+      {type:'ellipse',cx:138,cy:64,rx:14,ry:8},{type:'ellipse',cx:154,cy:64,rx:10,ry:7}
+    ]},
+  { name:'Slug', fact:'Slugs produce slime that is so slippery it can protect them from being eaten by frogs!',
+    shapes:[
+      {type:'ellipse',cx:100,cy:68,rx:32,ry:16},{type:'path',d:'M60 68 Q56 60 58 56 L62 54 Q64 58 64 62 L68 66'},
+      {type:'circle',cx:120,cy:60,r:14},{type:'path',d:'M120 46 L116 40 L112 38 L110 42 L114 46 L118 48'},
+      {type:'ellipse',cx:100,cy:82,rx:30,ry:8}
+    ]}
 ];
 
-// ===== GAME ENGINE =====
-const ALL_NAMES = ANIMALS.map(a => a.name);
+// ===== EMOJI MAP =====
+const EMOJI = {
+  Elephant:'🐘',Giraffe:'🦒',Kangaroo:'🦘',Dolphin:'🐬',Rabbit:'🐰',Bat:'🦇',
+  Horse:'🐴',Cat:'🐱',Dog:'🐶',Fox:'🦊',Lion:'🦁',Whale:'🐋',Octopus:'🐙',
+  Monkey:'🐒',Bear:'🐻',Panda:'🐼',Koala:'🐨',Wolf:'🐺',Deer:'🦌',Sheep:'🐑',
+  Pig:'🐷',Cow:'🐮',Goat:'🐐',Camel:'🐪',Rhino:'🦏',Hippo:'🦛',Zebra:'🦓',
+  Tiger:'🐯',Squirrel:'🐿️',Mouse:'🐭',Snake:'🐍',Turtle:'🐢',Crocodile:'🐊',
+  Lizard:'🦎',Frog:'🐸',Fish:'🐟',Shark:'🦈',  Seahorse:'🐠',Crab:'🦀',
+  Eagle:'🦅',Owl:'🦉',Swan:'🦢',Peacock:'🦚',Penguin:'🐧',Flamingo:'🦩',
+  Parrot:'🦜',Hen:'🐔',Rooster:'🐓',Duck:'🦆',
+  Toucan:'🐦',Hummingbird:'🐦',Woodpecker:'🐦',Kingfisher:'🐦',Crow:'🐦',Raven:'🐦',
+  Pigeon:'🐦',Sparrow:'🐦',Robin:'🐦','Blue Jay':'🐦',Cardinal:'🐦',Canary:'🐦',
+  Macaw:'🦜',Ostrich:'🦩',Pelican:'🐦',Seagull:'🐦',Heron:'🐦',Kiwi:'🐦',
+  Butterfly:'🦋',Bee:'🐝',Ladybug:'🐞',Ant:'🐜',Dragonfly:'🪰',
+  Caterpillar:'🐛',Spider:'🕷️',Cricket:'🦗',Firefly:'🪲',
+  Grasshopper:'🦗',Mosquito:'🦟',Moth:'🦋',Mantis:'🪲',Cockroach:'🪳',
+  Scorpion:'🦂',Snail:'🐌',Centipede:'🐛',Worm:'🪱',Slug:'🐌'
+};
 
-function shuffle(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
+// ===== BIRD PHOTOS (Wikimedia thumbnails) =====
+const IMAGE_MAP = {
+  Toucan:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Toucans_%28Ramphastidae%29.jpg/250px-Toucans_%28Ramphastidae%29.jpg',
+  Hummingbird:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Trinidad_and_Tobago_hummingbirds_composite.jpg/250px-Trinidad_and_Tobago_hummingbirds_composite.jpg',
+  Woodpecker:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/PileatedWoodpeckerFeedingonTree%2C_crop.jpg/250px-PileatedWoodpeckerFeedingonTree%2C_crop.jpg',
+  Kingfisher:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Alcedo_azurea_-_Julatten.jpg/250px-Alcedo_azurea_-_Julatten.jpg',
+  Crow:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Corvus_corone_-near_Canford_Cliffs%2C_Poole%2C_England-8.jpg/250px-Corvus_corone_-near_Canford_Cliffs%2C_Poole%2C_England-8.jpg',
+  Raven:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Corvus_corax.jpg/250px-Corvus_corax.jpg',
+  Pigeon:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Columba_livia_%28Rock_Dove%2C_wild%29%2C_Duncansby_Head%2C_Caithness%2C_Scotland_1.jpg/250px-Columba_livia_%28Rock_Dove%2C_wild%29%2C_Duncansby_Head%2C_Caithness%2C_Scotland_1.jpg',
+  Sparrow:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/House_sparrow_male_in_Prospect_Park_%2853532%29.jpg/250px-House_sparrow_male_in_Prospect_Park_%2853532%29.jpg',
+  Robin:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Erithacus_rubecula_with_cocked_head.jpg/250px-Erithacus_rubecula_with_cocked_head.jpg',
+  'Blue Jay':'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Blue_jay_in_PP_%2830960%29.jpg/250px-Blue_jay_in_PP_%2830960%29.jpg',
+  Cardinal:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Male_northern_cardinal_in_Central_Park_%2852612%29.jpg/250px-Male_northern_cardinal_in_Central_Park_%2852612%29.jpg',
+  Canary:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Serinus_canaria_-Parque_Rural_del_Nublo%2C_Gran_Canaria%2C_Spain_-male-8a.jpg/250px-Serinus_canaria_-Parque_Rural_del_Nublo%2C_Gran_Canaria%2C_Spain_-male-8a.jpg',
+  Macaw:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Ara_macao%2C_Ara_ararauna_and_Ara_militaris.jpg/250px-Ara_macao%2C_Ara_ararauna_and_Ara_militaris.jpg',
+  Ostrich:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Struthio_Diversity.jpg/250px-Struthio_Diversity.jpg',
+  Pelican:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Pelikan_Walvis_Bay.jpg/250px-Pelikan_Walvis_Bay.jpg',
+  Seagull:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Herring_Gull_%28Larus_argentatus%29%2C_Brighton%2C_England.JPG/250px-Herring_Gull_%28Larus_argentatus%29%2C_Brighton%2C_England.JPG',
+  Heron:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Ardeidae-01.jpg/250px-Ardeidae-01.jpg',
+  Kiwi:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/TeTuatahianui.jpg/250px-TeTuatahianui.jpg',
+  Slug:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Smooth_Land_Slug_%28Deroceras_sp.%29_-_Guelph%2C_Ontario_2016-04-22_%2801%29.jpg/250px-Smooth_Land_Slug_%28Deroceras_sp.%29_-_Guelph%2C_Ontario_2016-04-22_%2801%29.jpg'
+};
+
+const ANIMAL_TYPE = {
+  Elephant:'Mammal',Giraffe:'Mammal',Kangaroo:'Mammal',Dolphin:'Mammal',
+  Rabbit:'Mammal',Bat:'Mammal',Horse:'Mammal',Cat:'Mammal',Dog:'Mammal',
+  Fox:'Mammal',Lion:'Mammal',Whale:'Mammal',Octopus:'Mollusc',Monkey:'Mammal',
+  Bear:'Mammal',Panda:'Mammal',Koala:'Mammal',Wolf:'Mammal',Deer:'Mammal',
+  Sheep:'Mammal',Pig:'Mammal',Cow:'Mammal',Goat:'Mammal',Camel:'Mammal',
+  Rhino:'Mammal',Hippo:'Mammal',Zebra:'Mammal',Tiger:'Mammal',Squirrel:'Mammal',
+  Mouse:'Mammal',Snake:'Reptile',Turtle:'Reptile',Crocodile:'Reptile',
+  Lizard:'Reptile',Frog:'Amphibian',Fish:'Fish',Shark:'Fish',
+  Seahorse:'Fish',Crab:'Crustacean',
+  Eagle:'Bird',Owl:'Bird',Swan:'Bird',Peacock:'Bird',Penguin:'Bird',
+  Flamingo:'Bird',Parrot:'Bird',Hen:'Bird',Rooster:'Bird',Duck:'Bird',
+  Toucan:'Bird',Hummingbird:'Bird',Woodpecker:'Bird',Kingfisher:'Bird',Crow:'Bird',
+  Raven:'Bird',Pigeon:'Bird',Sparrow:'Bird',Robin:'Bird','Blue Jay':'Bird',
+  Cardinal:'Bird',Canary:'Bird',Macaw:'Bird',Ostrich:'Bird',Pelican:'Bird',
+  Seagull:'Bird',Heron:'Bird',Kiwi:'Bird',
+  Butterfly:'Insect',Bee:'Insect',Ladybug:'Insect',Ant:'Insect',
+  Dragonfly:'Insect',Caterpillar:'Insect',Spider:'Arachnid',Cricket:'Insect',Firefly:'Insect',
+  Grasshopper:'Insect',Mosquito:'Insect',Moth:'Insect',Mantis:'Insect',Cockroach:'Insect',
+  Scorpion:'Arachnid',Snail:'Mollusc',Centipede:'Myriapod',Worm:'Annelid',Slug:'Mollusc'
+};
+
+const ANIMAL_HABITAT = {
+  Elephant:'Grasslands & forests',Giraffe:'Savanna',Kangaroo:'Australian grasslands',
+  Dolphin:'Oceans',Rabbit:'Meadows & burrows',Bat:'Caves & trees',
+  Horse:'Grasslands',Cat:'Forests & urban areas',Dog:'Various habitats',
+  Fox:'Forests & mountains',Lion:'Savanna',Whale:'Oceans',
+  Octopus:'Coral reefs & oceans',Monkey:'Tropical forests',
+  Bear:'Forests & mountains',Panda:'Bamboo forests',Koala:'Eucalyptus forests',
+  Wolf:'Forests & tundra',Deer:'Forests & grasslands',Sheep:'Mountains & grasslands',
+  Pig:'Forests & farms',Cow:'Grasslands & farms',Goat:'Mountains & cliffs',
+  Camel:'Deserts',Rhino:'Savanna',Hippo:'Rivers & lakes',
+  Zebra:'Savanna',Tiger:'Jungles',Squirrel:'Forests (trees)',
+  Mouse:'Fields & burrows',Snake:'Various habitats',Turtle:'Oceans & ponds',
+  Crocodile:'Rivers & wetlands',Lizard:'Deserts & rocks',Frog:'Ponds & rainforests',
+  Fish:'Oceans & rivers',Shark:'Oceans',Seahorse:'Coral reefs',
+  Crab:'Seashores',Eagle:'Mountains & cliffs',Owl:'Forests & barns',
+  Swan:'Lakes & ponds',Peacock:'Forests & gardens',Penguin:'Antarctic coasts',
+  Flamingo:'Salt lakes',Parrot:'Rainforests',Hen:'Farms',
+  Rooster:'Farms',Duck:'Ponds & wetlands',
+  Toucan:'Rainforests',Hummingbird:'Gardens & forests',Woodpecker:'Forests',
+  Kingfisher:'Rivers & lakes',Crow:'Various habitats',Raven:'Forests & mountains',
+  Pigeon:'Cities & cliffs',Sparrow:'Gardens & cities',Robin:'Gardens & forests',
+  'Blue Jay':'Forests & gardens',Cardinal:'Forests & gardens',Canary:'Forests',
+  Macaw:'Rainforests',Ostrich:'Savanna & deserts',Pelican:'Coasts & lakes',
+  Seagull:'Coasts & oceans',Heron:'Wetlands & lakes',Kiwi:'Forests',
+  Butterfly:'Gardens & meadows',
+  Bee:'Gardens & forests',Ladybug:'Gardens & fields',Ant:'Underground & forests',
+  Dragonfly:'Ponds & wetlands',Caterpillar:'Trees & plants',Spider:'Trees & burrows',
+  Cricket:'Fields & meadows',Firefly:'Forests & meadows',
+  Grasshopper:'Fields & meadows',Mosquito:'Wetlands & forests',Moth:'Gardens & forests',
+  Mantis:'Gardens & forests',Cockroach:'Forests & buildings',Scorpion:'Deserts',
+  Snail:'Gardens & forests',Centipede:'Forests & under logs',Worm:'Soil',
+  Slug:'Gardens & forests'
+};
+
+const VOCAB = {
+  Elephant:['trunks','muscles'], Giraffe:['neck','bones'], Kangaroo:['tail','hopping'],
+  Dolphin:['brain','awake','danger'], Rabbit:['teeth','chewing','grass'],
+  Bat:['mammals','fly'], Horse:['sleeping','standing','eyes'],
+  Cat:['mirror','dark'], Dog:['nose','fingerprints'],
+  Fox:['magnetic','field','hunt'], Lion:['roar','miles','jungle'],
+  Whale:['biggest','dinosaur'], Octopus:['hearts','blood','color'],
+  Monkey:['fingerprints','tools'], Bear:['smell','bloodhound'],
+  Panda:['bamboo','pounds'], Koala:['sleep','eucalyptus','leaves'],
+  Wolf:['howl','pack','miles'], Deer:['antlers','inch'],
+  Sheep:['pupils','vision','rectangular'], Pig:['tricks','games','smart'],
+  Cow:['friends','stressed','separated'], Goat:['pupils','vision','rectangular'],
+  Camel:['water','humps','fat'], Rhino:['horn','keratin'],
+  Hippo:['water','breath','minutes'], Zebra:['stripe','pattern','unique'],
+  Tiger:['stripe','pattern','fingerprints'], Squirrel:['bury','memory','nuts'],
+  Mouse:['squeeze','holes','pencil'], Snake:['tongue','scents','flick'],
+  Turtle:['dinosaurs','million','years'], Crocodile:['dinosaurs','outlived'],
+  Lizard:['regrow','tail','weeks'], Frog:['jump','leap','length'],
+  Fish:['dinosaurs','million','years'], Shark:['oceans','trees','million','years'],
+  Seahorse:['babies','birth','males'], Crab:['sideways','claws','legs'],
+  Eagle:['spot','miles','sharper','rabbit'], Owl:['head','degrees','turn'],
+  Swan:['feathers','mate','life','thousand'], Peacock:['train','feathers','feet'],
+  Penguin:['dive','breath','minutes','feet'], Flamingo:['pink','shrimp','white'],
+  Parrot:['live','words','hundred'], Hen:['eggs','clucks','chicks'],
+  Rooster:['sunrise','crows','farm','day'], Duck:['waterproof','feathers','oil','gland'],
+  Toucan:['beak','inches','body'], Hummingbird:['backward','wings','beat'],
+  Woodpecker:['peck','skull','helmet'], Kingfisher:['dagger','dive','beak'],
+  Crow:['recognize','faces','tools'], Raven:['mimic','puzzles','speech'],
+  Pigeon:['magnetic','field','home'], Sparrow:['wings','buzz','flap'],
+  Robin:['worms','tilt','hear'], 'Blue Jay':['mimic','hawk','scare'],
+  Cardinal:['feed','mate','beak','courtship'], Canary:['coal','mines','dangerous'],
+  Macaw:['crack','nuts','hammer'], Ostrich:['tall','run','miles','hour'],
+  Pelican:['pouch','gallons','throat'], Seagull:['salt','water','glands','filter'],
+  Heron:['still','strike','fish'], Kiwi:['nostrils','beak','smell'],
+  Butterfly:['taste','feet','sensors'], Bee:['sting','stinger','dance'],
+  Ladybug:['liquid','enemies','yellow'], Ant:['carry','weight','body'],
+  Dragonfly:['million','years','dinosaurs'], Caterpillar:['skin','shed','butterflies'],
+  Spider:['eyes','vibrations','sense','web'], Cricket:['chirp','wings','rub','warm'],
+  Firefly:['light','blinking','pattern','species'],
+  Grasshopper:['jump','length','football'], Mosquito:['female','bite','nectar'],
+  Moth:['moon','navigate','lights','confused'], Mantis:['head','turn','praying'],
+  Cockroach:['head','breath','minutes','live'], Scorpion:['glow','ultraviolet','fluorescent'],
+  Snail:['teeth','tongue','radula'], Centipede:['legs','hundred','exactly'],
+  Worm:['hearts','breathe','skin','regrow'], Slug:['slime','slippery','protect']
+};
+
+// ===== CATEGORY SYSTEM =====
+const CAT_NAMES = {
+  animals:{label:'Animals',emoji:'🐾',cls:'animals'},
+  birds:{label:'Birds',emoji:'🦅',cls:'birds'},
+  insects:{label:'Insects',emoji:'🦋',cls:'insects'}
+};
+const CAT_MAP = {
+  Elephant:'animals',Giraffe:'animals',Kangaroo:'animals',Dolphin:'animals',
+  Rabbit:'animals',Bat:'animals',Horse:'animals',Cat:'animals',Dog:'animals',
+  Lion:'animals',Fox:'animals',Whale:'animals',Octopus:'animals',Monkey:'animals',
+  Bear:'animals',Panda:'animals',Koala:'animals',Wolf:'animals',Deer:'animals',
+  Sheep:'animals',Pig:'animals',Cow:'animals',Goat:'animals',Camel:'animals',
+  Rhino:'animals',Hippo:'animals',Zebra:'animals',Tiger:'animals',Squirrel:'animals',
+  Mouse:'animals',Snake:'animals',Turtle:'animals',Crocodile:'animals',Lizard:'animals',
+  Frog:'animals',Fish:'animals',Shark:'animals',Seahorse:'animals',Crab:'animals',
+  Eagle:'birds',Owl:'birds',Swan:'birds',Peacock:'birds',Penguin:'birds',
+  Flamingo:'birds',Parrot:'birds',Hen:'birds',Rooster:'birds',Duck:'birds',
+  Toucan:'birds',Hummingbird:'birds',Woodpecker:'birds',Kingfisher:'birds',
+  Crow:'birds',Raven:'birds',Pigeon:'birds',Sparrow:'birds',Robin:'birds',
+  'Blue Jay':'birds',Cardinal:'birds',Canary:'birds',Macaw:'birds',Ostrich:'birds',
+  Pelican:'birds',Seagull:'birds',Heron:'birds',Kiwi:'birds',
+  Butterfly:'insects',Bee:'insects',Ladybug:'insects',Ant:'insects',
+  Dragonfly:'insects',Caterpillar:'insects',Spider:'insects',Cricket:'insects',Firefly:'insects',
+  Grasshopper:'insects',Mosquito:'insects',Moth:'insects',Mantis:'insects',Cockroach:'insects',
+  Scorpion:'insects',Snail:'insects',Centipede:'insects',Worm:'insects',Slug:'insects'
+};
+
+// ===== SENTENCES =====
+const SENTENCES = [
+  {q:"Which bird has a huge colorful beak that is 7.5 inches long?",a:"Toucan",bank:["Toucan","Eagle","Owl","Pelican"]},
+  {q:"Which animal has a trunk with over 40,000 muscles?",a:"Elephant",bank:["Elephant","Giraffe","Hippo","Rhino"]},
+  {q:"Which insect can jump 20 times its own body length?",a:"Grasshopper",bank:["Grasshopper","Cricket","Frog","Ant"]},
+  {q:"Which bird can fly backward and beat its wings 80 times per second?",a:"Hummingbird",bank:["Hummingbird","Sparrow","Bee","Dragonfly"]},
+  {q:"Which bird can spot a rabbit from 2 miles away?",a:"Eagle",bank:["Eagle","Owl","Crow","Falcon"]},
+  {q:"Which insect has been on Earth for 300 million years?",a:"Dragonfly",bank:["Dragonfly","Butterfly","Bee","Cockroach"]},
+  {q:"Which bird can turn its head almost all the way around?",a:"Owl",bank:["Owl","Parrot","Mantis","Eagle"]},
+  {q:"Which animal can hold its breath underwater for 20+ minutes?",a:"Hippo",bank:["Hippo","Penguin","Whale","Frog"]},
+  {q:"Which animal has the strongest bite force of any animal?",a:"Crocodile",bank:["Crocodile","Lion","Tiger","Shark"]},
+  {q:"Which insect sheds its skin 5 times before becoming an adult?",a:"Caterpillar",bank:["Caterpillar","Moth","Snail","Worm"]},
+  {q:"Which bird has up to 25,000 feathers?",a:"Swan",bank:["Swan","Peacock","Flamingo","Penguin"]},
+  {q:"Which animal can sleep standing up with its eyes open?",a:"Horse",bank:["Horse","Cow","Giraffe","Camel"]},
+  {q:"Which insect tastes with its feet?",a:"Butterfly",bank:["Butterfly","Bee","Ladybug","Mantis"]},
+  {q:"Which bird can dive 1,800 feet deep and hold its breath for 20 minutes?",a:"Penguin",bank:["Penguin","Pelican","Seagull","Duck"]},
+  {q:"Which animal can change color to hide from enemies?",a:"Octopus",bank:["Octopus","Crab","Frog","Lizard"]},
+  {q:"Which insect can only sting once and then dies?",a:"Bee",bank:["Bee","Wasp","Mosquito","Scorpion"]},
+  {q:"Which bird is pink because of the shrimp it eats?",a:"Flamingo",bank:["Flamingo","Peacock","Parrot","Robin"]},
+  {q:"Which animal can recognize itself in a mirror?",a:"Dolphin",bank:["Dolphin","Monkey","Dog","Cat"]},
+  {q:"Which insect glows with a blinking light to talk to others?",a:"Firefly",bank:["Firefly","Scorpion","Moth","Cricket"]},
+  {q:"Which animal has fingerprints that are almost like a human's?",a:"Koala",bank:["Koala","Monkey","Bear","Fox"]},
+  {q:"Which bird can learn to say hundreds of words?",a:"Parrot",bank:["Parrot","Crow","Raven","Macaw"]},
+  {q:"Which insect can carry things 50 times its own body weight?",a:"Ant",bank:["Ant","Bee","Beetle","Spider"]},
+  {q:"Which animal has a tongue that is over 20 inches long?",a:"Giraffe",bank:["Giraffe","Elephant","Camel","Cow"]},
+  {q:"Which bird has a throat pouch that can hold 3 gallons of water?",a:"Pelican",bank:["Pelican","Swan","Duck","Stork"]},
+  {q:"Which insect has 8 eyes but can't see very well?",a:"Spider",bank:["Spider","Dragonfly","Mantis","Scorpion"]},
+  {q:"Which bird can run up to 45 miles per hour?",a:"Ostrich",bank:["Ostrich","Emu","Eagle","Kiwi"]},
+  {q:"Which animal loses its antlers every year and grows new ones?",a:"Deer",bank:["Deer","Sheep","Goat","Camel"]},
+  {q:"Which insect can turn its head all the way to look behind itself?",a:"Mantis",bank:["Mantis","Owl","Spider","Grasshopper"]},
+  {q:"Which bird can recognize human faces and use tools?",a:"Crow",bank:["Crow","Parrot","Raven","Owl"]},
+  {q:"Which animal has unique stripes like human fingerprints?",a:"Tiger",bank:["Tiger","Zebra","Leopard","Giraffe"]},
+  {q:"Which insect glows under ultraviolet light?",a:"Scorpion",bank:["Scorpion","Firefly","Centipede","Spider"]},
+  {q:"Which bird has nostrils at the tip of its beak to smell food?",a:"Kiwi",bank:["Kiwi","Toucan","Woodpecker","Heron"]},
+  {q:"Which animal has 3 hearts and blue blood?",a:"Octopus",bank:["Octopus","Whale","Fish","Crab"]},
+  {q:"Which insect has thousands of tiny teeth on its tongue?",a:"Snail",bank:["Snail","Worm","Slug","Caterpillar"]},
+  {q:"Which bird has a beautiful tail called a 'train' that is 6 feet long?",a:"Peacock",bank:["Peacock","Swan","Flamingo","Turkey"]}
+];
+
+// ===== SCREEN NAV =====
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
 }
+const $=id=>document.getElementById(id);
 
-function shuffleQuestions(animals) {
-  const shuffled = shuffle(animals);
-  return shuffled.map(animal => {
-    const wrongPool = ALL_NAMES.filter(n => n !== animal.name);
-    const wrong = shuffle(wrongPool).slice(0, 3);
-    const options = shuffle([animal.name, ...wrong]);
-    return { ...animal, options };
-  });
-}
-
-function renderShapes(animal) {
-  const svg = shadowSvg;
-  while (svg.firstChild) svg.removeChild(svg.firstChild);
-  (animal.shapes||[]).forEach(s => {
-    const el = document.createElementNS('http://www.w3.org/2000/svg', s.type);
-    const fill = s.fill || '#1a1a3e';
-    const stroke = s.stroke || '';
-    const sw = s['stroke-width'] || '';
-    for (let k of Object.keys(s)) {
-      if (k === 'type' || k === 'fill' || k === 'stroke' || k === 'stroke-width') continue;
-      el.setAttribute(k, s[k]);
-    }
-    el.setAttribute('fill', s.fill !== undefined ? s.fill : '#1a1a3e');
-    if (s.stroke) el.setAttribute('stroke', s.stroke);
-    if (s['stroke-width']) el.setAttribute('stroke-width', s['stroke-width']);
-    svg.appendChild(el);
-  });
-}
-
-// Game state
-let questions = [];
-let currentQ = 0;
-let score = 0;
-let answered = false;
-let soundEnabled = true;
-let streak = 0;
-let timerInterval = null;
-let timerValue = 100;
-const TIMER_DURATION = 14;
-const QUESTIONS_PER_GAME = 20;
-
-const $ = id => document.getElementById(id);
-const shadowSvg = $('shadowSvg');
-const wordBank = $('wordBank');
-const qNum = $('qNum');
-const qTotal = $('qTotal');
-const scoreDisplay = $('scoreDisplay');
-const progressBar = $('progressBar');
-const factBox = $('factBox');
-const nextBtn = $('nextBtn');
-const restartBtn = $('restartBtn');
-const speakBtn = $('speakBtn');
-const gameContent = $('gameContent');
-const completionScreen = $('completionScreen');
-const finalScore = $('finalScore');
-const completionMsg = $('completionMsg');
-const starsRow = $('starsRow');
-const playAgainBtn = $('playAgainBtn');
-const soundToggle = $('soundToggle');
-const streakBadge = $('streakBadge');
-const timerBar = $('timerBar');
-const confettiContainer = $('confettiContainer');
-const shadowStage = $('shadowStage');
-
-// Particles
-(function initParticles() {
-  const c = $('particles');
-  for (let i = 0; i < 40; i++) {
-    const p = document.createElement('div');
-    p.className = 'particle';
-    p.style.left = Math.random() * 100 + '%';
-    p.style.animationDuration = (8 + Math.random() * 18) + 's';
-    p.style.animationDelay = Math.random() * 15 + 's';
-    p.style.width = p.style.height = (2 + Math.random() * 4) + 'px';
+// ===== PARTICLES =====
+(function(){
+  const c=$('particles');
+  for(let i=0;i<40;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    p.style.left=Math.random()*100+'%';
+    p.style.animationDuration=(8+Math.random()*18)+'s';
+    p.style.animationDelay=Math.random()*15+'s';
+    p.style.width=p.style.height=(2+Math.random()*4)+'px';
     c.appendChild(p);
   }
 })();
 
-function speak(text) {
-  if (!soundEnabled) return;
-  if (!window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'en-US';
-  u.rate = 0.92;
-  u.pitch = 1.05;
-  speakBtn.classList.add('speaking');
-  u.onend = () => speakBtn.classList.remove('speaking');
-  u.onerror = () => speakBtn.classList.remove('speaking');
-  window.speechSynthesis.speak(u);
-}
-
-function launchConfetti(count = 50) {
-  const colors = ['#6c5ce7','#fd79a8','#00cec9','#fdcb6e','#e17055','#00b894','#0984e3','#d63031'];
-  for (let i = 0; i < count; i++) {
-    const el = document.createElement('div');
-    el.className = 'confetti-piece';
-    el.style.left = Math.random() * 100 + '%';
-    el.style.background = colors[Math.floor(Math.random() * colors.length)];
-    const size = 6 + Math.random() * 8;
-    el.style.width = size + 'px';
-    el.style.height = size * (0.4 + Math.random() * 0.8) + 'px';
-    el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-    el.style.animationDuration = (1.5 + Math.random() * 2) + 's';
-    el.style.animationDelay = Math.random() * 0.8 + 's';
-    confettiContainer.appendChild(el);
-    setTimeout(() => el.remove(), 4000);
-  }
-}
-
-function startTimer() {
-  stopTimer();
-  timerValue = 100;
-  timerBar.style.width = '100%';
-  const start = Date.now();
-  timerInterval = setInterval(() => {
-    const frac = Math.max(0, 1 - (Date.now() - start) / 1000 / TIMER_DURATION);
-    timerBar.style.width = (frac * 100) + '%';
-    if (Date.now() - start >= TIMER_DURATION * 1000) {
-      stopTimer();
-      if (!answered) handleTimeout();
+// ===== DECORATIVE SVG =====
+function renderDecoSvg(animal){
+  const svg=$('svgDeco').querySelector('svg');
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+  (animal.shapes||[]).forEach(s=>{
+    const el=document.createElementNS('http://www.w3.org/2000/svg',s.type);
+    for(let k of Object.keys(s)){
+      if(k==='type'||k==='fill'||k==='stroke'||k==='stroke-width') continue;
+      el.setAttribute(k,s[k]);
     }
-  }, 50);
-}
-
-function stopTimer() {
-  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
-}
-
-function handleTimeout() {
-  if (answered) return;
-  answered = true; streak = 0; streakBadge.classList.remove('show');
-  highlightCorrect();
-  speak(questions[currentQ].name);
-  factBox.textContent = '⏰ Time\'s up! The answer was: ' + questions[currentQ].name + ' ' + questions[currentQ].fact;
-  factBox.className = 'fact-box show';
-  disableButtons();
-  nextBtn.className = 'next-btn show';
-}
-
-function loadQuestion() {
-  answered = false; streakBadge.classList.remove('show');
-  const q = questions[currentQ];
-  if (!q) return;
-  qNum.textContent = currentQ + 1;
-  qTotal.textContent = questions.length;
-  renderShapes(q);
-  factBox.className = 'fact-box'; factBox.textContent = '';
-  nextBtn.className = 'next-btn';
-  wordBank.innerHTML = '';
-  q.options.forEach(opt => {
-    const btn = document.createElement('button');
-    btn.className = 'word-btn';
-    btn.textContent = opt;
-    btn.dataset.word = opt;
-    btn.addEventListener('click', () => handleAnswer(btn, opt, q.name));
-    wordBank.appendChild(btn);
+    if(s.fill&&s.fill!=='#0a0a1a'){
+      el.setAttribute('fill',s.fill);
+    } else if(s.fill==='#0a0a1a'){
+      el.setAttribute('fill','rgba(255,255,255,0.15)');
+    } else {
+      el.setAttribute('fill','rgba(255,255,255,0.08)');
+    }
+    svg.appendChild(el);
   });
-  progressBar.style.width = ((currentQ / questions.length) * 100) + '%';
-  startTimer();
-  speakBtn.onclick = () => speak(q.name);
 }
 
-function handleAnswer(btn, chosen, correct) {
-  if (answered) return; stopTimer(); answered = true; disableButtons();
-  if (chosen === correct) {
-    btn.classList.add('correct'); score++; streak++;
-    scoreDisplay.textContent = score;
-    if (streak >= 3) { streakBadge.classList.add('show'); streakBadge.textContent = '🔥 ' + streak + ' STREAK'; }
-    launchConfetti(35);
-    speak(correct);
-    factBox.textContent = '✅ Correct! ' + questions[currentQ].fact;
+// ===== LEARN ENGINE =====
+let currentCategory='animals';
+let animals=[];
+let currentIdx=0;
+
+function showCreature(index){
+  const creature=animals[index];
+  if(!creature) return;
+  currentIdx=index;
+  const imgUrl=IMAGE_MAP[creature.name];
+  $('emojiDisplay').innerHTML=imgUrl
+    ?'<img class="bird-photo" src="'+imgUrl+'" alt="'+creature.name+'">'
+    :(EMOJI[creature.name]||'🐾');
+  $('nameDisplay').textContent=creature.name;
+  $('factDisplay').textContent=creature.fact;
+  $('counter').textContent=(index+1)+' of '+animals.length;
+  $('catLabel').textContent=CAT_NAMES[currentCategory].label;
+  $('typeDisplay').textContent=ANIMAL_TYPE[creature.name]||'—';
+  $('habitatDisplay').textContent=ANIMAL_HABITAT[creature.name]||'—';
+  const words=VOCAB[creature.name]||[];
+  const mini=$('vocabMini');
+  mini.innerHTML=words.map(w=>'<span class="tag sp">'+w+'</span>').join('');
+  mini.style.display=words.length?'flex':'none';
+  $('prevBtn').disabled=index===0;
+  $('nextBtn').disabled=index===animals.length-1;
+  renderDecoSvg(creature);
+  renderDots(index);
+}
+
+function renderDots(active){
+  const c=$('dotsContainer');
+  c.innerHTML='';
+  const max=Math.min(animals.length,50);
+  for(let i=0;i<max;i++){
+    const d=document.createElement('span');
+    d.className='dot'+(i===active?' active '+currentCategory:'');
+    c.appendChild(d);
+  }
+}
+
+function openCategory(cat){
+  currentCategory=cat;
+  animals=ANIMALS.filter(a=>CAT_MAP[a.name]===cat);
+  currentIdx=0;
+  const info=CAT_NAMES[cat];
+  $('catBadge').textContent=info.emoji+' '+info.label;
+  $('catBadge').className='cat-badge '+cat;
+  showScreen('learnScreen');
+  showCreature(0);
+}
+
+$('prevBtn').addEventListener('click',()=>{
+  if(currentIdx>0) showCreature(currentIdx-1);
+});
+$('nextBtn').addEventListener('click',()=>{
+  if(currentIdx<animals.length-1) showCreature(currentIdx+1);
+});
+$('backBtn').addEventListener('click',()=>showScreen('categoryScreen'));
+$('vocabBackBtn').addEventListener('click',()=>showScreen('categoryScreen'));
+
+function renderVocabList(){
+  const cats=['animals','birds','insects'];
+  const labels={animals:'🐾 Animals',birds:'🦅 Birds',insects:'🦋 Insects'};
+  const c=$('vocabList');
+  c.innerHTML='';
+  cats.forEach(cat=>{
+    const items=ANIMALS.filter(a=>CAT_MAP[a.name]===cat);
+    const group=document.createElement('div');
+    group.className='vocab-group';
+    group.innerHTML='<div class="vocab-group-header sp '+cat+'">'+labels[cat]+'</div>';
+    items.forEach(a=>{
+      const words=VOCAB[a.name]||[];
+      if(!words.length) return;
+      const row=document.createElement('div');
+      row.className='vocab-row';
+      const imgUrl=IMAGE_MAP[a.name];
+      const emojiHtml=imgUrl
+        ?'<img src="'+imgUrl+'" alt="'+a.name+'">'
+        :(EMOJI[a.name]||'🐾');
+      row.innerHTML='<span class="vocab-row-emoji">'+emojiHtml+'</span>'+
+        '<span class="vocab-row-name sp">'+a.name+'</span>'+
+        '<span class="vocab-row-tags">'+words.map(w=>'<span class="vt sp">'+w+'</span>').join('')+'</span>';
+      group.appendChild(row);
+    });
+    c.appendChild(group);
+  });
+}
+
+document.querySelectorAll('.cat-card').forEach(card=>{
+  card.addEventListener('click',()=>{
+    const cat=card.dataset.cat;
+    if(cat==='vocab'){
+      renderVocabList();
+      showScreen('vocabScreen');
+    } else if(cat==='sentences'){
+      startSentences();
+      showScreen('sentencesScreen');
+    } else {
+      openCategory(cat);
+    }
+  });
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft'&&!$('prevBtn').disabled) $('prevBtn').click();
+  if(e.key==='ArrowRight'&&!$('nextBtn').disabled) $('nextBtn').click();
+  if(e.key==='Escape'){
+    const v=document.getElementById('vocabScreen');
+    const s=document.getElementById('sentencesScreen');
+    const l=document.getElementById('learnScreen');
+    if(v&&v.classList.contains('active')) showScreen('categoryScreen');
+    else if(s&&s.classList.contains('active')) showScreen('categoryScreen');
+    else if(l&&l.classList.contains('active')) showScreen('categoryScreen');
+  }
+});
+
+// ===== SENTENCES ENGINE =====
+let sentIdx=0;
+let sentAnswered=false;
+
+function shuffle(a){
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}
+  return a;
+}
+
+function startSentences(){
+  shuffle(SENTENCES);
+  sentIdx=0;
+  sentAnswered=false;
+  sentIdx=0;
+  renderSentence(0);
+}
+
+function renderSentence(idx){
+  const s=SENTENCES[idx];
+  if(!s) return;
+  sentIdx=idx;
+  sentAnswered=false;
+  $('sentProgress').textContent=(idx+1)+' of '+SENTENCES.length;
+  $('sentQuestion').textContent=s.q;
+  const bank=shuffle([...s.bank]);
+  $('sentBank').innerHTML=bank.map(n=>'<button class="sent-btn" data-answer="'+n+'">'+n+'</button>').join('');
+  $('sentFeedback').textContent='';
+  $('sentFeedback').className='sent-feedback';
+  $('sentPhoto').innerHTML='';
+  $('sentPrevBtn').disabled=idx===0;
+  $('sentNextBtn').disabled=true;
+  $('sentNextBtn').textContent='Next →';
+}
+
+function creatureVisual(name){
+  const url=IMAGE_MAP[name];
+  if(url) return '<img src="'+url+'" alt="'+name+'">';
+  const em=EMOJI[name]||'🐾';
+  return '<span class="emoji-only">'+em+'</span>';
+}
+
+$('sentBank').addEventListener('click',e=>{
+  const btn=e.target.closest('.sent-btn');
+  if(!btn||sentAnswered) return;
+  sentAnswered=true;
+  const guess=btn.dataset.answer;
+  const correct=SENTENCES[sentIdx].a;
+  const allBtns=document.querySelectorAll('.sent-btn');
+  allBtns.forEach(b=>b.classList.add('disabled'));
+  $('sentPhoto').innerHTML=creatureVisual(correct);
+  if(guess===correct){
+    btn.classList.add('correct');
+    $('sentFeedback').textContent='✓ Correct!';
+    $('sentFeedback').className='sent-feedback correct';
+    $('sentNextBtn').disabled=false;
   } else {
-    btn.classList.add('wrong'); streak = 0; streakBadge.classList.remove('show');
-    highlightCorrect(); speak(correct);
-    factBox.textContent = '❌ The answer was: ' + correct + '. ' + questions[currentQ].fact;
-  }
-  factBox.className = 'fact-box show';
-  nextBtn.className = 'next-btn show';
-  progressBar.style.width = ((currentQ / questions.length) * 100) + '%';
-}
-
-function highlightCorrect() {
-  wordBank.querySelectorAll('.word-btn').forEach(b => {
-    if (b.dataset.word === questions[currentQ].name) b.classList.add('correct');
-  });
-}
-
-function disableButtons() {
-  wordBank.querySelectorAll('.word-btn').forEach(b => b.disabled = true);
-}
-
-function nextQuestion() {
-  currentQ++;
-  if (currentQ >= questions.length) showCompletion();
-  else loadQuestion();
-}
-
-function showCompletion() {
-  stopTimer();
-  gameContent.classList.add('hide');
-  completionScreen.classList.add('show');
-  finalScore.textContent = score + '/' + questions.length;
-  const pct = score / questions.length;
-  const starCount = pct >= 0.9 ? 3 : pct >= 0.6 ? 2 : pct >= 0.3 ? 1 : 0;
-  starsRow.querySelectorAll('.star').forEach((s, i) => {
-    setTimeout(() => { if (i < starCount) s.classList.add('active'); }, i * 300);
-  });
-  const msgs = ['Keep practicing! You\'ll get better! 🌱','Good effort! Try again! 💪','Great job! You know your shadows! 🌟','Amazing! You\'re a shadow master! 🏆'];
-  completionMsg.textContent = msgs[starCount];
-  if (starCount >= 2) launchConfetti(60);
-  speak('Well done! You scored ' + score + ' out of ' + questions.length);
-}
-
-function initGame() {
-  stopTimer(); currentQ = 0; score = 0; streak = 0; answered = false;
-  scoreDisplay.textContent = '0'; streakBadge.classList.remove('show');
-  gameContent.classList.remove('hide'); completionScreen.classList.remove('show');
-  questions = shuffleQuestions(ANIMALS).slice(0, QUESTIONS_PER_GAME);
-  loadQuestion();
-}
-
-nextBtn.addEventListener('click', nextQuestion);
-restartBtn.addEventListener('click', initGame);
-playAgainBtn.addEventListener('click', initGame);
-soundToggle.addEventListener('click', () => {
-  soundEnabled = !soundEnabled;
-  soundToggle.textContent = soundEnabled ? '🔊 Sound' : '🔇 Muted';
-  if (!soundEnabled) window.speechSynthesis.cancel();
-});
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter' && nextBtn.classList.contains('show')) nextQuestion();
-  if (e.key === 'r' || e.key === 'R') initGame();
-  if (e.key >= '1' && e.key <= '4' && !answered) {
-    const btns = wordBank.querySelectorAll('.word-btn');
-    if (btns[parseInt(e.key)-1]) btns[parseInt(e.key)-1].click();
+    btn.classList.add('wrong');
+    allBtns.forEach(b=>{if(b.dataset.answer===correct)b.classList.add('reveal')});
+    $('sentFeedback').textContent='✗ Try again next time! The answer was '+correct;
+    $('sentFeedback').className='sent-feedback wrong';
+    $('sentNextBtn').disabled=false;
   }
 });
 
-shadowStage.addEventListener('click', function(e) {
-  const rect = this.getBoundingClientRect();
-  const ripple = document.createElement('span');
-  ripple.className = 'ripple';
-  const size = 60;
-  ripple.style.width = ripple.style.height = size + 'px';
-  ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
-  ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
-  this.appendChild(ripple);
-  setTimeout(() => ripple.remove(), 600);
-  if (questions[currentQ]) speak(questions[currentQ].name);
+$('sentPrevBtn').addEventListener('click',()=>{
+  if(sentIdx>0) renderSentence(sentIdx-1);
 });
 
-initGame();
+$('sentNextBtn').addEventListener('click',()=>{
+  if(sentIdx<SENTENCES.length-1) renderSentence(sentIdx+1);
+  else showScreen('categoryScreen');
+});
+
+$('sentBackBtn').addEventListener('click',()=>showScreen('categoryScreen'));
+
+// ===== VOICE TOGGLE =====
+let voiceOn=true;
+const vt=$('voiceToggle');
+let speakingEl=null;
+
+vt.addEventListener('click',()=>{
+  voiceOn=!voiceOn;
+  vt.textContent=voiceOn?'🔊':'🔇';
+  vt.classList.toggle('muted',!voiceOn);
+  document.body.classList.toggle('voice-active',voiceOn);
+  if(!voiceOn){window.speechSynthesis&&window.speechSynthesis.cancel();if(speakingEl){speakingEl.classList.remove('speaking');speakingEl=null}}
+});
+
+document.addEventListener('click',e=>{
+  if(!voiceOn) return;
+  const el=e.target.closest('.sp');
+  if(!el) return;
+  if(el.closest('button,.nav-btn,.back-btn,.cat-card,.sent-btn,.voice-toggle')) return;
+  const txt=el.textContent.trim();
+  if(!txt||txt.length<1) return;
+  if(speakingEl) speakingEl.classList.remove('speaking');
+  speakingEl=el;
+  el.classList.add('speaking');
+  if(window.speechSynthesis){
+    window.speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(txt);
+    u.lang='en-US';u.rate=0.88;u.pitch=1.05;
+    u.onend=()=>{el.classList.remove('speaking');speakingEl=null};
+    u.onerror=()=>{el.classList.remove('speaking');speakingEl=null};
+    window.speechSynthesis.speak(u);
+  }
+});
+
+// ===== START =====
+for(const [cat,info] of Object.entries(CAT_NAMES)){
+  const count=ANIMALS.filter(a=>CAT_MAP[a.name]===cat).length;
+  const el=document.getElementById(cat+'Count');
+  if(el) el.textContent=count;
+}
+showScreen('categoryScreen');
+document.body.classList.add('voice-active');
 </script>
 </body>
 </html>
