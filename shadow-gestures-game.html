@@ -14,8 +14,16 @@ body{
   overflow-x:hidden;
   color:#fff;
   display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.main-wrap{
+  flex:1;
+  display:flex;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
+  width:100%;
 }
 .bg-particles{
   position:fixed;
@@ -665,6 +673,23 @@ body{
 .bottom-nav-btn#homeBtn:hover{background:rgba(108,92,231,0.2)}
 .bottom-nav-btn#multiplayerBtn{color:#fdcb6e}
 .bottom-nav-btn#multiplayerBtn:hover{background:rgba(253,203,110,0.2)}
+.footer{
+  text-align:center;
+  padding:40px 20px 100px;
+  width:100%;
+  position:relative;
+  z-index:1;
+  color:rgba(255,255,255,0.35);
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:0.5px;
+  line-height:1.8;
+}
+.footer .credit{
+  margin-top:6px;
+  font-size:12px;
+  color:rgba(255,255,255,0.2);
+}
 .voice-toggle{
   position:fixed;
   bottom:24px;right:24px;
@@ -703,6 +728,7 @@ body{
 <div class="glow-orb orb2"></div>
 <div class="glow-orb orb3"></div>
 
+<div class="main-wrap">
 <!-- ===== CATEGORY SELECTION ===== -->
 <div class="screen active" id="categoryScreen">
   <div class="cat-header">
@@ -828,6 +854,7 @@ body{
       <button class="nav-btn next" id="sentNextBtn">Next →</button>
     </div>
   </div>
+</div>
 </div>
 
 <div class="bottom-nav" id="bottomNav">
@@ -2221,5 +2248,10 @@ for(const [cat,info] of Object.entries(CAT_NAMES)){
 showScreen('categoryScreen');
 document.body.classList.add('voice-active');
 </script>
+<div class="footer">
+  <div class="footer-line">✦ Lessons Learning · Grade 3–4 English ✦</div>
+  <div class="footer-line">British Accent · Interactive Audio ✦</div>
+  <div class="footer-line credit">Designed &amp; Published by: 韓尚昊</div>
+</div>
 </body>
 </html>
