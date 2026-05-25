@@ -627,6 +627,44 @@ body{
   border-radius:8px;
   vertical-align:middle;
 }
+.bottom-nav{
+  position:fixed;
+  bottom:24px;left:24px;
+  z-index:50;
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  opacity:1;
+  transition:opacity 0.4s ease;
+}
+.bottom-nav.hidden{
+  opacity:0;
+  pointer-events:none;
+}
+.bottom-nav-btn{
+  width:44px;height:44px;
+  border:none;
+  border-radius:14px;
+  background:rgba(20,20,40,0.75);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  cursor:pointer;
+  transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:20px;
+  box-shadow:0 4px 24px rgba(0,0,0,0.4);
+}
+.bottom-nav-btn:hover{
+  transform:scale(1.12);
+}
+.bottom-nav-btn#scrollTopBtn{color:#00cec9}
+.bottom-nav-btn#scrollTopBtn:hover{background:rgba(0,206,201,0.2)}
+.bottom-nav-btn#homeBtn{color:#a29bfe}
+.bottom-nav-btn#homeBtn:hover{background:rgba(108,92,231,0.2)}
+.bottom-nav-btn#multiplayerBtn{color:#fdcb6e}
+.bottom-nav-btn#multiplayerBtn:hover{background:rgba(253,203,110,0.2)}
 .voice-toggle{
   position:fixed;
   bottom:24px;right:24px;
@@ -792,6 +830,11 @@ body{
   </div>
 </div>
 
+<div class="bottom-nav" id="bottomNav">
+  <button class="bottom-nav-btn" id="scrollTopBtn" title="Scroll to top">↑</button>
+  <button class="bottom-nav-btn" id="homeBtn" title="Go to Home page">🏠</button>
+  <button class="bottom-nav-btn" id="multiplayerBtn" title="Go to Multiplayer Quiz">🎮</button>
+</div>
 <button class="voice-toggle" id="voiceToggle" title="Click to toggle voice pronunciation">🔊</button>
 
 <script>
@@ -2123,6 +2166,51 @@ document.addEventListener('click',e=>{
     window.speechSynthesis.speak(u);
   }
 });
+
+// ===== BOTTOM NAV =====
+const bottomNav=$('bottomNav');
+const scrollBtn=$('scrollTopBtn');
+let navTimer=null;
+let scrollTimer=null;
+
+function showNav(){
+  bottomNav.classList.remove('hidden');
+  clearTimeout(navTimer);
+  navTimer=setTimeout(()=>{
+    if(!bottomNav.matches(':hover')) bottomNav.classList.add('hidden');
+  },3000);
+}
+
+function onScroll(){
+  clearTimeout(scrollTimer);
+  scrollTimer=setTimeout(()=>{
+    if(window.scrollY>80) scrollBtn.style.display='flex';
+    else scrollBtn.style.display='none';
+    showNav();
+  },50);
+}
+
+scrollBtn.addEventListener('click',()=>{
+  window.scrollTo({top:0,behavior:'smooth'});
+  showNav();
+});
+$('homeBtn').addEventListener('click',()=>{
+  window.location.href='https://hanshanghao.github.io/English_Tenses_Lesson/';
+});
+$('multiplayerBtn').addEventListener('click',()=>{
+  window.location.href='https://hanshanghao.github.io/English_Tenses_Lesson/multiplayer_quiz.html';
+});
+bottomNav.addEventListener('mouseenter',()=>{
+  clearTimeout(navTimer);
+  bottomNav.classList.remove('hidden');
+});
+bottomNav.addEventListener('mouseleave',()=>{
+  clearTimeout(navTimer);
+  navTimer=setTimeout(()=>bottomNav.classList.add('hidden'),3000);
+});
+bottomNav.addEventListener('touchstart',showNav);
+scrollBtn.style.display='none';
+document.addEventListener('scroll',onScroll,{passive:true});
 
 // ===== START =====
 for(const [cat,info] of Object.entries(CAT_NAMES)){
