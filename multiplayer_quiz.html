@@ -2836,7 +2836,7 @@ function mcqRender(){
   grid.innerHTML=shuffle(q.options).map(o=>
     `<button class="option-btn" data-a="${o}" onclick="mcqCheck(this,'${o}')">${o}</button>`
   ).join('');
-  hide('mcq-fb'); hide('mcq-next');
+  resetFb('mcq-fb'); hideNext('mcq-next');
 }
 function mcqCheck(el,sel){
   const q=mcqQ[mcqI];
