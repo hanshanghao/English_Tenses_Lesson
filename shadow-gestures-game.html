@@ -171,6 +171,7 @@ body{
   border-color:rgba(253,203,110,0.2);
 }
 .cat-card.sentences .cat-info h2{color:#fdcb6e}
+.cat-card.shadow-game .cat-info h2{color:#a29bfe}
 .cat-info p{
   font-size:13px;
   color:rgba(255,255,255,0.45);
@@ -720,6 +721,17 @@ body{
 .sp{cursor:pointer;transition:color 0.2s}
 .voice-active .sp:hover{color:#a29bfe;text-shadow:0 0 12px rgba(108,92,231,0.2)}
 .voice-active .sp.speaking{color:#00cec9;text-shadow:0 0 16px rgba(0,206,201,0.3)}
+.shadow-game{background:linear-gradient(135deg,rgba(162,155,254,0.12),rgba(162,155,254,0.04));border-color:rgba(162,155,254,0.2)}
+.shadow-game .cat-info h2{color:#a29bfe}
+.shadow-visual{display:flex;align-items:center;justify-content:center;padding:10px;margin-bottom:8px}
+.shadow-svg{width:100%;max-width:180px;height:auto}
+.shadow-svg *{fill:none!important;stroke:rgba(255,255,255,0.7)!important;stroke-width:1.5!important}
+.shadow-bank{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.shadow-bank .sent-btn{font-size:14px;padding:12px 10px}
+.shadow-bank .sent-btn.correct{background:rgba(0,206,201,0.2);border-color:#00cec9;color:#00cec9}
+.shadow-bank .sent-btn.wrong{background:rgba(255,118,117,0.15);border-color:#ff7675;color:#ff7675}
+.shadow-bank .sent-btn.reveal{border-color:rgba(0,206,201,0.3);color:#00cec9}
+.shadow-bank .sent-btn.disabled{pointer-events:none;opacity:0.5}
 </style>
 </head>
 <body>
@@ -773,6 +785,14 @@ body{
       <div class="cat-info">
         <h2 class="sp">Sentences</h2>
         <p>Fill in the blanks with the right creature</p>
+      </div>
+      <div class="cat-arrow">→</div>
+    </div>
+    <div class="cat-card shadow-game" data-cat="shadow">
+      <div class="cat-icon">👤</div>
+      <div class="cat-info">
+        <h2 class="sp">Shadow Game</h2>
+        <p>Guess the creature from its shadow!</p>
       </div>
       <div class="cat-arrow">→</div>
     </div>
@@ -855,6 +875,32 @@ body{
     </div>
   </div>
 </div>
+</div>
+
+<!-- ===== SHADOW GAME SCREEN ===== -->
+<div class="screen" id="shadowScreen">
+  <div class="learn-header">
+    <button class="back-btn" id="shadowBackBtn">←</button>
+    <div class="learn-title-area">
+      <h1>✦ WildLearn</h1>
+      <div class="cat-badge" style="background:rgba(162,155,254,0.2);color:#a29bfe">👤 Shadow Game</div>
+    </div>
+  </div>
+  <div class="learn-card">
+    <div class="shadow-visual">
+      <svg id="shadowSvg" viewBox="0 0 200 200" class="shadow-svg"></svg>
+    </div>
+    <div class="fact-display sp" id="shadowFact">Which creature does this belong to?</div>
+    <div class="shadow-bank" id="shadowBank"></div>
+    <div class="sent-feedback" id="shadowFeedback"></div>
+    <div class="sent-photo" id="shadowResult"></div>
+    <div class="nav-section">
+      <button class="nav-btn prev" id="shadowPrevBtn">← Prev</button>
+      <div class="progress-dots" id="shadowDots"></div>
+      <button class="nav-btn next" id="shadowNextBtn">Next →</button>
+    </div>
+    <div class="counter" id="shadowCounter">1 of 0</div>
+  </div>
 </div>
 
 <div class="bottom-nav" id="bottomNav">
@@ -2069,6 +2115,8 @@ document.querySelectorAll('.cat-card').forEach(card=>{
     } else if(cat==='sentences'){
       startSentences();
       showScreen('sentencesScreen');
+    } else if(cat==='shadow'){
+      startShadowGame();
     } else {
       openCategory(cat);
     }
@@ -2161,6 +2209,114 @@ $('sentNextBtn').addEventListener('click',()=>{
 });
 
 $('sentBackBtn').addEventListener('click',()=>showScreen('categoryScreen'));
+
+// ===== SHADOW GAME =====
+let shadowIdx=0;
+let shadowAnswered=false;
+let shadowItems=[];
+let shadowCorrectCount=0;
+
+function renderSketchSvg(animal){
+  const svg=$('shadowSvg');
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+  (animal.shapes||[]).forEach(s=>{
+    const el=document.createElementNS('http://www.w3.org/2000/svg',s.type);
+    for(let k of Object.keys(s)){
+      if(k==='type'||k==='fill'||k==='stroke'||k==='stroke-width') continue;
+      el.setAttribute(k,s[k]);
+    }
+    svg.appendChild(el);
+  });
+}
+
+function creatureColorHtml(name){
+  const url=IMAGE_MAP[name];
+  if(url) return '<img src="'+url+'" alt="'+name+'">';
+  return '<span class="emoji-only">'+(EMOJI[name]||'🐾')+'</span>';
+}
+
+function stripName(fact, name){
+  const re=new RegExp(name+'s?\'?s?','gi');
+  return fact.replace(re,'').replace(/\s+/g,' ').trim().replace(/^[a-z]/,c=>c.toUpperCase());
+}
+
+function startShadowGame(){
+  shadowItems=shuffle([...ANIMALS]);
+  shadowIdx=0;
+  shadowAnswered=false;
+  shadowCorrectCount=0;
+  renderShadow(shadowIdx);
+  showScreen('shadowScreen');
+}
+
+function renderShadow(idx){
+  const s=shadowItems[idx];
+  if(!s) return;
+  shadowIdx=idx;
+  shadowAnswered=false;
+  renderSketchSvg(s);
+  $('shadowFact').textContent=stripName(s.fact,s.name);
+  $('shadowFeedback').textContent='';
+  $('shadowFeedback').className='sent-feedback';
+  $('shadowResult').innerHTML='';
+  $('shadowPrevBtn').disabled=idx===0;
+  $('shadowNextBtn').disabled=true;
+  $('shadowNextBtn').textContent='Next →';
+  $('shadowCounter').textContent=(idx+1)+' of '+shadowItems.length;
+  const others=ANIMALS.filter(a=>a.name!==s.name);
+  const shuffledOthers=shuffle([...others]);
+  const distractors=shuffledOthers.slice(0,3).map(a=>a.name);
+  const options=shuffle([s.name,...distractors]);
+  $('shadowBank').innerHTML=options.map(n=>'<button class="sent-btn" data-answer="'+n+'">'+n+'</button>').join('');
+  renderShadowDots(idx);
+}
+
+function renderShadowDots(active){
+  const c=$('shadowDots');
+  c.innerHTML='';
+  const max=Math.min(shadowItems.length,50);
+  for(let i=0;i<max;i++){
+    const d=document.createElement('span');
+    d.className='dot'+(i===active?' active':'');
+    if(i<active) d.style.background='rgba(162,155,254,0.5)';
+    c.appendChild(d);
+  }
+}
+
+$('shadowBank').addEventListener('click',e=>{
+  const btn=e.target.closest('.sent-btn');
+  if(!btn||shadowAnswered) return;
+  shadowAnswered=true;
+  const guess=btn.dataset.answer;
+  const correct=shadowItems[shadowIdx].name;
+  const allBtns=document.querySelectorAll('#shadowBank .sent-btn');
+  allBtns.forEach(b=>b.classList.add('disabled'));
+  $('shadowResult').innerHTML=creatureColorHtml(correct);
+  if(guess===correct){
+    btn.classList.add('correct');
+    $('shadowFeedback').textContent='✓ Correct!';
+    $('shadowFeedback').className='sent-feedback correct';
+    shadowCorrectCount++;
+    $('shadowNextBtn').disabled=false;
+  } else {
+    btn.classList.add('wrong');
+    allBtns.forEach(b=>{if(b.dataset.answer===correct)b.classList.add('reveal')});
+    $('shadowFeedback').textContent='✗ That was '+correct;
+    $('shadowFeedback').className='sent-feedback wrong';
+    $('shadowNextBtn').disabled=false;
+  }
+});
+
+$('shadowPrevBtn').addEventListener('click',()=>{
+  if(shadowIdx>0) renderShadow(shadowIdx-1);
+});
+
+$('shadowNextBtn').addEventListener('click',()=>{
+  if(shadowIdx<shadowItems.length-1) renderShadow(shadowIdx+1);
+  else showScreen('categoryScreen');
+});
+
+$('shadowBackBtn').addEventListener('click',()=>showScreen('categoryScreen'));
 
 // ===== VOICE TOGGLE =====
 let voiceOn=true;
