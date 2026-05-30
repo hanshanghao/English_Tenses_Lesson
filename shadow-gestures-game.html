@@ -742,6 +742,96 @@ body{
 .shadow-bank .sent-btn.wrong{background:rgba(255,118,117,0.15);border-color:#ff7675;color:#ff7675}
 .shadow-bank .sent-btn.reveal{border-color:rgba(0,206,201,0.3);color:#00cec9}
 .shadow-bank .sent-btn.disabled{pointer-events:none;opacity:0.5}
+
+/* ===== ARROWS ESCAPE GAME (inlined from aeros-game.html) ===== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap');
+#arrowsGameContainer .game-wrapper {
+  position: relative; z-index: 1;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 28px; padding: 24px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+#arrowsGameContainer .game-container { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+#arrowsGameContainer .game-header { display: flex; justify-content: space-between; align-items: center; width: 100%; padding: 0 4px; }
+#arrowsGameContainer .title-group { display: flex; align-items: center; gap: 10px; }
+#arrowsGameContainer .game-title {
+  font-size: 20px; font-weight: 800; letter-spacing: 1px;
+  background: linear-gradient(135deg, #f59e0b, #06b6d4);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+#arrowsGameContainer .level-badge {
+  font-size: 11px; font-weight: 700; background: rgba(6, 182, 212, 0.12);
+  color: #06b6d4; padding: 3px 10px; border-radius: 6px;
+  border: 1px solid rgba(6, 182, 212, 0.15); letter-spacing: 0.5px;
+}
+#arrowsGameContainer .game-stats { display: flex; gap: 16px; align-items: center; }
+#arrowsGameContainer .stat { display: flex; flex-direction: column; align-items: center; }
+#arrowsGameContainer .stat-label {
+  font-size: 9px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 1.5px; color: rgba(255, 255, 255, 0.25);
+}
+#arrowsGameContainer .stat-value { font-size: 19px; font-weight: 700; color: #fff; letter-spacing: -0.3px; }
+#arrowsGameContainer canvas {
+  border-radius: 14px; display: block; background: rgba(0, 0, 0, 0.4);
+  box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.5), 0 0 40px rgba(6, 182, 212, 0.03);
+  cursor: pointer; width: 480px; height: 480px; position: relative;
+}
+#arrowsGameContainer .game-controls { display: flex; gap: 8px; align-items: center; width: 100%; justify-content: center; }
+#arrowsGameContainer .btn {
+  padding: 9px 20px; border: none; border-radius: 10px;
+  font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s ease; letter-spacing: 0.3px;
+}
+#arrowsGameContainer .btn:active { transform: scale(0.95); }
+#arrowsGameContainer .btn-primary {
+  background: linear-gradient(135deg, #06b6d4, #0891b2); color: #fff;
+  box-shadow: 0 4px 20px rgba(6, 182, 212, 0.25);
+}
+#arrowsGameContainer .btn-primary:hover { box-shadow: 0 6px 30px rgba(6, 182, 212, 0.4); transform: translateY(-1px); }
+#arrowsGameContainer .btn-secondary {
+  background: rgba(255, 255, 255, 0.06); color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+#arrowsGameContainer .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+#arrowsGameContainer .combo-popup {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  font-size: 42px; font-weight: 900; letter-spacing: 2px;
+  color: #fff; text-shadow: 0 0 50px rgba(245, 158, 11, 0.5), 0 0 100px rgba(6, 182, 212, 0.3);
+  pointer-events: none; opacity: 0; z-index: 10; text-align: center; line-height: 1.3;
+}
+#arrowsGameContainer .combo-popup.show { animation: comboAnim 1.4s ease-out forwards; }
+@keyframes comboAnim {
+  0% { transform: translate(-50%, -50%) scale(0.2); opacity: 0; }
+  15% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+  35% { transform: translate(-50%, -55%) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -85%) scale(0.85); opacity: 0; }
+}
+#arrowsGameContainer .message-bar {
+  color: rgba(255,255,255,0.4); font-size: 12px; font-weight: 500;
+  letter-spacing: 0.5px; height: 18px; text-align: center;
+}
+#arrowsGameContainer .word-card {
+  position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+  background: rgba(0,0,0,0.75); backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.1); border-radius: 12px;
+  padding: 10px 20px; max-width: 90%; text-align: center;
+  opacity: 0; transition: opacity 0.4s ease; pointer-events: none; z-index: 5;
+}
+#arrowsGameContainer .word-card.show { opacity: 1; }
+#arrowsGameContainer .word-card .word-en { font-size: 18px; font-weight: 700; color: #06b6d4; letter-spacing: 0.5px; }
+#arrowsGameContainer .word-card .word-zh { font-size: 14px; color: rgba(255,255,255,0.5); margin-top: 2px; }
+#arrowsGameContainer .word-card .word-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: rgba(245,158,11,0.6); margin-bottom: 4px; }
+@media (max-width: 540px) {
+  #arrowsGameContainer .game-wrapper { padding: 14px; border-radius: 18px; }
+  #arrowsGameContainer canvas { width: calc(100vw - 44px); height: calc(100vw - 44px); max-width: 480px; max-height: 480px; }
+  #arrowsGameContainer .game-title { font-size: 17px; }
+  #arrowsGameContainer .game-header { flex-wrap: wrap; gap: 4px; justify-content: center; }
+  #arrowsGameContainer .game-stats { gap: 10px; }
+  #arrowsGameContainer .stat-value { font-size: 16px; }
+}
 </style>
 </head>
 <body>
@@ -930,8 +1020,41 @@ body{
       <div class="cat-badge" style="background:rgba(6,182,212,0.2);color:#06b6d4">🏹 Arrows Escape</div>
     </div>
   </div>
-  <div class="learn-card" style="padding:0;overflow:hidden;background:transparent;border:none;box-shadow:none">
-    <iframe id="arrowsGameFrame" src="aeros-game.html" style="width:100%;height:540px;border:none;border-radius:12px;display:block" title="Arrows Escape Puzzle"></iframe>
+  <div id="arrowsGameContainer">
+    <div class="game-wrapper">
+      <div class="game-container">
+        <div class="game-header">
+          <div class="title-group">
+            <span class="game-title">✦ ESCAPE</span>
+            <span class="level-badge" id="levelBadge">LVL 1</span>
+          </div>
+          <div class="game-stats">
+            <div class="stat">
+              <span class="stat-label">Moves</span>
+              <span class="stat-value" id="movesDisplay">0</span>
+            </div>
+            <div class="stat">
+              <span class="stat-label">Best</span>
+              <span class="stat-value" id="bestDisplay">—</span>
+            </div>
+          </div>
+        </div>
+        <div style="position:relative">
+          <canvas id="gameCanvas" width="480" height="480"></canvas>
+          <div class="combo-popup" id="comboPopup"></div>
+          <div class="word-card" id="wordCard">
+            <div class="word-label" id="wordLabel">📖 Word of the Day</div>
+            <div class="word-en" id="wordEn">apple</div>
+            <div class="word-zh" id="wordZh">苹果 — A red fruit that grows on trees</div>
+          </div>
+        </div>
+        <div class="message-bar" id="statusMsg">Rotate arrows to guide your escape</div>
+        <div class="game-controls">
+          <button class="btn btn-primary" id="newGameBtn">New Game</button>
+          <button class="btn btn-secondary" id="hintBtn">Status</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2294,10 +2417,341 @@ function stripName(fact, name){
   return fact.replace(re,'').replace(/\s+/g,' ').trim().replace(/^[a-z]/,c=>c.toUpperCase());
 }
 
+// ── ARROWS ESCAPE GAME (inlined from aeros-game.html) ──
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+const W = 480, H = 480;
+
+const levelBadge = document.getElementById('levelBadge');
+const movesDisplay = document.getElementById('movesDisplay');
+const bestDisplay = document.getElementById('bestDisplay');
+const comboPopup = document.getElementById('comboPopup');
+const statusMsg = document.getElementById('statusMsg');
+const newGameBtn = document.getElementById('newGameBtn');
+const hintBtn = document.getElementById('hintBtn');
+const wordCard = document.getElementById('wordCard');
+const wordLabel = document.getElementById('wordLabel');
+const wordEn = document.getElementById('wordEn');
+const wordZh = document.getElementById('wordZh');
+
+const ESCAPE_WORDS = [
+  { en:'bathroom',    zh:'浴室',   note:'You wash and shower here',                      type:'vocab', emoji:'🛁' },
+  { en:'bedroom',     zh:'卧室',   note:'You sleep here at night',                       type:'vocab', emoji:'🛏️' },
+  { en:'kitchen',     zh:'厨房',   note:'You cook food here',                            type:'vocab', emoji:'🍳' },
+  { en:'dining room', zh:'餐厅',   note:'You eat meals here',                            type:'vocab', emoji:'🍽️' },
+  { en:'living room', zh:'客厅',   note:'You relax and watch TV here',                   type:'vocab', emoji:'🛋️' },
+  { en:'sleeping',    zh:'睡觉',   note:'Resting with eyes closed at night',             type:'vocab', emoji:'😴' },
+  { en:'reading',     zh:'阅读',   note:'Looking at words in a book',                    type:'vocab', emoji:'📖' },
+  { en:'eating',      zh:'吃',     note:'Putting food in your mouth',                    type:'vocab', emoji:'🍽️' },
+  { en:'cooking',     zh:'烹饪',   note:'Making food on a stove',                        type:'vocab', emoji:'🍳' },
+  { en:'watching TV', zh:'看电视', note:'Looking at shows on a screen',                  type:'vocab', emoji:'📺' },
+  { en:'washing',     zh:'洗',     note:'Cleaning yourself with water',                  type:'vocab', emoji:'🚿' },
+  { en:'writing',     zh:'写',     note:'Making letters and words on paper',             type:'vocab', emoji:'✏️' },
+  { en:'running',     zh:'跑步',   note:'Moving very fast on your feet',                 type:'vocab', emoji:'🏃' },
+  { en:'a hamburger', zh:'汉堡包', note:'One big tasty burger in a bun',                 type:'vocab', emoji:'🍔' },
+  { en:'hamburgers',  zh:'汉堡包', note:'More than one burger',                          type:'vocab', emoji:'🍔🍔' },
+  { en:'a hot dog',   zh:'热狗',  note:'A sausage in a long bun',                        type:'vocab', emoji:'🌭' },
+  { en:'hot dogs',    zh:'热狗',  note:'More than one hot dog',                          type:'vocab', emoji:'🌭🌭' },
+  { en:'juice',       zh:'果汁',  note:'A sweet fruity drink',                           type:'vocab', emoji:'🥤' },
+  { en:'milk',        zh:'牛奶',  note:'A white drink from cows',                        type:'vocab', emoji:'🥛' },
+  { en:'water',       zh:'水',    note:'Clear drink — you need it every day!',            type:'vocab', emoji:'💧' },
+  { en:'ice cream',   zh:'冰淇淋', note:'A cold, sweet frozen treat',                    type:'vocab', emoji:'🍦' },
+  { en:'bears',       zh:'熊',    note:'Large furry animals that love honey',            type:'vocab', emoji:'🐻' },
+  { en:'lions',       zh:'狮子',  note:'Big wild cats — kings of the jungle',            type:'vocab', emoji:'🦁' },
+  { en:'monkeys',     zh:'猴子',  note:'Clever animals that love climbing trees',        type:'vocab', emoji:'🐒' },
+  { en:'tigers',      zh:'老虎',  note:'Big striped wild cats',                          type:'vocab', emoji:'🐯' },
+  { en:'zebras',      zh:'斑马',  note:'Black and white striped animals',                type:'vocab', emoji:'🦓' },
+  { en:'shirt',       zh:'衬衫',  note:'A piece of clothing you wear on top — SH',       type:'vocab', emoji:'👕' },
+  { en:'fish',        zh:'鱼',    note:'A creature that swims in water — SH',            type:'vocab', emoji:'🐟' },
+  { en:'wash',        zh:'洗',    note:'To clean with water — SH',                       type:'vocab', emoji:'🚿' },
+  { en:'chips',       zh:'薯条',  note:'Crunchy snack — CH',                              type:'vocab', emoji:'🍟' },
+  { en:'cheese',      zh:'奶酪',  note:'Yellow dairy food — CH',                         type:'vocab', emoji:'🧀' },
+  { en:'lunch',       zh:'午餐',  note:'Midday meal — CH',                               type:'vocab', emoji:'🥗' },
+  { en:'white',       zh:'白色',  note:'The colour of snow and milk — WH',               type:'vocab', emoji:'⬜' },
+  { en:'wheel',       zh:'轮子',  note:'Round part of a car — WH',                       type:'vocab', emoji:'🛞' },
+  { en:'whale',       zh:'鲸鱼',  note:'The biggest sea animal — WH',                    type:'vocab', emoji:'🐋' },
+  { en:'photo',       zh:'照片',  note:'A picture taken by a camera — PH',               type:'vocab', emoji:'📷' },
+  { en:'phone',       zh:'电话',  note:'You talk to people with this — PH',              type:'vocab', emoji:'📞' },
+  { en:'dolphin',     zh:'海豚',  note:'A smart sea animal — PH',                        type:'vocab', emoji:'🐬' },
+  { en:'Raise your hand.',      zh:'举手',     note:'When you want to answer or ask a question.',            type:'classroom', emoji:'✋' },
+  { en:'Put down your hand.',   zh:'放下手',   note:'After the teacher sees your raised hand.',               type:'classroom', emoji:'👇' },
+  { en:'Take out your book.',   zh:'拿出书',   note:'Get your book ready — class is starting!',              type:'classroom', emoji:'📖' },
+  { en:'Put away your book.',   zh:'收起书',   note:'The lesson is finished — time to tidy up!',             type:'classroom', emoji:'🎒' },
+  { en:'Open your book.',       zh:'打开书',   note:'Find the right page and open up!',                      type:'classroom', emoji:'📂' },
+  { en:'Close your book.',      zh:'合上书',   note:'Time to listen — no more reading for now!',             type:'classroom', emoji:'📕' },
+  { en:'Come here, please.',    zh:'请过来',   note:'The teacher is calling you over politely with a smile!', type:'classroom', emoji:'🚶' },
+  { en:'Go back to your seat.', zh:'回座位',   note:'After coming to the front, sit down again now.',        type:'classroom', emoji:'💺' },
+  { en:'This is a bathroom.',          zh:'这是一个浴室。',         note:'Use "a" when naming one bathroom for the first time.',           type:'sentence', emoji:'🛁' },
+  { en:'I am sleeping in a bedroom.',  zh:'我在卧室里睡觉。',       note:'Use "a" for one bedroom in general.',                             type:'sentence', emoji:'🛏️' },
+  { en:'They are cooking in the kitchen.', zh:'他们在厨房里做饭。', note:'Use "the" for the specific kitchen everyone knows.',              type:'sentence', emoji:'🍳' },
+  { en:'We are eating in the dining room.', zh:'我们在餐厅里吃饭。',note:'Use "the" for the particular dining room in the house.',          type:'sentence', emoji:'🍽️' },
+  { en:'He is reading in the living room.', zh:'他在客厅里看书。',  note:'Use "the" for the living room we are talking about.',             type:'sentence', emoji:'🛋️' },
+  { en:'I see a bedroom window.',      zh:'我看到一扇卧室窗户。',   note:'Use "a" because it is one bedroom window.',                       type:'sentence', emoji:'🪟' },
+  { en:'We are going to the kitchen.', zh:'我们要去厨房。',         note:'Use "the" when referring to the home kitchen everyone knows.',    type:'sentence', emoji:'🍳' },
+  { en:'I am sleeping.',               zh:'我在睡觉。',             note:'Use "am" with I + present continuous -ing.',                     type:'sentence', emoji:'😴' },
+  { en:'She is reading a book.',       zh:'她在读一本书。',         note:'Use "is" with he/she/it + present continuous -ing.',             type:'sentence', emoji:'📖' },
+  { en:'They are eating lunch.',       zh:'他们在吃午饭。',         note:'Use "are" with they/we/you + present continuous -ing.',          type:'sentence', emoji:'🍽️' },
+  { en:'He is writing now.',           zh:'他正在写字。',           note:'Present continuous: is writing.',                                 type:'sentence', emoji:'✏️' },
+  { en:'I am running fast.',           zh:'我在快速跑步。',         note:'Present continuous: am running.',                                type:'sentence', emoji:'🏃' },
+  { en:'We are washing the dishes.',   zh:'我们在洗碗。',           note:'Present continuous: are washing.',                               type:'sentence', emoji:'🚿' },
+  { en:'She is watching TV.',          zh:'她在看电视。',           note:'Present continuous: is watching.',                               type:'sentence', emoji:'📺' },
+  { en:'This is a hamburger.',         zh:'这是一个汉堡包。',       note:'Use "a" because hamburger is one item.',                         type:'sentence', emoji:'🍔' },
+  { en:'I like an ice cream.',         zh:'我喜欢冰淇淋。',         note:'Use "an" before ice cream (vowel sound).',                       type:'sentence', emoji:'🍦' },
+  { en:'I am eating an apple.',        zh:'我在吃一个苹果。',       note:'Use "an" before apple (vowel sound).',                           type:'sentence', emoji:'🍎' },
+  { en:'She is drinking the orange juice.', zh:'她在喝橙汁。',      note:'Use "the" for orange juice already known.',                      type:'sentence', emoji:'🥤' },
+  { en:'They are drinking the milk.',  zh:'他们在喝牛奶。',         note:'Use "the" for milk everyone knows about.',                       type:'sentence', emoji:'🥛' },
+  { en:'He is eating a hot dog.',      zh:'他在吃热狗。',           note:'Use "a" for any single hot dog.',                                type:'sentence', emoji:'🌭' },
+  { en:'We are drinking juice.',       zh:'我们在喝果汁。',         note:'Use "are" with we + present continuous.',                        type:'sentence', emoji:'🥤' },
+  { en:'She is eating a sandwich.',    zh:'她在吃三明治。',         note:'Use "a" when mentioning one sandwich in general.',               type:'sentence', emoji:'🥪' },
+  { en:'I bought an ice cream.',       zh:'我买了一个冰淇淋。',     note:'Use "an" before ice cream (vowel sound).',                       type:'sentence', emoji:'🍦' },
+  { en:'I see a lion.',                zh:'我看到一头狮子。',       note:'Use "a" when introducing one lion for the first time.',          type:'sentence', emoji:'🦁' },
+  { en:'The zebras are running.',      zh:'斑马在奔跑。',           note:'Use "are" with plural subjects (zebras).',                       type:'sentence', emoji:'🦓' },
+  { en:'He is watching a monkey.',     zh:'他在看一只猴子。',       note:'Use "a" for one monkey, not a specific one.',                    type:'sentence', emoji:'🐒' },
+  { en:'The bears are sleeping.',      zh:'熊在睡觉。',             note:'Use "are" with plural subjects (bears).',                        type:'sentence', emoji:'🐻' },
+  { en:'A tiger is sleeping.',         zh:'一只老虎在睡觉。',       note:'Use "is" with singular subjects (a tiger).',                     type:'sentence', emoji:'🐯' },
+  { en:'She is feeding a zebra.',      zh:'她在喂斑马。',           note:'Use "a" when talking about one zebra in general.',               type:'sentence', emoji:'🦓' },
+  { en:'I am looking at an elephant.', zh:'我在看大象。',           note:'Use "an" before elephant (vowel sound).',                        type:'sentence', emoji:'🐘' },
+];
+
+let currentWord = null;
+
+function pickRandomWord() {
+  currentWord = ESCAPE_WORDS[Math.floor(Math.random() * ESCAPE_WORDS.length)];
+  const labels = { vocab:'📖 Vocabulary', classroom:'🏫 Classroom English', sentence:'📝 Sentence Practice' };
+  wordLabel.textContent = labels[currentWord.type] || '📖 Word of the Day';
+  wordEn.textContent = (currentWord.emoji || '') + '  ' + currentWord.en;
+  wordZh.textContent = currentWord.zh + ' — ' + currentWord.note;
+}
+function showWordCard() { pickRandomWord(); wordCard.classList.add('show'); }
+function hideWordCard() { wordCard.classList.remove('show'); }
+
+const DIR = [
+  { name: 'up',    dx: 0,  dy: -1 },
+  { name: 'right', dx: 1,  dy: 0 },
+  { name: 'down',  dx: 0,  dy: 1 },
+  { name: 'left',  dx: -1, dy: 0 },
+];
+
+let grid = []; let N = 4; let moves = 0; let level = 1;
+let gameOver = false; let won = false; let path = [];
+let pathSuccess = false; let particles = []; let cellAnimations = [];
+let charPos = { x: 0, y: 0 }; let charAnimating = false;
+let charStep = 0; let charTarget = null; let charProgress = 0;
+
+function bestForKey() { const v = localStorage.getItem(`aeros_escape_${N}`); return v !== null ? parseInt(v) : null; }
+function saveBest(val) { const cur = bestForKey(); if (cur === null || val < cur) localStorage.setItem(`aeros_escape_${N}`, val); }
+function updateBestDisplay() { const b = bestForKey(); bestDisplay.textContent = b !== null ? b + ' moves' : '—'; }
+function randomDir() { return Math.floor(Math.random() * 4); }
+
+function generatePuzzle() {
+  const pathCells = generateRandomPath();
+  if (!pathCells) { generateFallbackPuzzle(); return; }
+  grid = [];
+  for (let r = 0; r < N; r++) { const row = []; for (let c = 0; c < N; c++) row.push({ dir: randomDir() }); grid.push(row); }
+  for (let i = 0; i < pathCells.length - 1; i++) {
+    const cur = pathCells[i]; const next = pathCells[i + 1]; const dr = next.r - cur.r; const dc = next.c - cur.c;
+    for (let d = 0; d < 4; d++) { if (DIR[d].dx === dc && DIR[d].dy === dr) { grid[cur.r][cur.c].dir = d; break; } }
+  }
+  const scramblePool = pathCells.filter(p => !(p.r === 0 && p.c === 0) && !(p.r === N-1 && p.c === N-1));
+  const scrambleCount = Math.min(1 + Math.floor(level / 2), scramblePool.length);
+  for (let i = scramblePool.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [scramblePool[i], scramblePool[j]] = [scramblePool[j], scramblePool[i]]; }
+  for (let i = 0; i < scrambleCount; i++) { const t = scramblePool[i]; const rotations = 1 + Math.floor(Math.random() * 3); grid[t.r][t.c].dir = (grid[t.r][t.c].dir + rotations) % 4; }
+}
+function generateFallbackPuzzle() {
+  grid = []; for (let r = 0; r < N; r++) { const row = []; for (let c = 0; c < N; c++) row.push({ dir: randomDir() }); grid.push(row); }
+  let attempts = 0; while (!checkSolvable() && attempts < 2000) { const r = Math.floor(Math.random() * N); const c = Math.floor(Math.random() * N); if (r === 0 && c === 0) continue; grid[r][c].dir = randomDir(); attempts++; }
+}
+function generateRandomPath() {
+  const visited = Array.from({ length: N }, () => Array(N).fill(false));
+  const p = [{ r: 0, c: 0 }]; visited[0][0] = true;
+  function walk() {
+    if (p.length > N * N * 4) return false; const { r, c } = p[p.length - 1];
+    if (r === N-1 && c === N-1) return true;
+    const neighbors = []; for (let d = 0; d < 4; d++) { const nr = r + DIR[d].dy, nc = c + DIR[d].dx; if (nr >= 0 && nr < N && nc >= 0 && nc < N && !visited[nr][nc]) neighbors.push({ r: nr, c: nc }); }
+    if (!neighbors.length) return false;
+    for (let i = neighbors.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [neighbors[i], neighbors[j]] = [neighbors[j], neighbors[i]]; }
+    for (const n of neighbors) { visited[n.r][n.c] = true; p.push({ r: n.r, c: n.c }); if (walk()) return true; p.pop(); visited[n.r][n.c] = false; }
+    return false;
+  }
+  return walk() ? p : null;
+}
+function checkSolvable() { tracePath(); return pathSuccess; }
+function tracePath() {
+  path = []; const visited = Array.from({ length: N }, () => Array(N).fill(false)); let r = 0, c = 0;
+  while (true) {
+    if (r < 0 || r >= N || c < 0 || c >= N) { pathSuccess = false; return; } if (visited[r][c]) { pathSuccess = false; return; }
+    visited[r][c] = true; path.push({ r, c }); if (r === N-1 && c === N-1) { pathSuccess = true; return; }
+    const dir = grid[r][c].dir; r += DIR[dir].dy; c += DIR[dir].dx;
+  }
+}
+function getCellSize() { return (W - 80) / N; }
+function getCellCenter(r, c) { const cellSize = getCellSize(); return { x: 40 + c * cellSize + cellSize / 2, y: 40 + r * cellSize + cellSize / 2 }; }
+
+function startCharAnimation() {
+  if (charAnimating || !pathSuccess || path.length < 2) { if (pathSuccess && !won) triggerWin(); return; }
+  charAnimating = true; charStep = 0; charProgress = 0; const start = getCellCenter(0, 0);
+  charPos.x = start.x; charPos.y = start.y; charTarget = getCellCenter(path[1].r, path[1].c);
+}
+function updateCharAnimation() {
+  if (!charAnimating) return; charProgress += 0.035;
+  if (charProgress >= 1) {
+    charProgress = 1; const cur = getCellCenter(path[charStep].r, path[charStep].c); charPos.x = cur.x; charPos.y = cur.y; charStep++;
+    if (charStep >= path.length - 1) { const exit = getCellCenter(N-1, N-1); charPos.x = exit.x; charPos.y = exit.y; charAnimating = false; triggerWin(); return; }
+    charProgress = 0; charTarget = getCellCenter(path[charStep + 1].r, path[charStep + 1].c);
+  }
+  const cur = getCellCenter(path[charStep].r, path[charStep].c); const t = easeInOut(charProgress);
+  charPos.x = cur.x + (charTarget.x - cur.x) * t; charPos.y = cur.y + (charTarget.y - cur.y) * t; spawnFootstep(charPos.x, charPos.y);
+}
+function easeInOut(t) { return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t; }
+function spawnFootstep(x, y) {
+  if (Math.random() > 0.3) return; particles.push({ x: x + (Math.random() - 0.5) * 6, y: y + (Math.random() - 0.5) * 6, dx: (Math.random() - 0.5) * 0.3, dy: (Math.random() - 0.5) * 0.3 - 0.5, color: 'rgba(6, 182, 212, 0.6)', life: 1, decay: 0.03 + Math.random() * 0.02, size: 2 + Math.random() * 3 });
+}
+function rotateCell(r, c) {
+  if (gameOver || won || charAnimating) return; if (r === 0 && c === 0) return; if (r === N-1 && c === N-1) return;
+  grid[r][c].dir = (grid[r][c].dir + 1) % 4; moves++; cellAnimations.push({ r, c, frame: 0, maxFrames: 8 }); movesDisplay.textContent = moves; tracePath();
+  if (pathSuccess) { statusMsg.textContent = 'Path found! Escape sequence initiated.'; startCharAnimation(); }
+  else statusMsg.textContent = 'Path broken — ' + path.length + ' steps before dead end';
+}
+function triggerWin() { won = true; showCombo('✦ ESCAPED!'); statusMsg.textContent = '✨ Escaped in ' + moves + ' moves!'; saveBest(moves); updateBestDisplay(); spawnWinParticles(); showWordCard(); }
+
+function drawFloor() {
+  const cellSize = getCellSize();
+  for (let r = 0; r < N; r++) {
+    for (let c = 0; c < N; c++) {
+      const { x, y } = getCellCenter(r, c); const half = cellSize / 2 - 2;
+      const isStart = r === 0 && c === 0; const isExit = r === N-1 && c === N-1;
+      const inPath = pathSuccess && path.some(p => p.r === r && p.c === c);
+      const wrongPath = !pathSuccess && path.some(p => p.r === r && p.c === c);
+      let bg = '#0f0f1a', border = 'rgba(255,255,255,0.05)', glow = null;
+      if (isStart) { bg = '#0a1a0f'; border = 'rgba(34,197,94,0.25)'; glow = 'rgba(34,197,94,0.06)'; }
+      else if (isExit) { bg = '#1a1008'; border = 'rgba(245,158,11,0.3)'; glow = 'rgba(245,158,11,0.06)'; }
+      else if (inPath) { bg = '#0a1418'; border = 'rgba(6,182,212,0.2)'; }
+      else if (wrongPath) { bg = '#180a0a'; border = 'rgba(239,68,68,0.15)'; }
+      if (glow) { const g = ctx.createRadialGradient(x, y, 0, x, y, half * 1.5); g.addColorStop(0, glow); g.addColorStop(1, 'transparent'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, half * 1.5, 0, Math.PI * 2); ctx.fill(); }
+      ctx.fillStyle = bg; roundRect(x - half, y - half, cellSize - 4, cellSize - 4, 6); ctx.fill();
+      ctx.strokeStyle = border; ctx.lineWidth = 1; roundRect(x - half, y - half, cellSize - 4, cellSize - 4, 6); ctx.stroke();
+      const ac = 4; ctx.fillStyle = 'rgba(255,255,255,0.03)';
+      [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(([sx,sy]) => { ctx.beginPath(); ctx.arc(x + sx * (half - ac), y + sy * (half - ac), ac, 0, Math.PI * 2); ctx.fill(); });
+      const anim = cellAnimations.find(a => a.r === r && a.c === c);
+      if (anim) { const p = anim.frame / anim.maxFrames; ctx.fillStyle = `rgba(6,182,212,${0.06 * (1-p)})`; roundRect(x - half, y - half, cellSize - 4, cellSize - 4, 6); ctx.fill(); }
+    }
+  }
+}
+function roundRect(x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.lineTo(x + w - r, y); ctx.quadraticCurveTo(x + w, y, x + w, y + r); ctx.lineTo(x + w, y + h - r); ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h); ctx.lineTo(x + r, y + h); ctx.quadraticCurveTo(x, y + h, x, y + h - r); ctx.lineTo(x, y + r); ctx.quadraticCurveTo(x, y, x + r, y); ctx.closePath(); }
+
+function drawArrows() {
+  const cellSize = getCellSize(); const s = cellSize * 0.22;
+  for (let r = 0; r < N; r++) {
+    for (let c = 0; c < N; c++) {
+      const { x, y } = getCellCenter(r, c); const dir = grid[r][c].dir;
+      const isStart = r === 0 && c === 0; const isExit = r === N-1 && c === N-1;
+      const onPath = pathSuccess && path.some(p => p.r === r && p.c === c);
+      ctx.save(); ctx.translate(x, y);
+      const anim = cellAnimations.find(a => a.r === r && a.c === c); let rot = dir * Math.PI / 2;
+      if (anim) { const p = anim.frame / anim.maxFrames; rot -= (Math.PI / 2) * (1 - p); } ctx.rotate(rot);
+      let color = 'rgba(255,255,255,0.2)', glow = null, blur = 0;
+      if (onPath) { color = '#06b6d4'; glow = 'rgba(6,182,212,0.3)'; blur = 8; }
+      else if (isStart) { color = '#22c55e'; glow = 'rgba(34,197,94,0.3)'; blur = 10; }
+      else if (isExit) { color = '#f59e0b'; glow = 'rgba(245,158,11,0.3)'; blur = 10; }
+      if (glow) { ctx.shadowColor = glow; ctx.shadowBlur = blur; }
+      ctx.strokeStyle = color; ctx.lineWidth = 2.5; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(0, s * 0.4); ctx.lineTo(0, -s * 0.3); ctx.stroke();
+      ctx.fillStyle = color; ctx.beginPath(); ctx.moveTo(0, -s * 0.55); ctx.lineTo(-s * 0.32, -s * 0.05); ctx.lineTo(s * 0.32, -s * 0.05); ctx.closePath(); ctx.fill();
+      ctx.shadowBlur = 0; ctx.restore();
+    }
+  }
+}
+function drawLabels() {
+  const cellSize = getCellSize(); const half = cellSize / 2 - 2; const s = getCellCenter(0, 0);
+  ctx.fillStyle = 'rgba(34,197,94,0.5)'; ctx.font = 'bold 11px Inter, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'top'; ctx.fillText('CELL', s.x, s.y + half - 16);
+  const e = getCellCenter(N-1, N-1); ctx.fillStyle = 'rgba(245,158,11,0.5)'; ctx.textBaseline = 'bottom'; ctx.fillText('FREE', e.x, e.y - half + 16);
+}
+function drawPathLine() {
+  if (path.length < 2) return;
+  for (let i = 0; i < path.length - 1; i++) { const a = getCellCenter(path[i].r, path[i].c); const b = getCellCenter(path[i+1].r, path[i+1].c);
+    ctx.save(); if (pathSuccess) { ctx.shadowColor = 'rgba(6,182,212,0.2)'; ctx.shadowBlur = 8; }
+    ctx.strokeStyle = pathSuccess ? 'rgba(6,182,212,0.15)' : 'rgba(239,68,68,0.2)'; ctx.lineWidth = pathSuccess ? 3 : 2; ctx.lineCap = 'round';
+    ctx.setLineDash(pathSuccess ? [] : [5, 5]); ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke(); ctx.restore();
+  }
+}
+function drawCharacter() {
+  const r = 10; const pulse = 1 + Math.sin(Date.now() / 400) * 0.08;
+  const g = ctx.createRadialGradient(charPos.x, charPos.y, 0, charPos.x, charPos.y, r * 3); g.addColorStop(0, 'rgba(255,255,255,0.08)'); g.addColorStop(1, 'transparent'); ctx.fillStyle = g; ctx.beginPath(); ctx.arc(charPos.x, charPos.y, r * 3, 0, Math.PI * 2); ctx.fill();
+  ctx.shadowColor = 'rgba(255,255,255,0.4)'; ctx.shadowBlur = 15;
+  const grad = ctx.createRadialGradient(charPos.x - r*0.3, charPos.y - r*0.3, 0, charPos.x, charPos.y, r * pulse); grad.addColorStop(0, '#ffffff'); grad.addColorStop(0.4, '#e0f2fe'); grad.addColorStop(1, '#38bdf8'); ctx.fillStyle = grad; ctx.beginPath(); ctx.arc(charPos.x, charPos.y, r * pulse, 0, Math.PI * 2); ctx.fill();
+  ctx.shadowBlur = 0; ctx.fillStyle = '#0f172a'; [[-3,-2],[3,-2]].forEach(([dx,dy]) => { ctx.beginPath(); ctx.arc(charPos.x + dx, charPos.y + dy, 2, 0, Math.PI * 2); ctx.fill(); });
+  ctx.fillStyle = '#fff'; [[-2.5,-3],[3.5,-3]].forEach(([dx,dy]) => { ctx.beginPath(); ctx.arc(charPos.x + dx, charPos.y + dy, 0.8, 0, Math.PI * 2); ctx.fill(); });
+}
+function drawParticles() { for (const p of particles) { ctx.globalAlpha = p.life; ctx.fillStyle = p.color; ctx.beginPath(); ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2); ctx.fill(); } ctx.globalAlpha = 1; }
+function drawWinOverlay() {
+  if (!won) return; ctx.fillStyle = 'rgba(0,0,0,0.25)'; ctx.fillRect(0, 0, W, H);
+  const g = ctx.createRadialGradient(W/2, H/2, 30, W/2, H/2, W/3); g.addColorStop(0, 'rgba(245,158,11,0.05)'); g.addColorStop(1, 'transparent'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.shadowColor = 'rgba(245,158,11,0.4)'; ctx.shadowBlur = 40;
+  ctx.fillStyle = '#fff'; ctx.font = 'bold 34px Inter, sans-serif'; ctx.fillText('✦ ESCAPED', W/2, H/2 - 16); ctx.shadowBlur = 0;
+  ctx.fillStyle = 'rgba(255,255,255,0.4)'; ctx.font = '15px Inter, sans-serif'; ctx.fillText(moves + ' moves  ·  Click to continue', W/2, H/2 + 30); ctx.shadowBlur = 0;
+}
+function spawnWinParticles() {
+  const colors = ['#f59e0b','#fbbf24','#fcd34d','#06b6d4','#22d3ee','#fff'];
+  for (let i = 0; i < 80; i++) { const angle = Math.random() * Math.PI * 2; const speed = 2 + Math.random() * 6; particles.push({ x: W/2 + (Math.random()-0.5)*120, y: H/2 + (Math.random()-0.5)*120, dx: Math.cos(angle)*speed, dy: Math.sin(angle)*speed - 1.5, color: colors[Math.floor(Math.random()*colors.length)], life: 1, decay: 0.006 + Math.random()*0.01, size: 3 + Math.random()*6, }); }
+}
+function showCombo(text) { comboPopup.textContent = text; comboPopup.classList.remove('show'); void comboPopup.offsetWidth; comboPopup.classList.add('show'); setTimeout(() => comboPopup.classList.remove('show'), 1500); }
+
+function update() {
+  if (charAnimating) updateCharAnimation();
+  for (let i = cellAnimations.length - 1; i >= 0; i--) { cellAnimations[i].frame++; if (cellAnimations[i].frame >= cellAnimations[i].maxFrames) cellAnimations.splice(i, 1); }
+  for (let i = particles.length - 1; i >= 0; i--) { const p = particles[i]; p.x += p.dx; p.y += p.dy; p.dy += 0.03; p.life -= p.decay; if (p.life <= 0) particles.splice(i, 1); }
+}
+function draw() {
+  ctx.clearRect(0, 0, W, H); ctx.fillStyle = '#05050c'; ctx.fillRect(0, 0, W, H);
+  const vg = ctx.createRadialGradient(W/2, H/2, 0, W/2, H/2, W*0.6); vg.addColorStop(0, 'rgba(15,15,30,0.8)'); vg.addColorStop(1, 'transparent'); ctx.fillStyle = vg; ctx.fillRect(0, 0, W, H);
+  const pad = 32; ctx.strokeStyle = 'rgba(255,255,255,0.04)'; ctx.lineWidth = 1; roundRect(pad, pad, W - pad*2, H - pad*2, 12); ctx.stroke();
+  drawPathLine(); drawFloor(); drawArrows(); drawLabels(); if (!won && (charAnimating || (pathSuccess && path.length >= 2))) drawCharacter(); drawParticles(); drawWinOverlay();
+}
+function gameLoop() { update(); draw(); requestAnimationFrame(gameLoop); }
+
+canvas.addEventListener('click', (e) => {
+  if (won) { hideWordCard(); nextLevel(); return; } if (gameOver || charAnimating) return;
+  const rect = canvas.getBoundingClientRect(); const scaleX = W / rect.width, scaleY = H / rect.height;
+  const mx = (e.clientX - rect.left) * scaleX, my = (e.clientY - rect.top) * scaleY;
+  const cellSize = getCellSize(); const c = Math.round((mx - 40 - cellSize/2) / cellSize); const r = Math.round((my - 40 - cellSize/2) / cellSize);
+  if (r >= 0 && r < N && c >= 0 && c < N) { const { x, y } = getCellCenter(r, c); if (Math.hypot(mx - x, my - y) < cellSize/2) rotateCell(r, c); }
+});
+canvas.addEventListener('touchstart', (e) => {
+  e.preventDefault(); const touch = e.touches[0]; const rect = canvas.getBoundingClientRect(); const scaleX = W / rect.width, scaleY = H / rect.height;
+  const mx = (touch.clientX - rect.left) * scaleX, my = (touch.clientY - rect.top) * scaleY;
+  if (won) { hideWordCard(); nextLevel(); return; } if (gameOver || charAnimating) return;
+  const cellSize = getCellSize(); const c = Math.round((mx - 40 - cellSize/2) / cellSize); const r = Math.round((my - 40 - cellSize/2) / cellSize);
+  if (r >= 0 && r < N && c >= 0 && c < N) { const { x, y } = getCellCenter(r, c); if (Math.hypot(mx - x, my - y) < cellSize/2) rotateCell(r, c); }
+}, { passive: false });
+document.addEventListener('keydown', (e) => {
+  const as = document.getElementById('arrowsScreen'); if (!as || !as.classList.contains('active')) return;
+  if ((e.key === ' ' || e.key === 'Enter') && won) { hideWordCard(); nextLevel(); e.preventDefault(); }
+});
+
+function nextLevel() {
+  level++; N = Math.min(4 + Math.floor(level/2), 9); moves = 0; won = false; gameOver = false; charAnimating = false;
+  particles = []; cellAnimations = []; path = []; levelBadge.textContent = 'LVL ' + level; movesDisplay.textContent = moves;
+  generatePuzzle(); tracePath(); updateBestDisplay(); if (!pathSuccess) { generatePuzzle(); tracePath(); }
+  const start = getCellCenter(0, 0); charPos.x = start.x; charPos.y = start.y; statusMsg.textContent = 'Rotate arrows to guide your escape';
+}
+function newGame() {
+  level = 1; N = 4; moves = 0; won = false; gameOver = false; charAnimating = false;
+  particles = []; cellAnimations = []; path = []; levelBadge.textContent = 'LVL 1'; movesDisplay.textContent = moves;
+  hideWordCard(); generatePuzzle(); tracePath(); updateBestDisplay();
+  const start = getCellCenter(0, 0); charPos.x = start.x; charPos.y = start.y; statusMsg.textContent = 'Rotate arrows to guide your escape';
+}
+function showHint() {
+  if (won || gameOver) return; if (charAnimating) { statusMsg.textContent = 'Escaping... stand by.'; return; } tracePath();
+  if (pathSuccess) statusMsg.textContent = 'Escape route found! ' + path.length + ' steps to freedom.';
+  else statusMsg.textContent = 'Dead end at step ' + path.length + ' — keep rotating arrows.';
+}
+newGameBtn.addEventListener('click', newGame);
+hintBtn.addEventListener('click', showHint);
+
+newGame();
+gameLoop();
+
 function startArrowsGame(){
   showScreen('arrowsScreen');
-  const frame = document.getElementById('arrowsGameFrame');
-  if (frame) frame.src = 'aeros-game.html';
 }
 
 function startShadowGame(){
