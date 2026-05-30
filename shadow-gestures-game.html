@@ -172,6 +172,14 @@ body{
 }
 .cat-card.sentences .cat-info h2{color:#fdcb6e}
 .cat-card.shadow-game .cat-info h2{color:#a29bfe}
+.cat-card.arrows-escape{
+  margin-top:8px;
+  background:linear-gradient(135deg,rgba(6,182,212,0.12),rgba(245,158,11,0.04));
+  border-color:rgba(6,182,212,0.2);
+}
+.cat-card.arrows-escape .cat-info h2{color:#06b6d4}
+.arrows-escape{background:linear-gradient(135deg,rgba(6,182,212,0.12),rgba(245,158,11,0.04));border-color:rgba(6,182,212,0.2)}
+.arrows-escape .cat-info h2{color:#06b6d4}
 .cat-info p{
   font-size:13px;
   color:rgba(255,255,255,0.45);
@@ -724,8 +732,10 @@ body{
 .shadow-game{background:linear-gradient(135deg,rgba(162,155,254,0.12),rgba(162,155,254,0.04));border-color:rgba(162,155,254,0.2)}
 .shadow-game .cat-info h2{color:#a29bfe}
 .shadow-visual{display:flex;align-items:center;justify-content:center;padding:10px;margin-bottom:8px}
-.shadow-svg{width:100%;max-width:180px;height:auto}
-.shadow-svg *{fill:none!important;stroke:rgba(255,255,255,0.7)!important;stroke-width:1.5!important}
+.shadow-svg{width:100%;max-width:180px;height:auto;border-radius:12px;}
+.shadow-svg .sketch-group *{fill:none!important;stroke:#2d2d3d!important;stroke-width:1.8!important;stroke-linecap:round;stroke-linejoin:round}
+.shadow-svg .sketch-group .sketch-fill{fill:rgba(45,45,61,0.06)!important;stroke:none!important}
+.shadow-paper{fill:#f5f0e8}
 .shadow-bank{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
 .shadow-bank .sent-btn{font-size:14px;padding:12px 10px}
 .shadow-bank .sent-btn.correct{background:rgba(0,206,201,0.2);border-color:#00cec9;color:#00cec9}
@@ -793,6 +803,14 @@ body{
       <div class="cat-info">
         <h2 class="sp">Shadow Game</h2>
         <p>Guess the creature from its shadow!</p>
+      </div>
+      <div class="cat-arrow">→</div>
+    </div>
+    <div class="cat-card arrows-escape" data-cat="arrows">
+      <div class="cat-icon">🏹</div>
+      <div class="cat-info">
+        <h2 class="sp">Arrows Escape</h2>
+        <p>Rotate arrows to guide your escape!</p>
       </div>
       <div class="cat-arrow">→</div>
     </div>
@@ -900,6 +918,20 @@ body{
       <button class="nav-btn next" id="shadowNextBtn">Next →</button>
     </div>
     <div class="counter" id="shadowCounter">1 of 0</div>
+  </div>
+</div>
+
+<!-- ===== ARROWS ESCAPE SCREEN ===== -->
+<div class="screen" id="arrowsScreen">
+  <div class="learn-header">
+    <button class="back-btn" id="arrowsBackBtn">←</button>
+    <div class="learn-title-area">
+      <h1>✦ WildLearn</h1>
+      <div class="cat-badge" style="background:rgba(6,182,212,0.2);color:#06b6d4">🏹 Arrows Escape</div>
+    </div>
+  </div>
+  <div class="learn-card" style="padding:0;overflow:hidden;background:transparent;border:none;box-shadow:none">
+    <iframe id="arrowsGameFrame" src="aeros-game.html" style="width:100%;height:540px;border:none;border-radius:12px;display:block" title="Arrows Escape Puzzle"></iframe>
   </div>
 </div>
 
@@ -2117,6 +2149,8 @@ document.querySelectorAll('.cat-card').forEach(card=>{
       showScreen('sentencesScreen');
     } else if(cat==='shadow'){
       startShadowGame();
+    } else if(cat==='arrows'){
+      startArrowsGame();
     } else {
       openCategory(cat);
     }
@@ -2218,15 +2252,35 @@ let shadowCorrectCount=0;
 
 function renderSketchSvg(animal){
   const svg=$('shadowSvg');
+  svg.setAttribute('viewBox','0 0 200 200');
   while(svg.firstChild) svg.removeChild(svg.firstChild);
+  const defs=document.createElementNS('http://www.w3.org/2000/svg','defs');
+  defs.innerHTML='<filter id="sketchFilter" x="-2%" y="-2%" width="104%" height="104%">'+
+    '<feTurbulence type="turbulence" baseFrequency="0.03" numOctaves="4" result="noise" seed="2"/>'+
+    '<feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G"/>'+
+    '</filter>';
+  svg.appendChild(defs);
+  const paper=document.createElementNS('http://www.w3.org/2000/svg','rect');
+  paper.setAttribute('x','0');paper.setAttribute('y','0');
+  paper.setAttribute('width','200');paper.setAttribute('height','200');
+  paper.setAttribute('rx','12');
+  paper.classList.add('shadow-paper');
+  svg.appendChild(paper);
+  const group=document.createElementNS('http://www.w3.org/2000/svg','g');
+  group.setAttribute('filter','url(#sketchFilter)');
+  group.classList.add('sketch-group');
   (animal.shapes||[]).forEach(s=>{
     const el=document.createElementNS('http://www.w3.org/2000/svg',s.type);
     for(let k of Object.keys(s)){
       if(k==='type'||k==='fill'||k==='stroke'||k==='stroke-width') continue;
       el.setAttribute(k,s[k]);
     }
-    svg.appendChild(el);
+    if(s.fill==='#0a0a1a'){
+      el.classList.add('sketch-fill');
+    }
+    group.appendChild(el);
   });
+  svg.appendChild(group);
 }
 
 function creatureColorHtml(name){
@@ -2238,6 +2292,12 @@ function creatureColorHtml(name){
 function stripName(fact, name){
   const re=new RegExp(name+'s?\'?s?','gi');
   return fact.replace(re,'').replace(/\s+/g,' ').trim().replace(/^[a-z]/,c=>c.toUpperCase());
+}
+
+function startArrowsGame(){
+  showScreen('arrowsScreen');
+  const frame = document.getElementById('arrowsGameFrame');
+  if (frame) frame.src = 'aeros-game.html';
 }
 
 function startShadowGame(){
@@ -2317,6 +2377,7 @@ $('shadowNextBtn').addEventListener('click',()=>{
 });
 
 $('shadowBackBtn').addEventListener('click',()=>showScreen('categoryScreen'));
+$('arrowsBackBtn').addEventListener('click',()=>showScreen('categoryScreen'));
 
 // ===== VOICE TOGGLE =====
 let voiceOn=true;
