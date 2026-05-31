@@ -172,14 +172,14 @@ body{
 }
 .cat-card.sentences .cat-info h2{color:#fdcb6e}
 .cat-card.shadow-game .cat-info h2{color:#a29bfe}
-.cat-card.arrows-escape{
+.cat-card.other-games{
   margin-top:8px;
   background:linear-gradient(135deg,rgba(6,182,212,0.12),rgba(245,158,11,0.04));
   border-color:rgba(6,182,212,0.2);
 }
-.cat-card.arrows-escape .cat-info h2{color:#06b6d4}
-.arrows-escape{background:linear-gradient(135deg,rgba(6,182,212,0.12),rgba(245,158,11,0.04));border-color:rgba(6,182,212,0.2)}
-.arrows-escape .cat-info h2{color:#06b6d4}
+.cat-card.other-games .cat-info h2{color:#06b6d4}
+.other-games{background:linear-gradient(135deg,rgba(6,182,212,0.12),rgba(245,158,11,0.04));border-color:rgba(6,182,212,0.2)}
+.other-games .cat-info h2{color:#06b6d4}
 .cat-info p{
   font-size:13px;
   color:rgba(255,255,255,0.45);
@@ -832,6 +832,189 @@ body{
   #arrowsGameContainer .game-stats { gap: 10px; }
   #arrowsGameContainer .stat-value { font-size: 16px; }
 }
+
+/* ===== OTHER GAMES SCREEN ===== */
+.other-games-grid{
+  display:flex;flex-direction:column;gap:12px;margin-top:20px;
+}
+.game-select-card{
+  display:flex;align-items:center;gap:14px;
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);
+  border-radius:16px;padding:18px;cursor:pointer;
+  transition:all 0.25s ease;
+}
+.game-select-card:hover{
+  background:rgba(255,255,255,0.06);border-color:rgba(6,182,212,0.3);
+  transform:translateX(4px);
+}
+.game-select-card:active{transform:scale(0.98)}
+.game-select-icon{font-size:32px;flex-shrink:0}
+.game-select-info{flex:1;min-width:0}
+.game-select-info h3{font-size:17px;font-weight:700;color:#06b6d4;margin-bottom:4px}
+.game-select-info p{font-size:13px;color:rgba(255,255,255,0.45);font-weight:600}
+.game-select-arrow{font-size:20px;color:rgba(255,255,255,0.2);flex-shrink:0;transition:all 0.3s}
+.game-select-card:hover .game-select-arrow{color:rgba(6,182,212,0.6);transform:translateX(4px)}
+
+/* ===== BUBBLE SHOOTER ===== */
+#bubbleGameContainer .bubble-wrapper{
+  position:relative;z-index:1;
+  background:rgba(255,255,255,0.03);
+  backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
+  border:1px solid rgba(255,255,255,0.06);
+  border-radius:28px;padding:24px;
+  box-shadow:0 30px 80px rgba(0,0,0,0.6),inset 0 1px 0 rgba(255,255,255,0.04);
+}
+#bubbleGameContainer .bubble-header{width:100%}
+#bubbleGameContainer .bubble-stats{display:flex;gap:16px;align-items:center;justify-content:center}
+#bubbleGameContainer .stat{display:flex;flex-direction:column;align-items:center}
+#bubbleGameContainer .stat-label{
+  font-size:9px;font-weight:600;text-transform:uppercase;
+  letter-spacing:1.5px;color:rgba(255,255,255,0.25);
+}
+#bubbleGameContainer .stat-value{font-size:19px;font-weight:700;color:#fff;letter-spacing:-0.3px}
+#bubbleGameContainer .bubble-question-area{
+  text-align:center;margin:16px 0;padding:14px;
+  background:rgba(255,255,255,0.04);border-radius:14px;
+  border:1px solid rgba(255,255,255,0.06);
+}
+#bubbleGameContainer .bubble-question{
+  font-size:17px;font-weight:700;color:#fdcb6e;line-height:1.4;
+}
+#bubbleGameContainer .bubble-hint{
+  font-size:12px;color:rgba(255,255,255,0.35);margin-top:6px;
+}
+#bubbleGameContainer .bubble-canvas-wrap{
+  display:flex;justify-content:center;
+}
+#bubbleGameContainer canvas{
+  border-radius:14px;display:block;background:rgba(0,0,0,0.4);
+  box-shadow:inset 0 0 80px rgba(0,0,0,0.5);
+  cursor:pointer;width:480px;height:400px;
+}
+#bubbleGameContainer .bubble-feedback{
+  text-align:center;font-size:16px;font-weight:700;min-height:24px;margin:8px 0;
+}
+#bubbleGameContainer .bubble-feedback.correct{color:#00cec9}
+#bubbleGameContainer .bubble-feedback.wrong{color:#ff7675}
+#bubbleGameContainer .bubble-controls{
+  display:flex;gap:8px;align-items:center;width:100%;justify-content:center;margin-top:8px;
+}
+#bubbleGameContainer .btn{
+  padding:9px 20px;border:none;border-radius:10px;
+  font-family:'Inter',sans-serif;font-size:12px;font-weight:600;
+  cursor:pointer;transition:all 0.2s ease;letter-spacing:0.3px;
+}
+#bubbleGameContainer .btn:active{transform:scale(0.95)}
+#bubbleGameContainer .btn-primary{
+  background:linear-gradient(135deg,#fdcb6e,#f59e0b);color:#1a1a2e;
+  box-shadow:0 4px 20px rgba(253,203,110,0.25);
+}
+#bubbleGameContainer .btn-primary:hover{box-shadow:0 6px 30px rgba(253,203,110,0.4);transform:translateY(-1px)}
+@media (max-width:540px){
+  #bubbleGameContainer .bubble-wrapper{padding:14px;border-radius:18px}
+  #bubbleGameContainer canvas{width:calc(100vw - 44px);height:calc((100vw - 44px)*0.833);max-width:480px;max-height:400px}
+  #bubbleGameContainer .bubble-question{font-size:15px}
+}
+.cat-card.ask-ai{
+  margin-top:8px;
+  background:linear-gradient(135deg,rgba(155,89,182,0.15),rgba(52,152,219,0.05));
+  border-color:rgba(155,89,182,0.25);
+}
+.cat-card.ask-ai .cat-info h2{color:#9b59b6}
+
+/* ===== ASK AI CHAT ===== */
+#askAIScreen .chat-container{
+  display:flex;flex-direction:column;height:calc(100vh - 200px);max-height:660px;
+  background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);
+  border-radius:20px;overflow:hidden;
+}
+#askAIScreen .chat-messages{
+  flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:12px;
+}
+#askAIScreen .chat-messages::-webkit-scrollbar{width:4px}
+#askAIScreen .chat-messages::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.15);border-radius:2px}
+#askAIScreen .msg-row{display:flex;gap:10px;align-items:flex-start}
+#askAIScreen .msg-row.user{flex-direction:row-reverse}
+#askAIScreen .msg-avatar{
+  width:32px;height:32px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:16px;
+}
+#askAIScreen .msg-avatar.ai{
+  background:linear-gradient(135deg,#9b59b6,#3498db);
+  box-shadow:0 2px 12px rgba(155,89,182,0.3);
+}
+#askAIScreen .msg-avatar.user{background:rgba(255,255,255,0.1);font-size:18px}
+#askAIScreen .msg-bubble{
+  max-width:82%;padding:12px 16px;border-radius:16px;
+  font-size:14px;line-height:1.6;word-wrap:break-word;
+}
+#askAIScreen .msg-row.ai .msg-bubble{
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);
+  border-top-left-radius:4px;color:rgba(255,255,255,0.9);
+}
+#askAIScreen .msg-row.user .msg-bubble{
+  background:linear-gradient(135deg,#9b59b6,#3498db);
+  border-top-right-radius:4px;color:#fff;
+}
+#askAIScreen .msg-bubble .creature-name{
+  color:#9b59b6;font-weight:700;
+}
+#askAIScreen .msg-bubble .fact-item{
+  margin:6px 0;padding-left:16px;position:relative;
+}
+#askAIScreen .msg-bubble .fact-item::before{
+  content:'✦';position:absolute;left:0;color:#9b59b6;
+}
+#askAIScreen .typing-row .msg-bubble{
+  background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);
+  border-top-left-radius:4px;padding:14px 18px;
+}
+#askAIScreen .typing-dots{display:flex;gap:5px;align-items:center;padding:4px 0}
+#askAIScreen .typing-dots span{
+  width:8px;height:8px;border-radius:50%;background:rgba(155,89,182,0.5);
+  animation:typingBounce 1.4s infinite ease-in-out;
+}
+#askAIScreen .typing-dots span:nth-child(2){animation-delay:0.2s}
+#askAIScreen .typing-dots span:nth-child(3){animation-delay:0.4s}
+@keyframes typingBounce{
+  0%,80%,100%{transform:scale(0.6);opacity:0.4}
+  40%{transform:scale(1);opacity:1}
+}
+#askAIScreen .chat-input-area{
+  display:flex;gap:10px;padding:12px 16px;
+  border-top:1px solid rgba(255,255,255,0.06);
+  background:rgba(0,0,0,0.15);
+}
+#askAIScreen .chat-input-area input{
+  flex:1;padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.05);color:#fff;font-size:14px;outline:none;
+  transition:border-color 0.2s;
+}
+#askAIScreen .chat-input-area input:focus{border-color:#9b59b6}
+#askAIScreen .chat-input-area input::placeholder{color:rgba(255,255,255,0.3)}
+#askAIScreen .chat-input-area .send-btn{
+  width:44px;height:44px;border-radius:12px;border:none;
+  background:linear-gradient(135deg,#9b59b6,#3498db);color:#fff;
+  font-size:18px;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+#askAIScreen .chat-input-area .send-btn:hover{transform:scale(1.05);box-shadow:0 4px 20px rgba(155,89,182,0.4)}
+#askAIScreen .chat-input-area .send-btn:active{transform:scale(0.95)}
+#askAIScreen .suggested-qs{
+  display:flex;flex-wrap:wrap;gap:8px;padding:4px 0 8px;
+}
+#askAIScreen .suggested-qs .sq-chip{
+  padding:6px 14px;border-radius:20px;border:1px solid rgba(155,89,182,0.3);
+  background:rgba(155,89,182,0.08);color:#9b59b6;font-size:12px;font-weight:600;
+  cursor:pointer;transition:all 0.2s;
+}
+#askAIScreen .suggested-qs .sq-chip:hover{
+  background:rgba(155,89,182,0.2);border-color:#9b59b6;transform:translateY(-1px);
+}
+@media (max-width:540px){
+  #askAIScreen .chat-container{height:calc(100vh - 170px);max-height:none}
+  #askAIScreen .msg-bubble{max-width:90%;font-size:13px}
+}
 </style>
 </head>
 <body>
@@ -896,11 +1079,19 @@ body{
       </div>
       <div class="cat-arrow">→</div>
     </div>
-    <div class="cat-card arrows-escape" data-cat="arrows">
-      <div class="cat-icon">🏹</div>
+    <div class="cat-card other-games" data-cat="otherGames">
+      <div class="cat-icon">🎮</div>
       <div class="cat-info">
-        <h2 class="sp">Arrows Escape</h2>
-        <p>Rotate arrows to guide your escape!</p>
+        <h2 class="sp">Other Games</h2>
+        <p>More fun learning games await!</p>
+      </div>
+      <div class="cat-arrow">→</div>
+    </div>
+    <div class="cat-card ask-ai" data-cat="askAI">
+      <div class="cat-icon">🤖</div>
+      <div class="cat-info">
+        <h2 class="sp">Ask About with AI</h2>
+        <p>Answer questions about animals, birds &amp; insects!</p>
       </div>
       <div class="cat-arrow">→</div>
     </div>
@@ -1053,6 +1244,96 @@ body{
           <button class="btn btn-primary" id="newGameBtn">New Game</button>
           <button class="btn btn-secondary" id="hintBtn">Status</button>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== OTHER GAMES SCREEN ===== -->
+<div class="screen" id="otherGamesScreen">
+  <div class="learn-header">
+    <button class="back-btn" id="otherGamesBackBtn">←</button>
+    <div class="learn-title-area">
+      <h1>✦ WildLearn</h1>
+      <div class="cat-badge" style="background:rgba(6,182,212,0.2);color:#06b6d4">🎮 Other Games</div>
+    </div>
+  </div>
+  <div class="other-games-grid">
+    <div class="game-select-card" data-game="arrows">
+      <div class="game-select-icon">🏹</div>
+      <div class="game-select-info">
+        <h3 class="sp">Arrows Escape</h3>
+        <p>Rotate arrows to guide your escape!</p>
+      </div>
+      <div class="game-select-arrow">→</div>
+    </div>
+    <div class="game-select-card" data-game="bubble">
+      <div class="game-select-icon">🫧</div>
+      <div class="game-select-info">
+        <h3 class="sp">Bubble Shooter</h3>
+        <p>Pop bubbles with vocabulary words!</p>
+      </div>
+      <div class="game-select-arrow">→</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ASK ABOUT WITH AI SCREEN ===== -->
+<div class="screen" id="askAIScreen">
+  <div class="learn-header">
+    <button class="back-btn" id="askAIBackBtn">←</button>
+    <div class="learn-title-area">
+      <h1>✦ WildLearn</h1>
+      <div class="cat-badge" style="background:rgba(155,89,182,0.2);color:#9b59b6">🤖 Ask About with AI</div>
+    </div>
+  </div>
+  <div class="chat-container">
+    <div class="chat-messages" id="chatMessages"></div>
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" placeholder="Ask about any animal, bird, or insect..." autocomplete="off">
+      <button class="send-btn" id="chatSendBtn">➤</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== BUBBLE SHOOTER SCREEN ===== -->
+<div class="screen" id="bubbleScreen">
+  <div class="learn-header">
+    <button class="back-btn" id="bubbleBackBtn">←</button>
+    <div class="learn-title-area">
+      <h1>✦ WildLearn</h1>
+      <div class="cat-badge" style="background:rgba(253,203,110,0.2);color:#fdcb6e">🫧 Bubble Shooter</div>
+    </div>
+  </div>
+  <div id="bubbleGameContainer">
+    <div class="bubble-wrapper">
+      <div class="bubble-header">
+        <div class="bubble-stats">
+          <div class="stat">
+            <span class="stat-label">Score</span>
+            <span class="stat-value" id="bubbleScore">0</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Level</span>
+            <span class="stat-value" id="bubbleLevel">1</span>
+          </div>
+          <div class="stat">
+            <span class="stat-label">Streak</span>
+            <span class="stat-value" id="bubbleStreak">0</span>
+          </div>
+        </div>
+      </div>
+      <div class="bubble-question-area">
+        <div class="bubble-question sp" id="bubbleQuestion">Complete the sentence...</div>
+        <div class="bubble-hint" id="bubbleHint">Pop the bubble with the correct word!</div>
+      </div>
+      <div class="bubble-canvas-wrap">
+        <canvas id="bubbleCanvas" width="480" height="400"></canvas>
+      </div>
+      <div class="bubble-feedback" id="bubbleFeedback"></div>
+      <div class="sent-photo" id="bubblePhoto"></div>
+      <div class="bubble-controls">
+        <button class="btn btn-primary" id="bubbleNextBtn" style="display:none">Next →</button>
       </div>
     </div>
   </div>
@@ -1939,28 +2220,94 @@ const EMOJI = {
   Scorpion:'🦂',Snail:'🐌',Centipede:'🐛',Worm:'🪱',Slug:'🐌'
 };
 
-// ===== BIRD PHOTOS (Wikimedia thumbnails) =====
+// ===== ANIMAL PHOTOS (Wikimedia Commons - real live photos) =====
 const IMAGE_MAP = {
+  Elephant:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/African_Bush_Elephant.jpg/250px-African_Bush_Elephant.jpg',
+  Giraffe:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Giraffe_Mikumi_National_Park.jpg/250px-Giraffe_Mikumi_National_Park.jpg',
+  Kangaroo:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Forester_kangaroo_%28Macropus_giganteus_tasmaniensis%29_juvenile_hopping_Esk_Valley.jpg/250px-Forester_kangaroo_%28Macropus_giganteus_tasmaniensis%29_juvenile_hopping_Esk_Valley.jpg',
+  Dolphin:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Tursiops_truncatus_01.jpg/250px-Tursiops_truncatus_01.jpg',
+  Rabbit:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1f/Oryctolagus_cuniculus_Rcdo.jpg/250px-Oryctolagus_cuniculus_Rcdo.jpg',
+  Bat:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Big-eared-townsend-fledermaus.jpg/250px-Big-eared-townsend-fledermaus.jpg',
+  Horse:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Nokota_Horses_cropped.jpg/250px-Nokota_Horses_cropped.jpg',
+  Cat:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Cat_August_2010-4.jpg/250px-Cat_August_2010-4.jpg',
+  Dog:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Huskiesatrest.jpg/250px-Huskiesatrest.jpg',
+  Fox:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Vulpes_vulpes_ssp_fulvus.jpg/250px-Vulpes_vulpes_ssp_fulvus.jpg',
+  Lion:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/020_The_lion_king_Snyggve_in_the_Serengeti_National_Park_Photo_by_Giles_Laurent.jpg/250px-020_The_lion_king_Snyggve_in_the_Serengeti_National_Park_Photo_by_Giles_Laurent.jpg',
+  Whale:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e2/Southern_right_whale.jpg/250px-Southern_right_whale.jpg',
+  Octopus:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Octopus.JPG/250px-Octopus.JPG',
+  Monkey:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/BrownSpiderMonkey_%28edit2%29.jpg/250px-BrownSpiderMonkey_%28edit2%29.jpg',
+  Bear:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Ours_brun_parcanimalierpyrenees_1.jpg/250px-Ours_brun_parcanimalierpyrenees_1.jpg',
+  Panda:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Grosser_Panda.JPG/250px-Grosser_Panda.JPG',
+  Koala:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Koala_climbing_tree.jpg/250px-Koala_climbing_tree.jpg',
+  Wolf:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Eurasian_wolf_2.jpg/250px-Eurasian_wolf_2.jpg',
+  Deer:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Family_Cervidae_five_species.jpg/250px-Family_Cervidae_five_species.jpg',
+  Sheep:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Flock_of_sheep.jpg/250px-Flock_of_sheep.jpg',
+  Pig:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Pig_farm_Vampula_1.jpg/250px-Pig_farm_Vampula_1.jpg',
+  Cow:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Cow_%28Fleckvieh_breed%29_Oeschinensee_Slaunger_2009-07-07.jpg/250px-Cow_%28Fleckvieh_breed%29_Oeschinensee_Slaunger_2009-07-07.jpg',
+  Goat:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/Hausziege_04.jpg/250px-Hausziege_04.jpg',
+  Camel:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/07._Camel_Profile%2C_near_Silverton%2C_NSW%2C_07.07.2007.jpg/250px-07._Camel_Profile%2C_near_Silverton%2C_NSW%2C_07.07.2007.jpg',
+  Rhino:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Rhino_collage.png/250px-Rhino_collage.png',
+  Hippo:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Portrait_Hippopotamus_in_the_water.jpg/250px-Portrait_Hippopotamus_in_the_water.jpg',
+  Zebra:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/96/Plains_Zebra_Equus_quagga_cropped.jpg/250px-Plains_Zebra_Equus_quagga_cropped.jpg',
+  Tiger:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Bengal_tiger_%28Panthera_tigris_tigris%29_female_3_crop.jpg/250px-Bengal_tiger_%28Panthera_tigris_tigris%29_female_3_crop.jpg',
+  Squirrel:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/Sciuridae.jpg/250px-Sciuridae.jpg',
+  Mouse:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/%D0%9C%D1%8B%D1%88%D1%8C_2.jpg/250px-%D0%9C%D1%8B%D1%88%D1%8C_2.jpg',
+  Snake:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Trimeresurus_sabahi_fucatus%2C_Banded_pit_viper_-_Takua_Pa_District%2C_Phang-nga_Province_%2846710893582%29.jpg/250px-Trimeresurus_sabahi_fucatus%2C_Banded_pit_viper_-_Takua_Pa_District%2C_Phang-nga_Province_%2846710893582%29.jpg',
+  Turtle:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Turtle_diversity.jpg/250px-Turtle_diversity.jpg',
+  Crocodile:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Nile_crocodile_head.jpg/250px-Nile_crocodile_head.jpg',
+  Lizard:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Hemidactylus_platyurus_%28Flat-tailed_House_Gecko%29_on_white_background%2C_focus_stacking.jpg/250px-Hemidactylus_platyurus_%28Flat-tailed_House_Gecko%29_on_white_background%2C_focus_stacking.jpg',
+  Frog:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Red-eyed_Leaf_Frog_%2849661076226%29.jpg/250px-Red-eyed_Leaf_Frog_%2849661076226%29.jpg',
+  Fish:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Balantiocheilos_melanopterus_-_Karlsruhe_Zoo_02_%28cropped%29.jpg/250px-Balantiocheilos_melanopterus_-_Karlsruhe_Zoo_02_%28cropped%29.jpg',
+  Shark:'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Corl0207_%2828225976491%29.jpg/250px-Corl0207_%2828225976491%29.jpg',
+  Seahorse:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Hippocampus_hippocampus_%28on_Ascophyllum_nodosum%29.jpg/250px-Hippocampus_hippocampus_%28on_Ascophyllum_nodosum%29.jpg',
+  Crab:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/Cancer_pagurus.jpg/250px-Cancer_pagurus.jpg',
+  Eagle:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/Eagles_together.jpg/250px-Eagles_together.jpg',
+  Owl:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Bubo_bubo_sibiricus_-_01.JPG/250px-Bubo_bubo_sibiricus_-_01.JPG',
+  Swan:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Mute_Swan_Emsworth2.JPG/250px-Mute_Swan_Emsworth2.JPG',
+  Peacock:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Peacock_Plumage.jpg/250px-Peacock_Plumage.jpg',
+  Penguin:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Aptenodytes_forsteri_-Snow_Hill_Island%2C_Antarctica_-adults_and_juvenile-8.jpg/250px-Aptenodytes_forsteri_-Snow_Hill_Island%2C_Antarctica_-adults_and_juvenile-8.jpg',
+  Flamingo:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Flamingos_Laguna_Colorada.jpg/250px-Flamingos_Laguna_Colorada.jpg',
+  Parrot:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Rainbow_lorikeet_%28Trichoglossus_moluccanus_moluccanus%29_Sydney.jpg/250px-Rainbow_lorikeet_%28Trichoglossus_moluccanus_moluccanus%29_Sydney.jpg',
+  Hen:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Male_and_female_chicken_sitting_together.jpg/250px-Male_and_female_chicken_sitting_together.jpg',
+  Rooster:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Rooster-1.jpg/250px-Rooster-1.jpg',
+  Duck:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Bucephala-albeola-010.jpg/250px-Bucephala-albeola-010.jpg',
   Toucan:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Toucans_%28Ramphastidae%29.jpg/250px-Toucans_%28Ramphastidae%29.jpg',
   Hummingbird:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Trinidad_and_Tobago_hummingbirds_composite.jpg/250px-Trinidad_and_Tobago_hummingbirds_composite.jpg',
   Woodpecker:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/PileatedWoodpeckerFeedingonTree%2C_crop.jpg/250px-PileatedWoodpeckerFeedingonTree%2C_crop.jpg',
   Kingfisher:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Alcedo_azurea_-_Julatten.jpg/250px-Alcedo_azurea_-_Julatten.jpg',
   Crow:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Corvus_corone_-near_Canford_Cliffs%2C_Poole%2C_England-8.jpg/250px-Corvus_corone_-near_Canford_Cliffs%2C_Poole%2C_England-8.jpg',
   Raven:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Corvus_corax.jpg/250px-Corvus_corax.jpg',
-  Pigeon:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Columba_livia_%28Rock_Dove%2C_wild%29%2C_Duncansby_Head%2C_Caithness%2C_Scotland_1.jpg/250px-Columba_livia_%28Rock_Dove%2C_wild%29%2C_Duncansby_Head%2C_Caithness%2C_Scotland_1.jpg',
+  Pigeon:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Treron_vernans_male_-_Kent_Ridge_Park.jpg/250px-Treron_vernans_male_-_Kent_Ridge_Park.jpg',
   Sparrow:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/House_sparrow_male_in_Prospect_Park_%2853532%29.jpg/250px-House_sparrow_male_in_Prospect_Park_%2853532%29.jpg',
   Robin:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Erithacus_rubecula_with_cocked_head.jpg/250px-Erithacus_rubecula_with_cocked_head.jpg',
   'Blue Jay':'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f4/Blue_jay_in_PP_%2830960%29.jpg/250px-Blue_jay_in_PP_%2830960%29.jpg',
   Cardinal:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Male_northern_cardinal_in_Central_Park_%2852612%29.jpg/250px-Male_northern_cardinal_in_Central_Park_%2852612%29.jpg',
   Canary:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Serinus_canaria_-Parque_Rural_del_Nublo%2C_Gran_Canaria%2C_Spain_-male-8a.jpg/250px-Serinus_canaria_-Parque_Rural_del_Nublo%2C_Gran_Canaria%2C_Spain_-male-8a.jpg',
   Macaw:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f2/Ara_macao%2C_Ara_ararauna_and_Ara_militaris.jpg/250px-Ara_macao%2C_Ara_ararauna_and_Ara_militaris.jpg',
-  Ostrich:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Struthio_Diversity.jpg/250px-Struthio_Diversity.jpg',
+  Ostrich:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/Struthio_camelus_-_Etosha_2014_%283%29.jpg/250px-Struthio_camelus_-_Etosha_2014_%283%29.jpg',
   Pelican:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Pelikan_Walvis_Bay.jpg/250px-Pelikan_Walvis_Bay.jpg',
   Seagull:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/Herring_Gull_%28Larus_argentatus%29%2C_Brighton%2C_England.JPG/250px-Herring_Gull_%28Larus_argentatus%29%2C_Brighton%2C_England.JPG',
   Heron:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Ardeidae-01.jpg/250px-Ardeidae-01.jpg',
   Kiwi:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/TeTuatahianui.jpg/250px-TeTuatahianui.jpg',
-   Slug:'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Smooth_Land_Slug_%28Deroceras_sp.%29_-_Guelph%2C_Ontario_2016-04-22_%2801%29.jpg/250px-Smooth_Land_Slug_%28Deroceras_sp.%29_-_Guelph%2C_Ontario_2016-04-22_%2801%29.jpg',
-   Grasshopper:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/American_Bird_Grasshopper.jpg/250px-American_Bird_Grasshopper.jpg'
+  Butterfly:'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Fesoj_-_Papilio_machaon_%28by%29.jpg/250px-Fesoj_-_Papilio_machaon_%28by%29.jpg',
+  Bee:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Tetragonula_carbonaria_%2814521993792%29.jpg/250px-Tetragonula_carbonaria_%2814521993792%29.jpg',
+  Ladybug:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Coccinella-septempunctata-15-fws.jpg/250px-Coccinella-septempunctata-15-fws.jpg',
+  Ant:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Red_Ant_-_March_2025.jpg/250px-Red_Ant_-_March_2025.jpg',
+  Dragonfly:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b4/Red_grasshawk_%28Neurothemis_fluctuans%29_male_Phuket_2.jpg/250px-Red_grasshawk_%28Neurothemis_fluctuans%29_male_Phuket_2.jpg',
+   Caterpillar:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Monarch_caterpillar_%2823229%29.jpg/250px-Monarch_caterpillar_%2823229%29.jpg',
+  Spider:'https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Araneae3.jpg/250px-Araneae3.jpg',
+  Cricket:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Gryllus_campestris_MHNT.jpg/250px-Gryllus_campestris_MHNT.jpg',
+  Firefly:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Photuris_lucicrescens.jpg/250px-Photuris_lucicrescens.jpg',
+  Grasshopper:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/American_Bird_Grasshopper.jpg/250px-American_Bird_Grasshopper.jpg',
+  Mosquito:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Aedes_aegypti.jpg/250px-Aedes_aegypti.jpg',
+  Moth:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Autographa_gamma_en_Trachelospermum_jasminoides_-_02.jpg/250px-Autographa_gamma_en_Trachelospermum_jasminoides_-_02.jpg',
+  Mantis:'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Mantis_%28European%29.jpg/250px-Mantis_%28European%29.jpg',
+  Cockroach:'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Snodgrass_common_household_roaches.png/250px-Snodgrass_common_household_roaches.png',
+  Scorpion:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Scorpion_Photograph_By_Shantanu_Kuveskar.jpg/250px-Scorpion_Photograph_By_Shantanu_Kuveskar.jpg',
+  Snail:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Snail.jpg/250px-Snail.jpg',
+  Centipede:'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Chilopoda_collage.png/250px-Chilopoda_collage.png',
+  Worm:'https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Eisenia_foetida_R.H._%288%29.JPG/250px-Eisenia_foetida_R.H._%288%29.JPG',
+  Slug:'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Slugs_1896.png/250px-Slugs_1896.png',
 };
 
 const ANIMAL_TYPE = {
@@ -2274,6 +2621,10 @@ document.querySelectorAll('.cat-card').forEach(card=>{
       startShadowGame();
     } else if(cat==='arrows'){
       startArrowsGame();
+    } else if(cat==='otherGames'){
+      showScreen('otherGamesScreen');
+    } else if(cat==='askAI'){
+      openAskAI();
     } else {
       openCategory(cat);
     }
@@ -2286,9 +2637,15 @@ document.addEventListener('keydown',e=>{
     const v=document.getElementById('vocabScreen');
     const s=document.getElementById('sentencesScreen');
     const l=document.getElementById('learnScreen');
+    const og=document.getElementById('otherGamesScreen');
+    const bl=document.getElementById('bubbleScreen');
+    const ai=document.getElementById('askAIScreen');
     if(v&&v.classList.contains('active')) showScreen('categoryScreen');
     else if(s&&s.classList.contains('active')) showScreen('categoryScreen');
     else if(l&&l.classList.contains('active')) showScreen('categoryScreen');
+    else if(ai&&ai.classList.contains('active')) showScreen('categoryScreen');
+    else if(bl&&bl.classList.contains('active')) showScreen('otherGamesScreen');
+    else if(og&&og.classList.contains('active')) showScreen('categoryScreen');
   }
 });
 
@@ -2831,7 +3188,213 @@ $('shadowNextBtn').addEventListener('click',()=>{
 });
 
 $('shadowBackBtn').addEventListener('click',()=>showScreen('categoryScreen'));
-$('arrowsBackBtn').addEventListener('click',()=>showScreen('categoryScreen'));
+$('arrowsBackBtn').addEventListener('click',()=>showScreen('otherGamesScreen'));
+$('otherGamesBackBtn').addEventListener('click',()=>showScreen('categoryScreen'));
+$('askAIBackBtn').addEventListener('click',()=>showScreen('categoryScreen'));
+$('bubbleBackBtn').addEventListener('click',()=>{
+  if(bubbleAnimId) cancelAnimationFrame(bubbleAnimId);
+  showScreen('otherGamesScreen');
+});
+
+// ===== OTHER GAMES SELECTION =====
+document.querySelectorAll('.game-select-card').forEach(card=>{
+  card.addEventListener('click',()=>{
+    const game=card.dataset.game;
+    if(game==='arrows'){
+      startArrowsGame();
+    } else if(game==='bubble'){
+      startBubbleGame();
+    }
+  });
+});
+
+// ===== BUBBLE SHOOTER GAME =====
+let bubbleData=[];
+let bubbleIdx=0;
+let bubbleScore=0;
+let bubbleLevel=1;
+let bubbleStreak=0;
+let bubbleAnswered=false;
+let bubbleAnimId=null;
+let bubbleBubbles=[];
+let bubbleCanvas,bubbleCtx;
+let bubbleW=480,bubbleH=400;
+
+function startBubbleGame(){
+  bubbleIdx=0;
+  bubbleScore=0;
+  bubbleLevel=1;
+  bubbleStreak=0;
+  bubbleAnswered=false;
+  bubbleData=shuffle([...SENTENCES]);
+  $('bubbleScore').textContent='0';
+  $('bubbleLevel').textContent='1';
+  $('bubbleStreak').textContent='0';
+  showScreen('bubbleScreen');
+  setTimeout(initBubbleRound,300);
+}
+
+function initBubbleRound(){
+  if(bubbleIdx>=bubbleData.length){
+    $('bubbleQuestion').textContent='🎉 All done! Great job!';
+    $('bubbleHint').textContent='';
+    $('bubbleFeedback').textContent='Final Score: '+bubbleScore;
+    $('bubbleFeedback').className='bubble-feedback correct';
+    $('bubbleNextBtn').style.display='none';
+    if(bubbleAnimId) cancelAnimationFrame(bubbleAnimId);
+    return;
+  }
+  const q=bubbleData[bubbleIdx];
+  $('bubbleQuestion').textContent=q.q;
+  $('bubbleHint').textContent='Pop the bubble with the correct answer!';
+  $('bubbleFeedback').textContent='';
+  $('bubbleFeedback').className='bubble-feedback';
+  $('bubblePhoto').innerHTML='';
+  $('bubbleNextBtn').style.display='none';
+  bubbleAnswered=false;
+  bubbleCanvas=$('bubbleCanvas');
+  bubbleCtx=bubbleCanvas.getContext('2d');
+  generateBubbles(q.bank,q.a);
+  if(bubbleAnimId) cancelAnimationFrame(bubbleAnimId);
+  animateBubbles();
+}
+
+function generateBubbles(bank,correct){
+  bubbleBubbles=[];
+  const cx=bubbleW/2,cy=bubbleH/2;
+  const count=bank.length;
+  const radius=Math.min(55, (bubbleW-60)/(count>3?4:3));
+  const angleStep=(Math.PI*2)/count;
+  const spreadRadius=Math.min(140,80+count*12);
+  bank.forEach((word,i)=>{
+    const angle=angleStep*i-Math.PI/2;
+    const bx=cx+Math.cos(angle)*spreadRadius;
+    const by=cy+Math.sin(angle)*spreadRadius;
+    const targetX=bx,targetY=by;
+    bubbleBubbles.push({
+      word,correct:word===correct,
+      x:cx,y:cy,targetX,targetY,
+      r:radius,
+      speed:0.02+Math.random()*0.02,
+      pop:false,alpha:1,
+      hue:Math.floor(Math.random()*40)+190
+    });
+  });
+}
+
+function animateBubbles(){
+  const ctx=bubbleCtx;
+  if(!ctx) return;
+  let allSettled=true;
+  bubbleBubbles.forEach(b=>{
+    if(!b.pop){
+      b.x+=(b.targetX-b.x)*b.speed;
+      b.y+=(b.targetY-b.y)*b.speed;
+      if(Math.abs(b.x-b.targetX)>1||Math.abs(b.y-b.targetY)>1) allSettled=false;
+    }
+  });
+  ctx.clearRect(0,0,bubbleW,bubbleH);
+  ctx.fillStyle='#05050c';
+  ctx.fillRect(0,0,bubbleW,bubbleH);
+  const vg=ctx.createRadialGradient(bubbleW/2,bubbleH/2,0,bubbleW/2,bubbleH/2,bubbleW*0.6);
+  vg.addColorStop(0,'rgba(15,15,30,0.8)');
+  vg.addColorStop(1,'transparent');
+  ctx.fillStyle=vg;
+  ctx.fillRect(0,0,bubbleW,bubbleH);
+  bubbleBubbles.forEach(b=>{
+    drawBubble(ctx,b);
+  });
+  if(!bubbleAnswered||!allSettled){
+    bubbleAnimId=requestAnimationFrame(animateBubbles);
+  }
+}
+
+function drawBubble(ctx,b){
+  if(b.pop&&b.alpha<=0) return;
+  const x=b.x,y=b.y,r=b.r;
+  ctx.save();
+  ctx.globalAlpha=Math.max(0,b.alpha);
+  if(b.highlighted){
+    ctx.shadowColor='#00cec9';
+    ctx.shadowBlur=20;
+  }
+  const grad=ctx.createRadialGradient(x-r*0.3,y-r*0.3,0,x,y,r);
+  grad.addColorStop(0,`hsla(${b.hue},80%,75%,0.4)`);
+  grad.addColorStop(0.5,`hsla(${b.hue},70%,55%,0.25)`);
+  grad.addColorStop(1,`hsla(${b.hue},60%,35%,0.15)`);
+  ctx.fillStyle=grad;
+  ctx.beginPath();
+  ctx.arc(x,y,r,0,Math.PI*2);
+  ctx.fill();
+  ctx.strokeStyle=b.highlighted?'rgba(0,206,201,0.8)':`hsla(${b.hue},80%,75%,0.3)`;
+  ctx.lineWidth=b.highlighted?3:1.5;
+  ctx.stroke();
+  const shine=ctx.createRadialGradient(x-r*0.25,y-r*0.25,0,x-r*0.25,y-r*0.25,r*0.4);
+  shine.addColorStop(0,'rgba(255,255,255,0.25)');
+  shine.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle=shine;
+  ctx.beginPath();
+  ctx.arc(x,y,r,0,Math.PI*2);
+  ctx.fill();
+  ctx.fillStyle='#fff';
+  ctx.font='bold '+Math.max(11,Math.min(15,12))+'px Inter,sans-serif';
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+  ctx.shadowColor='rgba(0,0,0,0.5)';
+  ctx.shadowBlur=4;
+  const displayWord=b.word.length>12?b.word.slice(0,11)+'…':b.word;
+  ctx.fillText(displayWord,x,y);
+  ctx.restore();
+}
+
+$('bubbleCanvas').addEventListener('click',e=>{
+  if(bubbleAnswered) return;
+  const rect=bubbleCanvas.getBoundingClientRect();
+  const scaleX=bubbleW/rect.width,scaleY=bubbleH/rect.height;
+  const mx=(e.clientX-rect.left)*scaleX,my=(e.clientY-rect.top)*scaleY;
+  for(let i=bubbleBubbles.length-1;i>=0;i--){
+    const b=bubbleBubbles[i];
+    if(b.pop) continue;
+    const dist=Math.hypot(mx-b.x,my-b.y);
+    if(dist<b.r){
+      bubbleAnswered=true;
+      const correctName=bubbleData[bubbleIdx].a;
+      $('bubblePhoto').innerHTML=creatureColorHtml(correctName);
+      if(b.correct){
+        b.pop=true;
+        b.alpha=0;
+        bubbleStreak++;
+        bubbleScore+=10+bubbleStreak*2;
+        $('bubbleScore').textContent=bubbleScore;
+        $('bubbleStreak').textContent=bubbleStreak;
+        $('bubbleFeedback').textContent='✓ Correct! +'+(10+bubbleStreak*2)+' pts';
+        $('bubbleFeedback').className='bubble-feedback correct';
+        $('bubbleNextBtn').style.display='inline-block';
+        if(bubbleStreak%5===0&&bubbleLevel<99){
+          bubbleLevel++;
+          $('bubbleLevel').textContent=bubbleLevel;
+        }
+      } else {
+        b.pop=true;
+        bubbleStreak=0;
+        $('bubbleStreak').textContent='0';
+        // find correct bubble and highlight it
+        const correctBubble=bubbleBubbles.find(x=>x.correct);
+        if(correctBubble) correctBubble.highlighted=true;
+        $('bubbleFeedback').textContent='✗ Oops! The answer was: '+correctName;
+        $('bubbleFeedback').className='bubble-feedback wrong';
+        $('bubbleNextBtn').style.display='inline-block';
+      }
+      break;
+    }
+  }
+});
+
+$('bubbleNextBtn').addEventListener('click',()=>{
+  bubbleIdx++;
+  if(bubbleAnimId) cancelAnimationFrame(bubbleAnimId);
+  initBubbleRound();
+});
 
 // ===== VOICE TOGGLE =====
 let voiceOn=true;
@@ -2910,6 +3473,340 @@ bottomNav.addEventListener('mouseleave',()=>{
 bottomNav.addEventListener('touchstart',showNav);
 scrollBtn.style.display='none';
 document.addEventListener('scroll',onScroll,{passive:true});
+
+// ===== ASK ABOUT WITH AI =====
+const KB = {
+  // --- MAMMALS (ANIMALS) ---
+  Elephant:{t:'Mammal',h:'Savannas, forests & marshes of Africa & Asia',d:'Herbivore — grasses, leaves, bark, fruit & roots',s:'10–13 ft tall · 5,000–14,000 lbs',l:'60–70 years',f:['Their trunk has ~40,000 muscles and can lift 700 lbs!','The largest land animal on Earth.','They can "hear" through their feet by sensing ground vibrations.','They spend 16 hours a day eating — up to 600 lbs of food!']},
+  Giraffe:{t:'Mammal',h:'African savannas & woodlands',d:'Herbivore — mostly acacia tree leaves',s:'14–18 ft tall · up to 3,000 lbs',l:'25 years',f:['The tallest land animal — a baby giraffe drops 6 ft when born!','Their tongue is 18–20 inches long to reach high leaves.','Each giraffe has a unique spot pattern, like a fingerprint.']},
+  Kangaroo:{t:'Mammal (Marsupial)',h:'Australian grasslands & forests',d:'Herbivore — grass, leaves & shrubs',s:'3–8 ft tall · 40–200 lbs',l:'6–8 years',f:['They can hop at 35 mph and jump 25 ft in a single bound!','Baby kangaroos (joeys) are only 1 inch long at birth.','They cannot walk backwards — their tail acts as a tripod.']},
+  Dolphin:{t:'Mammal (Cetacean)',h:'Oceans & seas worldwide',d:'Carnivore — fish & squid',s:'6–13 ft long · 300–1,400 lbs',l:'40–60 years',f:['Dolphins sleep with half their brain awake and one eye open!','They use echolocation — clicking sounds to "see" underwater.','They have names for each other — unique signature whistles.']},
+  Rabbit:{t:'Mammal',h:'Meadows, forests & grasslands worldwide',d:'Herbivore — grass, hay, vegetables',s:'8–20 inches · 1–5 lbs',l:'8–12 years',f:['A rabbit\'s teeth never stop growing — they must chew to wear them down!','They can see nearly 360° around them.','Baby rabbits are called "kittens" — not "bunnies"!']},
+  Bat:{t:'Mammal',h:'Caves, forests & cities worldwide',d:'Insectivore, frugivore or nectar — varies by species',s:'1–6 inches wingspan up to 6 ft',l:'10–30 years',f:['The only mammal that can truly fly!','Some bats eat up to 1,000 mosquitoes in a single night.','They use echolocation to navigate in complete darkness.']},
+  Horse:{t:'Mammal',h:'Grasslands & farms worldwide',d:'Herbivore — grass, hay & grains',s:'4–6 ft tall · 900–2,200 lbs',l:'25–30 years',f:['Horses can sleep both standing up and lying down!','They have the largest eyes of any land mammal.','A horse\'s heart weighs about 9–10 lbs.']},
+  Cat:{t:'Mammal',h:'Homes & farms worldwide (domestic)',d:'Carnivore — meat & fish',s:'9–10 inches · 8–11 lbs',l:'13–17 years',f:['Cats spend 70% of their lives sleeping!','A group of cats is called a "clowder."','A cat can make over 100 different vocal sounds.']},
+  Dog:{t:'Mammal',h:'Homes worldwide (domestic)',d:'Omnivore — meat & plants',s:'6–30 inches · 3–175 lbs (breed varies)',l:'10–13 years',f:['A dog\'s sense of smell is 10,000–100,000 times better than a human\'s!','Dogs have about 1,700 taste buds (humans have 9,000).','They can understand up to 250 words and gestures.']},
+  Fox:{t:'Mammal',h:'Forests, grasslands, mountains & cities worldwide',d:'Omnivore — small animals, fruit, insects',s:'14–20 inches · 6–24 lbs',l:'3–6 years',f:['Foxes use the Earth\'s magnetic field to hunt!','A group of foxes is called a "skulk" or "leash."','They can hear a watch ticking from 40 yards away.']},
+  Lion:{t:'Mammal',h:'African savannas & grasslands',d:'Carnivore — zebras, wildebeest, antelopes',s:'4–6 ft tall · 330–550 lbs',l:'10–15 years',f:['A lion\'s roar can be heard 5 miles away!','Lionesses do 90% of the hunting — lions mainly protect the pride.','They sleep 20 hours a day.']},
+  Whale:{t:'Mammal (Cetacean)',h:'Oceans worldwide',d:'Carnivore — krill, fish, plankton (depends on species)',s:'20–100 ft long · up to 200 tons',l:'30–90 years',f:['The blue whale is the largest animal to ever exist — bigger than any dinosaur!','Whales "sing" — complex songs that can travel hundreds of miles.','They are mammals, so they breathe air and feed milk to their babies.']},
+  Octopus:{t:'Mollusk (Cephalopod)',h:'Oceans — coral reefs & deep sea',d:'Carnivore — crabs, shrimp, fish',s:'1–16 ft across · 1–100 lbs',l:'1–5 years',f:['Octopuses have three hearts and blue blood!','They can change color and texture in less than a second.','Each arm has its own mini-brain with independent control.']},
+  Monkey:{t:'Mammal (Primate)',h:'Tropical forests in Central/South America, Africa & Asia',d:'Omnivore — fruit, leaves, insects, small animals',s:'5 inches–3 ft · 4–80 lbs',l:'10–50 years',f:['Monkeys have opposable thumbs just like humans!','The smallest monkey (pygmy marmoset) is only 5 inches tall.','Some monkeys use tools — like cracking nuts with stones.']},
+  Bear:{t:'Mammal',h:'Forests, mountains & tundra in North America, Europe & Asia',d:'Omnivore — fish, berries, honey, meat',s:'3–10 ft tall · 150–1,500 lbs',l:'20–30 years',f:['Polar bears have black skin under their white fur!','Bears can run as fast as 35 mph — faster than a horse!','They don\'t actually "hibernate" — it\'s a deep sleep called torpor.']},
+  Panda:{t:'Mammal',h:'Bamboo forests in central China',d:'Herbivore — almost exclusively bamboo (99% of diet)',s:'2–3 ft tall · 150–330 lbs',l:'20–30 years',f:['Pandas spend 12–14 hours a day eating bamboo — up to 40 lbs!','Newborn pandas are pink, blind, and only 4 oz — 1/900th of the mother\'s weight.','Panda mothers cuddle their babies for weeks without moving.']},
+  Koala:{t:'Mammal (Marsupial)',h:'Eucalyptus forests of eastern Australia',d:'Herbivore — only eucalyptus leaves',s:'2–2.5 ft · 10–30 lbs',l:'13–18 years',f:['Koalas sleep 18–20 hours a day!','Their fingerprints are almost identical to human fingerprints.','The word "koala" comes from an Aboriginal word meaning "no drink" — they get water from leaves.']},
+  Wolf:{t:'Mammal',h:'Forests, tundra, grasslands in North America, Europe & Asia',d:'Carnivore — deer, elk, moose, small mammals',s:'2.5–3 ft tall · 60–150 lbs',l:'6–8 years (wild)',f:['Wolves howl to communicate over long distances — up to 10 miles!','A wolf pack is a family — mom, dad, and their pups.','They can travel 30–40 miles in a single day hunting.']},
+  Deer:{t:'Mammal',h:'Forests, grasslands & mountains worldwide',d:'Herbivore — grass, leaves, bark, berries',s:'2–5 ft tall · 20–700 lbs',l:'10–20 years',f:['Male deer grow new antlers every year and shed them!','Antlers are one of the fastest-growing tissues in the animal kingdom.','A baby deer is called a "fawn" and can walk within hours of birth.']},
+  Sheep:{t:'Mammal',h:'Farms & mountains worldwide (domestic)',d:'Herbivore — grass, hay, grains',s:'2–4 ft tall · 80–350 lbs',l:'10–12 years',f:['Sheep have rectangular pupils for 320° vision!','They remember up to 50 different sheep faces for years.','There are over 1,000 different breeds of sheep.']},
+  Pig:{t:'Mammal',h:'Farms & forests worldwide (domestic & wild)',d:'Omnivore — plants, roots, insects, small animals',s:'2–3 ft tall · 100–700 lbs',l:'8–15 years',f:['Pigs are smarter than dogs and even some primates!','They dream just like humans do.','A pig\'s squeal can be as loud as 115 decibels — almost as loud as a rock concert!']},
+  Cow:{t:'Mammal',h:'Farms & grasslands worldwide',d:'Herbivore — grass, hay, grains',s:'4–5 ft tall · 1,000–1,800 lbs',l:'15–25 years',f:['Cows have best friends and get stressed when separated!','They can smell things up to 6 miles away.','A cow stands up and sits down about 14 times a day.']},
+  Goat:{t:'Mammal',h:'Mountains & farms worldwide',d:'Herbivore — grass, leaves, shrubs',s:'1.5–3 ft tall · 40–200 lbs',l:'10–15 years',f:['Goats have rectangular pupils for 320° vision!','They are expert climbers — can climb trees and steep cliffs.','Baby goats (kids) can stand and walk within minutes of birth.']},
+  Camel:{t:'Mammal',h:'Deserts of Africa, Asia & Australia',d:'Herbivore — thorny plants, dry grass, leaves',s:'6–7 ft tall · 900–1,600 lbs',l:'40–50 years',f:['Camels can go weeks without water — they lose 25% of body weight before needing a drink!','Their humps store fat, not water!','They have three sets of eyelids and two rows of lashes to keep out sand.']},
+  Rhino:{t:'Mammal',h:'Savannas & grasslands of Africa & Asia',d:'Herbivore — grass, leaves, fruit',s:'4–6 ft tall · 1,800–5,000 lbs',l:'35–50 years',f:['Despite weighing tons, rhinos can run at 35 mph!','Their horn is made of keratin — the same stuff as human hair and nails.','White and black rhinos are actually both gray — the names are a translation error!']},
+  Hippo:{t:'Mammal',h:'Rivers & lakes of Africa',d:'Herbivore — grass (mostly at night)',s:'5 ft tall · 3,000–4,000 lbs',l:'40–50 years',f:['Hippos can\'t swim — they walk or bounce along the riverbed!','Despite their size, they can run at 20 mph on land.','Their skin produces its own natural sunscreen — a pink oily substance!']},
+  Zebra:{t:'Mammal',h:'African savannas & grasslands',d:'Herbivore — grass, leaves, bark',s:'4–5 ft tall · 770–990 lbs',l:'25 years',f:['No two zebras have the same stripe pattern — like a fingerprint!','Their stripes may confuse predators by creating optical illusions.','Zebras sleep standing up to stay alert for predators.']},
+  Tiger:{t:'Mammal',h:'Forests & grasslands of Asia',d:'Carnivore — deer, wild boar, buffalo',s:'3–4 ft tall · 220–660 lbs',l:'10–15 years',f:['A tiger\'s stripes are unique and also appear on its skin!','They are excellent swimmers — unlike most cats, they love water.','Their roar can be heard 2 miles away.']},
+  Squirrel:{t:'Mammal (Rodent)',h:'Forests, parks & gardens worldwide',d:'Herbivore — nuts, seeds, fruit, tree bark',s:'8–24 inches · 5–30 oz',l:'5–10 years',f:['Squirrels plant thousands of trees by forgetting where they buried nuts!','They can turn their ankles 180° to climb down trees headfirst.','A squirrel\'s front teeth never stop growing.']},
+  Mouse:{t:'Mammal (Rodent)',h:'Homes, fields & forests worldwide',d:'Omnivore — seeds, fruit, insects',s:'2–4 inches · 0.5–1 oz',l:'1–2 years',f:['Mice can squeeze through a hole the size of a pencil!','Their heart beats 600 times per minute.','A mouse can jump 12 inches high — 10 times its height!']},
+  // --- REPTILES & AMPHIBIANS ---
+  Snake:{t:'Reptile',h:'Forests, deserts, grasslands & oceans worldwide',d:'Carnivore — rodents, birds, eggs, fish',s:'4 inches–30 ft long',l:'10–30 years',f:['Snakes smell with their tongue — they "taste" the air!','Some snakes can go months without eating after a big meal.','They have up to 400 vertebrae — humans only have 33.']},
+  Turtle:{t:'Reptile',h:'Oceans, rivers, forests & grasslands worldwide',d:'Omnivore — plants, fish, insects, jellyfish (varies)',s:'4 inches–7 ft long · 4 oz–2,000 lbs',l:'30–100+ years',f:['Turtles have been on Earth for over 200 million years — since the dinosaurs!','A turtle\'s shell is part of its skeleton — it can feel touch through it.','Sea turtles can hold their breath for 5 hours while sleeping.']},
+  Crocodile:{t:'Reptile',h:'Rivers, lakes & swamps in Africa, Asia, Australia & the Americas',d:'Carnivore — fish, birds, mammals',s:'6–20 ft long · 150–2,200 lbs',l:'50–70 years',f:['Crocodiles have been around for 200 million years — they lived with dinosaurs!','They can\'t stick their tongue out — it\'s attached to the roof of their mouth.','A crocodile\'s bite is 3,700 PSI — the strongest bite of any animal.']},
+  Lizard:{t:'Reptile',h:'Deserts, forests & grasslands worldwide',d:'Insectivore or omnivore — insects, fruit, small animals',s:'1 inch–10 ft long · 0.1 oz–150 lbs',l:'1–30 years',f:['Some lizards can detach their tail to escape predators — it keeps wiggling!','The gecko can climb glass using microscopic hairs on its feet.','There are over 6,000 species of lizards.']},
+  Frog:{t:'Amphibian',h:'Ponds, streams & rainforests worldwide',d:'Carnivore — insects, worms, small fish',s:'0.4–12 inches · 0.1 oz–7 lbs',l:'2–10 years',f:['Frogs drink through their skin — they don\'t use their mouth!','Some frogs can freeze solid in winter and thaw out alive in spring.','A group of frogs is called an "army."']},
+  // --- FISH & AQUATIC ---
+  Fish:{t:'Fish',h:'Oceans, rivers & lakes worldwide',d:'Omnivore — plankton, insects, smaller fish, plants',s:'0.4 inches–40 ft long',l:'1–100+ years',f:['Fish have been on Earth for 500 million years!','Some fish can change gender during their lifetime.','The biggest fish is the whale shark — up to 40 ft long.']},
+  Shark:{t:'Fish (Cartilaginous)',h:'Oceans worldwide',d:'Carnivore — fish, seals, plankton (varies by species)',s:'6 inches–40 ft long · 0.5 oz–50,000 lbs',l:'20–70 years',f:['Sharks have been around for 400 million years — before dinosaurs!','They never run out of teeth — they lose and replace thousands in a lifetime.','The whale shark is the largest fish but eats only plankton!']},
+  Seahorse:{t:'Fish',h:'Shallow tropical waters & coral reefs',d:'Carnivore — tiny shrimp & plankton',s:'0.6–14 inches',l:'1–5 years',f:['Male seahorses get pregnant and give birth — not the females!','They mate for life and dance together every morning.','They can move each eye independently like a chameleon.']},
+  Crab:{t:'Crustacean',h:'Oceans, freshwater & beaches worldwide',d:'Omnivore — algae, worms, fish, shellfish',s:'0.2 inches–13 ft leg span',l:'1–40 years',f:['Crabs walk sideways — their leg joints bend that way!','Some crabs can regrow a lost claw.','The coconut crab is the largest — its legs span 13 ft!']},
+  // --- BIRDS ---
+  Eagle:{t:'Bird of Prey',h:'Mountains, forests & grasslands worldwide',d:'Carnivore — fish, rabbits, snakes, small mammals',s:'2–3.5 ft tall · wingspan 5–9 ft',l:'15–25 years',f:['Eagles have 20/4 vision — 5 times better than humans!','They can spot a rabbit from 2 miles away.','The bald eagle isn\'t actually bald — its head feathers turn white as it matures.']},
+  Owl:{t:'Bird of Prey',h:'Forests, grasslands & cities worldwide',d:'Carnivore — mice, voles, insects, small birds',s:'5–28 inches · wingspan 1–6 ft',l:'10–25 years',f:['Owls can rotate their head 270°!','They have silent flight — special feathers muffle the sound.','A group of owls is called a "parliament."']},
+  Swan:{t:'Bird (Waterfowl)',h:'Lakes, rivers & ponds worldwide',d:'Herbivore — aquatic plants, algae, grass',s:'3–5 ft tall · wingspan 6–8 ft',l:'15–25 years',f:['Swans mate for life — they stay with the same partner forever.','They can fly at 20 mph and up to 8,000 ft high.','A baby swan is called a "cygnet," and a male is a "cob."']},
+  Peacock:{t:'Bird',h:'Forests & grasslands of India & Sri Lanka',d:'Omnivore — seeds, insects, fruit, small reptiles',s:'3–4 ft tall · train (tail) up to 6 ft long',l:'15–20 years',f:['Only male peacocks have the beautiful colorful train feathers!','They use their stunning tail to attract a mate.','The peacock is the national bird of India.']},
+  Penguin:{t:'Bird (Flightless)',h:'Antarctic & Southern Hemisphere coasts',d:'Carnivore — fish, krill, squid',s:'1–4 ft tall · 2–90 lbs',l:'15–20 years',f:['Penguins are birds that can\'t fly — but they can swim at 15 mph!','Emperor penguins are the tallest — they can be 4 ft tall.','Male emperor penguins keep eggs warm on their feet for 2 months without eating.']},
+  Flamingo:{t:'Bird (Wading)',h:'Lakes & lagoons in tropical regions',d:'Omnivore — algae, shrimp, plankton',s:'3–5 ft tall · 4–9 lbs',l:'20–30 years',f:['Flamingos are pink because of the shrimp and algae they eat!','They sleep standing on one leg — even swaying in the wind.','A group of flamingos is called a "flamboyance."']},
+  Parrot:{t:'Bird',h:'Tropical forests in South America, Africa & Australia',d:'Herbivore — fruit, seeds, nuts, flowers',s:'3–40 inches · 0.4–4 lbs',l:'20–50 years (some live 80+!)',f:['Some parrots can live over 80 years — as long as a human!','They can mimic human speech and even understand simple words.','Parrots are one of the smartest birds — they can solve puzzles.']},
+  Hen:{t:'Bird (Poultry)',h:'Farms worldwide (domestic)',d:'Omnivore — seeds, grain, insects, worms',s:'1.5–2 ft tall · 3–7 lbs',l:'5–10 years',f:['Hens lay about 300 eggs per year!','They communicate with over 30 different calls.','A hen turns her eggs about 50 times a day to keep the chick healthy.']},
+  Rooster:{t:'Bird (Poultry)',h:'Farms worldwide (domestic)',d:'Omnivore — seeds, grain, insects, worms',s:'1.5–2.5 ft tall · 4–8 lbs',l:'5–8 years',f:['Roosters crow at any time of day — not just sunrise!','Their crow can be as loud as 120 decibels.','A rooster is a male chicken; a hen is female.']},
+  Duck:{t:'Bird (Waterfowl)',h:'Ponds, lakes, rivers & wetlands worldwide',d:'Omnivore — aquatic plants, insects, small fish',s:'1–2 ft tall · 1–5 lbs',l:'5–10 years',f:['Ducks have waterproof feathers — they coat them with oil!','A duck\'s quack actually does echo — despite what you might have heard!','They have 360° vision thanks to their eye placement.']},
+  Toucan:{t:'Bird',h:'Tropical rainforests of Central & South America',d:'Frugivore — fruit, berries, insects',s:'1.5–2 ft tall · 5–20 oz',l:'15–20 years',f:['A toucan\'s beak is 7.5 inches long — 1/3 of its entire body!','Despite its size, the beak is very light — made of honeycomb-like keratin.','They use their beaks to reach fruit on thin branches they can\'t perch on.']},
+  Hummingbird:{t:'Bird',h:'The Americas — gardens, forests, mountains',d:'Nectarivore — nectar, small insects',s:'2–4 inches · 0.1–0.8 oz (smallest bird!)',l:'3–8 years',f:['Hummingbirds are the only birds that can fly backwards!','Their wings beat 50–80 times per second — creating a humming sound.','They need to eat every 10–15 minutes to survive.']},
+  Woodpecker:{t:'Bird',h:'Forests & woodlands worldwide',d:'Insectivore — ants, beetles, tree-boring insects',s:'6–18 inches · 1–20 oz',l:'5–15 years',f:['Woodpeckers peck up to 20 times per second — 12,000 pecks a day!','Their skulls are specially designed to absorb shock — like a helmet.','Their tongue wraps around their brain to protect it while pecking.']},
+  Kingfisher:{t:'Bird',h:'Rivers, lakes & streams worldwide',d:'Carnivore — fish, aquatic insects',s:'4–18 inches · 0.3–5 oz',l:'6–14 years',f:['Kingfishers can dive underwater at 25 mph to catch fish!','They have special eyes that can see clearly both in air and underwater.','Their nest is a burrow in a riverbank — up to 3 ft deep.']},
+  Crow:{t:'Bird (Corvid)',h:'Cities, forests & farmland worldwide',d:'Omnivore — insects, seeds, garbage, small animals',s:'16–21 inches · 8–24 oz',l:'7–15 years',f:['Crows are among the smartest animals — they use tools and solve puzzles!','They can recognize and remember human faces for years.','A group of crows is called a "murder."']},
+  Raven:{t:'Bird (Corvid)',h:'Forests, mountains & deserts in the Northern Hemisphere',d:'Omnivore — insects, fruit, carrion, small animals',s:'21–27 inches · 1.5–4 lbs',l:'10–30 years',f:['Ravens are incredibly smart — they play tricks and even steal food from other animals!','They can mimic human speech and other sounds.','A group of ravens is called an "unkindness."']},
+  Pigeon:{t:'Bird',h:'Cities, farms & cliffs worldwide',d:'Herbivore — seeds, grain, fruit',s:'11–15 inches · 9–13 oz',l:'6–15 years',f:['Pigeons are incredible navigators — they can find their way home from 1,000 miles away!','They were used as messengers in wars — saving thousands of lives.','Pigeons can recognize themselves in a mirror — a very rare skill.']},
+  Sparrow:{t:'Bird (Passerine)',h:'Cities, farms & forests worldwide',d:'Omnivore — seeds, insects, berries',s:'4–8 inches · 0.5–2 oz',l:'3–7 years',f:['Sparrows have lived alongside humans for over 10,000 years!','They take dust baths to clean their feathers — not water!','A group of sparrows is called a "host."']},
+  Robin:{t:'Bird (Thrush)',h:'Gardens, forests & parks worldwide',d:'Omnivore — worms, insects, fruit',s:'5–6 inches · 0.5–1 oz',l:'1–3 years',f:['Robins sing to mark their territory — they start before sunrise!','A baby robin eats about 14 ft of earthworms every day.','The robin\'s red breast helps other robins identify it.']},
+  'Blue Jay':{t:'Bird (Corvid)',h:'Eastern & central North America — forests, parks',d:'Omnivore — nuts, seeds, insects, eggs',s:'9–12 inches · 2.5–4 oz',l:'7–10 years',f:['Blue jays are highly intelligent — related to crows!','Their blue color isn\'t pigment — it\'s caused by light scattering through their feather structure.','Blue jays can mimic hawk calls to scare other birds away.']},
+  Cardinal:{t:'Bird (Cardinalidae)',h:'Eastern & central North America — gardens & forests',d:'Omnivore — seeds, fruit, insects',s:'8–9 inches · 1.5–2 oz',l:'3–5 years',f:['Male cardinals are bright red — females are a soft brown with red accents!','They are named after Catholic cardinals because of their red robes.','Cardinals don\'t migrate — they stay in one place all year.']},
+  Canary:{t:'Bird (Finch)',h:'Canary Islands — originally; now pets worldwide',d:'Herbivore — seeds, fruit, greens',s:'4–5 inches · 0.5–1 oz',l:'10–15 years',f:['Canaries were used in coal mines to detect dangerous gases!','Male canaries sing beautiful, complex songs — females rarely sing.','They come in many colors — yellow is just the most famous.']},
+  Macaw:{t:'Bird (Parrot)',h:'Tropical rainforests of Central & South America',d:'Herbivore — fruit, nuts, seeds',s:'12–40 inches · 0.5–4 lbs',l:'30–50 years (some 60+)',f:['Macaws can live as long as humans — up to 60 years!','They have incredibly strong beaks — enough to crack hard nuts.','They form lifelong bonds with their partner.']},
+  Ostrich:{t:'Bird (Flightless)',h:'African savannas & deserts',d:'Herbivore — plants, seeds, roots, insects',s:'6–9 ft tall · 140–320 lbs',l:'30–40 years',f:['The ostrich is the largest and heaviest bird in the world!','They can run at 45 mph — faster than a lion!','Their eyes are 2 inches across — larger than their brain.']},
+  Pelican:{t:'Bird (Waterbird)',h:'Coasts, rivers & lakes worldwide',d:'Carnivore — fish',s:'4–6 ft tall · wingspan 6–11 ft',l:'15–25 years',f:['A pelican\'s beak pouch can hold up to 3 gallons of water!','They have a wingspan of up to 11 ft — one of the widest!','Pelicans have been around for 30 million years.']},
+  Seagull:{t:'Bird (Gull)',h:'Coasts, lakes & cities worldwide',d:'Omnivore — fish, insects, garbage, bread',s:'12–30 inches · wingspan 3–5 ft',l:'10–15 years',f:['Seagulls can drink both fresh and salt water!','They have a special gland that removes salt from their body.','They are very smart — they drop shellfish on rocks to crack them open.']},
+  Heron:{t:'Bird (Wading)',h:'Wetlands, rivers, lakes & coasts worldwide',d:'Carnivore — fish, frogs, small mammals',s:'3–4.5 ft tall · wingspan 5–6 ft',l:'15–20 years',f:['Herons stand perfectly still for hours waiting for fish!','Their neck is shaped like an S and can strike faster than a blink.','Great blue herons are the most common heron in North America.']},
+  Kiwi:{t:'Bird (Flightless)',h:'Forests of New Zealand',d:'Omnivore — worms, insects, berries',s:'1.5–2 ft tall · 3–11 lbs',l:'25–50 years',f:['Kiwi birds lay the largest egg relative to body size of any bird — 20% of their body weight!','They are nocturnal and have tiny wings hidden under their feathers.','The kiwi is the national bird of New Zealand.']},
+  // --- INSECTS & OTHER BUGS ---
+  Butterfly:{t:'Insect',h:'Gardens, meadows & forests worldwide',d:'Herbivore — nectar from flowers (adult); leaves (caterpillar)',s:'Wingspan 0.5–12 inches',l:'2 weeks–9 months',f:['Butterflies taste with their feet!','They go through complete metamorphosis — egg, caterpillar, chrysalis, butterfly.','Some butterflies migrate 3,000 miles — like the Monarch.']},
+  Bee:{t:'Insect (Hymenoptera)',h:'Gardens, meadows & forests worldwide',d:'Herbivore — nectar & pollen from flowers',s:'0.2–1.5 inches',l:'3 weeks–5 years (queen)',f:['Honeybees communicate with a "waggle dance" to tell each other where food is!','One bee makes 1/12 of a teaspoon of honey in its lifetime.','A queen bee can lay up to 2,000 eggs per day.']},
+  Ladybug:{t:'Insect (Coleoptera)',h:'Gardens, farms & forests worldwide',d:'Carnivore — eats aphids and other plant pests',s:'0.1–0.4 inches',l:'2–3 years',f:['Ladybugs are not bugs — they are beetles!','They can eat up to 5,000 aphids in their lifetime.','Their spots fade as they get older.']},
+  Ant:{t:'Insect (Hymenoptera)',h:'Every continent except Antarctica',d:'Omnivore — seeds, nectar, insects, dead animals',s:'0.03–2 inches',l:'Weeks–30 years (queen)',f:['Ants can carry 10–50 times their own body weight!','There are over 12,000 species of ants.','They form some of the most complex societies in the insect world.']},
+  Dragonfly:{t:'Insect (Odonata)',h:'Near ponds, lakes & streams worldwide',d:'Carnivore — mosquitoes, flies, bees',s:'1–6 inches · wingspan up to 7 inches',l:'Few months–6 years (mostly as nymph)',f:['Dragonflies have nearly 360° vision with their 30,000 lenses per eye!','They can fly in any direction, even backwards!','They are amazing predators — catching 95% of prey they target.']},
+  Caterpillar:{t:'Insect larvae',h:'Gardens, forests & farms worldwide',d:'Herbivore — leaves of plants',s:'0.1–4 inches',l:'2–5 weeks (as caterpillar)',f:['Caterpillars have 12 eyes — 6 on each side of their head!','They grow up to 1,000 times their birth size before becoming butterflies/moths.','Some caterpillars can camouflage as bird droppings to avoid predators.']},
+  Spider:{t:'Arachnid',h:'Every continent except Antarctica',d:'Carnivore — insects, other spiders, small animals',s:'0.02–12 inches',l:'1–25 years',f:['Spiders are not insects — they are arachnids with 8 legs!','Silk from a spider web is stronger than steel of the same thickness.','Some spiders can regrow a lost leg.']},
+  Cricket:{t:'Insect (Orthoptera)',h:'Grasslands, forests & homes worldwide',d:'Omnivore — plants, fungi, small insects',s:'0.1–2 inches',l:'2–3 months',f:['Only male crickets chirp — they rub their wings together to attract females!','You can tell the temperature by counting cricket chirps — it\'s true!','Crickets have ears on their front legs.']},
+  Firefly:{t:'Insect (Coleoptera)',h:'Warm forests & fields worldwide',d:'Carnivore (larvae eat snails); adults eat nectar',s:'0.2–1 inch',l:'2 months–2 years',f:['Fireflies are actually beetles — not flies!','They produce light through a chemical reaction — called bioluminescence.','Each firefly species has its own unique flashing pattern.']},
+  Grasshopper:{t:'Insect (Orthoptera)',h:'Grasslands, fields & gardens worldwide',d:'Herbivore — grass, leaves, grain',s:'0.5–4 inches',l:'3–12 months',f:['Grasshoppers can jump 20 times their body length!','They have five eyes — two compound and three simple ones.','Locusts are actually grasshoppers that turned social when crowded.']},
+  Mosquito:{t:'Insect (Diptera)',h:'Wetlands & standing water worldwide',d:'Nectar (both); blood (females only for eggs)',s:'0.1–0.4 inches',l:'2 weeks–2 months',f:['Only female mosquitoes bite — they need blood to develop eggs!','Mosquitoes are responsible for more human deaths than any other animal.','They are attracted to CO₂, body heat, and certain scents.']},
+  Moth:{t:'Insect (Lepidoptera)',h:'Forests, gardens & deserts worldwide',d:'Nectar (adult); leaves (caterpillar)',s:'Wingspan 0.1–12 inches',l:'Few days–10 months',f:['Moths are closely related to butterflies — but most are nocturnal!','The Atlas moth has a wingspan of 12 inches — as big as a dinner plate!','Some moths can jam bat echolocation to avoid being eaten.']},
+  Mantis:{t:'Insect (Mantodea)',h:'Tropical & temperate forests worldwide',d:'Carnivore — insects, small frogs, lizards',s:'0.5–6 inches',l:'6–12 months',f:['Praying mantises can rotate their head 180° — the only insect that can!','They catch their prey with lightning-fast front legs.','Females sometimes eat the male after mating — but it\'s rare.']},
+  Cockroach:{t:'Insect (Blattodea)',h:'Tropical forests, cities & homes worldwide',d:'Omnivore — anything organic',s:'0.2–3 inches',l:'1–2 years',f:['Cockroaches can live for a week without their head!','They can hold their breath for 40 minutes.','They\'ve survived on Earth for 300+ million years.']},
+  Scorpion:{t:'Arachnid',h:'Deserts, forests & caves worldwide',d:'Carnivore — insects, spiders, small animals',s:'0.4–8 inches',l:'2–10 years',f:['Scorpions glow in the dark under UV light!','They have been around for 400 million years.','Some can go a year without eating.']},
+  Snail:{t:'Mollusk (Gastropod)',h:'Gardens, forests, rivers & oceans worldwide',d:'Herbivore — leaves, algae, fruit',s:'0.04–15 inches',l:'2–25 years',f:['Snails have up to 25,000 teeth — they\'re on their tongue!','They can sleep for up to 3 years without waking up!','A snail\'s slime trail helps it glide and also protects its foot.']},
+  Centipede:{t:'Chilopod (Myriapod)',h:'Forests, gardens & caves worldwide',d:'Carnivore — insects, worms, small animals',s:'0.4–12 inches',l:'1–6 years',f:['Centipedes don\'t actually have 100 legs — they have one pair per segment!','The largest centipede can eat mice and small birds!','They are venomous — they bite to subdue their prey.']},
+  Worm:{t:'Annelid (Segmented Worm)',h:'Soil, compost & ocean floor worldwide',d:'Detritivore — dead plant matter & soil',s:'0.04–10 ft',l:'1–8 years',f:['Worms have no lungs — they breathe through their skin!','Charles Darwin studied worms for 44 years — he was fascinated by them.','If a worm is cut in half, only the front half may regrow — but not always.']},
+  Slug:{t:'Mollusk (Gastropod)',h:'Gardens, forests & damp areas worldwide',d:'Herbivore — leaves, fungi, decaying plants',s:'0.2–12 inches',l:'1–6 years',f:['Slugs are basically snails without a shell — but some have a tiny internal shell!','They have 4 noses (tentacles) — two for seeing, two for smelling/tasting.','Slugs can stretch to 20 times their normal length.']}
+};
+
+let askAIContext = {}; // {lastCreature: string}
+
+const AI_SUGGESTIONS = [
+  'Tell me about elephants! 🐘',
+  'What do lions eat? 🦁',
+  'Where do penguins live? 🐧',
+  'Fun facts about dolphins! 🐬',
+  'How big are giraffes? 🦒',
+  'What kind of animal is a bat? 🦇'
+];
+
+function openAskAI(){
+  showScreen('askAIScreen');
+  const msgs=document.getElementById('chatMessages');
+  if(msgs.children.length===0) addWelcomeMessage();
+  setTimeout(()=>document.getElementById('chatInput').focus(),300);
+}
+
+function addWelcomeMessage(){
+  const welcome='🤖 **Hi! I\'m WildLearn AI!**\n\nI can answer your questions about all the animals, birds, and insects in WildLearn. Try asking me:\n\n• "Tell me about tigers"\n• "What do dolphins eat?"\n• "Where do peacocks live?"\n• "Fun facts about butterflies"';
+  addChatMessage('ai',welcome,AI_SUGGESTIONS);
+}
+
+function addChatMessage(type,text,suggestions){
+  const msgs=document.getElementById('chatMessages');
+  const row=document.createElement('div');
+  row.className='msg-row '+(type==='ai'?'ai':'user');
+  const avatar=document.createElement('div');
+  avatar.className='msg-avatar '+(type==='ai'?'ai':'user');
+  avatar.textContent=type==='ai'?'🤖':'👤';
+  const bubble=document.createElement('div');
+  bubble.className='msg-bubble';
+  // Parse markdown-style bold
+  const parsed=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+  bubble.innerHTML=parsed;
+  row.appendChild(avatar);
+  row.appendChild(bubble);
+  msgs.appendChild(row);
+  if(suggestions&&suggestions.length){
+    const sugRow=document.createElement('div');
+    sugRow.className='msg-row ai';
+    const spacer=document.createElement('div');
+    spacer.style.width='42px';
+    sugRow.appendChild(spacer);
+    const sugBox=document.createElement('div');
+    sugBox.style.flex='1';
+    const sugDiv=document.createElement('div');
+    sugDiv.className='suggested-qs';
+    suggestions.forEach(s=>{
+      const chip=document.createElement('span');
+      chip.className='sq-chip';
+      chip.textContent=s;
+      chip.addEventListener('click',()=>{
+        document.getElementById('chatInput').value=s;
+        handleAskAISubmit();
+      });
+      sugDiv.appendChild(chip);
+    });
+    sugBox.appendChild(sugDiv);
+    sugRow.appendChild(sugBox);
+    msgs.appendChild(sugRow);
+  }
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function showTyping(){
+  const msgs=document.getElementById('chatMessages');
+  const row=document.createElement('div');
+  row.className='msg-row ai typing-row';
+  row.id='typingIndicator';
+  const avatar=document.createElement('div');
+  avatar.className='msg-avatar ai';
+  avatar.textContent='🤖';
+  const bubble=document.createElement('div');
+  bubble.className='msg-bubble';
+  const dots=document.createElement('div');
+  dots.className='typing-dots';
+  for(let i=0;i<3;i++){const s=document.createElement('span');dots.appendChild(s)}
+  bubble.appendChild(dots);
+  row.appendChild(avatar);
+  row.appendChild(bubble);
+  msgs.appendChild(row);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function hideTyping(){
+  const el=document.getElementById('typingIndicator');
+  if(el)el.remove();
+}
+
+function handleAskAISubmit(){
+  const input=document.getElementById('chatInput');
+  const q=input.value.trim();
+  if(!q)return;
+  input.value='';
+  addChatMessage('user',q);
+  showTyping();
+  setTimeout(()=>{
+    hideTyping();
+    const result=answerQuestion(q,askAIContext.lastCreature);
+    addChatMessage('ai',result.text,result.suggestions||null);
+    if(result.creature) askAIContext.lastCreature=result.creature;
+  },400+Math.random()*600);
+}
+
+function findCreature(q){
+  const allNames=Object.keys(IMAGE_MAP).sort((a,b)=>b.length-a.length);
+  for(const name of allNames){
+    const lower=name.toLowerCase();
+    const idx=q.indexOf(lower);
+    if(idx!==-1){
+      const before=q[idx-1];
+      const after=q[idx+lower.length];
+      const beforeOk=!before||!/[a-z]/.test(before);
+      let afterOk=!after||!/[a-z]/.test(after);
+      if(after==='s'||after==='\'') afterOk=true;
+      if(beforeOk&&afterOk) return name;
+    }
+  }
+  return null;
+}
+
+function detectIntent(q){
+  if(/habitat|where.*(?:live|found|stay)|(?:live|found|stay)\s+in|home|region/i.test(q)) return 'habitat';
+  if(/eat|diet|food|feed|what.*(?:eat|drink)|herbivore|carnivore|omnivore|meal|hunt.*prey/i.test(q)) return 'diet';
+  if(/size|how\s+(?:big|large|tall|long|heavy|weigh|much)|weight|height|length|measure/i.test(q)) return 'size';
+  if(/live|life\s*span|lifespan|how\s+long|age|old|year/i.test(q)) return 'lifespan';
+  if(/type|what\s+is|what\s+kind|mammal|bird|insect|reptile|fish|amphibian|arachnid/i.test(q)) return 'type';
+  if(/fact|fun|interesting|cool|amazing|wow|did\s+you\s+know/i.test(q)) return 'facts';
+  if(/danger|enemy|predator|hunt(?!.*eat)|threat|attack/i.test(q)) return 'predators';
+  if(/color|(?:what\s+)?(?:color|colour|look|appearance)|looks?\s+like|describe|what does.*look/i.test(q)) return 'appearance';
+  if(/conserve|endangered|protect|threatened|rare|extinct/i.test(q)) return 'conservation';
+  if(/baby|babies|young|egg|born|give\s+birth|reproduce|offspring|cub|pup|chick/i.test(q)) return 'babies';
+  if(/speed|fast|quick|moving|swim|fly|run|move/i.test(q)) return 'speed';
+  return 'general';
+}
+
+function formatResponse(creature,info,intent){
+  const name=creature;
+  const category=CAT_MAP[creature]?CAT_MAP[creature].charAt(0).toUpperCase()+CAT_MAP[creature].slice(1):'Creature';
+  switch(intent){
+    case 'type':{
+      return `**${name}** (${category}) is a **${info.t}**.`;
+    }
+    case 'habitat':{
+      return `**${name}** lives in ${info.h}.`;
+    }
+    case 'diet':{
+      return `**${name}** is a **${info.d}.`;
+    }
+    case 'size':{
+      return info.s?`**${name}** grows to about **${info.s}**.`:`I don't have size info for ${name} yet!`;
+    }
+    case 'lifespan':{
+      return info.l?`**${name}s** can live **${info.l}**.`:`I don't have lifespan info for ${name} yet!`;
+    }
+    case 'facts':{
+      const facts=(info.f||[]).slice(0,3);
+      if(!facts.length) return `I don't have fun facts about ${name} yet!\n\nBut I'm learning — check back soon! 🤖`;
+      let resp=`🎯 **Fun Facts about ${name}**\n`;
+      facts.forEach((f,i)=>resp+=`\n✦ ${f}`);
+      return resp;
+    }
+    case 'conservation':{
+      return info.c?`**${name}s** are listed as **${info.c}**.`:`I don't have conservation status info for ${name} yet!`;
+    }
+    case 'general':{
+      const facts=(info.f||[]).slice(0,2);
+      let resp=`Let me tell you about **${name}**!\n\n`;
+      resp+=`**${category}** · ${info.t}\n`;
+      resp+=`🏠 **Habitat:** ${info.h}\n`;
+      resp+=`🍽️ **Diet:** ${info.d}`;
+      if(info.s) resp+=`\n📏 **Size:** ${info.s}`;
+      if(info.l) resp+=`\n⏳ **Lifespan:** ${info.l}`;
+      if(facts.length){
+        resp+=`\n\n🎯 **Fun Facts:**`;
+        facts.forEach(f=>resp+=`\n✦ ${f}`);
+      }
+      return resp;
+    }
+    default:{
+      if(info.desc) return `**${name}** — ${info.desc}`;
+      const f=(info.f||[]).slice(0,2);
+      let resp=`Here's what I know about **${name}**!\n\n${category} · ${info.t}\n🏠 ${info.h}\n🍽️ ${info.d}`;
+      if(f.length){resp+=`\n\n🎯 Did you know?`;f.forEach(x=>resp+=`\n✦ ${x}`)}
+      return resp;
+    }
+  }
+}
+
+function answerQuestion(question,lastCreature){
+  const q=question.toLowerCase().trim();
+  // Find creature
+  let creature=findCreature(q);
+  const usingContext=!creature&&lastCreature;
+  if(!creature&&lastCreature) creature=lastCreature;
+  if(!creature){
+    // Check if question is about general themes
+    if(/animal|bird|insect|creature|learn|study/i.test(q)){
+      const names=Object.keys(KB);
+      const picks=[];
+      for(let i=0;i<3;i++){const r=names[Math.floor(Math.random()*names.length)];if(!picks.includes(r))picks.push(r)}
+      return {text:`I know about **${Object.keys(KB).length}** creatures! 🎉\n\nTry asking about:\n• ${picks[0]} — ${KB[picks[0]].t}\n• ${picks[1]} — ${KB[picks[1]].t}\n• ${picks[2]} — ${KB[picks[2]].t}\n\nOr type any creature name you're curious about!`,suggestions:[`Tell me about ${picks[0]}!`,`Fun facts about ${picks[1]}`,`What does a ${picks[2]} eat?`],creature:null};
+    }
+    // No idea — help the user
+    return {text:`I'm not sure which creature you're asking about. Try naming a specific animal, bird, or insect from WildLearn!\n\nFor example: "Tell me about elephants 🐘" or "What do penguins eat? 🐧"`,suggestions:AI_SUGGESTIONS,creature:null};
+  }
+  const info=KB[creature];
+  if(!info){
+    return {text:`I don't have information about **${creature}** yet! 🤖\n\nI'm still learning — but check back soon!`,creature};
+  }
+  const intent=detectIntent(q);
+  const text=formatResponse(creature,info,intent);
+  // Provide follow-up suggestions
+  const suggestions=[];
+  const creatureLower=creature.toLowerCase();
+  const cats=['habitat','diet','size','lifespan'];
+  const catPrompts={habitat:`Where do ${creatureLower}s live?`,diet:`What do ${creatureLower}s eat?`,size:`How big are ${creatureLower}s?`,lifespan:`How long do ${creatureLower}s live?`};
+  const used=new Set([intent]);
+  for(const c of cats){
+    if(!used.has(c)&&info[c]&&catPrompts[c]){
+      suggestions.push(catPrompts[c]);
+      used.add(c);
+      if(suggestions.length>=3) break;
+    }
+  }
+  if(suggestions.length<3&&info.f&&info.f.length){
+    if(!used.has('facts')){suggestions.push(`Fun facts about ${creatureLower}s!`);used.add('facts')}
+  }
+  // Replace "a elephant" with "an elephant"
+  return {text,suggestions:suggestions.length?suggestions:null,creature};
+}
+
+// ===== ASK AI EVENT LISTENERS =====
+document.getElementById('chatSendBtn').addEventListener('click',handleAskAISubmit);
+document.getElementById('chatInput').addEventListener('keydown',e=>{
+  if(e.key==='Enter') handleAskAISubmit();
+});
 
 // ===== START =====
 for(const [cat,info] of Object.entries(CAT_NAMES)){
