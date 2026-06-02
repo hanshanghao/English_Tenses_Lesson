@@ -1015,6 +1015,133 @@ body{
   #askAIScreen .chat-container{height:calc(100vh - 170px);max-height:none}
   #askAIScreen .msg-bubble{max-width:90%;font-size:13px}
 }
+
+/* ===== WIDER VERTICAL CARD LAYOUT ===== */
+#learnScreen,#vocabScreen,#sentencesScreen{
+  max-width:940px;
+}
+#learnScreen .learn-card{
+  padding:40px 38px 34px;
+  display:flex;gap:40px;align-items:flex-start;
+}
+#learnScreen .visual-area{
+  flex-shrink:0;padding:0;width:280px;
+}
+#learnScreen .emoji-display{
+  font-size:220px;margin-bottom:0;
+}
+#learnScreen .learn-content{
+  flex:1;min-width:0;
+  display:flex;flex-direction:column;gap:20px;
+}
+#learnScreen .name-display{
+  text-align:left;margin:0;
+}
+#learnScreen .name-display h2{
+  font-size:42px;margin-bottom:4px;
+}
+#learnScreen .name-display .cat-label{
+  font-size:14px;
+}
+#learnScreen .fact-display{
+  font-size:18px;padding:22px 28px;border-radius:20px;margin:0;line-height:1.7;
+}
+#learnScreen .info-card{
+  gap:14px;margin:0;
+}
+#learnScreen .info-pill{
+  padding:18px 22px;border-radius:16px;
+}
+#learnScreen .info-pill .label{
+  font-size:12px;margin-bottom:6px;
+}
+#learnScreen .info-pill .value{
+  font-size:18px;
+}
+#learnScreen .vocab-mini{
+  gap:10px;margin:0;
+}
+#learnScreen .vocab-mini .tag{
+  padding:10px 20px;font-size:14px;border-radius:26px;
+}
+#learnScreen .nav-section{
+  margin:0;
+}
+#learnScreen .nav-btn{
+  padding:16px 30px;font-size:16px;border-radius:18px;
+}
+#learnScreen .counter{
+  font-size:15px;margin:0;
+}
+#learnScreen .progress-dots{gap:8px}
+#learnScreen .dot{width:9px;height:9px}
+#learnScreen .dot.active{width:28px}
+.vocab-list{
+  max-height:calc(100vh - 180px);
+}
+.vocab-group-header{
+  font-size:18px;margin-bottom:14px;
+}
+.vocab-row{
+  flex-direction:column;align-items:stretch;gap:8px;
+  padding:16px 18px;border-radius:18px;margin-bottom:10px;
+}
+.vocab-row-emoji{
+  font-size:36px;width:auto;text-align:center;
+}
+.vocab-row-name{
+  font-size:16px;min-width:auto;text-align:center;
+}
+.vocab-row-tags{
+  justify-content:center;
+}
+.vocab-row-tags .vt{
+  padding:5px 14px;font-size:13px;border-radius:14px;
+}
+#sentencesScreen .sent-card{
+  padding:32px 28px 24px;border-radius:28px;
+}
+#sentencesScreen .sent-question{
+  font-size:20px;padding:20px 24px;border-radius:18px;margin-bottom:24px;
+}
+#sentencesScreen .sent-bank{
+  grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;
+}
+#sentencesScreen .sent-btn{
+  font-size:15px;padding:14px 16px;border-radius:16px;
+}
+#sentencesScreen .sent-feedback{
+  font-size:15px;min-height:32px;margin-bottom:14px;
+}
+#sentencesScreen .sent-photo img{
+  width:140px;height:140px;border-radius:24px;
+}
+#sentencesScreen .sent-progress{
+  font-size:14px;margin-bottom:20px;
+}
+#sentencesScreen .nav-btn{
+  padding:14px 26px;font-size:15px;border-radius:16px;
+}
+@media (max-width:700px){
+  #learnScreen,#vocabScreen,#sentencesScreen{max-width:100%}
+  #learnScreen .learn-card{flex-direction:column;align-items:center;gap:16px;padding:20px 16px 18px}
+  #learnScreen .visual-area{width:140px}
+  #learnScreen .emoji-display{font-size:110px}
+  #learnScreen .name-display{text-align:center}
+  #learnScreen .name-display h2{font-size:28px}
+  #learnScreen .fact-display{font-size:14px;padding:12px 14px}
+  #learnScreen .info-card{flex-direction:column;gap:8px}
+  #learnScreen .info-pill{padding:10px 12px}
+  #learnScreen .nav-btn{font-size:13px;padding:10px 16px}
+  .vocab-row{padding:12px 14px}
+  .vocab-row-emoji{font-size:28px}
+  .vocab-row-name{font-size:14px}
+  #sentencesScreen .sent-card{padding:22px 16px 18px}
+  #sentencesScreen .sent-question{font-size:17px;padding:14px 16px;margin-bottom:16px}
+  #sentencesScreen .sent-bank{grid-template-columns:1fr 1fr;gap:8px}
+  #sentencesScreen .sent-btn{font-size:13px;padding:10px 12px}
+  #sentencesScreen .sent-photo img{width:110px;height:110px}
+}
 </style>
 </head>
 <body>
@@ -1112,28 +1239,30 @@ body{
       <div class="emoji-display" id="emojiDisplay">🐘</div>
       <div class="svg-deco" id="svgDeco"><svg viewBox="0 0 200 200"></svg></div>
     </div>
-    <div class="name-display">
-      <h2 class="sp" id="nameDisplay">Elephant</h2>
-      <div class="cat-label" id="catLabel">Animal</div>
-    </div>
-    <div class="fact-display sp" id="factDisplay">Elephants are the biggest land animals. Their trunks have over 40,000 muscles!</div>
-    <div class="info-card" id="infoCard">
-      <div class="info-pill">
-        <div class="label">🏷️ Type</div>
-        <div class="value sp" id="typeDisplay">Mammal</div>
+    <div class="learn-content">
+      <div class="name-display">
+        <h2 class="sp" id="nameDisplay">Elephant</h2>
+        <div class="cat-label" id="catLabel">Animal</div>
       </div>
-      <div class="info-pill">
-        <div class="label">🌍 Habitat</div>
-        <div class="value sp" id="habitatDisplay">Grasslands &amp; forests</div>
+      <div class="fact-display sp" id="factDisplay">Elephants are the biggest land animals. Their trunks have over 40,000 muscles!</div>
+      <div class="info-card" id="infoCard">
+        <div class="info-pill">
+          <div class="label">🏷️ Type</div>
+          <div class="value sp" id="typeDisplay">Mammal</div>
+        </div>
+        <div class="info-pill">
+          <div class="label">🌍 Habitat</div>
+          <div class="value sp" id="habitatDisplay">Grasslands &amp; forests</div>
+        </div>
       </div>
+      <div class="vocab-mini" id="vocabMini"></div>
+      <div class="nav-section">
+        <button class="nav-btn prev" id="prevBtn">← Prev</button>
+        <div class="progress-dots" id="dotsContainer"></div>
+        <button class="nav-btn next" id="nextBtn">Next →</button>
+      </div>
+      <div class="counter" id="counter">1 of 10</div>
     </div>
-    <div class="vocab-mini" id="vocabMini"></div>
-    <div class="nav-section">
-      <button class="nav-btn prev" id="prevBtn">← Prev</button>
-      <div class="progress-dots" id="dotsContainer"></div>
-      <button class="nav-btn next" id="nextBtn">Next →</button>
-    </div>
-    <div class="counter" id="counter">1 of 10</div>
   </div>
 </div>
 
