@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>WildLearn Videos</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:#08080f;color:#e0e0e0}
+body{min-height:100vh}
+::selection{background:rgba(253,121,168,0.3);color:#fff}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(99,102,241,0.08),transparent),radial-gradient(ellipse 60% 40% at 80% 100%,rgba(253,121,168,0.06),transparent);pointer-events:none;z-index:0}
+
+/* BANNER */
+.banner{position:relative;z-index:2;display:none;align-items:center;justify-content:center;gap:12px;padding:12px 20px;background:rgba(251,146,60,0.1);border-bottom:1px solid rgba(251,146,60,0.15);font-size:13px;color:rgba(255,255,255,0.6);text-align:center;flex-wrap:wrap}
+.banner.show{display:flex}
+.banner code{padding:3px 8px;border-radius:4px;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.8);font-size:12px}
+.banner .dismiss{background:none;border:none;color:rgba(255,255,255,0.3);cursor:pointer;font-size:16px;padding:4px}
+
+/* HEADER */
+.header{position:relative;z-index:1;text-align:center;padding:40px 20px 28px}
+.header h1{font-size:clamp(28px,5vw,48px);font-weight:800;background:linear-gradient(135deg,#f472b6,#fb923c,#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.header p{color:rgba(255,255,255,0.45);font-size:15px;margin-top:8px}
+.header p span{color:rgba(255,255,255,0.65)}
+
+/* TABS */
+.tabs{position:relative;z-index:1;display:flex;justify-content:center;gap:8px;padding:0 20px 28px;flex-wrap:wrap}
+.tab{padding:10px 24px;border-radius:100px;border:1px solid rgba(255,255,255,0.06);background:rgba(255,255,255,0.03);color:rgba(255,255,255,0.5);font-size:14px;font-weight:500;cursor:pointer;transition:all 0.3s}
+.tab:hover{background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.8)}
+.tab.active{background:rgba(99,102,241,0.15);border-color:rgba(99,102,241,0.3);color:#818cf8}
+.tab .count{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:20px;background:rgba(255,255,255,0.06);font-size:12px;color:rgba(255,255,255,0.35)}
+
+/* GRID */
+.grid{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 20px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.card{background:rgba(255,255,255,0.03);border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,0.06);transition:all 0.4s;cursor:pointer}
+.card:hover{border-color:rgba(255,255,255,0.12);transform:translateY(-4px);box-shadow:0 20px 40px rgba(0,0,0,0.3)}
+.card .thumb{position:relative;width:100%;aspect-ratio:16/9;background:#111;overflow:hidden}
+.card .thumb img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s;display:block}
+.card:hover .thumb img{transform:scale(1.05)}
+.card .thumb .play-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.35);opacity:0;transition:opacity 0.3s}
+.card:hover .thumb .play-overlay{opacity:1}
+.card .thumb .play-overlay .play-btn{width:56px;height:56px;border-radius:50%;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center;transition:transform 0.3s;box-shadow:0 4px 20px rgba(0,0,0,0.4)}
+.card:hover .thumb .play-overlay .play-btn{transform:scale(1.1)}
+.card .thumb .play-overlay .play-btn svg{margin-left:2px;width:20px;height:20px;fill:#1a1a2e}
+.card .body{padding:16px}
+.card .body .name{font-size:17px;font-weight:600;color:#fff;margin-bottom:2px}
+.card .body .cat{font-size:12px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.5px}
+.card .body .cat span{display:inline-block;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:500}
+.card .body .cat span.animals{background:rgba(52,211,153,0.12);color:#34d399}
+.card .body .cat span.birds{background:rgba(96,165,250,0.12);color:#60a5fa}
+.card .body .cat span.insects{background:rgba(251,146,60,0.12);color:#fb923c}
+.card .body .yt-link{display:none;margin-top:10px;padding:8px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:#ff4444;font-size:13px;font-weight:500;text-decoration:none;transition:all 0.2s;text-align:center}
+.card .body .yt-link:hover{background:rgba(255,68,68,0.1);border-color:rgba(255,68,68,0.2)}
+.card .body .yt-link.show{display:block}
+.card.playing .thumb img{display:none}
+.card.playing .thumb .play-overlay{display:none}
+.card.playing .thumb .embed{width:100%;height:100%;display:block}
+
+/* LOADING */
+.loading{text-align:center;padding:60px 20px;color:rgba(255,255,255,0.25);font-size:14px}
+.loading .spinner{width:32px;height:32px;border:2px solid rgba(255,255,255,0.06);border-top-color:rgba(255,255,255,0.3);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.empty{text-align:center;padding:60px 20px;color:rgba(255,255,255,0.25);font-size:15px;grid-column:1/-1}
+.footer{position:relative;z-index:1;text-align:center;padding:20px;color:rgba(255,255,255,0.15);font-size:13px;border-top:1px solid rgba(255,255,255,0.04)}
+
+@media(max-width:640px){
+  .header{padding:32px 16px 24px}
+  .tabs{padding:0 16px 24px;gap:6px}
+  .tab{padding:8px 16px;font-size:13px}
+  .grid{padding:0 16px 40px;grid-template-columns:1fr;gap:16px}
+}
+</style>
+</head>
+<body>
+
+<div class="banner" id="banner">
+  <span>💡 YouTube blocks embeds from local files. Run a local server instead:</span>
+  <code>python3 -m http.server 8000</code>
+  <span>then open <code>http://localhost:8000</code></span>
+  <button class="dismiss" id="dismissBanner">✕</button>
+</div>
+
+<div class="header">
+  <h1>✦ WildLearn Videos</h1>
+  <p>Educational videos from <span>FreeSchool</span> — curated for young explorers</p>
+</div>
+
+<div class="tabs" id="tabs"></div>
+<div class="loading" id="loading"><div class="spinner"></div>Loading videos…</div>
+<div class="grid" id="grid"></div>
+<div class="footer">Designed for curious minds · FreeSchool YouTube Channel</div>
+
+<script>
+const VIDEOS = [
+  {name:'Elephant',id:'LpzwxDqVDtc',cat:'animals'},
+  {name:'Giraffe',id:'bNYXweQ81vI',cat:'animals'},
+  {name:'Kangaroo',id:'EjEfUw6x_Xo',cat:'animals'},
+  {name:'Dolphin',id:'45F2kH144zY',cat:'animals'},
+  {name:'Bat',id:'9FVoTMOorXA',cat:'animals'},
+  {name:'Horse',id:'tbPFbXjJwZk',cat:'animals'},
+  {name:'Lion',id:'B1WY1irCP74',cat:'animals'},
+  {name:'Tiger',id:'4JjvXBH5oVU',cat:'animals'},
+  {name:'Bear',id:'Fm_EkE7GiYI',cat:'animals'},
+  {name:'Wolf',id:'_5CjoeK9Y7M',cat:'animals'},
+  {name:'Fox',id:'Px3bw_w-2Tk',cat:'animals'},
+  {name:'Panda',id:'GEuPCqMMrX0',cat:'animals'},
+  {name:'Koala',id:'J_GwY2Swit0',cat:'animals'},
+  {name:'Octopus',id:'oYGjC-UJ6Qg',cat:'animals'},
+  {name:'Whale',id:'2o9dHYqTGsM',cat:'animals'},
+  {name:'Rhino',id:'OWMHb2WmD1Y',cat:'animals'},
+  {name:'Hippo',id:'0iYx5q5CudI',cat:'animals'},
+  {name:'Zebra',id:'kWxnadQI5Qw',cat:'animals'},
+  {name:'Shark',id:'tfWMwG6aYzQ',cat:'animals'},
+  {name:'Turtle',id:'fwOC0tCFup4',cat:'animals'},
+  {name:'Crocodile',id:'5HqYsOxD62k',cat:'animals'},
+  {name:'Frog',id:'WgMHNsJ6Pto',cat:'animals'},
+  {name:'Snake',id:'hUiLutXG4ag',cat:'animals'},
+  {name:'Owl',id:'hfHsq8j04XQ',cat:'birds'},
+  {name:'Penguin',id:'O8qilxaBR20',cat:'birds'},
+  {name:'Parrot',id:'W7Yx7A9Hbj8',cat:'birds'},
+  {name:'Hummingbird',id:'HlNIfD_xFls',cat:'birds'},
+  {name:'Butterfly',id:'5S5-NUFWnJ8',cat:'insects'},
+  {name:'Bee',id:'5S5-NUFWnJ8',cat:'insects'},
+  {name:'Caterpillar',id:'5S5-NUFWnJ8',cat:'insects'}
+];
+
+const CATS = [
+  {key:'all',label:'All',emoji:'✨'},
+  {key:'animals',label:'Animals',emoji:'🐾'},
+  {key:'birds',label:'Birds',emoji:'🦅'},
+  {key:'insects',label:'Insects',emoji:'🦋'}
+];
+
+const INVIDIOUS = 'https://invidious.nerdvpn.de';
+const YT_WATCH = 'https://www.youtube.com/watch?v=';
+
+const $ = id => document.getElementById(id);
+const grid = $('grid');
+const tabs = $('tabs');
+const loading = $('loading');
+const banner = $('banner');
+let activeCat = 'all';
+let isFileProtocol = window.location.protocol === 'file:';
+
+if(isFileProtocol) banner.classList.add('show');
+$('dismissBanner').addEventListener('click',()=>banner.classList.remove('show'));
+
+function countByCat(cat){
+  return cat==='all' ? VIDEOS.length : VIDEOS.filter(v=>v.cat===cat).length;
+}
+
+function renderTabs(){
+  tabs.innerHTML = CATS.map(c=>`
+    <button class="tab${activeCat===c.key?' active':''}" data-cat="${c.key}">
+      ${c.emoji} ${c.label}
+      <span class="count">${countByCat(c.key)}</span>
+    </button>
+  `).join('');
+  tabs.querySelectorAll('.tab').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      activeCat = btn.dataset.cat;
+      renderTabs();
+      renderGrid();
+    });
+  });
+}
+
+function renderGrid(){
+  const filtered = activeCat==='all' ? VIDEOS : VIDEOS.filter(v=>v.cat===activeCat);
+  if(!filtered.length){
+    grid.innerHTML = '<div class="empty">No videos in this category yet</div>';
+    return;
+  }
+  grid.innerHTML = filtered.map(v=>`
+    <div class="card" data-video="${v.id}" data-name="${v.name}" data-cat="${v.cat}">
+      <div class="thumb">
+        <img src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.name}" loading="lazy">
+        <div class="play-overlay">
+          <div class="play-btn">
+            <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="name">${v.name}</div>
+        <div class="cat"><span class="${v.cat}">${CATS.find(c=>c.key===v.cat)?.label||v.cat}</span></div>
+        <a class="yt-link" href="${YT_WATCH}${v.id}" target="_blank" rel="noopener">▶ Watch on YouTube</a>
+      </div>
+    </div>
+  `).join('');
+  grid.querySelectorAll('.card').forEach(card=>{
+    card.addEventListener('click',e=>{
+      if(e.target.closest('.yt-link')) return;
+      play(card);
+    });
+  });
+}
+
+function play(card){
+  if(card.classList.contains('playing')){
+    window.open(YT_WATCH+card.dataset.video,'_blank');
+    return;
+  }
+  const vid = card.dataset.video;
+  const thumb = card.querySelector('.thumb');
+  const el = document.createElement('div');
+  el.className = 'embed';
+  if(isFileProtocol){
+    el.innerHTML = `<iframe src="${INVIDIOUS}/embed/${vid}?autoplay=1" style="width:100%;height:100%;border:none" allow="autoplay" allowfullscreen></iframe>`;
+    // Also show YT link as fallback
+    card.querySelector('.yt-link').classList.add('show');
+  } else {
+    el.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${vid}?autoplay=1&rel=0" style="width:100%;height:100%;border:none" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share" allowfullscreen></iframe>`;
+  }
+  thumb.querySelector('img').style.display = 'none';
+  thumb.querySelector('.play-overlay').style.display = 'none';
+  thumb.appendChild(el);
+  card.classList.add('playing');
+}
+
+renderTabs();
+renderGrid();
+loading.style.display = 'none';
+</script>
+</body>
+</html>
