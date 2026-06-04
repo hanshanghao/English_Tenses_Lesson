@@ -46,9 +46,7 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 .card .body .yt-link{display:none;margin-top:10px;padding:8px 14px;border-radius:8px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:#ff4444;font-size:13px;font-weight:500;text-decoration:none;transition:all 0.2s;text-align:center}
 .card .body .yt-link:hover{background:rgba(255,68,68,0.1);border-color:rgba(255,68,68,0.2)}
 .card .body .yt-link.show{display:block}
-.card.playing .thumb img{display:none}
-.card.playing .thumb .play-overlay{display:none}
-.card.playing .thumb .embed{width:100%;height:100%;display:block}
+
 
 /* LOADING */
 .loading{text-align:center;padding:60px 20px;color:rgba(255,255,255,0.25);font-size:14px}
@@ -120,7 +118,6 @@ const CATS = [
   {key:'insects',label:'Insects',emoji:'🦋'}
 ];
 
-const INVIDIOUS = 'https://invidious.nerdvpn.de';
 const YT_WATCH = 'https://www.youtube.com/watch?v=';
 
 const $ = id => document.getElementById(id);
@@ -175,31 +172,9 @@ function renderGrid(){
   grid.querySelectorAll('.card').forEach(card=>{
     card.addEventListener('click',e=>{
       if(e.target.closest('.yt-link')) return;
-      play(card);
+      window.open(YT_WATCH+card.dataset.video,'_blank');
     });
   });
-}
-
-function play(card){
-  if(card.classList.contains('playing')){
-    window.open(YT_WATCH+card.dataset.video,'_blank');
-    return;
-  }
-  const vid = card.dataset.video;
-  const thumb = card.querySelector('.thumb');
-  const el = document.createElement('div');
-  el.className = 'embed';
-  if(isFileProtocol){
-    el.innerHTML = `<iframe src="${INVIDIOUS}/embed/${vid}?autoplay=1" style="width:100%;height:100%;border:none" allow="autoplay" allowfullscreen></iframe>`;
-    // Also show YT link as fallback
-    card.querySelector('.yt-link').classList.add('show');
-  } else {
-    el.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${vid}?autoplay=1&rel=0" style="width:100%;height:100%;border:none" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share" allowfullscreen></iframe>`;
-  }
-  thumb.querySelector('img').style.display = 'none';
-  thumb.querySelector('.play-overlay').style.display = 'none';
-  thumb.appendChild(el);
-  card.classList.add('playing');
 }
 
 renderTabs();
