@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>GEPT Preparation Hub</title>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:#f4f4fb;color:#1a1a2e;scroll-behavior:smooth}
+body{min-height:100vh}
+::selection{background:rgba(99,102,241,0.2);color:#fff}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(99,102,241,0.06),transparent),radial-gradient(ellipse 60% 40% at 80% 100%,rgba(251,146,60,0.04),transparent);pointer-events:none;z-index:0}
+
+/* NAV */
+.nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(0,0,0,0.06);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:60px}
+.nav-logo{font-size:20px;font-weight:800;background:linear-gradient(135deg,#6366f1,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-links{display:flex;gap:6px;flex-wrap:wrap}
+.nav-links a{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;color:rgba(0,0,0,0.45);text-decoration:none;transition:all 0.2s}
+.nav-links a:hover{background:rgba(99,102,241,0.06);color:rgba(0,0,0,0.8)}
+.nav-links a.active{background:rgba(99,102,241,0.08);color:#6366f1}
+
+/* HERO */
+.hero{position:relative;z-index:1;text-align:center;padding:60px 20px 40px}
+.hero h1{font-size:clamp(32px,6vw,56px);font-weight:800;background:linear-gradient(135deg,#6366f1,#ec4899,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2}
+.hero p{color:rgba(0,0,0,0.45);font-size:16px;margin-top:12px;max-width:600px;margin-left:auto;margin-right:auto}
+.hero .badges{display:flex;justify-content:center;gap:10px;margin-top:20px;flex-wrap:wrap}
+.hero .badge{padding:6px 18px;border-radius:100px;font-size:12px;font-weight:600;border:1px solid rgba(0,0,0,0.08)}
+.hero .badge.elem{background:rgba(16,185,129,0.1);border-color:rgba(16,185,129,0.2);color:#059669}
+.hero .badge.inter{background:rgba(59,130,246,0.1);border-color:rgba(59,130,246,0.2);color:#2563eb}
+.hero .badge.high{background:rgba(251,146,60,0.1);border-color:rgba(251,146,60,0.2);color:#d97706}
+.hero .badge.adv{background:rgba(236,72,153,0.1);border-color:rgba(236,72,153,0.2);color:#db2777}
+
+/* SECTION */
+.section{position:relative;z-index:1;max-width:1100px;margin:0 auto;padding:48px 20px}
+.section-title{font-size:28px;font-weight:700;margin-bottom:6px;color:#111}
+.section-sub{color:rgba(0,0,0,0.4);font-size:14px;margin-bottom:28px}
+
+/* LEVEL CARDS */
+.levels{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.level-card{padding:24px;border-radius:16px;border:1px solid rgba(0,0,0,0.06);background:#fff;transition:all 0.3s}
+.level-card:hover{border-color:rgba(0,0,0,0.1);transform:translateY(-3px);box-shadow:0 12px 30px rgba(0,0,0,0.08)}
+.level-card .level-badge{display:inline-block;padding:4px 14px;border-radius:100px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px}
+.level-card .level-badge.elem{background:rgba(16,185,129,0.12);color:#059669}
+.level-card .level-badge.inter{background:rgba(59,130,246,0.12);color:#2563eb}
+.level-card .level-badge.high{background:rgba(251,146,60,0.12);color:#d97706}
+.level-card .level-badge.adv{background:rgba(236,72,153,0.12);color:#db2777}
+.level-card h3{font-size:18px;font-weight:600;color:#111;margin-bottom:4px}
+.level-card .grade{font-size:12px;color:rgba(0,0,0,0.35);margin-bottom:10px}
+.level-card p{font-size:13px;color:rgba(0,0,0,0.55);line-height:1.6}
+.level-card .topics{margin-top:12px;display:flex;flex-wrap:wrap;gap:4px}
+.level-card .topics span{padding:3px 10px;border-radius:4px;font-size:11px;background:rgba(0,0,0,0.04);color:rgba(0,0,0,0.45)}
+
+/* VOCAB */
+.vocab-section{background:#fff;border-radius:16px;border:1px solid rgba(0,0,0,0.06);padding:24px;margin-bottom:24px}
+.vocab-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+.vocab-header h3{font-size:18px;font-weight:600;color:#111}
+.vocab-level-select{display:flex;gap:6px;flex-wrap:wrap}
+.vocab-level-select button{padding:6px 16px;border-radius:100px;border:1px solid rgba(0,0,0,0.08);background:transparent;color:rgba(0,0,0,0.5);font-size:12px;font-weight:500;cursor:pointer;transition:all 0.2s}
+.vocab-level-select button:hover{background:rgba(99,102,241,0.06);color:rgba(0,0,0,0.8)}
+.vocab-level-select button.active{background:rgba(99,102,241,0.1);border-color:rgba(99,102,241,0.3);color:#6366f1}
+.vocab-table{width:100%;border-collapse:collapse}
+.vocab-table th{padding:10px 12px;text-align:left;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;color:rgba(0,0,0,0.3);border-bottom:1px solid rgba(0,0,0,0.06)}
+.vocab-table td{padding:12px;font-size:14px;border-bottom:1px solid rgba(0,0,0,0.04);vertical-align:middle}
+.vocab-table tr:hover td{background:rgba(99,102,241,0.03)}
+.vocab-table .en{color:#111;font-weight:500}
+.vocab-table .zh{color:rgba(0,0,0,0.5)}
+.vocab-table .sound-btn{background:rgba(99,102,241,0.08);border:none;border-radius:50%;width:32px;height:32px;cursor:pointer;color:#6366f1;font-size:14px;display:inline-flex;align-items:center;justify-content:center;transition:all 0.2s}
+.vocab-table .sound-btn:hover{background:rgba(99,102,241,0.15);transform:scale(1.1)}
+.vocab-table .sound-btn.playing{background:rgba(16,185,129,0.15);color:#059669;animation:pulse 0.6s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+
+/* GRAMMAR CARDS */
+.grammar-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.grammar-card{padding:20px;border-radius:12px;border:1px solid rgba(0,0,0,0.06);background:#fff;transition:all 0.3s}
+.grammar-card:hover{border-color:rgba(0,0,0,0.1)}
+.grammar-card h4{color:#6366f1;font-size:15px;font-weight:600;margin-bottom:6px}
+.grammar-card .rule{color:rgba(0,0,0,0.6);font-size:13px;line-height:1.6;margin-bottom:8px}
+.grammar-card .example{background:rgba(99,102,241,0.06);border-left:3px solid #6366f1;padding:10px 14px;border-radius:4px;font-size:13px;color:#4338ca;line-height:1.6;margin-bottom:8px}
+.grammar-card .sound-btn-sm{background:none;border:none;color:#6366f1;cursor:pointer;font-size:12px;padding:4px 8px;border-radius:4px;transition:all 0.2s}
+.grammar-card .sound-btn-sm:hover{background:rgba(99,102,241,0.08)}
+
+/* READING */
+.reading-card{padding:24px;border-radius:16px;border:1px solid rgba(0,0,0,0.06);background:#fff;margin-bottom:16px}
+.reading-card .level-tag{display:inline-block;padding:3px 12px;border-radius:100px;font-size:11px;font-weight:600;margin-bottom:10px}
+.reading-card .level-tag.elem{background:rgba(16,185,129,0.12);color:#059669}
+.reading-card .level-tag.inter{background:rgba(59,130,246,0.12);color:#2563eb}
+.reading-card .level-tag.high{background:rgba(251,146,60,0.12);color:#d97706}
+.reading-card h4{color:#111;font-size:16px;font-weight:600;margin-bottom:8px}
+.reading-card .passage{color:rgba(0,0,0,0.65);font-size:14px;line-height:1.8;margin-bottom:12px;padding:16px;background:rgba(0,0,0,0.03);border-radius:8px}
+.reading-card .question{color:rgba(0,0,0,0.7);font-size:13px;margin-bottom:6px;padding:8px 12px;border-radius:6px;background:rgba(99,102,241,0.03);cursor:pointer;transition:all 0.2s}
+.reading-card .question:hover{background:rgba(99,102,241,0.06)}
+.reading-card .question.correct{border-left:3px solid #059669;background:rgba(16,185,129,0.06)}
+.reading-card .question.wrong{border-left:3px solid #ef4444;background:rgba(239,68,68,0.06)}
+.reading-card .question span.ans{display:none;color:#059669;font-weight:500;margin-left:8px}
+.reading-card .question span.ans.show{display:inline}
+
+/* WRITING */
+.writing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+.writing-card{padding:20px;border-radius:12px;border:1px solid rgba(0,0,0,0.06);background:#fff}
+.writing-card h4{color:#db2777;font-size:15px;font-weight:600;margin-bottom:6px}
+.writing-card .prompt{color:rgba(0,0,0,0.55);font-size:13px;line-height:1.6;margin-bottom:8px}
+.writing-card .sample{background:rgba(236,72,153,0.05);border-left:3px solid #db2777;padding:10px 14px;border-radius:4px;font-size:13px;color:#831843;line-height:1.6}
+
+/* SPEAKING */
+.speaking-card{padding:20px;border-radius:12px;border:1px solid rgba(0,0,0,0.06);background:#fff;margin-bottom:12px;display:flex;align-items:flex-start;gap:14px}
+.speaking-card .icon{font-size:24px;flex-shrink:0;margin-top:2px}
+.speaking-card .content{flex:1}
+.speaking-card .content h4{color:#d97706;font-size:15px;font-weight:600;margin-bottom:4px}
+.speaking-card .content .prompt{color:rgba(0,0,0,0.55);font-size:13px;line-height:1.6;margin-bottom:8px}
+.speaking-card .content .sample-response{background:rgba(251,146,60,0.06);border-left:3px solid #d97706;padding:10px 14px;border-radius:4px;font-size:13px;color:#78350f;line-height:1.6;margin-bottom:8px}
+.speaking-card .content .speak-btn{background:rgba(251,146,60,0.08);border:none;padding:8px 18px;border-radius:8px;color:#d97706;font-size:13px;font-weight:500;cursor:pointer;transition:all 0.2s}
+.speaking-card .content .speak-btn:hover{background:rgba(251,146,60,0.15)}
+
+/* QUIZ */
+.quiz-box{padding:24px;border-radius:16px;border:1px solid rgba(99,102,241,0.15);background:#fff;margin-bottom:16px}
+.quiz-box .q{font-size:15px;font-weight:500;color:#111;margin-bottom:10px}
+.quiz-box .opts{display:flex;flex-direction:column;gap:6px}
+.quiz-box .opts button{text-align:left;padding:10px 16px;border-radius:8px;border:1px solid rgba(0,0,0,0.06);background:rgba(0,0,0,0.02);color:rgba(0,0,0,0.7);font-size:13px;cursor:pointer;transition:all 0.2s}
+.quiz-box .opts button:hover{background:rgba(99,102,241,0.04);border-color:rgba(99,102,241,0.15)}
+.quiz-box .opts button.selected{background:rgba(99,102,241,0.1);border-color:rgba(99,102,241,0.3);color:#6366f1}
+.quiz-box .opts button.correct{background:rgba(16,185,129,0.08);border-color:#059669;color:#059669}
+.quiz-box .opts button.wrong{background:rgba(239,68,68,0.08);border-color:#ef4444;color:#ef4444}
+.quiz-box .feedback{display:none;margin-top:10px;padding:10px 14px;border-radius:8px;font-size:13px;line-height:1.6}
+.quiz-box .feedback.show{display:block}
+.quiz-box .feedback.pass{background:rgba(16,185,129,0.06);color:#059669}
+.quiz-box .feedback.fail{background:rgba(239,68,68,0.06);color:#dc2626}
+
+/* PRACTICE TESTS */
+.test-card{padding:20px;border-radius:12px;border:1px solid rgba(0,0,0,0.06);background:#fff;transition:all 0.3s;margin-bottom:12px}
+.test-card:hover{border-color:rgba(0,0,0,0.1)}
+.test-card h4{color:#2563eb;font-size:15px;font-weight:600;margin-bottom:4px}
+.test-card p{color:rgba(0,0,0,0.5);font-size:13px;line-height:1.6;margin-bottom:8px}
+.test-card a{display:inline-block;padding:8px 20px;border-radius:8px;background:rgba(59,130,246,0.08);color:#2563eb;font-size:13px;font-weight:500;text-decoration:none;transition:all 0.2s}
+.test-card a:hover{background:rgba(59,130,246,0.15)}
+
+/* TIPS */
+.tips-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+.tip-card{padding:18px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:#fff}
+.tip-card .emoji{font-size:24px;margin-bottom:6px}
+.tip-card h4{color:#111;font-size:14px;font-weight:600;margin-bottom:4px}
+.tip-card p{color:rgba(0,0,0,0.5);font-size:12px;line-height:1.6}
+
+/* FOOTER */
+.footer{position:relative;z-index:1;text-align:center;padding:24px 20px;color:rgba(0,0,0,0.2);font-size:13px;border-top:1px solid rgba(0,0,0,0.04)}
+
+@media(max-width:640px){
+  .nav{padding:0 16px;height:auto;flex-direction:column;gap:8px;padding:12px 16px}
+  .nav-links a{padding:6px 12px;font-size:12px}
+  .hero{padding:40px 16px 28px}
+  .section{padding:32px 16px}
+  .section-title{font-size:22px}
+  .vocab-table td,.vocab-table th{padding:8px 6px;font-size:12px}
+  .writing-grid,.grammar-grid{grid-template-columns:1fr}
+  .speaking-card{flex-direction:column;gap:8px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-logo">GEPT Hub</div>
+  <div class="nav-links">
+    <a href="#levels">Levels</a>
+    <a href="#vocab">Vocabulary</a>
+    <a href="#grammar">Grammar</a>
+    <a href="#reading">Reading</a>
+    <a href="#writing">Writing</a>
+    <a href="#speaking">Speaking</a>
+    <a href="#quiz">Quiz</a>
+    <a href="#tips">Tips</a>
+    <a href="https://www.youtube.com/@IVMLearning/videos" target="_blank" rel="noopener">Videos</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <h1>GEPT Preparation Hub</h1>
+  <p>Comprehensive materials for the General English Proficiency Test — from Elementary to Advanced level. Designed for grade 6 through university students.</p>
+  <div class="badges">
+    <span class="badge elem">Elementary</span>
+    <span class="badge inter">Intermediate</span>
+    <span class="badge high">High-Intermediate</span>
+    <span class="badge adv">Advanced</span>
+  </div>
+</div>
+
+<div class="section" id="levels">
+  <h2 class="section-title">GEPT Levels Overview</h2>
+  <p class="section-sub">Understand the GEPT framework and what each level requires</p>
+  <div class="levels">
+    <div class="level-card">
+      <span class="level-badge elem">Elementary</span>
+      <h3>CEFR A1–A2</h3>
+      <div class="grade">Grade 6 – Junior High (Age 12–15)</div>
+      <p>Basic vocabulary (~1500 words), simple sentences, everyday conversations. Can understand and use familiar expressions.</p>
+      <div class="topics">
+        <span>Greetings</span><span>Numbers</span><span>Colors</span><span>Family</span><span>Food</span><span>Weather</span>
+      </div>
+    </div>
+    <div class="level-card">
+      <span class="level-badge inter">Intermediate</span>
+      <h3>CEFR B1</h3>
+      <div class="grade">Senior High (Age 15–18)</div>
+      <p>Expanded vocabulary (~4500 words), paragraph-level writing, coherent speech. Can handle most daily situations independently.</p>
+      <div class="topics">
+        <span>Travel</span><span>Health</span><span>Education</span><span>Culture</span><span>Technology</span><span>Environment</span>
+      </div>
+    </div>
+    <div class="level-card">
+      <span class="level-badge high">High-Intermediate</span>
+      <h3>CEFR B2</h3>
+      <div class="grade">University / College (Age 18+)</div>
+      <p>Advanced vocabulary (~7500 words), complex grammar structures, academic writing. Can express opinions and arguments fluently.</p>
+      <div class="topics">
+        <span>Economics</span><span>Politics</span><span>Science</span><span>Media</span><span>Global Issues</span><span>Literature</span>
+      </div>
+    </div>
+    <div class="level-card">
+      <span class="level-badge adv">Advanced</span>
+      <h3>CEFR C1–C2</h3>
+      <div class="grade">University / Professional (Age 18+)</div>
+      <p>Near-native proficiency (~12000+ words), nuanced expression, persuasive writing and speech. Can use English flexibly in academic and professional settings.</p>
+      <div class="topics">
+        <span>Research</span><span>Law</span><span>Philosophy</span><span>Business</span><span>Linguistics</span><span>Criticism</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="vocab">
+  <h2 class="section-title">Vocabulary Builder</h2>
+  <p class="section-sub">Click the speaker icon to hear the pronunciation in a British female voice</p>
+  <div class="vocab-section">
+    <div class="vocab-header">
+      <h3>Vocabulary List</h3>
+      <div class="vocab-level-select">
+        <button class="active" data-level="elem">Elementary</button>
+        <button data-level="inter">Intermediate</button>
+        <button data-level="high">High-Intermediate</button>
+        <button data-level="adv">Advanced</button>
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="vocab-table" id="vocabTable">
+        <thead>
+          <tr><th>Word</th><th>Meaning</th><th>Example</th><th style="width:44px">🔊</th></tr>
+        </thead>
+        <tbody id="vocabBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<div class="section" id="grammar">
+  <h2 class="section-title">Grammar Essentials</h2>
+  <p class="section-sub">Key grammar patterns for each GEPT level with examples</p>
+  <div class="grammar-grid" id="grammarGrid"></div>
+</div>
+
+<div class="section" id="reading">
+  <h2 class="section-title">Reading Comprehension</h2>
+  <p class="section-sub">Practice passages with questions — click an answer to check</p>
+  <div id="readingContainer"></div>
+</div>
+
+<div class="section" id="writing">
+  <h2 class="section-title">Writing Practice</h2>
+  <p class="section-sub">Guided writing prompts with sample answers for each level</p>
+  <div class="writing-grid" id="writingGrid"></div>
+</div>
+
+<div class="section" id="speaking">
+  <h2 class="section-title">Speaking Practice</h2>
+  <p class="section-sub">Listen to the prompt, think of your response, then hear a sample answer</p>
+  <div id="speakingContainer"></div>
+</div>
+
+<div class="section" id="quiz">
+  <h2 class="section-title">Quick Quiz</h2>
+  <p class="section-sub">Test your knowledge with these GEPT-style questions</p>
+  <div class="vocab-header" style="margin-bottom:16px">
+    <h3 style="font-size:16px;color:rgba(255,255,255,0.7)">Select level:</h3>
+    <div class="vocab-level-select" id="quizLevelSelect">
+      <button class="active" data-level="elem">Elementary</button>
+      <button data-level="inter">Intermediate</button>
+      <button data-level="high">High-Intermediate</button>
+    </div>
+  </div>
+  <div id="quizContainer"></div>
+</div>
+
+<div class="section" id="tips">
+  <h2 class="section-title">Exam Tips & Strategies</h2>
+  <p class="section-sub">Proven techniques to boost your GEPT score</p>
+  <div class="tips-grid">
+    <div class="tip-card">
+      <div class="emoji">⏰</div>
+      <h4>Time Management</h4>
+      <p>Divide your time: 30% reading, 30% writing, 20% listening, 20% review. Never spend more than 2 minutes on one question.</p>
+    </div>
+    <div class="tip-card">
+      <div class="emoji">📝</div>
+      <h4>Note-Taking</h4>
+      <p>During the listening test, jot down keywords — who, what, when, where, why. Use abbreviations to save time.</p>
+    </div>
+    <div class="tip-card">
+      <div class="emoji">🔍</div>
+      <h4>Read the Questions First</h4>
+      <p>For reading sections, scan questions before reading the passage. This helps you locate answers faster.</p>
+    </div>
+    <div class="tip-card">
+      <div class="emoji">🗣️</div>
+      <h4>Speak Out Loud</h4>
+      <p>Practice speaking daily for 10 minutes. Record yourself and listen — it builds fluency and confidence.</p>
+    </div>
+    <div class="tip-card">
+      <div class="emoji">📖</div>
+      <h4>Build a Word Journal</h4>
+      <p>Write down 5 new words daily with example sentences. Review them every weekend for retention.</p>
+    </div>
+    <div class="tip-card">
+      <div class="emoji">🧘</div>
+      <h4>Stay Calm</h4>
+      <p>Deep breathing before the exam lowers anxiety. Remember: you have prepared well — trust your training.</p>
+    </div>
+  </div>
+</div>
+
+<div class="footer">GEPT Preparation Hub &middot; Designed for Taiwanese Students &middot; Grade 6 to University Level</div>
+
+<script>
+const speechSynth = window.speechSynthesis;
+let currentVoice = null;
+
+function findFemaleVoice() {
+  const voices = speechSynth.getVoices();
+  currentVoice = voices.find(v => /female|samantha|daniel|google uk female/i.test(v.name) && v.lang.startsWith('en-GB'))
+    || voices.find(v => v.lang.startsWith('en-GB'))
+    || voices.find(v => /female|samantha|google uk female|google us female/i.test(v.name))
+    || voices.find(v => v.lang.startsWith('en') && /female/i.test(v.name))
+    || voices.find(v => v.lang.startsWith('en'))
+    || voices[0];
+}
+
+speechSynth.onvoiceschanged = findFemaleVoice;
+findFemaleVoice();
+
+function speak(text) {
+  if (!text) return;
+  speechSynth.cancel();
+  const utter = new SpeechSynthesisUtterance(text);
+  if (currentVoice) utter.voice = currentVoice;
+  utter.rate = 0.85;
+  utter.pitch = 1.0;
+  utter.lang = 'en-GB';
+  speechSynth.speak(utter);
+}
+
+// ==================== VOCABULARY DATA ====================
+const VOCAB = {
+  elem: [
+    {en:'apple',zh:'蘋果',ex:'I eat an apple every day.'},
+    {en:'book',zh:'書',ex:'Please open your book.'},
+    {en:'cat',zh:'貓',ex:'The cat is sleeping.'},
+    {en:'dog',zh:'狗',ex:'My dog likes to run.'},
+    {en:'elephant',zh:'大象',ex:'The elephant is big.'},
+    {en:'flower',zh:'花',ex:'The flower is beautiful.'},
+    {en:'green',zh:'綠色',ex:'The grass is green.'},
+    {en:'happy',zh:'快樂的',ex:'I am happy today.'},
+    {en:'ice',zh:'冰',ex:'Ice is cold.'},
+    {en:'jump',zh:'跳',ex:'The rabbit can jump.'},
+    {en:'king',zh:'國王',ex:'The king wears a crown.'},
+    {en:'lion',zh:'獅子',ex:'The lion is the king of animals.'},
+    {en:'milk',zh:'牛奶',ex:'I drink milk every morning.'},
+    {en:'name',zh:'名字',ex:'What is your name?'},
+    {en:'orange',zh:'柳橙',ex:'This orange is sweet.'},
+    {en:'pencil',zh:'鉛筆',ex:'I write with a pencil.'},
+    {en:'queen',zh:'女王',ex:'The queen is kind.'},
+    {en:'rain',zh:'雨',ex:'It will rain tomorrow.'},
+    {en:'sun',zh:'太陽',ex:'The sun is bright.'},
+    {en:'tree',zh:'樹',ex:'The tree is tall.'},
+    {en:'umbrella',zh:'雨傘',ex:'Take your umbrella.'},
+    {en:'violin',zh:'小提琴',ex:'She plays the violin.'},
+    {en:'water',zh:'水',ex:'I need a glass of water.'},
+    {en:'yellow',zh:'黃色',ex:'The banana is yellow.'},
+    {en:'zoo',zh:'動物園',ex:'We went to the zoo.'},
+  ],
+  inter: [
+    {en:'adventure',zh:'冒險',ex:'Life is an adventure.'},
+    {en:'behavior',zh:'行為',ex:'Good behavior is important.'},
+    {en:'climate',zh:'氣候',ex:'The climate is changing.'},
+    {en:'decision',zh:'決定',ex:'Think before you make a decision.'},
+    {en:'environment',zh:'環境',ex:'We must protect the environment.'},
+    {en:'familiar',zh:'熟悉的',ex:'This place looks familiar.'},
+    {en:'generous',zh:'慷慨的',ex:'She is a generous person.'},
+    {en:'honest',zh:'誠實的',ex:'Always be honest.'},
+    {en:'imagine',zh:'想像',ex:'Imagine a world without war.'},
+    {en:'journey',zh:'旅程',ex:'The journey took three hours.'},
+    {en:'knowledge',zh:'知識',ex:'Knowledge is power.'},
+    {en:'library',zh:'圖書館',ex:'I study at the library.'},
+    {en:'memory',zh:'記憶',ex:'I have good memories of that trip.'},
+    {en:'natural',zh:'自然的',ex:'This is made of natural materials.'},
+    {en:'opportunity',zh:'機會',ex:'Don\'t miss this opportunity.'},
+    {en:'patient',zh:'有耐心的',ex:'You need to be patient.'},
+    {en:'quality',zh:'品質',ex:'Quality matters more than quantity.'},
+    {en:'responsible',zh:'負責任的',ex:'Be responsible for your actions.'},
+    {en:'schedule',zh:'行程表',ex:'Check the schedule.'},
+    {en:'temperature',zh:'溫度',ex:'What is the temperature today?'},
+    {en:'unusual',zh:'不尋常的',ex:'That is very unusual.'},
+    {en:'volunteer',zh:'志工',ex:'He works as a volunteer.'},
+    {en:'weather',zh:'天氣',ex:'The weather is nice today.'},
+    {en:'experience',zh:'經驗',ex:'I have experience in teaching.'},
+    {en:'celebrate',zh:'慶祝',ex:'Let\'s celebrate your birthday!'},
+  ],
+  high: [
+    {en:'academic',zh:'學術的',ex:'She has an academic background.'},
+    {en:'beneficial',zh:'有益的',ex:'Exercise is beneficial to health.'},
+    {en:'consequence',zh:'後果',ex:'Every action has a consequence.'},
+    {en:'demonstrate',zh:'示範／證明',ex:'Please demonstrate the experiment.'},
+    {en:'evaluate',zh:'評估',ex:'We need to evaluate the results.'},
+    {en:'fundamental',zh:'基本的',ex:'This is a fundamental principle.'},
+    {en:'hypothesis',zh:'假設',ex:'Let us test the hypothesis.'},
+    {en:'implement',zh:'實施',ex:'We will implement the new plan.'},
+    {en:'inevitable',zh:'不可避免的',ex:'Change is inevitable.'},
+    {en:'legitimate',zh:'合法的',ex:'That is a legitimate concern.'},
+    {en:'maintain',zh:'維持',ex:'Maintain a healthy lifestyle.'},
+    {en:'negotiate',zh:'協商',ex:'They need to negotiate the terms.'},
+    {en:'phenomenon',zh:'現象',ex:'This is a natural phenomenon.'},
+    {en:'perspective',zh:'觀點',ex:'Look at it from another perspective.'},
+    {en:'recommendation',zh:'推薦',ex:'I follow your recommendation.'},
+    {en:'significant',zh:'重要的',ex:'This is a significant discovery.'},
+    {en:'sufficient',zh:'足夠的',ex:'We have sufficient evidence.'},
+    {en:'traditional',zh:'傳統的',ex:'This is a traditional ceremony.'},
+    {en:'controversial',zh:'有爭議的',ex:'The topic is controversial.'},
+    {en:'extraordinary',zh:'非凡的',ex:'She has an extraordinary talent.'},
+    {en:'comprehensive',zh:'全面的',ex:'We need a comprehensive review.'},
+    {en:'consequently',zh:'因此',ex:'He was late; consequently, he missed the bus.'},
+    {en:'nevertheless',zh:'然而',ex:'It was difficult; nevertheless, she succeeded.'},
+    {en:'furthermore',zh:'此外',ex:'Furthermore, we need more data.'},
+    {en:'sophisticated',zh:'精密的／成熟的',ex:'This is a sophisticated machine.'},
+  ],
+  adv: [
+    {en:'ambiguous',zh:'模糊的',ex:'The statement is ambiguous.'},
+    {en:'articulate',zh:'表達清晰的',ex:'He is an articulate speaker.'},
+    {en:'circumstantial',zh:'間接的',ex:'The evidence is circumstantial.'},
+    {en:'delineate',zh:'描繪',ex:'The report delineates the problem.'},
+    {en:'empirical',zh:'實證的',ex:'We need empirical data.'},
+    {en:'extrapolate',zh:'推測',ex:'We can extrapolate the trend.'},
+    {en:'juxtaposition',zh:'並置',ex:'The juxtaposition is striking.'},
+    {en:'meticulous',zh:'一絲不苟的',ex:'She is meticulous in her work.'},
+    {en:'paradigm',zh:'典範',ex:'This is a new paradigm.'},
+    {en:'pedantic',zh:'迂腐的',ex:'His pedantic style is annoying.'},
+    {en:'peripheral',zh:'周邊的',ex:'That is a peripheral issue.'},
+    {en:'prevalent',zh:'普遍的',ex:'This view is prevalent in society.'},
+    {en:'profound',zh:'深遠的',ex:'The impact was profound.'},
+    {en:'reciprocal',zh:'相互的',ex:'They have a reciprocal agreement.'},
+    {en:'redundant',zh:'多餘的',ex:'The explanation was redundant.'},
+    {en:'scrutinize',zh:'仔細檢查',ex:'We must scrutinize the data.'},
+    {en:'substantiate',zh:'證實',ex:'Can you substantiate your claim?'},
+    {en:'synthesize',zh:'綜合',ex:'Synthesize the information.'},
+    {en:'tenacious',zh:'頑強的',ex:'She is a tenacious negotiator.'},
+    {en:'unequivocal',zh:'明確的',ex:'The answer was unequivocal.'},
+    {en:'ubiquitous',zh:'無處不在的',ex:'Smartphones are ubiquitous.'},
+    {en:'vernacular',zh:'方言／口語',ex:'Write in the local vernacular.'},
+    {en:'vindicate',zh:'證明正確',ex:'The results vindicated her theory.'},
+    {en:'voluminous',zh:'大量的',ex:'The report is voluminous.'},
+    {en:'whimsical',zh:'異想天開的',ex:'The story is whimsical and fun.'},
+  ]
+};
+
+// ==================== GRAMMAR DATA ====================
+const GRAMMAR = [
+  {level:'elem',title:'Present Simple',rule:'Use for habits, facts, and routines. Subject + base verb (add -s for he/she/it).',example:'She reads books every day. / They play soccer on weekends.'},
+  {level:'elem',title:'Present Continuous',rule:'Use for actions happening now. Subject + am/is/are + verb-ing.',example:'He is studying right now. / The children are playing outside.'},
+  {level:'elem',title:'There is / There are',rule:'Use "there is" for singular, "there are" for plural.',example:'There is a cat on the chair. / There are five apples on the table.'},
+  {level:'elem',title:'Can / Can\'t',rule:'Use "can" for ability, "can\'t" for inability.',example:'I can swim. / She can\'t speak French.'},
+  {level:'inter',title:'Present Perfect',rule:'Use for past actions connected to now. Subject + have/has + past participle.',example:'I have lived here for five years. / She has already finished.'},
+  {level:'inter',title:'Conditionals (Type 1)',rule:'If + present simple, will + base verb. For real/likely situations.',example:'If it rains, I will stay home.'},
+  {level:'inter',title:'Passive Voice',rule:'Be + past participle. Use when the action is more important than the doer.',example:'The letter was written by Mary. / English is spoken worldwide.'},
+  {level:'inter',title:'Relative Clauses',rule:'Who (people), which (things), that (both). Gives extra information about a noun.',example:'The man who lives next door is a doctor.'},
+  {level:'high',title:'Conditionals (Type 2 & 3)',rule:'Type 2: If + past, would + verb (unreal present). Type 3: If + past perfect, would have + p.p. (unreal past).',example:'If I were rich, I would travel. / If I had studied, I would have passed.'},
+  {level:'high',title:'Subjunctive Mood',rule:'Use "were" for all subjects in unreal conditionals. Also after "wish" and "suggest".',example:'I wish I were taller. / He suggested that she go.'},
+  {level:'high',title:'Inversion',rule:'Rarely do we see... / Not only did he... Invert subject-verb for emphasis.',example:'Not only did she win, but she also broke the record.'},
+  {level:'high',title:'Cleft Sentences',rule:'It is/was + emphasis + that/who... Used to highlight specific information.',example:'It was John who broke the window.'},
+  {level:'adv',title:'Mixed Conditionals',rule:'Mix time references. Past condition with present result, or vice versa.',example:'If I had taken that job, I would be rich now.'},
+  {level:'adv',title:'Ellipsis & Substitution',rule:'Omit repeated words when meaning is clear. Use auxiliary verbs to replace.',example:'"Who broke it?" "John did." / She speaks French better than I do.'},
+  {level:'adv',title:'Fronting & Inversion',rule:'Move elements to the front for emphasis. Rarely, never, hardly trigger inversion.',example:'Hardly had we left when it started raining.'},
+  {level:'adv',title:'Hedging Language',rule:'Use "tend to", "appear to", "seem", "may" to soften claims in academic writing.',example:'This would appear to suggest that the hypothesis is correct.'},
+];
+
+// ==================== READING DATA ====================
+const READING = [
+  {
+    level:'elem',title:'My Daily Routine',
+    passage:'I wake up at 6 o\'clock every morning. I brush my teeth and wash my face. Then I eat breakfast with my family. I usually have toast and milk. After breakfast, I go to school. I like my school because I can play with my friends.',
+    questions:[
+      {q:'What time does the writer wake up?',opts:['5 o\'clock','6 o\'clock','7 o\'clock'],ans:1},
+      {q:'What does the writer eat for breakfast?',opts:['Rice and soup','Bread and juice','Toast and milk'],ans:2},
+      {q:'Why does the writer like school?',opts:['Because of the teachers','Because of the friends','Because of the food'],ans:1},
+    ]
+  },
+  {
+    level:'elem',title:'A Trip to the Zoo',
+    passage:'Last weekend, my family and I went to the zoo. We saw many animals — monkeys, tigers, and elephants. The monkeys were very funny. They jumped and played all day. My sister liked the elephants most. We took many photos and had a wonderful time.',
+    questions:[
+      {q:'When did the family go to the zoo?',opts:['This weekend','Last weekend','Next weekend'],ans:1},
+      {q:'Which animal did the writer\'s sister like most?',opts:['Monkeys','Tigers','Elephants'],ans:2},
+      {q:'What did they do at the zoo?',opts:['Fed the animals','Took photos','Rode the elephants'],ans:1},
+    ]
+  },
+  {
+    level:'inter',title:'The Importance of Recycling',
+    passage:'Recycling is one of the simplest ways to help the environment. By separating our waste into paper, plastic, glass, and metal, we reduce the amount of trash that goes to landfills. Recycling also saves energy because it takes less energy to make products from recycled materials than from raw materials. Many countries have started recycling programs, but individual effort is still very important. Every person can make a difference by recycling at home, at school, and at work.',
+    questions:[
+      {q:'What is the main idea of this passage?',opts:['Recycling is difficult','Recycling helps the environment','Recycling is expensive'],ans:1},
+      {q:'How does recycling save energy?',opts:['It uses less energy than making from raw materials','It creates new energy','It stops energy use'],ans:0},
+      {q:'According to the passage, who can make a difference?',opts:['Only governments','Only companies','Every person'],ans:2},
+    ]
+  },
+  {
+    level:'inter',title:'Social Media and Communication',
+    passage:'Social media has changed the way people communicate. In the past, people wrote letters or made phone calls to stay in touch. Today, we can send instant messages, share photos, and video chat with anyone around the world. However, some experts worry that social media reduces face-to-face interaction. They argue that typing messages is not the same as having a real conversation. Despite these concerns, social media remains a powerful tool for connecting people across distances.',
+    questions:[
+      {q:'How did people mainly communicate in the past according to the passage?',opts:['By email','By letters and phone calls','By social media'],ans:1},
+      {q:'What concern do some experts have about social media?',opts:['It is too expensive','It reduces face-to-face interaction','It takes too much time'],ans:1},
+      {q:'What is the author\'s attitude toward social media?',opts:['Completely negative','Balanced — both positive and negative','Very positive'],ans:1},
+    ]
+  },
+  {
+    level:'high',title:'Renewable Energy Transition',
+    passage:'The global transition to renewable energy sources such as solar, wind, and hydroelectric power has accelerated in recent decades. While fossil fuels remain the dominant energy source, their environmental impact — particularly carbon emissions — has driven governments and corporations to invest heavily in clean alternatives. Solar energy, in particular, has seen remarkable cost reductions, making it increasingly competitive with coal and natural gas. However, challenges remain. Energy storage technology must improve to address the intermittent nature of solar and wind power. Battery technology, grid modernization, and policy frameworks all play crucial roles in determining how quickly the world can move toward a sustainable energy future.',
+    questions:[
+      {q:'What has accelerated in recent decades according to the passage?',opts:['Fossil fuel production','The transition to renewable energy','Energy consumption'],ans:1},
+      {q:'What is mentioned as a challenge for solar and wind power?',opts:['High cost','Intermittent supply','Lack of technology'],ans:1},
+      {q:'What role do policy frameworks play?',opts:['They are unimportant','They are crucial for the transition','They slow down progress'],ans:1},
+    ]
+  },
+  {
+    level:'high',title:'Cognitive Biases in Decision Making',
+    passage:'Cognitive biases are systematic patterns of deviation from rational judgment. They occur when our brain takes mental shortcuts, known as heuristics, to process information quickly. Common examples include confirmation bias — the tendency to favor information that confirms existing beliefs — and the availability heuristic, where we overestimate the likelihood of events that come easily to mind. Understanding these biases is crucial for making better decisions in business, finance, and daily life. Researchers suggest that actively considering opposing viewpoints and using structured decision-making frameworks can help mitigate the effects of these biases.',
+    questions:[
+      {q:'What are cognitive biases?',opts:['Emotional reactions','Systematic deviations from rational judgment','Random errors'],ans:1},
+      {q:'Confirmation bias refers to:',opts:['Rejecting all new ideas','Favoring information that confirms existing beliefs','Making quick decisions'],ans:1},
+      {q:'How can we mitigate cognitive biases?',opts:['By avoiding decisions','By considering opposing viewpoints','By trusting our instincts'],ans:1},
+    ]
+  },
+];
+
+// ==================== WRITING DATA ====================
+const WRITING = [
+  {level:'elem',title:'Describe Your Family',prompt:'Write 3–4 sentences about your family. Who are they? What do they like to do?',sample:'There are four people in my family: my father, my mother, my sister, and me. My father is a teacher and my mother is a nurse. My sister likes to draw. I love my family very much.'},
+  {level:'elem',title:'My Favorite Animal',prompt:'Write about your favorite animal. What does it look like? Why do you like it?',sample:'My favorite animal is the dolphin. Dolphins are smart and friendly. They live in the ocean and can swim very fast. I like them because they are beautiful and kind.'},
+  {level:'inter',title:'Advantages of Exercise',prompt:'Write a short paragraph about why exercise is important. Include at least two reasons.',sample:'Exercise is very important for our health. First, it keeps our body strong and helps us stay fit. Second, exercise makes us feel happy because it releases good chemicals in our brain. I try to exercise for 30 minutes every day.'},
+  {level:'inter',title:'A Memorable Trip',prompt:'Describe a trip you remember well. Where did you go? What did you do? Why was it memorable?',sample:'Last summer, I went to Kenting with my family. We swam in the sea and ate seafood at night market. The most memorable part was watching the sunrise on the beach. It was so beautiful that I will never forget it.'},
+  {level:'high',title:'Social Media — Boon or Bane?',prompt:'Write a balanced paragraph discussing both the advantages and disadvantages of social media.',sample:'Social media has both positive and negative effects on society. On one hand, it allows people to connect with friends and family across long distances and share information quickly. On the other hand, excessive use can lead to addiction and reduced face-to-face interaction. In my opinion, social media is beneficial when used in moderation, but people should be aware of its potential drawbacks.'},
+  {level:'high',title:'Technology and Education',prompt:'Discuss how technology has changed education. Do you think the changes are mostly positive or negative?',sample:'Technology has transformed education in numerous ways. Online learning platforms, digital textbooks, and interactive tools have made education more accessible and engaging. Students can now learn at their own pace and access resources from anywhere. However, over-reliance on technology may reduce critical thinking skills and increase distractions. Overall, I believe the benefits outweigh the drawbacks, provided that technology is used as a supplement to — not a replacement for — traditional teaching methods.'},
+  {level:'adv',title:'The Role of Government in Public Health',prompt:'Write a well-structured essay arguing for or against government intervention in public health. Use specific examples.',sample:'Government intervention in public health is not only justified but essential for societal well-being. Historical examples such as vaccination programs, smoking bans, and food safety regulations demonstrate that government action can dramatically improve health outcomes. While critics argue that such measures infringe on personal freedom, the principle of public good must take precedence when individual choices pose risks to others. The COVID-19 pandemic illustrated this dilemma clearly: mask mandates and lockdowns were controversial, yet they undoubtedly saved lives. A balanced approach — one that respects individual autonomy while protecting collective health — represents the most responsible path forward.'},
+];
+
+// ==================== SPEAKING DATA ====================
+const SPEAKING = [
+  {level:'elem',icon:'🗣️',title:'Introduce Yourself',prompt:'Tell me about yourself. What is your name? How old are you? What do you like to do?',sample:'Hello! My name is Amy. I am twelve years old. I like to read books and play with my dog.'},
+  {level:'elem',icon:'🌤️',title:'Describe the Weather',prompt:'What is the weather like today? What do you like to do in this weather?',sample:'Today is sunny and warm. I like to go outside and play soccer with my friends when the weather is nice.'},
+  {level:'inter',icon:'🎬',title:'Talk About a Movie',prompt:'Describe a movie you have watched recently. What was it about? Did you like it? Why or why not?',sample:'I recently watched "Zootopia." It is about a rabbit police officer who works with a fox to solve a mystery. I really liked it because it is funny and also teaches us about not judging others by their appearance.'},
+  {level:'inter',icon:'🌏',title:'Travel Experience',prompt:'Talk about a place you would like to visit. Why do you want to go there? What would you do?',sample:'I would like to visit Japan. I want to see Tokyo and eat authentic Japanese food. I am also interested in Japanese culture and history. I would visit temples and try to learn some Japanese phrases.'},
+  {level:'high',icon:'💼',title:'Career Aspirations',prompt:'What career do you want to pursue in the future? Why does it interest you? What steps are you taking to achieve your goal?',sample:'I aspire to become a software engineer. I am fascinated by how technology can solve real-world problems. Currently, I am learning programming languages like Python and JavaScript. I also participate in coding competitions to improve my skills. My goal is to work for a tech company where I can create products that make a difference.'},
+  {level:'high',icon:'🌱',title:'Environmental Responsibility',prompt:'What is one environmental issue you care about? Why is it important? What can individuals do to help?',sample:'I am particularly concerned about plastic pollution in our oceans. Millions of marine animals die each year because of plastic waste. Individuals can help by reducing single-use plastics, recycling properly, and supporting policies that limit plastic production. Small changes in our daily habits can collectively make a significant impact on the health of our planet.'},
+];
+
+// ==================== QUIZ DATA ====================
+const QUIZ = {
+  elem: [
+    {q:'Which word means "快樂的"?',opts:['Sad','Happy','Tired'],ans:1,explain:'"Happy" 意思是快樂的。'},
+    {q:'What is the plural of "child"?',opts:['Childs','Children','Childes'],ans:1,explain:'Child 的複數是 children。'},
+    {q:'Choose the correct sentence:',opts:['She go to school','She goes to school','She going to school'],ans:1,explain:'第三人稱單數要用 goes。'},
+    {q:'What does "beautiful" mean?',opts:['醜陋的','美麗的','高大的'],ans:1,explain:'Beautiful 意思是美麗的。'},
+  ],
+  inter: [
+    {q:'Which sentence uses the present perfect correctly?',opts:['I have saw that movie','I have seen that movie','I seen that movie'],ans:1,explain:'Present perfect: have/has + past participle (seen)。'},
+    {q:'What is the passive form of "The cat ate the fish"?',opts:['The fish was eaten by the cat','The fish ate the cat','The cat was eaten by the fish'],ans:0,explain:'被動語態: be + past participle。'},
+    {q:'Choose the correct conditional:',opts:['If it will rain, I stay home','If it rains, I will stay home','If it rained, I stay home'],ans:1,explain:'Type 1 conditional: If + present simple, will + base verb。'},
+    {q:'What does "generous" mean?',opts:['自私的','慷慨的','勇敢的'],ans:1,explain:'Generous 意思是慷慨的。'},
+  ],
+  high: [
+    {q:'Identify the correct subjunctive form:',opts:['I wish I was taller','I wish I were taller','I wish I am taller'],ans:1,explain:'在 wish 和 unreal conditionals 中用 were (不是 was)。'},
+    {q:'What is the correct inversion?',opts:['Rarely I have seen such beauty','Rarely have I seen such beauty','Rarely I seen such beauty'],ans:1,explain:'否定副詞放句首時，主詞與助動詞要倒裝。'},
+    {q:'Choose the correct mixed conditional:',opts:['If I had studied, I would be a doctor now','If I studied, I will be a doctor','If I have studied, I was a doctor'],ans:0,explain:'Mixed conditional: past condition (had + p.p.) + present result (would + verb)。'},
+    {q:'What does "inevitable" mean?',opts:['可能的','不可避免的','可選擇的'],ans:1,explain:'Inevitable 意思是不可避免的。'},
+  ],
+};
+
+// ==================== RENDER FUNCTIONS ====================
+
+let currentVocabLevel = 'elem';
+
+function renderVocab(level) {
+  currentVocabLevel = level;
+  const words = VOCAB[level] || VOCAB.elem;
+  const tbody = document.getElementById('vocabBody');
+  tbody.innerHTML = words.map((w,i) => `
+    <tr>
+      <td class="en">${w.en}</td>
+      <td class="zh">${w.zh}</td>
+      <td class="zh">${w.ex}</td>
+      <td><button class="sound-btn" data-text="${w.en}">▶</button></td>
+    </tr>
+  `).join('');
+  tbody.querySelectorAll('.sound-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      speak(this.dataset.text);
+    });
+  });
+  document.querySelectorAll('.vocab-level-select button').forEach(b => b.classList.toggle('active', b.dataset.level === level));
+}
+
+function renderGrammar(level) {
+  const items = level === 'all' ? GRAMMAR : GRAMMAR.filter(g => g.level === level);
+  document.getElementById('grammarGrid').innerHTML = items.map(g => `
+    <div class="grammar-card">
+      <h4>${g.title}</h4>
+      <div class="rule">${g.rule}</div>
+      <div class="example">${g.example}</div>
+      <button class="sound-btn-sm" data-text="${g.example}">🔊 Read aloud</button>
+    </div>
+  `).join('');
+  document.querySelectorAll('#grammarGrid .sound-btn-sm').forEach(btn => {
+    btn.addEventListener('click', function() {
+      speak(this.dataset.text);
+    });
+  });
+}
+
+function renderReading() {
+  const container = document.getElementById('readingContainer');
+  container.innerHTML = READING.map(r => `
+    <div class="reading-card">
+      <span class="level-tag ${r.level}">${r.level === 'elem' ? 'Elementary' : r.level === 'inter' ? 'Intermediate' : r.level === 'high' ? 'High-Intermediate' : 'Advanced'}</span>
+      <h4>${r.title}</h4>
+      <div class="passage">${r.passage}</div>
+      ${r.questions.map((q, qi) => `
+        <div class="question" data-ri="${qi}" data-ans="${q.ans}">
+          <strong>Q${qi+1}:</strong> ${q.q}
+          <br><span style="font-size:12px;color:rgba(255,255,255,0.3)">${q.opts.map((o, oi) => `(${String.fromCharCode(65+oi)}) ${o}`).join(' · ')}</span>
+          <span class="ans">✓ ${q.opts[q.ans]}</span>
+        </div>
+      `).join('')}
+    </div>
+  `).join('');
+  container.querySelectorAll('.question').forEach(el => {
+    el.addEventListener('click', function() {
+      const ans = parseInt(this.dataset.ans);
+      this.classList.add('correct');
+      this.querySelector('.ans').classList.add('show');
+      this.style.cursor = 'default';
+    });
+  });
+}
+
+function renderWriting() {
+  const container = document.getElementById('writingGrid');
+  container.innerHTML = WRITING.map(w => `
+    <div class="writing-card">
+      <h4>${w.title}</h4>
+      <div class="prompt"><strong>Prompt:</strong> ${w.prompt}</div>
+      <div class="sample"><strong>Sample Answer:</strong> ${w.sample}</div>
+    </div>
+  `).join('');
+}
+
+function renderSpeaking() {
+  const container = document.getElementById('speakingContainer');
+  container.innerHTML = SPEAKING.map(s => `
+    <div class="speaking-card">
+      <div class="icon">${s.icon}</div>
+      <div class="content">
+        <h4>${s.title} <span style="font-size:11px;font-weight:400;color:rgba(255,255,255,0.3)">(${s.level})</span></h4>
+        <div class="prompt"><strong>Prompt:</strong> ${s.prompt}</div>
+        <div class="sample-response"><strong>Sample Response:</strong> ${s.sample}</div>
+        <button class="speak-btn" data-text="${s.sample}">🔊 Listen to sample response</button>
+      </div>
+    </div>
+  `).join('');
+  container.querySelectorAll('.speak-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      speak(this.dataset.text);
+    });
+  });
+}
+
+let currentQuizLevel = 'elem';
+
+function renderQuiz(level) {
+  currentQuizLevel = level;
+  const questions = QUIZ[level] || QUIZ.elem;
+  const container = document.getElementById('quizContainer');
+  container.innerHTML = questions.map((q, qi) => `
+    <div class="quiz-box" data-idx="${qi}">
+      <div class="q">Q${qi+1}. ${q.q}</div>
+      <div class="opts">
+        ${q.opts.map((o, oi) => `
+          <button data-opt="${oi}" data-ans="${q.ans}">${String.fromCharCode(65+oi)}. ${o}</button>
+        `).join('')}
+      </div>
+      <div class="feedback">
+        <strong>${q.explain}</strong><br>
+        Correct answer: <span style="font-weight:500">${q.opts[q.ans]}</span>
+      </div>
+    </div>
+  `).join('');
+  container.querySelectorAll('.quiz-box .opts button').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const box = this.closest('.quiz-box');
+      const selected = parseInt(this.dataset.opt);
+      const ans = parseInt(this.dataset.ans);
+      const allBtns = box.querySelectorAll('.opts button');
+      allBtns.forEach(b => { b.disabled = true; b.style.cursor = 'default'; });
+      allBtns.forEach(b => b.classList.remove('selected'));
+      allBtns.forEach(b => {
+        const opt = parseInt(b.dataset.opt);
+        if (opt === ans) b.classList.add('correct');
+      });
+      if (selected !== ans) this.classList.add('wrong');
+      const fb = box.querySelector('.feedback');
+      fb.classList.add('show');
+      if (selected === ans) fb.classList.add('pass');
+      else fb.classList.add('fail');
+    });
+  });
+  document.querySelectorAll('#quizLevelSelect button').forEach(b => b.classList.toggle('active', b.dataset.level === level));
+}
+
+document.querySelectorAll('.vocab-level-select button').forEach(btn => {
+  btn.addEventListener('click', () => renderVocab(btn.dataset.level));
+});
+
+document.querySelectorAll('#quizLevelSelect button').forEach(btn => {
+  btn.addEventListener('click', () => renderQuiz(btn.dataset.level));
+});
+
+renderVocab('elem');
+renderGrammar('all');
+renderReading();
+renderWriting();
+renderSpeaking();
+renderQuiz('elem');
+</script>
+</body>
+</html>
