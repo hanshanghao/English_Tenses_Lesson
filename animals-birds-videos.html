@@ -11,12 +11,6 @@ body{min-height:100vh}
 ::selection{background:rgba(253,121,168,0.3);color:#fff}
 body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(99,102,241,0.08),transparent),radial-gradient(ellipse 60% 40% at 80% 100%,rgba(253,121,168,0.06),transparent);pointer-events:none;z-index:0}
 
-/* BANNER */
-.banner{position:relative;z-index:2;display:none;align-items:center;justify-content:center;gap:12px;padding:12px 20px;background:rgba(251,146,60,0.1);border-bottom:1px solid rgba(251,146,60,0.15);font-size:13px;color:rgba(255,255,255,0.6);text-align:center;flex-wrap:wrap}
-.banner.show{display:flex}
-.banner code{padding:3px 8px;border-radius:4px;background:rgba(255,255,255,0.06);color:rgba(255,255,255,0.8);font-size:12px}
-.banner .dismiss{background:none;border:none;color:rgba(255,255,255,0.3);cursor:pointer;font-size:16px;padding:4px}
-
 /* HEADER */
 .header{position:relative;z-index:1;text-align:center;padding:40px 20px 28px}
 .header h1{font-size:clamp(28px,5vw,48px);font-weight:800;background:linear-gradient(135deg,#f472b6,#fb923c,#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
@@ -74,12 +68,6 @@ body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellips
 </head>
 <body>
 
-<div class="banner" id="banner">
-  <span>💡 YouTube blocks embeds from local files. Run a local server instead:</span>
-  <code>python3 -m http.server 8000</code>
-  <span>then open <code>http://localhost:8000</code></span>
-  <button class="dismiss" id="dismissBanner">✕</button>
-</div>
 
 <div class="header">
   <h1>✦ WildLearn Videos</h1>
@@ -139,12 +127,7 @@ const $ = id => document.getElementById(id);
 const grid = $('grid');
 const tabs = $('tabs');
 const loading = $('loading');
-const banner = $('banner');
 let activeCat = 'all';
-let isFileProtocol = window.location.protocol === 'file:';
-
-if(isFileProtocol) banner.classList.add('show');
-$('dismissBanner').addEventListener('click',()=>banner.classList.remove('show'));
 
 function countByCat(cat){
   return cat==='all' ? VIDEOS.length : VIDEOS.filter(v=>v.cat===cat).length;
