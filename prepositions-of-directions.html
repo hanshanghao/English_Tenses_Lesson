@@ -133,6 +133,35 @@ body{
 
 .footer{text-align:center;margin-top:32px;padding:16px;color:rgba(255,255,255,0.5);font-size:12px;font-weight:600;text-shadow:0 1px 4px rgba(0,0,0,0.15)}
 
+/* FLOATING ACTION BUTTONS */
+.floating-btns{
+  position:fixed;bottom:24px;right:24px;
+  display:flex;flex-direction:column;gap:10px;
+  z-index:1000;opacity:0.15;
+  transition:opacity 0.4s ease;
+}
+.floating-btns.active,.floating-btns:hover{opacity:1}
+.float-btn{
+  border:none;cursor:pointer;font-family:inherit;
+  box-shadow:0 4px 16px rgba(0,0,0,0.12);
+  transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.float-btn:hover{transform:scale(1.1);box-shadow:0 6px 24px rgba(0,0,0,0.18)}
+.float-btn:active{transform:scale(0.92)}
+.float-btn.icon-btn{
+  width:48px;height:48px;border-radius:50%;
+  background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);
+  font-size:20px;color:#2d3436;
+}
+.float-btn.multi-btn{
+  padding:0 20px;height:48px;border-radius:24px;
+  background:linear-gradient(135deg,#ff6b6b,#9b59b6);
+  color:#fff;font-size:14px;font-weight:700;gap:8px;
+  box-shadow:0 4px 20px rgba(155,89,182,0.3);
+}
+.float-btn.multi-btn:hover{transform:scale(1.06);box-shadow:0 6px 28px rgba(155,89,182,0.4)}
+
 @media (max-width:640px){body{padding:12px}.header h1{font-size:22px}.prep-grid{grid-template-columns:1fr}}
 </style>
 </head>
@@ -154,7 +183,7 @@ body{
 </div>
 
 <div class="tricky-note">
-  <strong>⚠️ Tricky Prepositions!</strong> Some prepositions are trickier than others. For example, it's not so logical to be <em>on</em> a bus or a train or a plane rather than <em>in</em> one, yet that's the way we say it. While you are <em>on the plane</em> (i.e., inside the plane), there is also a logo <em>on the plane</em>, and two wings <em>on the plane</em>, though they're not inside with you. When in doubt about how to use a specific preposition, look up the proper term in a dictionary.
+  <strong>⚠️ Tip!</strong> Prepositions tell us <em>where</em> something is or <em>where</em> it is going. Look at the picture and read the sentence to learn each word!
 </div>
 
 <div class="section-title">📍 Position &amp; Location</div>
@@ -166,7 +195,13 @@ body{
 <div class="section-title">🤝 Proximity &amp; Relationship</div>
 <div class="prep-grid" id="proxGrid"></div>
 
-<div class="footer">✦ Learn English · Grade 3–4 ✦</div>
+<div class="footer">✦ Learn English · Grade 1–2 ✦</div>
+</div>
+
+<div class="floating-btns" id="floatBtns">
+  <button class="float-btn multi-btn" onclick="location.href='multiplayer_quiz.html'" title="Multiplayer Game"><span>🎮</span></button>
+  <button class="float-btn icon-btn up-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Up to Top">↑</button>
+  <button class="float-btn icon-btn home-btn" onclick="location.href='index.html'" title="Home">🏠</button>
 </div>
 
 <script>
@@ -174,7 +209,7 @@ const PREPS=[
 
 // ========== POSITION & LOCATION ==========
 
-{w:'Above',m:'Higher relative to something else',e:'The milk is <em>above</em> the soda in the refrigerator.',g:'pos',a:'#ff6b6b',badge:'higher',
+{w:'Above',m:'Higher than something',e:'A bird is <em>above</em> me in the sky.',g:'pos',a:'#ff6b6b',badge:'higher',
  vis:`
 <svg viewBox="0 0 280 110">
   <rect x="30" y="70" width="80" height="12" rx="4" fill="rgba(255,107,107,0.15)" stroke="rgba(255,107,107,0.2)" stroke-width="1"/>
@@ -188,7 +223,7 @@ const PREPS=[
   <text x="145" y="95" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="9">▲ above = higher ▲</text>
 </svg>`},
 
-{w:'Below',m:'Lower relative to something else',e:'I hung the poster <em>below</em> the mirror.',g:'pos',a:'#0984e3',badge:'lower',
+{w:'Below',m:'Lower than something',e:'My cat is <em>below</em> the table.',g:'pos',a:'#0984e3',badge:'lower',
  vis:`
 <svg viewBox="0 0 280 110">
   <rect x="90" y="18" width="100" height="14" rx="4" fill="rgba(9,132,227,0.12)" stroke="rgba(9,132,227,0.2)" stroke-width="1"/>
@@ -200,7 +235,7 @@ const PREPS=[
   <text x="140" y="100" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="9">▼ below = lower ▼</text>
 </svg>`},
 
-{w:'Over',m:'Above / covering',e:'The spices are <em>over</em> the sink.',g:'pos',a:'#e17055',badge:'above',
+{w:'Over',m:'Above something',e:'The rainbow is <em>over</em> the house.',g:'pos',a:'#e17055',badge:'above',
  vis:`
 <svg viewBox="0 0 280 110">
   <rect x="80" y="65" width="120" height="20" rx="6" fill="rgba(225,112,85,0.1)" stroke="rgba(225,112,85,0.2)" stroke-width="1"/>
@@ -216,7 +251,7 @@ const PREPS=[
   <text x="140" y="102" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="9">⤵ spices over the sink</text>
 </svg>`},
 
-{w:'Under',m:'Below something',e:'The cat slept <em>under</em> the bed.',g:'pos',a:'#00b894',badge:'beneath',
+{w:'Under',m:'Below something',e:'My shoes are <em>under</em> my bed.',g:'pos',a:'#00b894',badge:'beneath',
  vis:`
 <svg viewBox="0 0 280 110">
   <rect x="50" y="25" width="180" height="16" rx="4" fill="rgba(0,184,148,0.08)" stroke="rgba(0,184,148,0.15)" stroke-width="1"/>
@@ -229,7 +264,7 @@ const PREPS=[
   <polygon points="140,95 134,87 146,87" fill="#00b894"><animate attributeName="opacity" values="0.6;1;0.6" dur="1.2s" repeatCount="indefinite"/></polygon>
 </svg>`},
 
-{w:'Between',m:'In the space separating two things',e:'The ring fell <em>between</em> the couch cushions.',g:'pos',a:'#6c5ce7',badge:'middle',
+{w:'Between',m:'In the middle of two things',e:'I sit <em>between</em> Mom and Dad.',g:'pos',a:'#6c5ce7',badge:'middle',
  vis:`
 <svg viewBox="0 0 280 110">
   <rect x="20" y="25" width="80" height="60" rx="6" fill="rgba(108,92,231,0.05)" stroke="rgba(108,92,231,0.15)" stroke-width="1.5"/>
@@ -244,7 +279,7 @@ const PREPS=[
   <text x="140" y="90" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="9">between the two cushions</text>
 </svg>`},
 
-{w:'Among',m:'Within a group',e:'The girl was sitting <em>among</em> her friends.',g:'pos',a:'#fd79a8',badge:'group',
+{w:'Among',m:'Inside a group',e:'I am <em>among</em> my friends.',g:'pos',a:'#fd79a8',badge:'group',
  vis:`
 <svg viewBox="0 0 280 110">
   <circle cx="55" cy="55" r="18" fill="rgba(253,121,168,0.08)" stroke="rgba(253,121,168,0.15)" stroke-width="1.5"/>
@@ -260,7 +295,7 @@ const PREPS=[
   <text x="140" y="100" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="9">among her friends</text>
 </svg>`},
 
-{w:'On',m:'Touching a surface',e:'Put the mail <em>on</em> the table.',g:'pos',a:'#fdcb6e',badge:'surface',
+{w:'On',m:'On top of a surface',e:'My book is <em>on</em> the desk.',g:'pos',a:'#fdcb6e',badge:'surface',
  vis:`
 <svg viewBox="0 0 280 110">
   <rect x="40" y="60" width="200" height="18" rx="4" fill="rgba(253,203,110,0.1)" stroke="rgba(253,203,110,0.2)" stroke-width="1.5"/>
@@ -274,7 +309,7 @@ const PREPS=[
   <text x="140" y="102" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="9">on the table</text>
 </svg>`},
 
-{w:'Onto',m:'Moving on top of something',e:'The dog climbed <em>onto</em> the bed.',g:'pos',a:'#e17055',badge:'surface→',
+{w:'Onto',m:'Moving to the top of something',e:'The cat jumped <em>onto</em> the chair.',g:'pos',a:'#e17055',badge:'surface→',
  vis:`
 <svg viewBox="0 0 280 110">
   <rect x="100" y="65" width="150" height="16" rx="4" fill="rgba(225,112,85,0.08)" stroke="rgba(225,112,85,0.15)" stroke-width="1"/>
@@ -288,7 +323,7 @@ const PREPS=[
   <text x="140" y="100" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="9">dog climbs onto the bed</text>
 </svg>`},
 
-{w:'Off',m:'Away from a surface',e:"Don't jump <em>off</em> that wall.",g:'pos',a:'#d63031',badge:'away',
+{w:'Off',m:'Away from a surface',e:"Get <em>off</em> the slide.",g:'pos',a:'#d63031',badge:'away',
  vis:`
 <svg viewBox="0 0 280 110">
   <rect x="30" y="35" width="60" height="50" rx="4" fill="rgba(214,48,49,0.05)" stroke="rgba(214,48,49,0.12)" stroke-width="1.5"/>
@@ -300,7 +335,7 @@ const PREPS=[
   <text x="140" y="95" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="9">jumping off the wall</text>
 </svg>`},
 
-{w:'Inside / In',m:'Within an enclosed space',e:'Have you ever been <em>inside</em> an abandoned building?',g:'pos',a:'#00cec9',badge:'within',
+{w:'Inside / In',m:'Within something',e:'I am <em>inside</em> my house.',g:'pos',a:'#00cec9',badge:'within',
  vis:`
 <svg viewBox="0 0 280 110">
   <rect x="60" y="18" width="160" height="70" rx="6" fill="rgba(0,206,201,0.05)" stroke="rgba(0,206,201,0.2)" stroke-width="2"/>
@@ -315,7 +350,7 @@ const PREPS=[
 
 // ========== MOVEMENT & DIRECTION ==========
 
-{w:'Through',m:'From one point to the next (inside)',e:'The river runs <em>through</em> the woods.',g:'move',a:'#0984e3',badge:'passing',
+{w:'Through',m:'From one side to the other',e:'We walk <em>through</em> the door.',g:'move',a:'#0984e3',badge:'passing',
  vis:`
 <svg viewBox="0 0 280 110">
   <rect x="90" y="20" width="100" height="70" rx="8" fill="rgba(9,132,227,0.04)" stroke="rgba(9,132,227,0.12)" stroke-width="1.5" stroke-dasharray="5 3"/>
@@ -328,7 +363,7 @@ const PREPS=[
   <text x="140" y="100" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="9">river runs through the woods</text>
 </svg>`},
 
-{w:'Toward',m:'In the direction of',e:'The man started walking <em>toward</em> the exit.',g:'move',a:'#e17055',badge:'direction',
+{w:'Toward',m:'Going in the direction of',e:'The dog runs <em>toward</em> me.',g:'move',a:'#e17055',badge:'direction',
  vis:`
 <svg viewBox="0 0 280 110">
   <circle cx="40" cy="55" r="16" fill="rgba(225,112,85,0.1)" stroke="#e17055" stroke-width="1.5"/>
@@ -340,7 +375,7 @@ const PREPS=[
   <text x="140" y="90" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="9">walking toward the exit</text>
 </svg>`},
 
-{w:'Up',m:'From low to high',e:'The store is right <em>up</em> the road.',g:'move',a:'#00b894',badge:'higher',
+{w:'Up',m:'From low to high',e:'I go <em>up</em> the stairs.',g:'move',a:'#00b894',badge:'higher',
  vis:`
 <svg viewBox="0 0 280 110">
   <path d="M40 90 L160 90 Q200 90 220 60" stroke="rgba(0,184,148,0.2)" stroke-width="12" fill="none" stroke-linecap="round"/>
@@ -355,7 +390,7 @@ const PREPS=[
   <text x="228" y="54" text-anchor="middle" fill="#00b894" font-size="9">🏪</text>
 </svg>`},
 
-{w:'Down',m:'From high to low',e:'The boy tumbled <em>down</em> the hill.',g:'move',a:'#6c5ce7',badge:'lower',
+{w:'Down',m:'From high to low',e:'I go <em>down</em> the slide.',g:'move',a:'#6c5ce7',badge:'lower',
  vis:`
 <svg viewBox="0 0 280 110">
   <path d="M220 20 L120 60 Q80 80 40 95" stroke="rgba(108,92,231,0.2)" stroke-width="12" fill="none" stroke-linecap="round"/>
@@ -370,7 +405,7 @@ const PREPS=[
   <text x="140" y="100" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="9">tumbling down the hill ↘</text>
 </svg>`},
 
-{w:'Across',m:'On the other side of',e:'My friend lives <em>across</em> the street from me.',g:'move',a:'#fd79a8',badge:'other side',
+{w:'Across',m:'To the other side',e:'We walk <em>across</em> the street.',g:'move',a:'#fd79a8',badge:'other side',
  vis:`
 <svg viewBox="0 0 280 110">
   <rect x="10" y="48" width="260" height="12" rx="2" fill="rgba(253,121,168,0.08)" stroke="rgba(253,121,168,0.15)" stroke-width="1"/>
@@ -384,7 +419,7 @@ const PREPS=[
   <text x="140" y="90" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="9">across the street →</text>
 </svg>`},
 
-{w:'Along',m:'Beside / following a line',e:'The ducks are eating <em>along</em> the river.',g:'move',a:'#fdcb6e',badge:'alongside',
+{w:'Along',m:'Following the side of',e:'We walk <em>along</em> the path.',g:'move',a:'#fdcb6e',badge:'alongside',
  vis:`
 <svg viewBox="0 0 280 110">
   <path d="M10 90 Q70 40 140 60 Q210 80 270 30" stroke="rgba(253,203,110,0.15)" stroke-width="16" fill="none"/>
@@ -402,7 +437,7 @@ const PREPS=[
   <text x="140" y="95" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="9">along the river bank</text>
 </svg>`},
 
-{w:'Around',m:'In a circular way',e:'They told stories <em>around</em> the campfire.',g:'move',a:'#ff6b6b',badge:'circle',
+{w:'Around',m:'In a circle',e:'We play <em>around</em> the tree.',g:'move',a:'#ff6b6b',badge:'circle',
  vis:`
 <svg viewBox="0 0 280 110">
   <circle cx="140" cy="55" r="22" fill="rgba(255,107,107,0.1)" stroke="rgba(255,107,107,0.15)" stroke-width="1"/>
@@ -418,7 +453,7 @@ const PREPS=[
   <text x="140" y="108" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="9">around the campfire</text>
 </svg>`},
 
-{w:'Past',m:'On the farther side of',e:'She drove right <em>past</em> the house.',g:'move',a:'#a29bfe',badge:'beyond',
+{w:'Past',m:'Going beyond something',e:'I walk <em>past</em> the school.',g:'move',a:'#a29bfe',badge:'beyond',
  vis:`
 <svg viewBox="0 0 280 110">
   <rect x="100" y="30" width="80" height="45" rx="4" fill="rgba(162,155,254,0.06)" stroke="rgba(162,155,254,0.15)" stroke-width="1.5"/>
@@ -432,7 +467,7 @@ const PREPS=[
 
 // ========== PROXIMITY & RELATIONSHIP ==========
 
-{w:'Beside',m:'Next to',e:'Come stand <em>beside</em> me.',g:'prox',a:'#00b894',badge:'next to',
+{w:'Beside',m:'Next to',e:'The dog sits <em>beside</em> me.',g:'prox',a:'#00b894',badge:'next to',
  vis:`
 <svg viewBox="0 0 280 110">
   <circle cx="100" cy="55" r="22" fill="rgba(0,184,148,0.08)" stroke="rgba(0,184,148,0.12)" stroke-width="1.5"/>
@@ -443,7 +478,7 @@ const PREPS=[
   <text x="140" y="95" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="9">beside me</text>
 </svg>`},
 
-{w:'Next to',m:'Beside / adjacent',e:'The library is <em>next to</em> the post office.',g:'prox',a:'#0984e3',badge:'adjacent',
+{w:'Next to',m:'Beside something',e:'My house is <em>next to</em> the park.',g:'prox',a:'#0984e3',badge:'adjacent',
  vis:`
 <svg viewBox="0 0 280 110">
   <rect x="30" y="25" width="100" height="55" rx="6" fill="rgba(9,132,227,0.06)" stroke="rgba(9,132,227,0.12)" stroke-width="1.5"/>
@@ -455,7 +490,7 @@ const PREPS=[
   <text x="140" y="100" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="9">next to each other</text>
 </svg>`},
 
-{w:'By',m:'Near',e:'The thrift store is <em>by</em> the church.',g:'prox',a:'#6c5ce7',badge:'nearby',
+{w:'By',m:'Next to',e:'I sit <em>by</em> my friend.',g:'prox',a:'#6c5ce7',badge:'nearby',
  vis:`
 <svg viewBox="0 0 280 110">
   <rect x="30" y="28" width="100" height="50" rx="6" fill="rgba(108,92,231,0.06)" stroke="rgba(108,92,231,0.12)" stroke-width="1.5"/>
@@ -467,7 +502,7 @@ const PREPS=[
   <text x="140" y="95" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="9">by the church</text>
 </svg>`},
 
-{w:'Near',m:'Close by',e:'The movie theater is <em>near</em> the interstate.',g:'prox',a:'#e17055',badge:'close',
+{w:'Near',m:'Close to',e:'The park is <em>near</em> my school.',g:'prox',a:'#e17055',badge:'close',
  vis:`
 <svg viewBox="0 0 280 110">
   <rect x="20" y="30" width="90" height="50" rx="6" fill="rgba(225,112,85,0.06)" stroke="rgba(225,112,85,0.12)" stroke-width="1.5"/>
@@ -479,7 +514,7 @@ const PREPS=[
   <text x="140" y="95" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="9">near the interstate</text>
 </svg>`},
 
-{w:'Close to',m:'Near / adjacent',e:'The flowers are <em>close to</em> the produce section.',g:'prox',a:'#fd79a8',badge:'near',
+{w:'Close to',m:'Very near',e:'My desk is <em>close to</em> the window.',g:'prox',a:'#fd79a8',badge:'near',
  vis:`
 <svg viewBox="0 0 280 110">
   <rect x="20" y="30" width="100" height="50" rx="6" fill="rgba(253,121,168,0.06)" stroke="rgba(253,121,168,0.12)" stroke-width="1.5"/>
@@ -492,7 +527,7 @@ const PREPS=[
   <text x="140" y="100" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="9">close to the produce section</text>
 </svg>`},
 
-{w:'Behind',m:'At the back of',e:'The employees parked <em>behind</em> the store.',g:'prox',a:'#636e72',badge:'rear',
+{w:'Behind',m:'At the back of',e:'I hide <em>behind</em> the door.',g:'prox',a:'#636e72',badge:'rear',
  vis:`
 <svg viewBox="0 0 280 110">
   <rect x="50" y="20" width="120" height="60" rx="6" fill="rgba(99,110,114,0.06)" stroke="rgba(99,110,114,0.15)" stroke-width="1.5"/>
@@ -504,7 +539,7 @@ const PREPS=[
   <text x="190" y="90" text-anchor="middle" fill="rgba(0,0,0,0.15)" font-size="9">parked behind the store</text>
 </svg>`},
 
-{w:'At',m:'Indicates a particular point',e:'Meet me <em>at</em> the stop sign.',g:'prox',a:'#fdcb6e',badge:'point',
+{w:'At',m:'A specific place',e:'I am <em>at</em> school.',g:'prox',a:'#fdcb6e',badge:'point',
  vis:`
 <svg viewBox="0 0 280 110">
   <rect x="90" y="18" width="100" height="70" rx="8" fill="rgba(253,203,110,0.04)" stroke="rgba(253,203,110,0.1)" stroke-width="1" stroke-dasharray="4 3"/>
@@ -562,6 +597,17 @@ vt.addEventListener('click',()=>{
 document.querySelectorAll('.speak-btn').forEach(b=>{
   b.addEventListener('click',function(){if(!voiceOn)return;const w=this.dataset.w,e=this.dataset.e;say(w+'. '+e);this.classList.add('speaking');setTimeout(()=>this.classList.remove('speaking'),1200+e.length*50)});
 });
+
+// Floating buttons auto-hide
+const floatBtns=document.getElementById('floatBtns');
+let floatTimer;
+function showFloat(){
+  floatBtns.classList.add('active');
+  clearTimeout(floatTimer);
+  floatTimer=setTimeout(()=>floatBtns.classList.remove('active'),3000);
+}
+['scroll','touchstart','mousemove'].forEach(ev=>window.addEventListener(ev,showFloat));
+showFloat();
 </script>
 </body>
 </html>
