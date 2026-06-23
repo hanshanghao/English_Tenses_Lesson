@@ -355,12 +355,115 @@ body{
 }
 .f-btn:hover{transform:scale(1.15);box-shadow:0 6px 22px rgba(0,0,0,0.18)}
 
+/* ====== ASSESSMENT ====== */
+.assessment-wrap{max-width:820px;margin:0 auto;padding:16px 0}
+.assessment-box{
+  background:#fff;border-radius:28px;padding:28px;
+  box-shadow:0 4px 24px rgba(0,0,0,0.07);
+  position:relative;overflow:hidden;
+}
+.assessment-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;
+}
+.assessment-score{
+  font-size:20px;font-weight:800;color:#6c5ce7;
+  background:#f0e6ff;padding:6px 18px;border-radius:16px;
+}
+.assessment-counter{
+  font-size:16px;font-weight:700;color:#b2bec3;
+  background:#f8f9fa;padding:6px 16px;border-radius:16px;
+}
+.assessment-scene{
+  width:100%;height:260px;border-radius:20px;
+  overflow:hidden;margin-bottom:18px;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#f8f9ff,#fff0e6);
+  border:2px solid rgba(0,0,0,0.05);
+  position:relative;
+}
+.assessment-scene svg{width:100%;height:100%}
+.assessment-question{
+  text-align:center;margin-bottom:18px;
+  padding:14px 20px;background:#f8f9ff;border-radius:16px;
+  border:1px solid rgba(0,0,0,0.04);
+}
+.assess-q-en{
+  font-size:clamp(18px,4vw,24px);font-weight:800;
+  color:#2d3436;margin-bottom:4px;
+}
+.assess-q-cn{
+  font-size:clamp(16px,3.5vw,20px);font-weight:700;
+  color:#a29bfe;
+}
+.assessment-bank-label{
+  font-size:15px;font-weight:800;color:#636e72;
+  text-align:center;margin-bottom:10px;
+  letter-spacing:1px;
+}
+.assessment-bank{
+  display:flex;flex-wrap:wrap;gap:10px;
+  justify-content:center;margin-bottom:16px;
+}
+.assess-word{
+  border:2px solid #e8e0f5;border-radius:16px;
+  background:#fff;padding:12px 22px;
+  font-family:inherit;font-size:clamp(15px,3vw,18px);font-weight:800;
+  color:#6c5ce7;cursor:pointer;
+  transition:all 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  min-width:80px;text-transform:lowercase;
+}
+.assess-word:hover{background:#f0e6ff;transform:translateY(-3px);box-shadow:0 4px 12px rgba(108,92,231,0.2)}
+.assess-word:active{transform:scale(0.95)}
+.assess-word.selected{background:#6c5ce7;color:#fff;border-color:#6c5ce7;transform:translateY(-3px)}
+.assess-word.correct{background:#00b894;color:#fff;border-color:#00b894!important}
+.assess-word.wrong{background:#ff6b6b;color:#fff;border-color:#ff6b6b!important}
+.assess-word.disabled{pointer-events:none;opacity:0.6}
+.assessment-feedback{
+  text-align:center;font-size:18px;font-weight:700;
+  padding:12px 20px;border-radius:16px;margin-bottom:12px;
+  display:none;line-height:1.6;
+}
+.assessment-feedback.show{display:block}
+.assessment-feedback.correct{background:#e6fff6;color:#00b894;border:2px solid rgba(0,184,148,0.2)}
+.assessment-feedback.wrong{background:#fff0f0;color:#ff6b6b;border:2px solid rgba(255,107,107,0.2)}
+.assessment-next-btn{
+  display:block;width:100%;border:none;cursor:pointer;
+  font-family:inherit;font-size:20px;font-weight:800;
+  padding:16px;border-radius:20px;
+  background:linear-gradient(135deg,#6c5ce7,#a29bfe);
+  color:#fff;transition:all 0.3s;display:none;
+}
+.assessment-next-btn.show{display:block}
+.assessment-next-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(108,92,231,0.35)}
+.assessment-result{
+  display:none;text-align:center;
+  background:#fff;border-radius:28px;padding:40px 28px;
+  box-shadow:0 4px 24px rgba(0,0,0,0.07);
+}
+.assessment-result.show{display:block}
+.assess-result-icon{font-size:72px;margin-bottom:12px}
+.assess-result-title{font-size:32px;font-weight:900;color:#2d3436;margin-bottom:6px}
+.assess-result-score{font-size:20px;font-weight:800;color:#6c5ce7;margin-bottom:6px}
+.assess-result-msg{font-size:17px;color:#636e72;font-weight:600;margin-bottom:20px}
+.assess-restart-btn{
+  border:none;cursor:pointer;font-family:inherit;
+  font-size:18px;font-weight:800;padding:14px 36px;
+  border-radius:25px;background:linear-gradient(135deg,#ff6b9d,#ff9a3c);
+  color:#fff;transition:all 0.3s;
+}
+.assess-restart-btn:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(255,107,157,0.4)}
+
 /* ====== RESPONSIVE ====== */
 @media(max-width:600px){
   .prep-grid{grid-template-columns:1fr}
   .quiz-options{grid-template-columns:1fr}
   .vocab-grid{grid-template-columns:repeat(2,1fr)}
   .pattern-grid{grid-template-columns:1fr}
+  .assessment-box{padding:16px}
+  .assessment-scene{height:180px}
+  .assessment-bank{gap:8px}
+  .assess-word{padding:10px 16px;min-width:60px;font-size:14px}
 }
 </style>
 </head>
@@ -399,6 +502,7 @@ body{
   <button class="tab-btn" data-tab="quiz">🎯 Quiz</button>
   <button class="tab-btn" data-tab="vocab">📚 Vocabulary</button>
   <button class="tab-btn" data-tab="patterns">✏️ Patterns</button>
+  <button class="tab-btn" data-tab="assessment">📝 Assessment</button>
 </div>
 
 <!-- ===========================
@@ -479,6 +583,51 @@ body{
     <div class="builder-title" style="margin-bottom:8px">✏️ Easy Sentence Patterns</div>
     <p style="text-align:center;color:#636e72;font-size:18px;margin-bottom:4px;font-weight:600">Use these patterns to make your own sentences! 🚀</p>
     <div class="pattern-grid" id="patternGrid"></div>
+  </div>
+</div>
+
+<!-- ===========================
+     TAB 6: ASSESSMENT
+     =========================== -->
+<div class="section" id="tab-assessment">
+  <div class="assessment-wrap">
+    <div class="builder-title">📝 Prepositions Assessment</div>
+    <p style="text-align:center;color:#636e72;font-size:18px;margin-bottom:6px;font-weight:600">Look at the picture. Choose the right preposition! 🎯</p>
+    <p style="text-align:center;color:#a29bfe;font-size:16px;font-weight:600;margin-bottom:16px">中英文雙語評估</p>
+
+    <div class="assessment-box">
+      <div class="assessment-header">
+        <div class="assessment-score">⭐ <span id="assessScore">0</span></div>
+        <div class="assessment-counter"><span id="assessNum">1</span> / <span id="assessTotal">12</span></div>
+      </div>
+
+      <div class="assessment-scene" id="assessScene">
+        <!-- dynamic scene -->
+      </div>
+
+      <div class="assessment-question" id="assessQuestion">
+        <div class="assess-q-en" id="assessQEn">Where is the cat?</div>
+        <div class="assess-q-cn" id="assessQCn">猫在哪里？</div>
+      </div>
+
+      <!-- Word Bank -->
+      <div class="assessment-bank-label">📚 Word Bank — 詞庫</div>
+      <div class="assessment-bank" id="assessBank">
+        <!-- word buttons injected here -->
+      </div>
+
+      <div class="assessment-feedback" id="assessFeedback"></div>
+
+      <button class="assessment-next-btn" id="assessNext">Next Question ➡️</button>
+    </div>
+
+    <div class="assessment-result" id="assessResult">
+      <div class="assess-result-icon" id="assessResultIcon">🏆</div>
+      <div class="assess-result-title" id="assessResultTitle">Great Job!</div>
+      <div class="assess-result-score" id="assessResultScore">You got 10 out of 12 correct!</div>
+      <div class="assess-result-msg" id="assessResultMsg">Keep practicing! 💪</div>
+      <button class="assess-restart-btn" onclick="startAssessment()">🔄 Try Again</button>
+    </div>
   </div>
 </div>
 
@@ -1304,6 +1453,425 @@ PATTERNS.forEach(p => {
     <ul class="pattern-examples">${exampleItems}</ul>`;
   pg.appendChild(c);
 });
+
+// =========================================================
+//  ASSESSMENT DATA
+// =========================================================
+
+const ASSESSMENTS = [
+  {
+    en: 'Where is the cat?',
+    cn: '猫在哪里？',
+    answer: 'In',
+    bank: ['In', 'On', 'Under', 'Behind'],
+    sayText: 'The cat is in the box.',
+    sentence: 'The cat 🐱 is <b>in</b> the box 📦.',
+    scene: `<svg viewBox="0 0 780 260">
+      <defs>
+        <linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e8f4ff"/><stop offset="100%" stop-color="#fef9e7"/></linearGradient>
+        <linearGradient id="floor1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d4a574"/><stop offset="100%" stop-color="#b88352"/></linearGradient>
+      </defs>
+      <rect width="780" height="260" fill="url(#sky1)"/>
+      <rect x="0" y="170" width="780" height="90" fill="url(#floor1)"/>
+      <rect x="0" y="168" width="780" height="6" fill="rgba(0,0,0,0.08)"/>
+      <rect x="250" y="75" width="280" height="110" rx="10" fill="rgba(108,92,231,0.08)" stroke="#6c5ce7" stroke-width="3"/>
+      <rect x="250" y="75" width="280" height="30" rx="10" fill="rgba(108,92,231,0.2)" stroke="#6c5ce7" stroke-width="2"/>
+      <text x="390" y="96" text-anchor="middle" fill="#6c5ce7" font-size="16" font-weight="bold">📦 CARDBOARD BOX</text>
+      <ellipse cx="390" cy="105" rx="120" ry="8" fill="rgba(0,0,0,0.06)"/>
+      <circle cx="390" cy="170" r="35" fill="rgba(0,0,0,0.05)"/>
+      <text x="390" y="178" text-anchor="middle" font-size="54">🐱</text>
+      <path d="M390 75 L390 55" stroke="#6c5ce7" stroke-width="2" stroke-dasharray="4 3"/>
+      <polygon points="390,53 386,63 394,63" fill="#6c5ce7"/>
+    </svg>`
+  },
+  {
+    en: 'Where is the ball?',
+    cn: '球在哪里？',
+    answer: 'On',
+    bank: ['In', 'On', 'Under', 'Next to'],
+    sayText: 'The ball is on the table.',
+    sentence: 'The ball ⚽ is <b>on</b> the table 🪑.',
+    scene: `<svg viewBox="0 0 780 260">
+      <defs>
+        <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fff8e1"/><stop offset="100%" stop-color="#f5f5f5"/></linearGradient>
+        <linearGradient id="floor2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e8d5c4"/><stop offset="100%" stop-color="#c9b19a"/></linearGradient>
+      </defs>
+      <rect width="780" height="260" fill="url(#sky2)"/>
+      <rect x="0" y="175" width="780" height="85" fill="url(#floor2)"/>
+      <rect x="180" y="120" width="420" height="22" rx="4" fill="rgba(139,90,43,0.2)" stroke="#8b5a2b" stroke-width="2.5"/>
+      <rect x="220" y="142" width="16" height="40" fill="rgba(139,90,43,0.25)"/>
+      <rect x="544" y="142" width="16" height="40" fill="rgba(139,90,43,0.25)"/>
+      <text x="390" y="116" text-anchor="middle" fill="#8b5a2b" font-size="15" font-weight="bold">🪑 WOODEN TABLE</text>
+      <circle cx="390" cy="90" r="30" fill="rgba(255,107,157,0.15)" stroke="#ff6b9d" stroke-width="3">
+        <animate attributeName="cy" values="90;85;90" dur="1.5s" repeatCount="indefinite"/>
+      </circle>
+      <text x="390" y="99" text-anchor="middle" font-size="40">⚽</text>
+    </svg>`
+  },
+  {
+    en: 'Where are the shoes?',
+    cn: '鞋子在哪里？',
+    answer: 'Under',
+    bank: ['On', 'Under', 'Over', 'Near'],
+    sayText: 'The shoes are under the bed.',
+    sentence: 'The shoes 👟 are <b>under</b> the bed 🛏️.',
+    scene: `<svg viewBox="0 0 780 260">
+      <defs>
+        <linearGradient id="sky3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e8eaf6"/><stop offset="100%" stop-color="#fff8e1"/></linearGradient>
+        <linearGradient id="floor3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d7ccc8"/><stop offset="100%" stop-color="#bcaaa4"/></linearGradient>
+      </defs>
+      <rect width="780" height="260" fill="url(#sky3)"/>
+      <rect x="0" y="190" width="780" height="70" fill="url(#floor3)"/>
+      <rect x="0" y="185" width="780" height="8" fill="rgba(0,0,0,0.06)"/>
+      <rect x="120" y="90" width="540" height="28" rx="6" fill="rgba(0,184,148,0.12)" stroke="#00b894" stroke-width="2.5"/>
+      <rect x="120" y="90" width="540" height="16" rx="6" fill="rgba(0,184,148,0.2)"/>
+      <rect x="135" y="118" width="14" height="40" fill="rgba(0,184,148,0.2)"/>
+      <rect x="631" y="118" width="14" height="40" fill="rgba(0,184,148,0.2)"/>
+      <text x="390" y="104" text-anchor="middle" fill="#00b894" font-size="16" font-weight="bold">🛏️ BED</text>
+      <rect x="150" y="74" width="50" height="18" rx="8" fill="rgba(255,255,255,0.6)" stroke="rgba(0,0,0,0.08)" stroke-width="1"/>
+      <text x="270" y="175" text-anchor="middle" font-size="44">👟</text>
+      <text x="350" y="175" text-anchor="middle" font-size="44">👟</text>
+      <line x1="310" y1="140" x2="310" y2="118" stroke="#00b894" stroke-width="2" stroke-dasharray="4 3"/>
+      <polygon points="310,116 306,126 314,126" fill="#00b894"/>
+    </svg>`
+  },
+  {
+    en: 'Where is the rainbow?',
+    cn: '彩虹在哪里？',
+    answer: 'Over',
+    bank: ['Over', 'Under', 'In', 'Across'],
+    sayText: 'The rainbow is over the house.',
+    sentence: 'The rainbow 🌈 is <b>over</b> the cottage 🏠.',
+    scene: `<svg viewBox="0 0 780 260">
+      <defs>
+        <linearGradient id="sky4" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#6dd5fa"/><stop offset="60%" stop-color="#e0f7fa"/><stop offset="100%" stop-color="#fff8e1"/></linearGradient>
+        <linearGradient id="grass4" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#81c784"/><stop offset="100%" stop-color="#4caf50"/></linearGradient>
+      </defs>
+      <rect width="780" height="260" fill="url(#sky4)"/>
+      <ellipse cx="600" cy="40" rx="60" ry="25" fill="#fff9c4" opacity="0.6"/>
+      <rect x="0" y="175" width="780" height="85" fill="url(#grass4)"/>
+      <polygon points="390,110 310,155 470,155" fill="rgba(225,112,85,0.2)" stroke="#e17055" stroke-width="2.5"/>
+      <rect x="315" y="155" width="150" height="60" fill="rgba(225,112,85,0.1)" stroke="#e17055" stroke-width="2"/>
+      <rect x="370" y="175" width="40" height="40" fill="rgba(225,112,85,0.2)"/>
+      <rect x="340" y="165" width="25" height="25" fill="rgba(225,112,85,0.15)" stroke="#e17055" stroke-width="1"/>
+      <text x="390" y="200" text-anchor="middle" fill="rgba(225,112,85,0.5)" font-size="12" font-weight="bold">🏠 COTTAGE</text>
+      <path d="M120 170 Q200 30 390 20 Q580 30 660 170" stroke="#ff6b6b" stroke-width="6" fill="none" stroke-linecap="round" opacity="0.8">
+        <animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite"/>
+      </path>
+      <path d="M140 170 Q215 55 390 45 Q565 55 640 170" stroke="#ff9a3c" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M160 170 Q230 80 390 70 Q550 80 620 170" stroke="#ffd93d" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.7"/>
+      <path d="M180 170 Q245 105 390 95 Q535 105 600 170" stroke="#6bcb77" stroke-width="3" fill="none" stroke-linecap="round" opacity="0.7"/>
+    </svg>`
+  },
+  {
+    en: 'What is the person doing?',
+    cn: '这个人在做什么？',
+    answer: 'Across',
+    bank: ['Across', 'Through', 'Into', 'Around'],
+    sayText: 'The person is walking across the bridge.',
+    sentence: 'The person 🚶 is walking <b>across</b> the bridge 🌉.',
+    scene: `<svg viewBox="0 0 780 260">
+      <defs>
+        <linearGradient id="sky5" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#bbdefb"/><stop offset="100%" stop-color="#fff8e1"/></linearGradient>
+        <linearGradient id="water5" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4fc3f7"/><stop offset="100%" stop-color="#0288d1"/></linearGradient>
+      </defs>
+      <rect width="780" height="260" fill="url(#sky5)"/>
+      <circle cx="660" cy="45" r="30" fill="#fff9c4" opacity="0.8"/>
+      <rect x="0" y="150" width="780" height="110" fill="url(#water5)"/>
+      <path d="M0 180 Q30 175 60 180 Q90 185 120 180 Q150 175 180 180 Q210 185 240 180 Q270 175 300 180 Q330 185 360 180 Q390 175 420 180 Q450 185 480 180 Q510 175 540 180 Q570 185 600 180 Q630 175 660 180 Q690 185 720 180 Q750 175 780 180" stroke="rgba(255,255,255,0.3)" stroke-width="2" fill="none"/>
+      <rect x="160" y="95" width="460" height="20" rx="4" fill="rgba(253,121,168,0.15)" stroke="#fd79a8" stroke-width="2.5"/>
+      <rect x="160" y="95" width="460" height="10" rx="4" fill="rgba(253,121,168,0.25)"/>
+      <rect x="170" y="115" width="20" height="55" fill="rgba(253,121,168,0.2)"/>
+      <rect x="590" y="115" width="20" height="55" fill="rgba(253,121,168,0.2)"/>
+      <text x="390" y="110" text-anchor="middle" fill="#fd79a8" font-size="14" font-weight="bold">🌉 BRIDGE</text>
+      <circle cx="300" cy="82" r="18" fill="rgba(253,121,168,0.1)" stroke="#fd79a8" stroke-width="2">
+        <animate attributeName="cx" values="200;580;200" dur="3s" repeatCount="indefinite"/>
+      </circle>
+      <text x="300" y="90" text-anchor="middle" font-size="30">🚶</text>
+    </svg>`
+  },
+  {
+    en: 'What is the car doing?',
+    cn: '汽车正在做什么？',
+    answer: 'Through',
+    bank: ['Through', 'Across', 'Into', 'Past'],
+    sayText: 'The car is going through the tunnel.',
+    sentence: 'The car 🚗 is driving <b>through</b> the tunnel ⛰️.',
+    scene: `<svg viewBox="0 0 780 260">
+      <defs>
+        <linearGradient id="sky6" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#90a4ae"/><stop offset="100%" stop-color="#cfd8dc"/></linearGradient>
+        <linearGradient id="ground6" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8d6e63"/><stop offset="100%" stop-color="#6d4c41"/></linearGradient>
+      </defs>
+      <rect width="780" height="260" fill="url(#sky6)"/>
+      <path d="M0 170 Q100 40 200 80 Q350 20 450 60 Q600 30 780 100 L780 170Z" fill="#a5d6a7" opacity="0.4"/>
+      <rect x="0" y="150" width="780" height="110" fill="url(#ground6)"/>
+      <ellipse cx="390" cy="130" rx="90" ry="50" fill="rgba(0,0,0,0.3)" stroke="#546e7a" stroke-width="4"/>
+      <ellipse cx="390" cy="130" rx="90" ry="50" fill="rgba(0,0,0,0.5)"/>
+      <ellipse cx="390" cy="130" rx="80" ry="42" fill="rgba(0,0,0,0.6)"/>
+      <text x="390" y="135" text-anchor="middle" fill="rgba(255,255,255,0.3)" font-size="16" font-weight="bold">⛰️ TUNNEL</text>
+      <rect x="0" y="140" width="780" height="20" fill="#546e7a"/>
+      <line x1="0" y1="150" x2="780" y2="150" stroke="#ffd93d" stroke-width="2" stroke-dasharray="20 15"/>
+      <circle cx="180" cy="160" r="18" fill="rgba(108,92,231,0.12)" stroke="#6c5ce7" stroke-width="2">
+        <animate attributeName="cx" values="50;730;50" dur="3.5s" repeatCount="indefinite"/>
+      </circle>
+      <text x="180" y="167" text-anchor="middle" font-size="28">🚗</text>
+    </svg>`
+  },
+  {
+    en: 'Where is the dog?',
+    cn: '狗在哪里？',
+    answer: 'Between',
+    bank: ['Between', 'Behind', 'Next to', 'In front of'],
+    sayText: 'The dog is between the two children.',
+    sentence: 'The dog 🐶 is sitting <b>between</b> the two children 👦👧.',
+    scene: `<svg viewBox="0 0 780 260">
+      <defs>
+        <linearGradient id="sky7" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e8f5e9"/><stop offset="100%" stop-color="#fff8e1"/></linearGradient>
+        <linearGradient id="grass7" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#a5d6a7"/><stop offset="100%" stop-color="#66bb6a"/></linearGradient>
+      </defs>
+      <rect width="780" height="260" fill="url(#sky7)"/>
+      <rect x="0" y="175" width="780" height="85" fill="url(#grass7)"/>
+      <text x="80" y="210" font-size="22">🌸</text>
+      <text x="650" y="220" font-size="22">🌻</text>
+      <text x="700" y="205" font-size="18">🌷</text>
+      <text x="190" y="155" text-anchor="middle" font-size="60">👦</text>
+      <circle cx="190" cy="110" r="22" fill="rgba(162,155,254,0.06)"/>
+      <text x="590" y="155" text-anchor="middle" font-size="60">👧</text>
+      <circle cx="590" cy="110" r="22" fill="rgba(162,155,254,0.06)"/>
+      <circle cx="390" cy="150" r="32" fill="rgba(162,155,254,0.12)" stroke="#a29bfe" stroke-width="3">
+        <animate attributeName="r" values="32;36;32" dur="1.5s" repeatCount="indefinite"/>
+      </circle>
+      <text x="390" y="162" text-anchor="middle" font-size="48">🐶</text>
+      <line x1="215" y1="140" x2="355" y2="140" stroke="#a29bfe" stroke-width="2" stroke-dasharray="5 3" opacity="0.5"/>
+      <line x1="425" y1="140" x2="565" y2="140" stroke="#a29bfe" stroke-width="2" stroke-dasharray="5 3" opacity="0.5"/>
+    </svg>`
+  },
+  {
+    en: 'What is the rabbit doing?',
+    cn: '兔子正在做什么？',
+    answer: 'Out of',
+    bank: ['Out of', 'Into', 'Through', 'Up'],
+    sayText: 'The rabbit is jumping out of the box.',
+    sentence: 'The rabbit 🐰 is jumping <b>out of</b> the box 📦.',
+    scene: `<svg viewBox="0 0 780 260">
+      <defs>
+        <linearGradient id="sky8" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fce4ec"/><stop offset="100%" stop-color="#fff8e1"/></linearGradient>
+        <linearGradient id="floor8" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#d4a574"/><stop offset="100%" stop-color="#b88352"/></linearGradient>
+      </defs>
+      <rect width="780" height="260" fill="url(#sky8)"/>
+      <rect x="0" y="170" width="780" height="90" fill="url(#floor8)"/>
+      <rect x="0" y="168" width="780" height="6" fill="rgba(0,0,0,0.08)"/>
+      <rect x="240" y="80" width="300" height="100" rx="10" fill="rgba(214,48,49,0.08)" stroke="#d63031" stroke-width="3"/>
+      <rect x="240" y="80" width="300" height="30" rx="10" fill="rgba(214,48,49,0.15)" stroke="#d63031" stroke-width="2"/>
+      <text x="390" y="100" text-anchor="middle" fill="#d63031" font-size="16" font-weight="bold">📦 BOX</text>
+      <text x="390" y="62" text-anchor="middle" font-size="50">🐰</text>
+      <ellipse cx="390" cy="78" rx="8" ry="3" fill="rgba(0,0,0,0.08)"/>
+      <line x1="360" y1="68" x2="340" y2="60" stroke="#d63031" stroke-width="2" stroke-linecap="round" opacity="0.5">
+        <animate attributeName="opacity" values="0.2;0.6;0.2" dur="0.6s" repeatCount="indefinite"/>
+      </line>
+      <line x1="420" y1="68" x2="440" y2="60" stroke="#d63031" stroke-width="2" stroke-linecap="round" opacity="0.5">
+        <animate attributeName="opacity" values="0.2;0.6;0.2" dur="0.6s" repeatCount="indefinite"/>
+      </line>
+    </svg>`
+  },
+  {
+    en: 'Where is the bird?',
+    cn: '鸟在哪里？',
+    answer: 'Above',
+    bank: ['Above', 'Below', 'Near', 'Behind'],
+    sayText: 'The bird is flying above the tree.',
+    sentence: 'The bird 🐦 is flying <b>above</b> the tree 🌲.',
+    scene: `<svg viewBox="0 0 780 260">
+      <defs>
+        <linearGradient id="sky9" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e3f2fd"/><stop offset="100%" stop-color="#fff8e1"/></linearGradient>
+        <linearGradient id="grass9" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#81c784"/><stop offset="100%" stop-color="#4caf50"/></linearGradient>
+      </defs>
+      <rect width="780" height="260" fill="url(#sky9)"/>
+      <ellipse cx="150" cy="40" rx="50" ry="18" fill="rgba(255,255,255,0.7)"/>
+      <ellipse cx="180" cy="35" rx="35" ry="15" fill="rgba(255,255,255,0.6)"/>
+      <ellipse cx="600" cy="55" rx="45" ry="14" fill="rgba(255,255,255,0.6)"/>
+      <rect x="0" y="170" width="780" height="90" fill="url(#grass9)"/>
+      <rect x="375" y="130" width="30" height="50" fill="rgba(9,132,227,0.15)"/>
+      <circle cx="390" cy="105" r="48" fill="rgba(9,132,227,0.08)" stroke="rgba(9,132,227,0.3)" stroke-width="2"/>
+      <text x="390" y="115" text-anchor="middle" font-size="52">🌲</text>
+      <text x="390" y="162" text-anchor="middle" fill="rgba(9,132,227,0.4)" font-size="11" font-weight="bold">TREE</text>
+      <text x="390" y="40" text-anchor="middle" font-size="42">🐦</text>
+      <path d="M300 45 Q390 25 480 45" stroke="#0984e3" stroke-width="2" fill="none" stroke-dasharray="5 3" opacity="0.4">
+        <animate attributeName="opacity" values="0.2;0.6;0.2" dur="1.5s" repeatCount="indefinite"/>
+      </path>
+    </svg>`
+  },
+  {
+    en: 'Where is the fish?',
+    cn: '鱼在哪里？',
+    answer: 'Below',
+    bank: ['Above', 'Below', 'In', 'Under'],
+    sayText: 'The fish is swimming below the water.',
+    sentence: 'The fish 🐠 is swimming <b>below</b> the water.',
+    scene: `<svg viewBox="0 0 780 260">
+      <defs>
+        <linearGradient id="water10" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#81d4fa"/><stop offset="40%" stop-color="#4fc3f7"/><stop offset="100%" stop-color="#0277bd"/></linearGradient>
+        <linearGradient id="sky10" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e3f2fd"/><stop offset="100%" stop-color="#fff8e1"/></linearGradient>
+      </defs>
+      <rect width="780" height="120" fill="url(#sky10)"/>
+      <rect x="0" y="120" width="780" height="140" fill="url(#water10)"/>
+      <path d="M0 120 Q30 116 60 120 Q90 124 120 120 Q150 116 180 120 Q210 124 240 120 Q270 116 300 120 Q330 124 360 120 Q390 116 420 120 Q450 124 480 120 Q510 116 540 120 Q570 124 600 120 Q630 116 660 120 Q690 124 720 120 Q750 116 780 120" fill="rgba(255,255,255,0.3)"/>
+      <text x="390" y="105" text-anchor="middle" font-size="40">⛵</text>
+      <circle cx="340" cy="150" r="4" fill="rgba(255,255,255,0.3)"/>
+      <circle cx="330" cy="140" r="3" fill="rgba(255,255,255,0.2)"/>
+      <circle cx="350" cy="158" r="5" fill="rgba(255,255,255,0.2)"/>
+      <circle cx="440" cy="145" r="3" fill="rgba(255,255,255,0.2)"/>
+      <text x="390" y="195" text-anchor="middle" font-size="50">🐠</text>
+    </svg>`
+  },
+  {
+    en: 'Where is the boy?',
+    cn: '男孩在哪里？',
+    answer: 'In front of',
+    bank: ['In front of', 'Behind', 'Next to', 'Between'],
+    sayText: 'The boy is standing in front of the school.',
+    sentence: 'The boy 👦 is standing <b>in front of</b> the school 🏫.',
+    scene: `<svg viewBox="0 0 780 260">
+      <defs>
+        <linearGradient id="sky11" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e0f2f1"/><stop offset="100%" stop-color="#fff8e1"/></linearGradient>
+        <linearGradient id="ground11" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#bdbdbd"/><stop offset="100%" stop-color="#9e9e9e"/></linearGradient>
+      </defs>
+      <rect width="780" height="260" fill="url(#sky11)"/>
+      <rect x="0" y="175" width="780" height="85" fill="url(#ground11)"/>
+      <rect x="230" y="55" width="240" height="130" rx="6" fill="rgba(0,206,201,0.06)" stroke="rgba(0,206,201,0.3)" stroke-width="2"/>
+      <rect x="290" y="110" width="60" height="75" fill="rgba(0,206,201,0.1)"/>
+      <rect x="360" y="110" width="60" height="75" fill="rgba(0,206,201,0.1)"/>
+      <polygon points="230,55 350,20 470,55" fill="rgba(0,206,201,0.15)" stroke="rgba(0,206,201,0.4)" stroke-width="2"/>
+      <rect x="245" y="70" width="35" height="40" rx="2" fill="rgba(0,206,201,0.08)" stroke="rgba(0,206,201,0.2)" stroke-width="1"/>
+      <rect x="420" y="70" width="35" height="40" rx="2" fill="rgba(0,206,201,0.08)" stroke="rgba(0,206,201,0.2)" stroke-width="1"/>
+      <text x="350" y="100" text-anchor="middle" fill="rgba(0,206,201,0.5)" font-size="16" font-weight="bold">🏫 SCHOOL</text>
+      <circle cx="350" cy="40" r="10" fill="#fff" stroke="rgba(0,0,0,0.1)" stroke-width="1"/>
+      <line x1="470" y1="30" x2="470" y2="60" stroke="#636e72" stroke-width="1.5"/>
+      <polygon points="470,30 490,37 470,44" fill="#ff6b6b"/>
+      <circle cx="350" cy="178" r="24" fill="rgba(0,206,201,0.1)" stroke="#00cec9" stroke-width="2.5">
+        <animate attributeName="r" values="24;28;24" dur="1.5s" repeatCount="indefinite"/>
+      </circle>
+      <text x="350" y="186" text-anchor="middle" font-size="36">👦</text>
+    </svg>`
+  },
+  {
+    en: 'What is the cat doing?',
+    cn: '猫正在做什么？',
+    answer: 'Up',
+    bank: ['Up', 'Down', 'Around', 'Toward'],
+    sayText: 'The cat is going up the stairs.',
+    sentence: 'The cat 🐱 is climbing <b>up</b> the stairs 🐾.',
+    scene: `<svg viewBox="0 0 780 260">
+      <defs>
+        <linearGradient id="sky12" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#f3e5f5"/><stop offset="100%" stop-color="#fff8e1"/></linearGradient>
+        <linearGradient id="wall12" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#efebe9"/><stop offset="100%" stop-color="#d7ccc8"/></linearGradient>
+      </defs>
+      <rect width="780" height="140" fill="url(#wall12)"/>
+      <rect x="0" y="140" width="780" height="120" fill="#efebe9"/>
+      <rect x="100" y="200" width="100" height="24" rx="3" fill="rgba(107,203,119,0.2)" stroke="#6bcb77" stroke-width="2"/>
+      <rect x="200" y="180" width="100" height="44" rx="3" fill="rgba(107,203,119,0.2)" stroke="#6bcb77" stroke-width="2"/>
+      <rect x="300" y="160" width="100" height="64" rx="3" fill="rgba(107,203,119,0.2)" stroke="#6bcb77" stroke-width="2"/>
+      <rect x="400" y="140" width="100" height="84" rx="3" fill="rgba(107,203,119,0.2)" stroke="#6bcb77" stroke-width="2"/>
+      <rect x="500" y="120" width="120" height="104" rx="3" fill="rgba(107,203,119,0.2)" stroke="#6bcb77" stroke-width="2"/>
+      <text x="200" y="216" text-anchor="middle" fill="#6bcb77" font-size="11" font-weight="bold">⬆️</text>
+      <text x="300" y="196" text-anchor="middle" fill="#6bcb77" font-size="11" font-weight="bold">⬆️</text>
+      <text x="400" y="176" text-anchor="middle" fill="#6bcb77" font-size="11" font-weight="bold">⬆️</text>
+      <text x="500" y="156" text-anchor="middle" fill="#6bcb77" font-size="11" font-weight="bold">⬆️</text>
+      <text x="250" y="188" text-anchor="middle" font-size="36">🐱</text>
+      <path d="M150 195 Q290 165 490 130" stroke="#6bcb77" stroke-width="2.5" stroke-dasharray="5 3" fill="none" opacity="0.5">
+        <animate attributeName="opacity" values="0.2;0.7;0.2" dur="1s" repeatCount="indefinite"/>
+      </path>
+      <polygon points="500,126 490,122 484,134" fill="#6bcb77" opacity="0.6"/>
+    </svg>`
+  },
+];
+
+// =========================================================
+//  ASSESSMENT LOGIC
+// =========================================================
+let assessPool, assessIdx = 0, assessScore = 0, assessTotal = 12;
+
+function startAssessment() {
+  assessPool = shuffleArr(ASSESSMENTS);
+  assessIdx = 0;
+  assessScore = 0;
+  document.getElementById('assessScore').textContent = '0';
+  document.getElementById('assessNum').textContent = '1';
+  document.getElementById('assessTotal').textContent = assessTotal;
+  document.getElementById('assessResult').classList.remove('show');
+  document.querySelector('.assessment-box').style.display = 'block';
+  renderAssessment();
+}
+
+function renderAssessment() {
+  if (assessIdx >= assessTotal) { showAssessmentResult(); return; }
+  const q = assessPool[assessIdx];
+  document.getElementById('assessScene').innerHTML = q.scene;
+  document.getElementById('assessQEn').textContent = q.en;
+  document.getElementById('assessQCn').textContent = q.cn;
+
+  const bank = document.getElementById('assessBank');
+  bank.innerHTML = '';
+  const shuffled = shuffleArr(q.bank);
+  shuffled.forEach(word => {
+    const btn = document.createElement('button');
+    btn.className = 'assess-word';
+    btn.textContent = word;
+    btn.addEventListener('click', () => checkAssessment(word, q, btn));
+    bank.appendChild(btn);
+  });
+
+  document.getElementById('assessFeedback').className = 'assessment-feedback';
+  document.getElementById('assessNext').className = 'assessment-next-btn';
+}
+
+function checkAssessment(chosen, q, btn) {
+  const allBtns = document.querySelectorAll('.assess-word');
+  allBtns.forEach(b => b.classList.add('disabled'));
+  const fb = document.getElementById('assessFeedback');
+
+  if (chosen === q.answer) {
+    assessScore++;
+    document.getElementById('assessScore').textContent = assessScore;
+    btn.classList.add('correct');
+    fb.innerHTML = `✅ <b>Correct!</b> ${q.sentence}`;
+    fb.className = 'assessment-feedback correct show';
+    say('Correct! ' + q.sayText);
+  } else {
+    btn.classList.add('wrong');
+    allBtns.forEach(b => { if (b.textContent === q.answer) b.classList.add('correct'); });
+    fb.innerHTML = `❌ <b>Not quite!</b> The correct answer is "<b>${q.answer}</b>".<br>${q.sentence}`;
+    fb.className = 'assessment-feedback wrong show';
+    say('The answer is ' + q.answer + '. ' + q.sayText);
+  }
+  document.getElementById('assessNext').className = 'assessment-next-btn show';
+}
+
+document.getElementById('assessNext').addEventListener('click', () => {
+  assessIdx++;
+  document.getElementById('assessNum').textContent = assessIdx + 1;
+  renderAssessment();
+});
+
+function showAssessmentResult() {
+  document.querySelector('.assessment-box').style.display = 'none';
+  const result = document.getElementById('assessResult');
+  result.classList.add('show');
+  const pct = assessScore / assessTotal;
+  document.getElementById('assessResultIcon').textContent = pct >= 0.9 ? '🏆' : pct >= 0.7 ? '🌟' : pct >= 0.5 ? '👍' : '💪';
+  document.getElementById('assessResultTitle').textContent = pct >= 0.9 ? 'Outstanding!' : pct >= 0.7 ? 'Great Job!' : pct >= 0.5 ? 'Good Effort!' : 'Keep Trying!';
+  document.getElementById('assessResultScore').textContent = `You got ${assessScore} out of ${assessTotal} correct!`;
+  const msgs = {
+    1: 'Practice makes perfect! Review the prepositions and try again! 💪',
+    2: 'You are getting there! Focus on the position words! 📚',
+    3: 'Almost there! A little more practice will help! ✨'
+  };
+  const idx = pct >= 0.9 ? 3 : pct >= 0.5 ? 2 : 1;
+  document.getElementById('assessResultMsg').textContent = msgs[idx];
+}
+
+// Auto-start assessment
+setTimeout(startAssessment, 500);
 
 // =========================================================
 //  FLOAT BUTTONS
